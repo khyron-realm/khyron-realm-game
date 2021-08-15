@@ -1,2 +1,2 @@
-# Unlimited-Game-whole-game-
+# Unlimited-Game-MiningGame
 The unlimited game.
