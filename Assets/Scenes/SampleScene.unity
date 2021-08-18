@@ -118,6 +118,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -174,7 +176,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 30
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -198,9 +200,133 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 25, y: -28, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1549684275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1549684277}
+  - component: {fileID: 1549684276}
+  m_Layer: 0
+  m_Name: RobotsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1549684276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549684275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5374335555cb5b4ea9ded21e5bbb8d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _robots:
+  - {fileID: 11400000, guid: 4c9e34bffd55a01439d3a7cb88c74edc, type: 2}
+  _robotPrefab: {fileID: 8372859635162846937, guid: 1858696fa98f8d8418d8f7540f2a942b, type: 3}
+  _position: {x: 0, y: 0}
+  _wayPoints:
+  - {fileID: 21300000, guid: 2f650d42fdbc7c24096b9b46b888fbc0, type: 3}
+  - {fileID: 21300000, guid: 988c8b81378e04b4b86d3b7695399a20, type: 3}
+  - {fileID: 21300000, guid: 30d5322e79c80504a934eaf1e4b27568, type: 3}
+  - {fileID: 21300000, guid: e014c775ec3147848af5f3036126bd8b, type: 3}
+--- !u!4 &1549684277
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549684275}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 27.378202, y: -30.876852, z: -75.11044}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1934093031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1934093033}
+  - component: {fileID: 1934093032}
+  m_Layer: 0
+  m_Name: MineManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1934093032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934093031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4b18f1a143d2a459f5c3bc289c4f8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _blockPrefab: {fileID: 6003865758839621304, guid: d4c5079a6c725264dac68b7063b88843, type: 3}
+  _startPosition: {x: 0, y: 0}
+  _rows: 60
+  _columns: 60
+  _tileSize: 0.99
+  _diversification: 0.188
+  seedHidden: 1231
+  seedVisible: 7685
+  _defaultBlocksType1:
+  - {fileID: 2100000, guid: 4e4c7f43e45dc5d48b1bee96874706df, type: 2}
+  - {fileID: 2100000, guid: 929cf45c85e36774daf868a004c20f55, type: 2}
+  - {fileID: 2100000, guid: c5cce461cd9bfbd4482f13fef706d967, type: 2}
+  _defaultBlocksType2:
+  - {fileID: 2100000, guid: 3316160dd4befe242affa103af991b4c, type: 2}
+  - {fileID: 2100000, guid: 2ed646a77a8628e4e96a890fc5f33e52, type: 2}
+  _healthOfBlocks: 9001000020030000
+  _resources:
+  - {fileID: 11400000, guid: f3914cce19825af438b570165cc889ec, type: 2}
+  - {fileID: 11400000, guid: 8680dd346bb48944c87a423105a25fea, type: 2}
+  - {fileID: 11400000, guid: d9ff99c23ab4abb4aac69e85779f18c0, type: 2}
+  _areaToDestroy:
+  - rowNumber: 4
+    columnNumber: 6
+  - rowNumber: 8
+    columnNumber: 4
+  - rowNumber: 56
+    columnNumber: 7
+  - rowNumber: 8
+    columnNumber: 50
+--- !u!4 &1934093033
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934093031}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
