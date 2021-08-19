@@ -6,6 +6,8 @@ using UnityEngine;
 /// Responsible for executing the command given
 /// 
 /// </summary>
+
+[RequireComponent(typeof(LiniarMining))]
 public class ExecuteCommands : MonoBehaviour, IExecuteCommand<List<Collider2D>>
 {
     private Robot _robot;

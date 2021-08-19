@@ -15,6 +15,9 @@ public class PreviewCommands : MonoBehaviour, IPreviewCommand
     [SerializeField]
     private LayerMask _mask;
 
+    [SerializeField]
+    private float _tileDistance;
+
     private Robot _robot;
     private GameObject _commandBlock;
 
@@ -135,7 +138,7 @@ public class PreviewCommands : MonoBehaviour, IPreviewCommand
     /// <param name="temp"> difference between transform.position and touch position on one axis </param>
     private void ManageCollidersPreview(float temp, int coef_x, int coef_y)
     {
-        int crt = (int)(temp / 1.07f);
+        int crt = (int)(temp / _tileDistance);
 
         if (crt > _robot.actionLength)
         {
@@ -144,8 +147,8 @@ public class PreviewCommands : MonoBehaviour, IPreviewCommand
 
         for (int i = 0; i <= crt; i++)
         {
-            float x = _commandBlock.transform.position.x + coef_x * ((i + 1) * 1.07f);
-            float y = _commandBlock.transform.position.y + coef_y * ((i + 1) * 1.07f);
+            float x = _commandBlock.transform.position.x + coef_x * ((i + 1) * _tileDistance);
+            float y = _commandBlock.transform.position.y + coef_y * ((i + 1) * _tileDistance);
 
             Collider2D hit = Physics2D.OverlapPoint(new Vector2(x, y), _mask);
 

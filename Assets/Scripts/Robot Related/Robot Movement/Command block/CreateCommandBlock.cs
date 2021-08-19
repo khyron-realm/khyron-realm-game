@@ -15,7 +15,7 @@ public class CreateCommandBlock
         _commandBlock.AddComponent<BoxCollider2D>().isTrigger = true;
         _commandBlock.GetComponent<BoxCollider2D>().size = collidersize;
 
-        _commandBlock.GetComponent<SpriteRenderer>().sortingLayerName = "Command Block"; 
+        _commandBlock.GetComponent<SpriteRenderer>().sortingLayerName = "WayPoint"; 
     }
 
     public GameObject GetBlock()

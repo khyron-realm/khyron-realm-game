@@ -28,6 +28,11 @@ public enum Direction { left, right, up, down, none };
 /// All commands have a Direction asociated
 /// 
 /// </summary>
+
+[RequireComponent(typeof(PreviewCommands))]
+[RequireComponent(typeof(ExecuteCommands))]
+[RequireComponent(typeof(DeleteCommands))]
+
 public class RobotManager : MonoBehaviour
 {
     [Header("Robot SO with all stats about the robot")]
@@ -60,6 +65,15 @@ public class RobotManager : MonoBehaviour
 
     // Command block -- The gameobject used for giving commands which is separate from the robot GameObject
     private CreateCommandBlock _block;
+    private GameObject _commandBlock;
+    public GameObject commandBlock
+    {
+        get
+        {
+            return _commandBlock;
+        }
+    }
+
     private SpriteRenderer _commandBlockSprite;
 
     // Components that implemnents the interfaces attached to the gameObject
@@ -146,6 +160,7 @@ public class RobotManager : MonoBehaviour
         _block = new CreateCommandBlock();
         _block.Create(new Vector3(transform.position.x, transform.position.y, _layerZ), _collidersize);
         _commandBlockSprite = _block.GetBlock().GetComponent<SpriteRenderer>();
+        _commandBlock = _block.GetBlock();
     }
 
     private void GetCommandsScripts()

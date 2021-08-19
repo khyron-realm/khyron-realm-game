@@ -5,10 +5,12 @@ using UnityEngine;
 public class BlockManager : MonoBehaviour
 {
     private bool _broken;
-    private bool _discovered = false;
+    //private bool _discovered = false;
+
 
     private Material _hiddenSprite;
     private Material _visibleSprite;
+
 
     public Material HiddenSprite
     {
@@ -32,10 +34,13 @@ public class BlockManager : MonoBehaviour
         }
     }
 
+
     private MeshRenderer _meshRenderer;
     private MeshFilter _meshFilter;
 
+
     private BrokenSprites _brokenSprites;
+
 
     private void Start()
     {
@@ -43,45 +48,26 @@ public class BlockManager : MonoBehaviour
         _meshFilter = GetComponent<MeshFilter>();
 
         _meshRenderer.material = _hiddenSprite;
+        _meshRenderer.material.color = new Color(0.8f, 0.8f, 0.8f);
         //GetComponent<IHealth>().OnHealthZero += DoSmth;
         _broken = false;
     }
-
-    //private void FixedUpdate()
-    //{
-    //    if (Input.GetKey("up"))
-    //    {
-    //        _broken = !_broken;
-    //        if (_broken)
-    //        {
-    //            _spriteComponent.sprite = _visibleSprite;
-    //            _spriteComponent.color = Color.white;
-    //        }
-    //        else
-    //        {
-    //            _spriteComponent.sprite = _hiddenSprite;
-    //            _spriteComponent.color = new Color(0.8f, 0.8f, 0.8f);
-    //        }
-    //    }
-    //}
 
     public void SetBroken()
     {
         _broken = true;
     }
 
-    private void SetDiscovered()
-    {
-        SetSpriteToVisible();
-        _discovered = true;
-    }
+    //private void SetDiscovered()
+    //{
+    //    SetSpriteToVisible();
+    //   _discovered = true;
+    //}
 
     private void SetSpriteToVisible()
     {
         _meshRenderer.material = _visibleSprite;
     }
-
-
 
     private void DoSmth()
     {

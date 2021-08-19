@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Mine in straight line every command
+
+[RequireComponent(typeof(Movement))]
 public class LiniarMining : MonoBehaviour, IMining
 {
     private int _damage;
