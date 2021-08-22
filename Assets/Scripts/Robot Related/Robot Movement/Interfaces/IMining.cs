@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IMining
+public interface IMining<T>
 {
-    public void Mine(List<List<Collider2D>> hits, int damage);
+    public void Mine(List<List<T>> hits, int damage);
 
     public event Action OnMining;
     public event Action OnFinishedMining;

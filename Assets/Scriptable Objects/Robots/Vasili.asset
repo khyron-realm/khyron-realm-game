@@ -16,6 +16,6 @@ MonoBehaviour:
   movementSpeed: 3
   fieldOfVision: 4
   hitPoints: 100
-  damagePerSecond: 200
+  damagePerSecond: 800
   actionNumber: 4
   actionLength: 5

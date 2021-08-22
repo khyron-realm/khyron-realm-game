@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d16dada72a7e8f488cc5b29b412fdff, type: 3}
   m_Name: 3
   m_EditorClassIdentifier: 
-  sprite: {fileID: 2100000, guid: 59d9ff82309d1334cac3f498862b8082, type: 2}
+  resourceTile: {fileID: 11400000, guid: de7542d07f1053f44b40342d4293b258, type: 2}
   dropValueMin: 1
   dropValueMax: 6
   rarityCoeficient: 0.2

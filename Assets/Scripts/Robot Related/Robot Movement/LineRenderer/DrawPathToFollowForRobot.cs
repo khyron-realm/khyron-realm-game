@@ -13,23 +13,28 @@ public class DrawPathToFollowForRobot : MonoBehaviour
         _line = GetComponent<LineRenderer>();
     }
 
-    public void CreatePath(List<List<Collider2D>> allHits, bool preview = false, List<Collider2D> hitsPreview = null)
+    public void CreatePath(List<List<Vector3>> allHits, bool preview = false, List<Vector3> hitsPreview = null)
     {
         _points.Clear();
+
+        if(allHits.Count == 0)
+        {
+            _points.Add(gameObject.transform.position);
+        }
 
         for (int i = 0; i < allHits.Count; i++)
         {
             for (int j = 0; j < allHits[i].Count; j++)
             {
-                _points.Add(new Vector3(allHits[i][j].transform.position.x, allHits[i][j].transform.position.y, -1f));
+                _points.Add(new Vector3(allHits[i][j].x, allHits[i][j].y, 0));
             }
         }
 
         if (preview)
         {
-            foreach (Collider2D item in hitsPreview)
+            foreach(Vector3 item in hitsPreview)
             {
-                _points.Add(new Vector3(item.transform.position.x, item.transform.position.y, -1f));
+                _points.Add(item);
             }
         }
 

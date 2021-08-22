@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Mine Resource", menuName = "Mine Resource")]
 public class MineResources : ScriptableObject
 {
-    public Material sprite;
+    public RuleTile resourceTile;
     public int dropValueMin;
     public int dropValueMax;
     public float rarityCoeficient;

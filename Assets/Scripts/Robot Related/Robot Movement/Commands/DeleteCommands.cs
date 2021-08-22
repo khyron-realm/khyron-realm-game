@@ -6,7 +6,7 @@ using UnityEngine;
 /// Responsible for deleting the last command given
 /// 
 /// </summary>
-public class DeleteCommands : MonoBehaviour, IDeleteCommand<List<Collider2D>>
+public class DeleteCommands : MonoBehaviour, IDeleteCommand<List<Vector3>>
 {
     private GameObject _commandBlock;
 
@@ -21,11 +21,11 @@ public class DeleteCommands : MonoBehaviour, IDeleteCommand<List<Collider2D>>
     #endregion
 
     #region "Methods"
-    public void DeleteCommand(List<List<Collider2D>> _allHits)
+    public void DeleteCommand(List<List<Vector3>> _allHits)
     {
         if (_allHits.Count == 1)
         {
-            _commandBlock.transform.position = new Vector3(_allHits[0][0].transform.position.x, _allHits[0][0].transform.position.y, -6f);
+            _commandBlock.transform.position = new Vector3(_allHits[0][0].x, _allHits[0][0].y, -6f);
         }
 
         _allHits.RemoveAt(_allHits.Count - 1);
@@ -36,10 +36,10 @@ public class DeleteCommands : MonoBehaviour, IDeleteCommand<List<Collider2D>>
         }
     }
 
-    private void SetCommandBlockPosition(List<Collider2D> hits)
+    private void SetCommandBlockPosition(List<Vector3> hits)
     {
-        List<Collider2D> lastCommand = new List<Collider2D>(hits);
-        Vector3 position = lastCommand[lastCommand.Count - 1].transform.position;
+        List<Vector3> lastCommand = new List<Vector3>(hits);
+        Vector3 position = lastCommand[lastCommand.Count - 1];
         _commandBlock.transform.position = new Vector3(position.x, position.y, -6f);
     }
     #endregion

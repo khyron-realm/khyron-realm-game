@@ -29,6 +29,8 @@ public class CreateButtonForRobot : MonoBehaviour
         GameObject newButton = Instantiate(buttonPrefab);
 
         newButton.GetComponent<DeployRobot>().Robot = robot;
+        newButton.GetComponent<ManagePreviewOfPath>().Robot = robot;
+
         newButton.transform.SetParent(canvas.transform, false);
 
         buttons.Add(newButton);

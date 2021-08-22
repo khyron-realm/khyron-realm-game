@@ -45,6 +45,22 @@ public class UserTouch: MonoBehaviour
     }
 
 
+    public static Vector3Int TouchPositionInt(int touchNumber, RectTransform bounds)
+    {
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(touchNumber);
+
+            if (RectTransformUtility.RectangleContainsScreenPoint(bounds, touch.position))
+            {
+                return new Vector3Int((int)Camera.main.ScreenToWorldPoint(touch.position).x, (int)Camera.main.ScreenToWorldPoint(touch.position).y, 0);
+            }
+        }
+
+        return new Vector3Int(-99999, -99999, -99999);
+    }
+
+
     // Detecting colliders touched
     public static Collider2D DetectColliderTouched()
     {

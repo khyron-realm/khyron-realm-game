@@ -6,7 +6,7 @@ using UnityEngine;
 // Mine in straight line every command
 
 [RequireComponent(typeof(Movement))]
-public class LiniarMining : MonoBehaviour, IMining
+public class LiniarMining : MonoBehaviour, IMining<Vector3>
 {
     private int _damage;
     private WaitForSeconds _time;
@@ -22,23 +22,23 @@ public class LiniarMining : MonoBehaviour, IMining
     }
 
     #region "Methods"
-    public void Mine(List<List<Collider2D>> _allHits, int damage)
+    public void Mine(List<List<Vector3>> _allHits, int damage)
     {
         _damage = damage;
         StartCoroutine("Mining", _allHits);
     }
 
-    private IEnumerator Mining(List<List<Collider2D>> _allHits)
+    private IEnumerator Mining(List<List<Vector3>> _allHits)
     {
         for (int i = 0; i < _allHits.Count; i++)
         {
             for (int j = 0; j < _allHits[i].Count; j++)
             {
-                Collider2D temp = _allHits[i][j];
+                Vector3 temp = _allHits[i][j];
 
                 bool breaked = false;
 
-                if (temp.GetComponent<HealthManager>().Health <= 0)
+                if (StoreAllTiles.instance.tiles[(int)(temp.x - 0.5f)][(int)(temp.y - 0.5f)].Health <= 0)
                 {
                     breaked = true;
                 }
@@ -51,13 +51,21 @@ public class LiniarMining : MonoBehaviour, IMining
 
                     while (!check)
                     {
-                        check = temp.GetComponent<HealthManager>().DoDamage((int)(_damage / 5f));
+                        StoreAllTiles.instance.tiles[(int)(temp.x - 0.5f)][(int)(temp.y - 0.5f)].Health -= (int)(_damage / 5f);
+                        
+                        if(StoreAllTiles.instance.tiles[(int)(temp.x - 0.5f)][(int)(temp.y - 0.5f)].Health < 0)
+                        {
+                            check = true;
+                        }
+
                         yield return _time;
                     }
                 }
 
                 // !-- BUG -- !
-                Vector3 destination = new Vector3(temp.transform.position.x, temp.transform.position.y, transform.position.z);
+                Vector3 destination = new Vector3(temp.x, temp.y, 0);
+
+                StoreAllTiles.instance.Tilemap.SetTile(new Vector3Int((int)(temp.x - 0.5f), (int)(temp.y - 0.5f), 0), null);
 
                 yield return _move.MoveTo(gameObject, transform.position, destination, breaked);
 

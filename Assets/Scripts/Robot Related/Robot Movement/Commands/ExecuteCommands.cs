@@ -8,14 +8,14 @@ using UnityEngine;
 /// </summary>
 
 [RequireComponent(typeof(LiniarMining))]
-public class ExecuteCommands : MonoBehaviour, IExecuteCommand<List<Collider2D>>
+public class ExecuteCommands : MonoBehaviour, IExecuteCommand<List<Vector3>>
 {
     private Robot _robot;
     private GameObject _commandBlock;
 
     private bool _coroutineStartedOnce = true;
 
-    private IMining _mine;
+    private IMining<Vector3> _mine;
 
     #region "Setters and Getters" 
     public GameObject CommandBlock
@@ -30,19 +30,19 @@ public class ExecuteCommands : MonoBehaviour, IExecuteCommand<List<Collider2D>>
     private void Awake()
     {
         _robot = GetComponent<RobotManager>().robot;
-        _mine = GetComponent<IMining>();
+        _mine = GetComponent<IMining<Vector3>>();
 
         _mine.OnFinishedMining += SetCoroutineTrue;
     }
 
     #region "Methods"
-    public void ExecuteCommand(List<List<Collider2D>> _allHits)
+    public void ExecuteCommand(List<List<Vector3>> _allHits)
     {
-        List<Collider2D> _lastList = new List<Collider2D>(_allHits[_allHits.Count - 1]);
+        List<Vector3> _lastList = new List<Vector3>(_allHits[_allHits.Count - 1]);
 
         if (_lastList.Count > 0)
         {
-            _commandBlock.transform.position = new Vector3(_lastList[_lastList.Count - 1].transform.position.x, _lastList[_lastList.Count - 1].transform.position.y, -6f);
+            _commandBlock.transform.position = new Vector3(_lastList[_lastList.Count - 1].x, _lastList[_lastList.Count - 1].y, -6f);
         }
 
         if (_allHits.Count > 0 && _coroutineStartedOnce == true)

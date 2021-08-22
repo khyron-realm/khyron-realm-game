@@ -31,12 +31,12 @@ namespace Grid
         ///     Visible values for all blocks in the mine [stone, dirt, resources]
         /// 
         /// </returns>
-        public static int[,] GenerateVisibleValues(int rows, int columns, List<MineResources> allMineResources, int[,] temp_hidden)
+        public static int[,] GenerateVisibleValues(int rows, int columns, List<MineResources> allMineResources, int[,] temp_hidden, List<int> seeds)
         {
             _visibleValues = new int[rows, columns];
 
             CreateVisibleValuesForStadardBlocks(rows, columns, temp_hidden);
-            AddResourcesToTheMine(rows, columns, allMineResources);
+            AddResourcesToTheMine(rows, columns, allMineResources, seeds);
 
             return _visibleValues;
         }
@@ -76,7 +76,7 @@ namespace Grid
         /// </summary>
         /// <param name="columns"> Number of columns in the mine </param>
         /// <param name="allMineResources"> The list of all resources with their settings </param>
-        private static void AddResourcesToTheMine(int rows, int columns, List<MineResources> allMineResources)
+        private static void AddResourcesToTheMine(int rows, int columns, List<MineResources> allMineResources, List<int> seeds)
         {
             foreach (MineResources resource in allMineResources)
             {
@@ -85,7 +85,7 @@ namespace Grid
 
 
                 //float randomNoise = Random.Range(-1000f, 1000f);
-                float randomNoise = seedVisible;
+                float randomNoise = seeds[code - 2];
 
                 for (int i = 0; i < rows; i++)
                 {

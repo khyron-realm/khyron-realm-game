@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using Grid;
 
 /// <summary>
 /// 
@@ -10,7 +12,7 @@ using UnityEngine;
 /// -Colliders are detected using OverlapPoint
 /// 
 /// </summary>
-public class PreviewCommands : MonoBehaviour, IPreviewCommand
+public class PreviewCommands : MonoBehaviour
 {
     [SerializeField]
     private LayerMask _mask;
@@ -21,7 +23,8 @@ public class PreviewCommands : MonoBehaviour, IPreviewCommand
     private Robot _robot;
     private GameObject _commandBlock;
 
-    private List<Collider2D> _hitsPreview;
+    private List<Vector3> _tilesPositions;
+
     private Direction _direction;
     private Direction _directionLast;
   
@@ -45,22 +48,34 @@ public class PreviewCommands : MonoBehaviour, IPreviewCommand
             _commandBlock = value;
         }
     }
-    public List<Collider2D> HitsPreview
+    //public List<Collider2D> HitsPreview
+    //{
+    //    get
+    //    {
+    //        return _hitsPreview;
+    //    }
+    //    set
+    //    {
+    //        _hitsPreview = value;
+    //    }
+    //}
+
+    public List<Vector3> TilesPositions
     {
         get
         {
-            return _hitsPreview;
+            return _tilesPositions;
         }
         set
         {
-            _hitsPreview = value;
+            _tilesPositions = value;
         }
     }
     #endregion
 
     private void Awake()
     {
-        _hitsPreview = new List<Collider2D>();
+        _tilesPositions = new List<Vector3>();
         _robot = GetComponent<RobotManager>().robot;
     }
 
@@ -147,26 +162,24 @@ public class PreviewCommands : MonoBehaviour, IPreviewCommand
 
         for (int i = 0; i <= crt; i++)
         {
-            float x = _commandBlock.transform.position.x + coef_x * ((i + 1) * _tileDistance);
-            float y = _commandBlock.transform.position.y + coef_y * ((i + 1) * _tileDistance);
+            int x = (int)(_commandBlock.transform.position.x + coef_x * ((i + 1) * _tileDistance) );
+            int y = (int)(_commandBlock.transform.position.y + coef_y * ((i + 1) * _tileDistance) );
 
-            Collider2D hit = Physics2D.OverlapPoint(new Vector2(x, y), _mask);
-
-            if (hit != null && !_hitsPreview.Contains(hit))
+            if (!_tilesPositions.Contains(new Vector3(x + 0.5f, y + 0.5f, 0)))
             {
-                _hitsPreview.Add(hit);
+                _tilesPositions.Add(new Vector3(x + 0.5f, y + 0.5f, 0));
             }
 
-            if (_hitsPreview.Count > crt)
+            if (_tilesPositions.Count > crt)
             {
-                _hitsPreview.RemoveAt(_hitsPreview.Count - 1);
+                _tilesPositions.RemoveAt(_tilesPositions.Count - 1);
             }
         }
     }
 
     private void ClearPreview()
     {
-        _hitsPreview.Clear();
+        _tilesPositions.Clear();
     }
 
     #endregion

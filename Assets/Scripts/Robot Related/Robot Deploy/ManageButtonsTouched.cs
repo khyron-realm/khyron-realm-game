@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Manage all buttons of all robots
 public class ManageButtonsTouched : MonoBehaviour
 {
     public static void DisableOtherButtone(GameObject selecteButton)
@@ -11,6 +12,8 @@ public class ManageButtonsTouched : MonoBehaviour
             if(selecteButton != item)
             {
                 item.GetComponent<DeployRobot>().DeselectRobot();
+                item.GetComponent<SelectedButton>().DeselectRobot();
+                item.GetComponent<ManagePreviewOfPath>().DisablePath();
             }
         }
     }

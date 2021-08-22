@@ -54,7 +54,7 @@ public class RobotManager : MonoBehaviour
     private bool _miningType;
 
     // List with all commands given to robot
-    private List<List<Collider2D>> _allHits;
+    private List<List<Vector3>> _allTiles;
 
     // List with all directions given to the robot
     private List<Direction> _directions;
@@ -66,27 +66,20 @@ public class RobotManager : MonoBehaviour
     // Command block -- The gameobject used for giving commands which is separate from the robot GameObject
     private CreateCommandBlock _block;
     private GameObject _commandBlock;
-    public GameObject commandBlock
-    {
-        get
-        {
-            return _commandBlock;
-        }
-    }
-
+    
     private SpriteRenderer _commandBlockSprite;
 
     // Components that implemnents the interfaces attached to the gameObject
-    private IPreviewCommand _handleTouch;
-    private IExecuteCommand<List<Collider2D>> _executeCommand;
-    private IDeleteCommand<List<Collider2D>> _deleteCommand;
+    private PreviewCommands _handleTouch;
+    private IExecuteCommand<List<Vector3>> _executeCommand;
+    private IDeleteCommand<List<Vector3>> _deleteCommand;
 
-    private IMining _mine;
+    private IMining<Vector3> _mine;
     private IMove _move;
 
     private void Awake()
     {
-        _allHits = new List<List<Collider2D>>();
+        _allTiles = new List<List<Vector3>>();
         _directions = new List<Direction>();
        
         CreateCommandBlock();
@@ -99,7 +92,7 @@ public class RobotManager : MonoBehaviour
     #region "Commands"
     private void PreviewCommands()
     {
-        if(_allHits.Count == 0)
+        if(_allTiles.Count == 0)
         {
             _directionSaved = Direction.none;
         }
@@ -108,7 +101,7 @@ public class RobotManager : MonoBehaviour
         {
             _handleTouch.PreviewCommand(_directionSaved);
 
-            _path.CreatePath(_allHits, true, _handleTouch.HitsPreview);
+            _path.CreatePath(_allTiles, true, _handleTouch.TilesPositions);
         }
     }
 
@@ -119,18 +112,17 @@ public class RobotManager : MonoBehaviour
             _directions.Add(_handleTouch.Direction);
             _directionSaved = ConvertDirection(_handleTouch.Direction);
 
-            _allHits.Add(new List<Collider2D>(_handleTouch.HitsPreview));
-            _handleTouch.HitsPreview.Clear();
+            _allTiles.Add(new List<Vector3>(_handleTouch.TilesPositions));
+            _handleTouch.TilesPositions.Clear();
 
-            _path.SetWayPoint(_commandBlockSprite, _allHits.Count);
-
-            _executeCommand.ExecuteCommand(_allHits);
+            _path.SetWayPoint(_commandBlockSprite, _allTiles.Count);
+            _executeCommand.ExecuteCommand(_allTiles);
         }
     }
 
     private void DeleteCommand()
     {
-        if (_allHits.Count > 0)
+        if (_allTiles.Count > 0)
         {
             _directions.RemoveAt(_directions.Count - 1);
 
@@ -139,18 +131,18 @@ public class RobotManager : MonoBehaviour
                 _directionSaved = ConvertDirection(_directions[_directions.Count - 1]);
             }
 
-            _deleteCommand.DeleteCommand(_allHits);
+            _deleteCommand.DeleteCommand(_allTiles);
 
             SetPath();
         }
 
-        if (_allHits.Count == 0)
+        if (_allTiles.Count == 0)
         {
             _path.DeleteLine();
             _directionSaved = Direction.none;
         }
 
-        _path.SetWayPoint(_commandBlockSprite, _allHits.Count);
+        _path.SetWayPoint(_commandBlockSprite, _allTiles.Count);
     }
     #endregion
 
@@ -165,13 +157,13 @@ public class RobotManager : MonoBehaviour
 
     private void GetCommandsScripts()
     {
-        _handleTouch = GetComponent<IPreviewCommand>();
-        _executeCommand = GetComponent<IExecuteCommand<List<Collider2D>>>();
-        _deleteCommand = GetComponent<IDeleteCommand<List<Collider2D>>>();
+        _handleTouch = GetComponent<PreviewCommands>();
+        _executeCommand = GetComponent<IExecuteCommand<List<Vector3>>>();
+        _deleteCommand = GetComponent<IDeleteCommand<List<Vector3>>>();
 
         _path = GetComponent<DrawPathToFollowForRobot>();
 
-        _mine = GetComponent<IMining>();
+        _mine = GetComponent<IMining<Vector3>>();
         _move = GetComponent<IMove>();
     }
 
@@ -189,7 +181,7 @@ public class RobotManager : MonoBehaviour
         _block.GetBlock().GetComponent<CommandBlockHandler>().OnDeleteCommand += DeleteCommand;
 
         _mine.OnFinishedMining += SetPath;
-        _move.OnMoving += SetPath;
+        _move.OnStartingMoving += SetPath;
     }
     #endregion
 
@@ -220,17 +212,25 @@ public class RobotManager : MonoBehaviour
 
     private bool MaximumNumberOfCommands()
     {
-        return _allHits.Count < robot.actionNumber;
+        return _allTiles.Count < robot.actionNumber;
     }
 
     private void SetPath()
     {
-        if (_allHits.Count > 0)
+        if (_allTiles.Count > 0)
         {
-            _path.CreatePath(_allHits); ;
+            _path.CreatePath(_allTiles);
         }
 
-        _path.SetWayPoint(_commandBlockSprite, _allHits.Count);
+        _path.SetWayPoint(_commandBlockSprite, _allTiles.Count);
     }
     #endregion
+
+    public GameObject commandBlock
+    {
+        get
+        {
+            return _commandBlock;
+        }
+    }
 }

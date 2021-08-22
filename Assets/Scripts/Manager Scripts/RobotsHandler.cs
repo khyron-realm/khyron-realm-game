@@ -20,8 +20,7 @@ public class RobotsHandler : MonoBehaviour
 
     public static List<Sprite> WayPoints;
 
-
-    void Awake()
+    private void Start()
     {
         WayPoints = _wayPoints;
 
