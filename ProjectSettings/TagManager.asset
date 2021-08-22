@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: LinePreview
+    uniqueID: 2649902673
+    locked: 0
+  - name: Robot
+    uniqueID: 1104123445
+    locked: 0
+  - name: WayPoint
+    uniqueID: 2607079299
+    locked: 0

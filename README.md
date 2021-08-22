@@ -54,7 +54,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<img src="images/img.jpg" alt="Logo" width="1000" height="400">
 
 Unlimited Game ... The next 2D social strategy game with an interconnected economy system that teach users basic finance and an entrepreneurial mindset.
 
@@ -97,13 +97,13 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
    |-- Editor    
    |-- GUI
    |-- Materials
-      | -- Mine Blocks
       | -- Robot asociated
    |-- Meshes
    |-- Prefabs
       | -- Block
       | -- Robot
    |-- Resources
+      | -- Beacon
       | -- Blocks
       | -- Preview Line
       | -- Robot Design
@@ -113,10 +113,25 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
       | -- Resources
       | -- Robots
    |-- Scripts
+      | -- Beacon related
+      | -- Camera movement
+      | -- Canvas
       | -- Manager Scripts
       | -- Mine Generation
-      | -- Robot Movement
+          | -- ScriptableObjects
+          | -- Values Generation
+      | -- Robot Related
+          | -- Robot Deploy
+          | -- Robot Mining Process
+              | -- Command Block
+              | -- Commands
+              | -- Interfaces
+              | -- LineRenderer
+              | -- Mining Types
+              | -- Movement
+          | -- Robot Vision
       | -- Scriptable Objetcts
+      | -- Tiles
       | -- Touch
    |-- Sounds
   ************************************************************************

@@ -16,17 +16,17 @@ public class RobotsHandler : MonoBehaviour
     private Vector2 _position;
 
     [SerializeField]
-    public List<Sprite> _wayPoints;
+    private List<Sprite> _wayPoints;
 
     public static List<Sprite> WayPoints;
 
-    void Awake()
+    private void Start()
     {
         WayPoints = _wayPoints;
 
         if (_robotPrefab == null || _wayPoints == null)
         {
-            Debug.LogWarning("Robot prefab or SO, not added to the editor!! -- RobotsHandler/18");
+            Debug.LogWarning("Robot prefab or SO, not added to the editor!! -- RobotsHandler/30");
         }
         else
         {
@@ -34,13 +34,16 @@ public class RobotsHandler : MonoBehaviour
             foreach (Robot item in _robots)
             {
                 // Instatiate prefab
-                Instantiate(_robotPrefab, _position, Quaternion.identity);
+                GameObject tempRobot = Instantiate(_robotPrefab, _position, Quaternion.identity);
 
                 // Set prefab to inactive until user deploy the robot
-                _robotPrefab.SetActive(true);
+                tempRobot.SetActive(false);
+
+                // Create button for robots
+                CreateButtonForRobot.CreateButton(tempRobot);
 
                 // Add custom property to every robot
-                _robotPrefab.GetComponent<RobotManager>().robot = item;
+                tempRobot.GetComponent<RobotManager>().robot = item;
             }
         }
     }

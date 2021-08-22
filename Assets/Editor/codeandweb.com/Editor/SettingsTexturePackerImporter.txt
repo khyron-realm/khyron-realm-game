@@ -1,0 +1,9 @@
+version: 2
+importPivots: 1
+tpsheetFileNames:
+- Assets/Resources/RobotDesigns/robotImproved.tpsheet
+textureFileNames:
+- Assets/Resources/RobotDesigns/robotImproved.png
+normalmapFileNames:
+- 
+enableDebugOutput: 0
