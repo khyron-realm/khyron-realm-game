@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: -7108039466687318417}
   m_Layer: 0
   m_Name: Robot
-  m_TagString: Untagged
+  m_TagString: robot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   robot: {fileID: 11400000, guid: 229ba341ac3d1ff4c8d05495406cce2c, type: 2}
-  _collidersize: {x: 2, y: 2}
+  _collidersize: {x: 2.6, y: 2.6}
   _layerZ: -6
   _miningType: 0
 --- !u!114 &-9102900706175024475

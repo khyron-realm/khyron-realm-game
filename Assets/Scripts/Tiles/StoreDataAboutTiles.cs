@@ -7,6 +7,8 @@ public class StoreDataAboutTiles
 {
     private int _health;
     private MineResources _resource = null;
+    //private bool _deployable = false;
+    //private bool _beaconDeployed = false;
 
     public StoreDataAboutTiles(int _health)
     {

@@ -20,10 +20,16 @@ public class RobotsHandler : MonoBehaviour
 
     public static List<Sprite> WayPoints;
 
-    private void Start()
+    public static List<GameObject> robots;
+
+    private void Awake()
     {
         WayPoints = _wayPoints;
+        robots = new List<GameObject>();
+    }
 
+    private void Start()
+    {
         if (_robotPrefab == null || _wayPoints == null)
         {
             Debug.LogWarning("Robot prefab or SO, not added to the editor!! -- RobotsHandler/30");
@@ -36,6 +42,8 @@ public class RobotsHandler : MonoBehaviour
                 // Instatiate prefab
                 GameObject tempRobot = Instantiate(_robotPrefab, _position, Quaternion.identity);
 
+                robots.Add(tempRobot);
+
                 // Set prefab to inactive until user deploy the robot
                 tempRobot.SetActive(false);
 
@@ -44,6 +52,7 @@ public class RobotsHandler : MonoBehaviour
 
                 // Add custom property to every robot
                 tempRobot.GetComponent<RobotManager>().robot = item;
+  
             }
         }
     }

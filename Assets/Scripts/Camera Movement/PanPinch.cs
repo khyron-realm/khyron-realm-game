@@ -4,84 +4,80 @@ using UnityEngine;
 
 public class PanPinch : MonoBehaviour
 {
-    private float speed;
+    [SerializeField]
+    private float limitXMin;
 
-    public float limitXMin = -12f;
-    public float limitXMax = 52f;
+    [SerializeField]
+    private float limitXMax;
 
-    public float limitYMin = -24f;
-    public float limitYMax = 10f;
+    [SerializeField]
+    private float limitYMin;
 
-    public float orthoMin = 4f;
-    public float orthoMax = 16f;
+    [SerializeField]
+    private float limitYMax;
 
-    public float canvasButtonsWidth;
+    [SerializeField]
+    private float orthoMin;
 
+    [SerializeField]
+    private float orthoMax;
+
+    private bool _touchingRobot = false;
+
+    private float resolutionRatio;
 
     private void Awake()
     {
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 58;
+        CommandBlockHandler.OnGivingCommand += SetTouchingRobot;
+        resolutionRatio = Screen.width / Screen.height;
     }
 
+    private void Update()
+    {
+        if(_touchingRobot == false)
+        {
+            Panning();
+            Pinching();
+        }
+        else
+        {
+            _touchingRobot = false;
+        }
+    }
 
-    void Update()
-    { 
+    private void Panning()
+    {
         // One finger on the screen [Pan]
         if (Input.touchCount > 0 && Input.touchCount < 2 && Input.GetTouch(0).phase == TouchPhase.Moved)
         {
-            if(Input.GetTouch(0).position.x > canvasButtonsWidth)
-            {
-                Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-
-                //float deltaX = Scale(0, 1080 * Camera.main.aspect, 0, Camera.main.orthographicSize * 2 * Camera.main.aspect, touchDeltaPosition.x);
-                //float deltaY = Scale(0, 1080, 0, Camera.main.orthographicSize * 2 , touchDeltaPosition.y);
-
-                transform.Translate(-touchDeltaPosition.x * speed, -touchDeltaPosition.y * speed, 0);
-                //transform.Translate(-deltaX, -deltaY, 0);
-
-                float x = Mathf.Clamp(transform.position.x, limitXMin + Camera.main.orthographicSize * 1.77f, limitXMax - Camera.main.orthographicSize * 1.77f);
-                float y = Mathf.Clamp(transform.position.y, limitYMin + Camera.main.orthographicSize, limitYMax - Camera.main.orthographicSize);
-
-                transform.position = new Vector3(x, y, -10f);
-            }
-        }
-
-
-        // Two or more fingers on the screen [Pan + Pinch]
-        if (Input.touchCount > 1)
-        {
-            if(Input.GetTouch(0).position.x > canvasButtonsWidth && Input.GetTouch(1).position.x >canvasButtonsWidth)
-            {
-                Touch touchZero = Input.GetTouch(0);
-                Touch touchOne = Input.GetTouch(1);
-
-
-                transform.Translate((-touchZero.deltaPosition.x - touchOne.deltaPosition.x) * speed, (-touchZero.deltaPosition.y - touchOne.deltaPosition.y) * speed, 0);
-
-                float x = Mathf.Clamp(transform.position.x, limitXMin + Camera.main.orthographicSize * 1.77f, limitXMax - Camera.main.orthographicSize * 1.77f);
-                float y = Mathf.Clamp(transform.position.y, limitYMin + Camera.main.orthographicSize, limitYMax - Camera.main.orthographicSize);
-
-                transform.position = new Vector3(x, y, -10f);
-
-                Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-                Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
-
-                float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-                float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
-
-                float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
-
-                float zoomSpeed = Scale(orthoMin, orthoMax, 0.0028f, 0.0072f, Camera.main.orthographicSize);
-                Camera.main.orthographicSize += deltaMagnitudeDiff * zoomSpeed;
-
-                Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, orthoMin, orthoMax);
-
-                speed = Scale(orthoMin, orthoMax, 0.0036f, 0.015f, Camera.main.orthographicSize);
-            } 
+            Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+            PanningFunction(touchDeltaPosition);
         }
     }
 
+    private void Pinching()
+    {
+        if (Input.touchCount > 1)
+        {
+            Touch touchZero = Input.GetTouch(0);
+            Touch touchOne = Input.GetTouch(1);
+
+            PanningFunction((touchZero.deltaPosition + touchOne.deltaPosition) / 2);
+
+            Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+            Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+
+            float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+            float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+
+            float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+
+            float zoomSpeed = Scale(orthoMin, orthoMax, 0.0052f, 0.0162f, Camera.main.orthographicSize);
+            Camera.main.orthographicSize += deltaMagnitudeDiff * zoomSpeed;
+
+            Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, orthoMin, orthoMax);
+        }
+    }
 
     // Map value 
     public float Scale(float OldMin, float OldMax, float NewMin, float NewMax, float OldValue)
@@ -92,5 +88,28 @@ public class PanPinch : MonoBehaviour
         float NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin;
 
         return (NewValue);
+    }
+
+    private void SetTouchingRobot()
+    {
+        _touchingRobot = true;
+    }
+
+    private void PanningFunction(Vector2 touchDeltaPosition)
+    {
+        Vector3 screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 1f);
+        Vector3 screenTouch = screenCenter + new Vector3(touchDeltaPosition.x, touchDeltaPosition.y, 0f);
+
+        Vector3 worldCenterPosition = Camera.main.ScreenToWorldPoint(screenCenter);
+        Vector3 worldTouchPosition = Camera.main.ScreenToWorldPoint(screenTouch);
+
+        Vector3 worldDeltaPosition = worldTouchPosition - worldCenterPosition;
+
+        transform.Translate(-worldDeltaPosition);
+
+        float x = Mathf.Clamp(transform.position.x, limitXMin + Camera.main.orthographicSize * resolutionRatio, limitXMax - Camera.main.orthographicSize * resolutionRatio);
+        float y = Mathf.Clamp(transform.position.y, limitYMin + Camera.main.orthographicSize, limitYMax - Camera.main.orthographicSize);
+
+        transform.position = new Vector3(x, y, -10f);
     }
 }

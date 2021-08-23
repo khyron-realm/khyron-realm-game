@@ -8,6 +8,8 @@ public class CommandBlockHandler : MonoBehaviour
     public event Action OnExecuteCommand;
     public event Action OnDeleteCommand;
 
+    public static event Action OnGivingCommand;
+
     // Purpose of bool --> OnMouseUpAsButton() also calls OnMouseUp() because finger is lifted in both scenarios
     private bool _once = true;
     private float _time = 0;
@@ -15,6 +17,8 @@ public class CommandBlockHandler : MonoBehaviour
     // Detect if finger has been drag around the screen
     private void OnMouseDrag()
     {
+        OnGivingCommand?.Invoke();
+
         _time += Time.deltaTime;
         _once = true;
 

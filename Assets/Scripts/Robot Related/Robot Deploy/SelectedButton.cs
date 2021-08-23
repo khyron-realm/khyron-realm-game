@@ -17,7 +17,7 @@ public class SelectedButton : MonoBehaviour
     private void SelectRobot()
     {
         transform.localScale = new Vector3(1.2f, 1.2f, 1);
-        ManageButtonsTouched.DisableOtherButtone(gameObject);
+        ManageButtonsTouched.DisableOtherButtons(gameObject);
     }
 
     // Scale down button
