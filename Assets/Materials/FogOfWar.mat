@@ -28,8 +28,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _ExploredPathVisibility: 0.4
-    - _FOVVisibility: 0.6
-    - _WorldTransparency: 0.65
+    - _ExploredPathVisibility: 0.7
+    - _FOVVisibility: 1
+    - _Green: 0
+    - _WorldTransparency: 0.7
     m_Colors: []
   m_BuildTextureStacks: []

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,10 @@ public class StoreDataAboutTiles
     private MineResources _resource = null;
     //private bool _deployable = false;
     //private bool _beaconDeployed = false;
+
+    // If block is Mined
+    public static event Action<MineResources> OnMinedBlock;
+    private bool once = false; // for safety
 
     public StoreDataAboutTiles(int _health)
     {
@@ -30,6 +35,12 @@ public class StoreDataAboutTiles
         set
         {
             _health = value;
+
+            if(_health < 1 && once == false && _resource != null)
+            {
+                OnMinedBlock?.Invoke(_resource);
+                once = true;
+            }
         }
     }
     public MineResources Resource

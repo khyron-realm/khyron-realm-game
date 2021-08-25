@@ -4,9 +4,9 @@ Shader "Hidden/FogOfWarShader"
     {
         _MainTex ("Main Texture", 2D) = "white" {}
         _SecondaryTex("Secondary Texture", 2D) = "white" {}
-        _WorldTransparency("Float with range", Range(0.0, 1.0)) = 0.5
-        _ExploredPathVisibility("Float with range", Range(0.0, 1.0)) = 0.25
-        _FOVVisibility("Float with range", Range(0.0, 1.0)) = 0.4
+        _WorldTransparency("World Transparency", Range(0.0, 1.0)) = 0.5
+        _ExploredPathVisibility("Explored path", Range(0.0, 1.0)) = 0.25
+        _FOVVisibility("Visible path", Range(0.0, 1.0)) = 0.4
     }
     SubShader
     {

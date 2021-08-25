@@ -37,6 +37,7 @@ public class LiniarMining : MonoBehaviour, IMining<Vector3>
                 Vector3 temp = _allHits[i][j];
 
                 bool breaked = false;
+                int _countToKnow = _allHits.Count;
 
                 if (StoreAllTiles.instance.tiles[(int)(temp.x - 0.5f)][(int)(temp.y - 0.5f)].Health <= 0)
                 {
@@ -58,34 +59,35 @@ public class LiniarMining : MonoBehaviour, IMining<Vector3>
                             check = true;
                         }
 
-                        yield return _time;
+                        if(_countToKnow != _allHits.Count && _allHits.Count < 1)
+                        {
+                            EndAllFun(_allHits);
+                            yield break;
+                        }
+                        else
+                        {
+                            yield return _time;
+                        }
                     }
                 }
 
-                // !-- BUG -- !
                 Vector3 destination = new Vector3(temp.x, temp.y, 0);
 
                 StoreAllTiles.instance.Tilemap.SetTile(new Vector3Int((int)(temp.x - 0.5f), (int)(temp.y - 0.5f), 0), null);
 
                 yield return _move.MoveTo(gameObject, transform.position, destination, breaked);
 
-                if (_allHits.Count > 0)
+
+                if (_countToKnow != _allHits.Count && _allHits.Count < 1)
                 {
-                    // if command is deleted _allHits is null
-                    // but coroutine continues until robot position is on a tile
-                    // during movement, values are added to _allHits and then the first one is removed
-                    _allHits[i].RemoveAt(j);
-                    j--;    
+                    EndAllFun(_allHits);
+                    yield break;
                 }
                 else
                 {
-                    OnFinishedMining?.Invoke();
-                    _allHits.Clear();
-
-                    yield break;
+                    _allHits[i].RemoveAt(j);
+                    j--;
                 }
-
-                // !-- BUG -- !
             }
             _allHits.RemoveAt(i);
             i--;
@@ -93,6 +95,12 @@ public class LiniarMining : MonoBehaviour, IMining<Vector3>
         _allHits.Clear();
 
         OnFinishedMining?.Invoke();
+    }
+
+    private void EndAllFun(List<List<Vector3>> _allHits)
+    {
+        OnFinishedMining?.Invoke();
+        _allHits.Clear();
     }
     #endregion
 }

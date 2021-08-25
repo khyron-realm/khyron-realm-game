@@ -108,7 +108,7 @@ public class RobotManager : MonoBehaviour
 
     private void ExecuteCommand()
     {
-        if (MaximumNumberOfCommands())
+        if (MaximumNumberOfCommands() && _handleTouch.TilesPositions.Count > 0)
         {
             _directions.Add(_handleTouch.Direction);
             _directionSaved = ConvertDirection(_handleTouch.Direction);

@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class DrawPathToFollowForRobot : MonoBehaviour
 {
     private LineRenderer _line;
-    private List<Vector3> _points;
+    private HashSet<Vector3> _points;
 
     private void Awake()
     {
-        _points = new List<Vector3>();
+        _points = new HashSet<Vector3>();
         _line = GetComponent<LineRenderer>();
     }
 
@@ -17,25 +18,19 @@ public class DrawPathToFollowForRobot : MonoBehaviour
     {
         _points.Clear();
 
-        if(allHits.Count == 0)
+        if(allHits.Count < 1)
         {
             _points.Add(gameObject.transform.position);
         }
 
         for (int i = 0; i < allHits.Count; i++)
         {
-            for (int j = 0; j < allHits[i].Count; j++)
-            {
-                _points.Add(new Vector3(allHits[i][j].x, allHits[i][j].y, 0));
-            }
+            _points.UnionWith(allHits[i]);
         }
 
         if (preview)
         {
-            foreach(Vector3 item in hitsPreview)
-            {
-                _points.Add(item);
-            }
+            _points.UnionWith(hitsPreview);
         }
 
         _line.positionCount = _points.Count;

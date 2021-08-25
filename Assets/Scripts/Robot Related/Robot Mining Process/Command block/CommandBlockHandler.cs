@@ -8,6 +8,7 @@ public class CommandBlockHandler : MonoBehaviour
     public event Action OnExecuteCommand;
     public event Action OnDeleteCommand;
 
+    // Restrict the PanPinch while user gives a command
     public static event Action OnGivingCommand;
 
     // Purpose of bool --> OnMouseUpAsButton() also calls OnMouseUp() because finger is lifted in both scenarios
@@ -38,9 +39,9 @@ public class CommandBlockHandler : MonoBehaviour
     // Detect if gameObject has been tapped and invoke only the OnDeleteCommand event
     private void OnMouseUpAsButton()
     {
-        _once = false;
-        if (_time < 0.2f)
+        if (_time < 0.3f)
         {
+            _once = false;
             OnDeleteCommand?.Invoke();
         }
     }
