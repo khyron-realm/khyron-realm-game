@@ -5,6 +5,10 @@ using UnityEngine;
 public class PanPinch : MonoBehaviour
 {
     [SerializeField]
+    private GameObject _camera;
+    private Camera _lineCamera;
+
+    [SerializeField]
     private float limitXMin;
 
     [SerializeField]
@@ -30,6 +34,7 @@ public class PanPinch : MonoBehaviour
     {
         CommandBlockHandler.OnGivingCommand += SetTouchingRobot;
         resolutionRatio = Screen.width / Screen.height;
+        _lineCamera = _camera.GetComponent<Camera>();
     }
 
     private void Update()
@@ -74,6 +79,7 @@ public class PanPinch : MonoBehaviour
 
             float zoomSpeed = Scale(orthoMin, orthoMax, 0.0052f, 0.0162f, Camera.main.orthographicSize);
             Camera.main.orthographicSize += deltaMagnitudeDiff * zoomSpeed;
+            _lineCamera.orthographicSize = Camera.main.orthographicSize;
 
             Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, orthoMin, orthoMax);
         }
@@ -82,7 +88,6 @@ public class PanPinch : MonoBehaviour
     // Map value 
     public float Scale(float OldMin, float OldMax, float NewMin, float NewMax, float OldValue)
     {
-
         float OldRange = (OldMax - OldMin);
         float NewRange = (NewMax - NewMin);
         float NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin;

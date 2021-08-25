@@ -9,7 +9,8 @@ public class CreateCommandBlock
         _commandBlock = new GameObject("MinerController");
         
         _commandBlock.transform.position = new Vector3(position.x, position.y, position.z);
-        
+        _commandBlock.layer = 10;
+
         _commandBlock.AddComponent<CommandBlockHandler>();
         _commandBlock.AddComponent<SpriteRenderer>();
         _commandBlock.AddComponent<BoxCollider2D>().isTrigger = true;

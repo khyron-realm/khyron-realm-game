@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Gigel
   m_EditorClassIdentifier: 
   movementSpeed: 3
-  fieldOfVision: 1
+  fieldOfVision: 3
   damagePerSecond: 600
   actionNumber: 3
   actionLength: 5

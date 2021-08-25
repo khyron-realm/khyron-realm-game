@@ -61,6 +61,7 @@ public class RobotManager : MonoBehaviour
     private Direction _directionSaved = Direction.none;
 
     // Gameobject responsible for drawing  the path user choose to take
+    [SerializeField]
     private DrawPathToFollowForRobot _path;
 
     // Command block -- The gameobject used for giving commands which is separate from the robot GameObject
@@ -161,7 +162,7 @@ public class RobotManager : MonoBehaviour
         _executeCommand = GetComponent<IExecuteCommand<List<Vector3>>>();
         _deleteCommand = GetComponent<IDeleteCommand<List<Vector3>>>();
 
-        _path = GetComponent<DrawPathToFollowForRobot>();
+        //_path = GetComponent<DrawPathToFollowForRobot>();
 
         _mine = GetComponent<IMining<Vector3>>();
         _move = GetComponent<IMove>();

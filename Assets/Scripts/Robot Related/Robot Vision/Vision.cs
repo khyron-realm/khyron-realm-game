@@ -29,11 +29,6 @@ public class Vision : MonoBehaviour
             if (StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource != null && StoreAllTiles.instance.Tilemap.GetTile(temp + item) != null)
             {
                 StoreAllTiles.instance.Tilemap.SetTile(temp + item, StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource.resourceTile);
-                StoreAllTiles.instance.Tilemap.SetColor(temp + item, Color.white);
-            }
-            else
-            {
-                StoreAllTiles.instance.Tilemap.SetColor(temp + item, Color.white);
             }
         }
     }

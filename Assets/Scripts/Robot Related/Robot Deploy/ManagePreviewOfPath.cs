@@ -36,14 +36,14 @@ public class ManagePreviewOfPath : MonoBehaviour
 
     private void EnablePath()
     {
-        _robot.GetComponent<LineRenderer>().enabled = true;
+        _robot.transform.GetChild(2).GetComponent<LineRenderer>().enabled = true;
         _robot.GetComponent<RobotManager>().commandBlock.SetActive(true);
         _robot.GetComponent<SpriteRenderer>().color = Color.green;
     }
 
     public void DisablePath()
     {
-        _robot.GetComponent<LineRenderer>().enabled = false;
+        _robot.transform.GetChild(2).GetComponent<LineRenderer>().enabled = false;
         _robot.GetComponent<RobotManager>().commandBlock.SetActive(false);
         _robot.GetComponent<SpriteRenderer>().color = Color.white;
     }
