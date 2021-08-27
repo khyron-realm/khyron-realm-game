@@ -19,7 +19,6 @@ public class CommandBlockHandler : MonoBehaviour
     private void OnMouseDrag()
     {
         OnGivingCommand?.Invoke();
-
         _time += Time.deltaTime;
         _once = true;
 

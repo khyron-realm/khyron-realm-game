@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 72901627}
   - component: {fileID: 72901628}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: MiniMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,8 +148,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 72901626}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 35, y: 25, z: 0}
-  m_LocalScale: {x: 0.88, y: 1.33, z: 1}
+  m_LocalPosition: {x: 60, y: 34.8, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.83, z: 1}
   m_Children: []
   m_Father: {fileID: 1934093033}
   m_RootOrder: 1
@@ -311,8 +311,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 35, y: 25}
-  m_SizeDelta: {x: 70, y: 50}
+  m_AnchoredPosition: {x: 60.000984, y: 35.00107}
+  m_SizeDelta: {x: 120.0019, y: 70.0021}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &206510755
 MonoBehaviour:
@@ -601,6 +601,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420035}
   - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
@@ -701,12 +702,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 1336813833}
-  limitXMin: -25
-  limitXMax: 95
+  limitXMin: -15
+  limitXMax: 132
   limitYMin: -5
-  limitYMax: 55
+  limitYMax: 75
   orthoMin: 4
-  orthoMax: 30
+  orthoMax: 16
+  _minimapActivationSensibility: 120
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -719,10 +721,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cdc3ec8be7759f4f9beb19a5c378d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minSize: 25
+  _cameras:
+  - {fileID: 519420031}
+  - {fileID: 1336813835}
+  _zoomInOutSpeed: 1.4
+  _centerPosition: {x: 60, y: 38, z: -10}
+  _setOrthoSizeActive: 40
+  _setOrthoSizeNonActive: 16
   _map: {fileID: 2028036825}
   _miniMap: {fileID: 72901626}
-  _points: {fileID: 21300000, guid: b66af28fb8a13964782e21e6965625c6, type: 3}
+--- !u!114 &519420035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79edd273989d6f34ebf0534fe6f10be9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ortoMin: 4
+  _ortoMax: 16
+  _minColliderSize: 1.8
+  _maxColliderSize: 5
 --- !u!1 &658308229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1685,7 +1708,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 24.97
+  orthographic size: 35
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1709,7 +1732,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1444982997}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.52, y: -4.27, z: 9733.441}
+  m_LocalPosition: {x: 8.575, y: 5.79, z: 9733.441}
   m_LocalScale: {x: 1, y: 0, z: 1}
   m_Children: []
   m_Father: {fileID: 1690427681}
@@ -1727,7 +1750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a16be6a027f974ca38efa7bd527564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temp: 1.4
+  temp: 1.714
 --- !u!1 &1464428893
 GameObject:
   m_ObjectHideFlags: 0
@@ -1773,7 +1796,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 24.97
+  orthographic size: 35
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1797,7 +1820,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1464428893}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.52, y: -4.27, z: 9733.441}
+  m_LocalPosition: {x: 8.575, y: 5.79, z: 9733.441}
   m_LocalScale: {x: 1, y: 0, z: 1}
   m_Children: []
   m_Father: {fileID: 1690427681}
@@ -1815,7 +1838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a16be6a027f974ca38efa7bd527564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temp: 1.4
+  temp: 1.714
 --- !u!1 &1549684275
 GameObject:
   m_ObjectHideFlags: 0
@@ -2511,8 +2534,8 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   _startPosition: {x: 0, y: 0}
-  _rows: 70
-  _columns: 50
+  _rows: 120
+  _columns: 70
   _diversification: 0.188
   _seedHidden: -4637
   _seedVisible: 74964

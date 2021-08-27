@@ -30,6 +30,7 @@ public class CreateButtonForRobot : MonoBehaviour
 
         newButton.GetComponent<DeployRobot>().Robot = robot;
         newButton.GetComponent<ManagePreviewOfPath>().Robot = robot;
+        newButton.GetComponent<MoveCameraToRobot>().Robot = robot;
 
         newButton.transform.SetParent(canvas.transform, false);
 

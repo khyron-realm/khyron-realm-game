@@ -111,7 +111,7 @@ public class RobotManager : MonoBehaviour
         if (MaximumNumberOfCommands() && _handleTouch.TilesPositions.Count > 0)
         {
             _directions.Add(_handleTouch.Direction);
-            _directionSaved = ConvertDirection(_handleTouch.Direction);
+            _directionSaved = AuxiliaryMethods.ConvertDirection(_handleTouch.Direction);
 
             _allTiles.Add(new List<Vector3>(_handleTouch.TilesPositions));
             _handleTouch.TilesPositions.Clear();
@@ -129,7 +129,7 @@ public class RobotManager : MonoBehaviour
 
             if(_directions.Count > 0)
             {
-                _directionSaved = ConvertDirection(_directions[_directions.Count - 1]);
+                _directionSaved = AuxiliaryMethods.ConvertDirection(_directions[_directions.Count - 1]);
             }
 
             _deleteCommand.DeleteCommand(_allTiles);
@@ -187,30 +187,6 @@ public class RobotManager : MonoBehaviour
     #endregion
 
     #region "Auxilary methods" 
-    private Direction ConvertDirection(Direction temp)
-    {
-        if(temp == Direction.left)
-        {
-            return Direction.right;
-        }
-        else if(temp == Direction.right)
-        {
-            return Direction.left;
-        }
-        else if (temp == Direction.up)
-        {
-            return Direction.down;
-        }
-        else if (temp == Direction.down)
-        {
-            return Direction.up;
-        }
-        else
-        {
-            return Direction.none;
-        }
-    }
-
     private bool MaximumNumberOfCommands()
     {
         return _allTiles.Count < robot.actionNumber;
