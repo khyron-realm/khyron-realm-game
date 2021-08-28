@@ -3,17 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Manage all buttons of all robots
-public class ManageButtonsTouched : MonoBehaviour
+
+namespace RobotDeployActions
 {
-    public static void DisableOtherButtone(GameObject selecteButton)
+    public class ManageButtonsTouched : MonoBehaviour
     {
-        foreach (GameObject item in CreateButtonForRobot.buttons)
+        public static void DisableOtherButtons(GameObject selecteButton)
         {
-            if(selecteButton != item)
+            foreach (GameObject item in CreateButtonForRobot.buttons)
+            {
+                if (selecteButton != item)
+                {
+                    item.GetComponent<DeployRobot>().DeselectRobot();
+                    item.GetComponent<SelectedButton>().DeselectRobot();
+                    item.GetComponent<ManagePreviewOfPath>().DisablePath();
+                }
+            }
+        }
+
+
+        public static void DisableAllButtons()
+        {
+            foreach (GameObject item in CreateButtonForRobot.buttons)
             {
                 item.GetComponent<DeployRobot>().DeselectRobot();
                 item.GetComponent<SelectedButton>().DeselectRobot();
                 item.GetComponent<ManagePreviewOfPath>().DisablePath();
+            }
+        }
+
+
+        public static void DisableAllFocusAnimations(GameObject selecteButton)
+        {
+            foreach (GameObject item in CreateButtonForRobot.buttons)
+            {
+                if (selecteButton != item)
+                {
+                    item.GetComponent<MoveCameraToRobot>().StopMoveCamera();
+                }
             }
         }
     }

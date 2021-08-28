@@ -5,8 +5,10 @@ using UnityEngine;
 public class UserTouch: MonoBehaviour
 {
     [SerializeField]
+    [Header("The touch Area where user touches are taken and used in script aka [Available touch area]")]
     private GameObject _touchArea;
 
+    // Panel that represent the touch area
     public static RectTransform touchArea;
 
     private void Awake()
@@ -44,7 +46,6 @@ public class UserTouch: MonoBehaviour
         return new Vector3(-1000, -1000, -1000);
     }
 
-
     public static Vector3Int TouchPositionInt(int touchNumber, RectTransform bounds)
     {
         if (Input.touchCount > 0)
@@ -59,7 +60,6 @@ public class UserTouch: MonoBehaviour
 
         return new Vector3Int(-99999, -99999, -99999);
     }
-
 
     // Detecting colliders touched
     public static Collider2D DetectColliderTouched()
@@ -84,7 +84,6 @@ public class UserTouch: MonoBehaviour
             return null;
         }
     }
-
 
     // Phases of touch
     public static bool TouchPhaseBegan(int touchNumber)

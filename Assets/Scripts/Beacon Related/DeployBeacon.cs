@@ -1,45 +1,72 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TilesData;
 
 public class DeployBeacon : MonoBehaviour
 {
+    public static GameObject beacon;
+
     private Button _button;
+
+    private List<Vector3Int> directions;
 
     private void Awake()
     {
         _button = GetComponent<Button>();
-       // _button.onClick.AddListener(Deploy);
+        _button.onClick.AddListener(StartDeploy);
+
+        directions = new List<Vector3Int>()
+        {
+            Vector3Int.zero,
+            Vector3Int.up,
+            Vector3Int.down,
+            Vector3Int.left,
+            Vector3Int.right,
+            Vector3Int.up + Vector3Int.left,
+            Vector3Int.up + Vector3Int.right,
+            Vector3Int.down + Vector3Int.left,
+            Vector3Int.down + Vector3Int.right,
+        };
     }
 
-    //private IEnumerator Deploy()
-    //{
-    //    bool check = true;
+    private void StartDeploy()
+    {
+        StartCoroutine("Deploy");
+    }
 
-    //    while (check)
-    //    {
-    //        Vector3Int temp = UserTouch.TouchPositionInt(0, UserTouch.touchArea);
-    //        Vector3Int nullVector = new Vector3Int(-99999, -99999, -99999);
+    private void StopDeploy()
+    {
+        StopCoroutine("Deploy");
+    }
 
-    //        if (temp != nullVector && UserTouch.TouchPhaseEnded(0))
-    //        {
-    //            StoreAllTiles.instance.Tilemap.SetTile(temp, null);
-    //            StoreAllTiles.instance.tiles[temp.x][temp.y].Health = -1;
+    private IEnumerator Deploy()
+    {
+        bool check = true;
 
-    //            _robot.SetActive(true);
-    //            _robot.GetComponent<RobotManager>().commandBlock.SetActive(true);
+        while (check)
+        {
+            Vector3Int temp = UserTouch.TouchPositionInt(0, UserTouch.touchArea);
+            Vector3Int nullVector = new Vector3Int(-99999, -99999, -99999);
 
-    //            _robot.GetComponent<RobotManager>().commandBlock.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f, -6f);
-    //            _robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f, 0f);
+            if (temp != nullVector && UserTouch.TouchPhaseEnded(0))
+            {
+                foreach (Vector3Int item in directions)
+                {
+                    StoreAllTiles.instance.Tilemap.SetTile(temp + item, null);
+                    StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Health = -1;
+                }
 
-    //            _button.onClick.RemoveListener(StartDeployOperation);
+                beacon.SetActive(true);
+                beacon.transform.position = temp + new Vector3(0.5f, 0.5f, 0);
 
-    //            OnDeployed?.Invoke();
+                _button.onClick.RemoveListener(StartDeploy);
 
-    //            check = false;
-    //        }
-    //        yield return null;
-    //    }
-    //}
+                check = false;
+            }
+            yield return null;
+        }
+    }
 }

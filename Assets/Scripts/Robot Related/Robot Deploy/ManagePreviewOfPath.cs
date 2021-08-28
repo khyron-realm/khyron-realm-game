@@ -6,45 +6,50 @@ using UnityEngine.UI;
 /// <summary>
 /// 
 /// If button is selected the path of the robot with the waypoint is visible
+/// and the other robots path is invisible
 /// 
 /// </summary>
-public class ManagePreviewOfPath : MonoBehaviour
+
+namespace RobotDeployActions
 {
-    private GameObject _robot;
-
-    private Button _button;
-
-    public GameObject Robot
+    public class ManagePreviewOfPath : MonoBehaviour
     {
-        set
+        private GameObject _robot;
+
+        private Button _button;
+
+        public GameObject Robot
         {
-            _robot = value;
+            set
+            {
+                _robot = value;
+            }
         }
-    }
 
-    private void Awake()
-    {
-        _button = GetComponent<Button>();
-        GetComponent<DeployRobot>().OnDeployed += AddListener;
-    }
+        private void Awake()
+        {
+            _button = GetComponent<Button>();
+            GetComponent<DeployRobot>().OnDeployed += AddListener;
+        }
 
-    private void AddListener()
-    {
-        _button.onClick.AddListener(EnablePath);
-        EnablePath();
-    }
+        private void AddListener()
+        {
+            _button.onClick.AddListener(EnablePath);
+            EnablePath();
+        }
 
-    private void EnablePath()
-    {
-        _robot.GetComponent<LineRenderer>().enabled = true;
-        _robot.GetComponent<RobotManager>().commandBlock.SetActive(true);
-        _robot.GetComponent<SpriteRenderer>().color = Color.green;
-    }
+        private void EnablePath()
+        {
+            _robot.transform.GetChild(2).GetComponent<LineRenderer>().enabled = true;
+            _robot.GetComponent<RobotManager>().commandBlock.SetActive(true);
+            _robot.GetComponent<SpriteRenderer>().color = Color.green;
+        }
 
-    public void DisablePath()
-    {
-        _robot.GetComponent<LineRenderer>().enabled = false;
-        _robot.GetComponent<RobotManager>().commandBlock.SetActive(false);
-        _robot.GetComponent<SpriteRenderer>().color = Color.white;
+        public void DisablePath()
+        {
+            _robot.transform.GetChild(2).GetComponent<LineRenderer>().enabled = false;
+            _robot.GetComponent<RobotManager>().commandBlock.SetActive(false);
+            _robot.GetComponent<SpriteRenderer>().color = Color.white;
+        }
     }
 }

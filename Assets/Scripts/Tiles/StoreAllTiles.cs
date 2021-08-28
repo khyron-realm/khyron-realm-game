@@ -3,24 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class StoreAllTiles : MonoBehaviour
+namespace TilesData
 {
-    public static StoreAllTiles instance;
-    public Tilemap Tilemap;
-
-    public List<List<StoreDataAboutTiles>> tiles;
-
-	private void Awake()
+	public class StoreAllTiles : MonoBehaviour
 	{
-		if (instance == null)
-		{
-			instance = this;
-		}
-		else if (instance != this)
-		{
-			Destroy(gameObject);
-		}
+		public static StoreAllTiles instance;
+		public Tilemap Tilemap;
 
-		tiles = new List<List<StoreDataAboutTiles>>();
+		public List<List<StoreDataAboutTiles>> tiles;
+
+		private void Awake()
+		{
+			if (instance == null)
+			{
+				instance = this;
+			}
+			else if (instance != this)
+			{
+				Destroy(gameObject);
+			}
+
+			tiles = new List<List<StoreDataAboutTiles>>();
+		}
 	}
 }

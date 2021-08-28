@@ -54,7 +54,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="images/img.jpg" alt="Logo" width="1000" height="400">
+<img src="images/img2.jpg" alt="Logo" width="1000" height="400">
 
 Unlimited Game ... The next 2D social strategy game with an interconnected economy system that teach users basic finance and an entrepreneurial mindset.
 
@@ -95,24 +95,32 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
    |
    |-- Animations                               
    |-- Editor    
-   |-- GUI
    |-- Materials
+      | -- Render Textures
       | -- Robot asociated
+      | -- Shaders
    |-- Meshes
+   |-- Plugins
    |-- Prefabs
-      | -- Block
+      | -- Beacon
+      | -- Buttons
       | -- Robot
    |-- Resources
       | -- Beacon
       | -- Blocks
+      | -- IconFolders
+      | -- MiniMap
       | -- Preview Line
-      | -- Robot Design
+      | -- Robots
+      | -- Shapes
+      | -- UI
       | -- Waypoints Robot
    |-- Scenes
    |-- Scriptable Objetcs
-      | -- Resources
+      | -- Mine Resources
       | -- Robots
    |-- Scripts
+      | -- Auxiliary
       | -- Beacon related
       | -- Camera movement
       | -- Canvas
@@ -121,6 +129,7 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
           | -- ScriptableObjects
           | -- Values Generation
       | -- Robot Related
+          | -- Resources Drop
           | -- Robot Deploy
           | -- Robot Mining Process
               | -- Command Block
@@ -134,10 +143,13 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
       | -- Tiles
       | -- Touch
    |-- Sounds
+   |-- Tiles
   ************************************************************************
 ```
+## Used Plugins and Software
 
-
+1. [TexturePacker](https://www.codeandweb.com/texturepacker)
+1. [Rainbow Folders 2](https://assetstore.unity.com/packages/tools/utilities/rainbow-folders-2-143526)
 
 <!-- LICENSE -->
 ## License

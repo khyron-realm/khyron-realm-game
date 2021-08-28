@@ -3,41 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Add animation to the Line renderer
-public class LineRendererAnimation : MonoBehaviour
+
+namespace AnimationsScripts
 {
-    private LineRenderer _lineRenderer;
-
-    [SerializeField]
-    private Texture[] texture;
-
-    private int animationStep;
-
-    [SerializeField]
-    private float fps = 30f;
-
-    private float fpsCounter;
-
-    void Awake()
+    public class LineRendererAnimation : MonoBehaviour
     {
-        _lineRenderer = GetComponent<LineRenderer>();
-    }
+        private LineRenderer _lineRenderer;
 
-    // Update is called once per frame
-    void Update()
-    {
-        fpsCounter += Time.deltaTime;
+        [SerializeField]
+        private Texture[] texture;
 
-        if(fpsCounter >= 1f/fps)
+        [SerializeField]
+        private float fps = 30f;
+
+        private int animationStep;
+
+        private float fpsCounter;
+
+        void Awake()
         {
-            animationStep++;
-            if(animationStep == texture.Length)
+            _lineRenderer = GetComponent<LineRenderer>();
+        }
+
+
+        // Update is called once per frame
+        void Update()
+        {
+            fpsCounter += Time.deltaTime;
+
+            if (fpsCounter >= 1f / fps)
             {
-                animationStep = 0;
+                animationStep++;
+                if (animationStep == texture.Length)
+                {
+                    animationStep = 0;
+                }
+
+                _lineRenderer.material.SetTexture("_MainTex", texture[animationStep]);
+
+                fpsCounter = 0f;
             }
-
-            _lineRenderer.material.SetTexture("_MainTex", texture[animationStep]);
-
-            fpsCounter = 0f;
         }
     }
 }

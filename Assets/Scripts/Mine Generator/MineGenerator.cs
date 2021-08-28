@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using TilesData;
+
 
 namespace Grid
 {
@@ -14,10 +16,6 @@ namespace Grid
         [SerializeField]
         [Space(20f)]
         private RuleTile _groundTileType2;
-
-        [SerializeField]
-        [Space(20f)]
-        private Color32 _hiddenColor;
 
         [SerializeField]
         [Space(20f)]
@@ -84,13 +82,11 @@ namespace Grid
                         if(temp_hidden[row - _startPosition.y, col - _startPosition.x] == 0)
                         {
                             StoreAllTiles.instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType1);
-                            StoreAllTiles.instance.Tilemap.SetColor(new Vector3Int(row, col, 0), _hiddenColor);
                             StoreData(temp_visible, row, temp, col, _healthOfBlocks[0]);
                         }
                         else
                         {
                             StoreAllTiles.instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType2);
-                            StoreAllTiles.instance.Tilemap.SetColor(new Vector3Int(row, col, 0), _hiddenColor);
                             StoreData(temp_visible, row, temp, col, _healthOfBlocks[1]);
                         }                            
                     }
@@ -110,90 +106,5 @@ namespace Grid
                 temp.Add(new StoreDataAboutTiles(health));
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //CreateBlockWithStats(temp_hidden, temp_visible, row, col);
-
-        //private void CreateBlockWithStats(int[,] temp_hidden, int[,] temp_visible, int row, int col)
-        //{
-        //    GameObject tile = Instantiate(_blockPrefab, transform);
-
-        //    SetSpritesOfBlocks(temp_hidden, row, col, tile);
-        //    SetBlockVisibleValue(temp_visible, row, col, tile);
-
-        //    SetHealthForBlocks(temp_hidden, row, col, tile);
-        //    SetDropCoeficientforBlocks(temp_hidden, row, col, tile);
-
-        //    PositionTile(row, col, tile);
-        //}
-
-        //private void PositionTile(int row, int col, GameObject tile)
-        //{
-        //    float posX = col * _tileSize;
-        //    float posY = row * -_tileSize;
-
-        //    tile.transform.position = new Vector2(posX, posY);
-        //}
-
-        //private void SetSpritesOfBlocks(int[,] temp, int row, int col, GameObject tile)
-        //{
-        //    if (temp[row, col] == 0)
-        //    {
-        //        int coef = UnityEngine.Random.Range(0, _defaultBlocksType1.Count);
-        //        tile.GetComponent<BlockManager>().HiddenSprite = _defaultBlocksType1[coef];
-        //        tile.GetComponent<BlockManager>().VisibleSprite = _defaultBlocksType1[coef];
-        //    }
-        //    else if (temp[row, col] == 1)
-        //    {
-        //        int coef = UnityEngine.Random.Range(0, _defaultBlocksType2.Count);
-        //        tile.GetComponent<BlockManager>().HiddenSprite = _defaultBlocksType2[coef];
-        //        tile.GetComponent<BlockManager>().VisibleSprite = _defaultBlocksType2[coef];
-        //    }
-        //}
-
-        //private void SetBlockVisibleValue(int[,] temp, int row, int col, GameObject tile)
-        //{
-        //    if (temp[row, col] > 1)
-        //    {
-        //        tile.GetComponent<BlockManager>().VisibleSprite = _resources[temp[row, col] - 2].sprite;
-        //    }
-        //}
-
-        //private void SetHealthForBlocks(int[,] temp, int row, int col, GameObject tile)
-        //{
-        //    tile.GetComponent<IHealth>().InitialHealth = _healthOfBlocks[temp[row, col]];
-        //}
-
-        //private void SetDropCoeficientforBlocks(int[,] temp, int row, int col, GameObject tile)
-        //{
-        //    if (temp[row, col] > 1)
-        //    {
-        //        tile.GetComponent<BlockResource>().MinimumDrop = _resources[temp[row, col]].dropValueMin;
-        //        tile.GetComponent<BlockResource>().MaximumDrop = _resources[temp[row, col]].dropValueMax;
-        //    }
-        //}
     }
 }

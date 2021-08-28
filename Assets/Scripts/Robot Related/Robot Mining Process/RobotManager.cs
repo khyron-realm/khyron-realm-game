@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RobotActions;
+using RobotActions.CommandBlock;
+
 
 /// <summary>
 /// 
@@ -61,6 +64,7 @@ public class RobotManager : MonoBehaviour
     private Direction _directionSaved = Direction.none;
 
     // Gameobject responsible for drawing  the path user choose to take
+    [SerializeField]
     private DrawPathToFollowForRobot _path;
 
     // Command block -- The gameobject used for giving commands which is separate from the robot GameObject
@@ -70,7 +74,7 @@ public class RobotManager : MonoBehaviour
     private SpriteRenderer _commandBlockSprite;
 
     // Components that implemnents the interfaces attached to the gameObject
-    private PreviewCommands _handleTouch;
+    private IPreviewCommand<Vector3> _handleTouch;
     private IExecuteCommand<List<Vector3>> _executeCommand;
     private IDeleteCommand<List<Vector3>> _deleteCommand;
 
@@ -107,10 +111,10 @@ public class RobotManager : MonoBehaviour
 
     private void ExecuteCommand()
     {
-        if (MaximumNumberOfCommands())
+        if (MaximumNumberOfCommands() && _handleTouch.TilesPositions.Count > 0)
         {
             _directions.Add(_handleTouch.Direction);
-            _directionSaved = ConvertDirection(_handleTouch.Direction);
+            _directionSaved = AuxiliaryMethods.ConvertDirection(_handleTouch.Direction);
 
             _allTiles.Add(new List<Vector3>(_handleTouch.TilesPositions));
             _handleTouch.TilesPositions.Clear();
@@ -128,7 +132,7 @@ public class RobotManager : MonoBehaviour
 
             if(_directions.Count > 0)
             {
-                _directionSaved = ConvertDirection(_directions[_directions.Count - 1]);
+                _directionSaved = AuxiliaryMethods.ConvertDirection(_directions[_directions.Count - 1]);
             }
 
             _deleteCommand.DeleteCommand(_allTiles);
@@ -157,11 +161,11 @@ public class RobotManager : MonoBehaviour
 
     private void GetCommandsScripts()
     {
-        _handleTouch = GetComponent<PreviewCommands>();
+        _handleTouch = GetComponent<IPreviewCommand<Vector3>>();
         _executeCommand = GetComponent<IExecuteCommand<List<Vector3>>>();
         _deleteCommand = GetComponent<IDeleteCommand<List<Vector3>>>();
 
-        _path = GetComponent<DrawPathToFollowForRobot>();
+        //_path = GetComponent<DrawPathToFollowForRobot>();
 
         _mine = GetComponent<IMining<Vector3>>();
         _move = GetComponent<IMove>();
@@ -186,30 +190,6 @@ public class RobotManager : MonoBehaviour
     #endregion
 
     #region "Auxilary methods" 
-    private Direction ConvertDirection(Direction temp)
-    {
-        if(temp == Direction.left)
-        {
-            return Direction.right;
-        }
-        else if(temp == Direction.right)
-        {
-            return Direction.left;
-        }
-        else if (temp == Direction.up)
-        {
-            return Direction.down;
-        }
-        else if (temp == Direction.down)
-        {
-            return Direction.up;
-        }
-        else
-        {
-            return Direction.none;
-        }
-    }
-
     private bool MaximumNumberOfCommands()
     {
         return _allTiles.Count < robot.actionNumber;

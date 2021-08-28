@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b0e4fce530eaa4dab92fab5796a516, type: 3}
   m_Name: Vasili
   m_EditorClassIdentifier: 
-  type: 0
   movementSpeed: 3
-  fieldOfVision: 4
-  hitPoints: 100
+  fieldOfVision: 3
   damagePerSecond: 800
   actionNumber: 4
   actionLength: 5

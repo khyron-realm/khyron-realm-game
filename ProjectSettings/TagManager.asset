@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - robot
   layers:
   - Default
   - TransparentFX
@@ -12,10 +13,10 @@ TagManager:
   - Water
   - UI
   - Blocks
-  - 
-  - 
-  - 
-  - 
+  - Robot
+  - FogOfWarMain
+  - FogOfWarSecondary
+  - LinePreview
   - 
   - 
   - 
@@ -49,4 +50,7 @@ TagManager:
     locked: 0
   - name: WayPoint
     uniqueID: 2607079299
+    locked: 0
+  - name: FogOfWar
+    uniqueID: 2539910303
     locked: 0

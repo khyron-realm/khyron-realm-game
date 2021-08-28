@@ -2,97 +2,114 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TilesData;
 
 // Mine in straight line every command
 
-[RequireComponent(typeof(Movement))]
-public class LiniarMining : MonoBehaviour, IMining<Vector3>
+namespace RobotActions
 {
-    private int _damage;
-    private WaitForSeconds _time;
-    private IMove _move;
-
-    public event Action OnMining;
-    public event Action OnFinishedMining;
-
-    private void Awake()
+    [RequireComponent(typeof(Movement))]
+    public class LiniarMining : MonoBehaviour, IMining<Vector3>
     {
-        _time = new WaitForSeconds(0.2f);
-        _move = GetComponent<IMove>();
-    }
+        private int _damage;
+        private WaitForSeconds _time;
+        private IMove _move;
 
-    #region "Methods"
-    public void Mine(List<List<Vector3>> _allHits, int damage)
-    {
-        _damage = damage;
-        StartCoroutine("Mining", _allHits);
-    }
+        public event Action OnMining;
+        public event Action OnFinishedMining;
 
-    private IEnumerator Mining(List<List<Vector3>> _allHits)
-    {
-        for (int i = 0; i < _allHits.Count; i++)
+        private void Awake()
         {
-            for (int j = 0; j < _allHits[i].Count; j++)
+            _time = new WaitForSeconds(0.2f);
+            _move = GetComponent<IMove>();
+        }
+
+        #region "Methods"
+        public void Mine(List<List<Vector3>> _allHits, int damage)
+        {
+            _damage = damage;
+            StartCoroutine("Mining", _allHits);
+        }
+
+
+        private IEnumerator Mining(List<List<Vector3>> _allHits)
+        {
+            for (int i = 0; i < _allHits.Count; i++)
             {
-                Vector3 temp = _allHits[i][j];
-
-                bool breaked = false;
-
-                if (StoreAllTiles.instance.tiles[(int)(temp.x - 0.5f)][(int)(temp.y - 0.5f)].Health <= 0)
+                for (int j = 0; j < _allHits[i].Count; j++)
                 {
-                    breaked = true;
-                }
+                    Vector3 temp = _allHits[i][j];
 
-                if (breaked == false)
-                {
-                    bool check = false;
+                    bool breaked = false;
+                    int _countToKnow = _allHits.Count;
 
-                    OnMining?.Invoke();
-
-                    while (!check)
+                    if (StoreAllTiles.instance.tiles[(int)(temp.x - 0.5f)][(int)(temp.y - 0.5f)].Health <= 0)
                     {
-                        StoreAllTiles.instance.tiles[(int)(temp.x - 0.5f)][(int)(temp.y - 0.5f)].Health -= (int)(_damage / 5f);
-                        
-                        if(StoreAllTiles.instance.tiles[(int)(temp.x - 0.5f)][(int)(temp.y - 0.5f)].Health < 0)
-                        {
-                            check = true;
-                        }
+                        breaked = true;
+                    }
 
-                        yield return _time;
+                    if (breaked == false)
+                    {
+                        bool check = false;
+
+                        OnMining?.Invoke();
+
+                        while (!check)
+                        {
+                            StoreAllTiles.instance.tiles[(int)(temp.x - 0.5f)][(int)(temp.y - 0.5f)].Health -= (int)(_damage / 5f);
+
+                            if (StoreAllTiles.instance.tiles[(int)(temp.x - 0.5f)][(int)(temp.y - 0.5f)].Health < 0)
+                            {
+                                check = true;
+                            }
+
+                            // Check if all commands have been deleted while robot was mining blocks
+                            if (_countToKnow != _allHits.Count && _allHits.Count < 1)
+                            {
+                                EndAllFun(_allHits);
+                                yield break;
+                            }
+                            else
+                            {
+                                yield return _time;
+                            }
+                        }
+                    }
+
+                    Vector3 destination = new Vector3(temp.x, temp.y, 0);
+
+                    StoreAllTiles.instance.Tilemap.SetTile(new Vector3Int((int)(temp.x - 0.5f), (int)(temp.y - 0.5f), 0), null);
+
+                    yield return _move.MoveTo(gameObject, transform.position, destination, breaked);
+
+
+                    // Check if all commands have been deleted while robot was moving
+                    if (_countToKnow != _allHits.Count && _allHits.Count < 1)
+                    {
+                        EndAllFun(_allHits);
+                        yield break;
+                    }
+                    else
+                    {
+                        _allHits[i].RemoveAt(j);
+                        j--;
                     }
                 }
-
-                // !-- BUG -- !
-                Vector3 destination = new Vector3(temp.x, temp.y, 0);
-
-                StoreAllTiles.instance.Tilemap.SetTile(new Vector3Int((int)(temp.x - 0.5f), (int)(temp.y - 0.5f), 0), null);
-
-                yield return _move.MoveTo(gameObject, transform.position, destination, breaked);
-
-                if (_allHits.Count > 0)
-                {
-                    // if command is deleted _allHits is null
-                    // but coroutine continues until robot position is on a tile
-                    // during movement, values are added to _allHits and then the first one is removed
-                    _allHits[i].RemoveAt(j);
-                    j--;    
-                }
-                else
-                {
-                    OnFinishedMining?.Invoke();
-                    _allHits.Clear();
-
-                    yield break;
-                }
-
-                // !-- BUG -- !
+                _allHits.RemoveAt(i);
+                i--;
             }
-            _allHits.RemoveAt(i);
-            i--;
-        }
-        _allHits.Clear();
+            _allHits.Clear();
 
-        OnFinishedMining?.Invoke();
+            OnFinishedMining?.Invoke();
+        }
+
+
+        // Mining is finished
+        private void EndAllFun(List<List<Vector3>> _allHits)
+        {
+            OnFinishedMining?.Invoke();
+            _allHits.Clear();
+        }
+        #endregion
     }
-    #endregion
 }
