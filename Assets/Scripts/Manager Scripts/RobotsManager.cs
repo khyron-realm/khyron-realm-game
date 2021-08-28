@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RobotDeployActions;
 
-public class RobotsHandler : MonoBehaviour
+public class RobotsManager : MonoBehaviour
 {
     // Scriptable object with data about the robots
     [SerializeField]

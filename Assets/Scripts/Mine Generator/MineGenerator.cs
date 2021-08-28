@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using TilesData;
+
 
 namespace Grid
 {
@@ -14,10 +16,6 @@ namespace Grid
         [SerializeField]
         [Space(20f)]
         private RuleTile _groundTileType2;
-
-        [SerializeField]
-        [Space(20f)]
-        private Color32 _hiddenColor;
 
         [SerializeField]
         [Space(20f)]
@@ -84,13 +82,11 @@ namespace Grid
                         if(temp_hidden[row - _startPosition.y, col - _startPosition.x] == 0)
                         {
                             StoreAllTiles.instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType1);
-                            StoreAllTiles.instance.Tilemap.SetColor(new Vector3Int(row, col, 0), _hiddenColor);
                             StoreData(temp_visible, row, temp, col, _healthOfBlocks[0]);
                         }
                         else
                         {
                             StoreAllTiles.instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType2);
-                            StoreAllTiles.instance.Tilemap.SetColor(new Vector3Int(row, col, 0), _hiddenColor);
                             StoreData(temp_visible, row, temp, col, _healthOfBlocks[1]);
                         }                            
                     }

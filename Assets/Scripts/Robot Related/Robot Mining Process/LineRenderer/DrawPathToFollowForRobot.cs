@@ -47,7 +47,7 @@ namespace RobotActions
         {
             if (count > 0)
             {
-                image.sprite = RobotsHandler.WayPoints[count - 1];
+                image.sprite = RobotsManager.WayPoints[count - 1];
             }
             else
             {

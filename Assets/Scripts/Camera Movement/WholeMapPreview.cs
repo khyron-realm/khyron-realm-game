@@ -5,98 +5,101 @@ using System.Collections.Generic;
 using UnityEngine;
 using RobotDeployActions;
 
-public class WholeMapPreview : MonoBehaviour
+namespace CameraActions
 {
-    [SerializeField]
-    [Header("List of cameras that see the minimap")]
-    private List<Camera> _cameras; // first element shall be the main camera
-
-    [SerializeField]
-    private float _zoomInOutSpeed; // 1.4f
-
-    [SerializeField]
-    [Header("The position of the cameras in the moment MINIMAP is ACTIVE")]
-    private Vector3 _centerPosition; //60, 38, -10
-
-    [SerializeField]
-    [Header("The orthoSize of the cameras in the moment MINIMAP is ACTIVE")]
-    private int _setOrthoSizeActive;
-
-    [SerializeField]
-    [Header("The orthoSize of the cameras in the moment MINIMAP is NOT ACTIVE")]
-    private int _setOrthoSizeNonActive;
-
-    [SerializeField]
-    [Header("The map with tiles")]
-    [Space(20f)]
-    private GameObject _map;
-
-    [SerializeField]
-    [Header("The minimap")]
-    private GameObject _miniMap;
-
-    private Vector3 _cameraPosition;
-
-    private void Awake()
+    public class WholeMapPreview : MonoBehaviour
     {
-        PanPinch.OnMinimapActivation += MinimapActivation;
-    }
+        [SerializeField]
+        [Header("List of cameras that see the minimap")]
+        private List<Camera> _cameras; // first element shall be the main camera
 
-    private void MinimapActivation(bool temp)
-    {
-        if(temp)
+        [SerializeField]
+        private float _zoomInOutSpeed; // 1.4f
+
+        [SerializeField]
+        [Header("The position of the cameras in the moment MINIMAP is ACTIVE")]
+        private Vector3 _centerPosition; //60, 38, -10
+
+        [SerializeField]
+        [Header("The orthoSize of the cameras in the moment MINIMAP is ACTIVE")]
+        private int _setOrthoSizeActive;
+
+        [SerializeField]
+        [Header("The orthoSize of the cameras in the moment MINIMAP is NOT ACTIVE")]
+        private int _setOrthoSizeNonActive;
+
+        [SerializeField]
+        [Header("The map with tiles")]
+        [Space(20f)]
+        private GameObject _map;
+
+        [SerializeField]
+        [Header("The minimap")]
+        private GameObject _miniMap;
+
+        private Vector3 _cameraPosition;
+
+        private void Awake()
         {
-            StartCoroutine("ActivateMinimap");
+            PanPinch.OnMinimapActivation += MinimapActivation;
         }
-        else
+
+        private void MinimapActivation(bool temp)
         {
-            StartCoroutine("DezactivateMinimap");
-        }
-    }
-
-
-    private IEnumerator ActivateMinimap()
-    {
-        _cameraPosition = _cameras[0].transform.position;
-
-        float temp = 0f;
-        while (temp < 1f)
-        {
-            temp += Time.deltaTime * _zoomInOutSpeed;
-
-            foreach (Camera item in _cameras)
+            if (temp)
             {
-                item.transform.position = Vector3.Lerp(_cameraPosition, _centerPosition, Mathf.SmoothStep(0f, 1f,temp));
-                item.orthographicSize = Mathf.Lerp(_setOrthoSizeNonActive, _setOrthoSizeActive, Mathf.SmoothStep(0f, 1f, temp));
+                StartCoroutine("ActivateMinimap");
+            }
+            else
+            {
+                StartCoroutine("DezactivateMinimap");
+            }
+        }
+
+
+        private IEnumerator ActivateMinimap()
+        {
+            _cameraPosition = _cameras[0].transform.position;
+
+            float temp = 0f;
+            while (temp < 1f)
+            {
+                temp += Time.deltaTime * _zoomInOutSpeed;
+
+                foreach (Camera item in _cameras)
+                {
+                    item.transform.position = Vector3.Lerp(_cameraPosition, _centerPosition, Mathf.SmoothStep(0f, 1f, temp));
+                    item.orthographicSize = Mathf.Lerp(_setOrthoSizeNonActive, _setOrthoSizeActive, Mathf.SmoothStep(0f, 1f, temp));
+                }
+
+                yield return null;
             }
 
-            yield return null;
+            _map.SetActive(false);
+            _miniMap.SetActive(true);
+
+            ManageButtonsTouched.DisableAllButtons();
         }
 
-        _map.SetActive(false);
-        _miniMap.SetActive(true);
 
-        ManageButtonsTouched.DisableAllButtons();
-    }
-
-            
-    private IEnumerator DezactivateMinimap()
-    {
-        float temp = 0f;
-        while (temp < 1f)
+        private IEnumerator DezactivateMinimap()
         {
-            temp += Time.deltaTime * _zoomInOutSpeed;
-
-            foreach (Camera item in _cameras)
+            float temp = 0f;
+            while (temp < 1f)
             {
-                item.transform.position = Vector3.Lerp(_centerPosition, _cameraPosition, Mathf.SmoothStep(0f, 1f, temp)); ;
-                item.orthographicSize = Mathf.Lerp(_setOrthoSizeActive, _setOrthoSizeNonActive, Mathf.SmoothStep(0f, 1f, temp));
+                temp += Time.deltaTime * _zoomInOutSpeed;
+
+                foreach (Camera item in _cameras)
+                {
+                    item.transform.position = Vector3.Lerp(_centerPosition, _cameraPosition, Mathf.SmoothStep(0f, 1f, temp)); ;
+                    item.orthographicSize = Mathf.Lerp(_setOrthoSizeActive, _setOrthoSizeNonActive, Mathf.SmoothStep(0f, 1f, temp));
+                }
+
+                yield return null;
             }
 
-            yield return null;
+            _map.SetActive(true);
+            _miniMap.SetActive(false);
         }
-
-        _map.SetActive(true);
-        _miniMap.SetActive(false);
     }
 }

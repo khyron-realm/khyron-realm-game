@@ -15,7 +15,7 @@ namespace RobotDeployActions
             _button.onClick.AddListener(SelectRobot);
         }
 
-        // Scale up button
+        // Scale up button and deselect other buttons
         private void SelectRobot()
         {
             transform.localScale = new Vector3(1.2f, 1.2f, 1);

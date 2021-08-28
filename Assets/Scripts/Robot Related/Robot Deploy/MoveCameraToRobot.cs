@@ -8,9 +8,7 @@ namespace RobotDeployActions
     public class MoveCameraToRobot : MonoBehaviour
     {
         private List<Camera> _cameras;
-
         private GameObject _robot;
-
         private Button _button;
 
         public GameObject Robot

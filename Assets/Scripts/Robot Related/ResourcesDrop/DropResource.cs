@@ -2,32 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TilesData;
 
-public class DropResource : MonoBehaviour
+namespace ResourcesDrop
 {
-    [SerializeField]
-    private Text _scoreText;
-
-    private int _scoreInt = 0;
-
-    private void Awake()
+    public class DropResource : MonoBehaviour
     {
-        _scoreText.text = "0";
-        StoreDataAboutTiles.OnMinedBlock += Drop;
-    }
+        [SerializeField]
+        private Text _scoreText;
 
-    private void Drop(MineResources temp)
-    {
-        int randomValue = Random.Range(temp.dropValueMin, temp.dropValueMax);
-        _scoreInt += randomValue;
+        private int _scoreInt = 0;
 
-        try
+        private void Awake()
         {
-            _scoreText.text = _scoreInt.ToString();
+            _scoreText.text = "0";
+            StoreDataAboutTiles.OnMinedBlock += Drop;
         }
-        catch
-        {
 
+        private void Drop(MineResources temp)
+        {
+            int randomValue = Random.Range(temp.dropValueMin, temp.dropValueMax);
+            _scoreInt += randomValue;
+
+            try
+            {
+                _scoreText.text = _scoreInt.ToString();
+            }
+            catch
+            {
+
+            }
         }
     }
 }

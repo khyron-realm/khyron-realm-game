@@ -6,6 +6,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 
 /// If button is selected the path of the robot with the waypoint is visible
+/// and the other robots path is invisible
 /// 
 /// </summary>
 

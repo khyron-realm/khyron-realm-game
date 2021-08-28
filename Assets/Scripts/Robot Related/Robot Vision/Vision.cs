@@ -1,54 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TilesData;
 
-public class Vision : MonoBehaviour
+
+namespace RobotActions.Vision
 {
-    private IMove _moveComponent;
-
-    private HashSet<Vector3Int> _blocksToDiscover;
-
-    private int _vision;
-
-    private void Awake()
+    public class Vision : MonoBehaviour
     {
-        _vision = GetComponent<RobotManager>().robot.fieldOfVision;
-        _blocksToDiscover = new HashSet<Vector3Int>();
-        _moveComponent = GetComponent<IMove>();
-        _moveComponent.OnMoving += Discover;
-    }
+        private IMove _moveComponent;
 
-    private void Discover()
-    {
-        Vector3Int temp = new Vector3Int((int)gameObject.transform.position.x, (int)gameObject.transform.position.y, 0);
+        private HashSet<Vector3Int> _blocksToDiscover;
 
-        CreateCircleVision();
+        private int _vision;
 
-        foreach (Vector3Int item in _blocksToDiscover)
+        private void Awake()
         {
-            if (StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource != null && StoreAllTiles.instance.Tilemap.GetTile(temp + item) != null)
+            _vision = GetComponent<RobotManager>().robot.fieldOfVision;
+            _blocksToDiscover = new HashSet<Vector3Int>();
+            _moveComponent = GetComponent<IMove>();
+            _moveComponent.OnMoving += Discover;
+        }
+
+        private void Discover()
+        {
+            Vector3Int temp = new Vector3Int((int)gameObject.transform.position.x, (int)gameObject.transform.position.y, 0);
+
+            CreateCircleVision();
+
+            foreach (Vector3Int item in _blocksToDiscover)
             {
-                StoreAllTiles.instance.Tilemap.SetTile(temp + item, StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource.resourceTile);
+                if (StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource != null && StoreAllTiles.instance.Tilemap.GetTile(temp + item) != null)
+                {
+                    StoreAllTiles.instance.Tilemap.SetTile(temp + item, StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource.resourceTile);
+                }
             }
         }
-    }
 
-    private void VisionFiled(int length, Vector3Int one, Vector3Int two)
-    {
-        for (int i = 0; i < length; i++)
+        private void VisionFiled(int length, Vector3Int one, Vector3Int two)
         {
-            for (int j = 0; j < length - i; j++)
+            for (int i = 0; i < length; i++)
             {
-                _blocksToDiscover.Add(i * one + j * two);
+                for (int j = 0; j < length - i; j++)
+                {
+                    _blocksToDiscover.Add(i * one + j * two);
+                }
             }
         }
-    }
 
-    private void CreateCircleVision()
-    {
-        VisionFiled(_vision, Vector3Int.up, Vector3Int.left);
-        VisionFiled(_vision, Vector3Int.up, Vector3Int.right);
-        VisionFiled(_vision, Vector3Int.down, Vector3Int.left);
-        VisionFiled(_vision, Vector3Int.down, Vector3Int.right);
+        private void CreateCircleVision()
+        {
+            VisionFiled(_vision, Vector3Int.up, Vector3Int.left);
+            VisionFiled(_vision, Vector3Int.up, Vector3Int.right);
+            VisionFiled(_vision, Vector3Int.down, Vector3Int.left);
+            VisionFiled(_vision, Vector3Int.down, Vector3Int.right);
+        }
     }
 }

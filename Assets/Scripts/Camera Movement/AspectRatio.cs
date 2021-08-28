@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AspectRatio : MonoBehaviour
+namespace CameraActions
 {
-    public float temp;
-
-    void Start()
+    // Set aspect ratio of a camera
+    public class AspectRatio : MonoBehaviour
     {
-        GetComponent<Camera>().aspect = temp;
+        [SerializeField]
+        private float temp;
+
+        void Start()
+        {
+            GetComponent<Camera>().aspect = temp;
+        }
     }
 }

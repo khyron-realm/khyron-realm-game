@@ -4,54 +4,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class StoreDataAboutTiles
+namespace TilesData
 {
-    private int _health;
-    private MineResources _resource = null;
-    //private bool _deployable = false;
-    //private bool _beaconDeployed = false;
-
-    // If block is Mined
-    public static event Action<MineResources> OnMinedBlock;
-    private bool once = false; // for safety
-
-    public StoreDataAboutTiles(int _health)
+    public class StoreDataAboutTiles
     {
-        this._health = _health;
-    }
+        private int _health;
+        private MineResources _resource = null;
+        //private bool _deployable = false;
+        //private bool _beaconDeployed = false;
 
-    public StoreDataAboutTiles(int _health, MineResources _resource)
-    {
-        this._health = _health;
-        this._resource = _resource;
-    }
+        // If block is Mined
+        public static event Action<MineResources> OnMinedBlock;
+        private bool once = false; // for safety
 
-    public int Health
-    {
-        get
+        public StoreDataAboutTiles(int _health)
         {
-            return _health;
+            this._health = _health;
         }
-        set
-        {
-            _health = value;
 
-            if(_health < 1 && once == false && _resource != null)
+        public StoreDataAboutTiles(int _health, MineResources _resource)
+        {
+            this._health = _health;
+            this._resource = _resource;
+        }
+
+        public int Health
+        {
+            get
             {
-                OnMinedBlock?.Invoke(_resource);
-                once = true;
+                return _health;
+            }
+            set
+            {
+                _health = value;
+
+                if (_health < 1 && once == false && _resource != null)
+                {
+                    OnMinedBlock?.Invoke(_resource);
+                    once = true;
+                }
             }
         }
-    }
-    public MineResources Resource
-    {
-        get
+        public MineResources Resource
         {
-            return _resource;
-        }
-        set
-        {
-            _resource = value;
+            get
+            {
+                return _resource;
+            }
+            set
+            {
+                _resource = value;
+            }
         }
     }
 }
