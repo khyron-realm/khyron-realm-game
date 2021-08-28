@@ -3,55 +3,63 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class DrawPathToFollowForRobot : MonoBehaviour
+namespace RobotActions
 {
-    private LineRenderer _line;
-    private HashSet<Vector3> _points;
-
-    private void Awake()
+    public class DrawPathToFollowForRobot : MonoBehaviour
     {
-        _points = new HashSet<Vector3>();
-        _line = GetComponent<LineRenderer>();
-    }
+        private LineRenderer _line;
+        private HashSet<Vector3> _points;
 
-    public void CreatePath(List<List<Vector3>> allHits, bool preview = false, List<Vector3> hitsPreview = null)
-    {
-        _points.Clear();
-
-        if(allHits.Count < 1)
+        private void Awake()
         {
-            _points.Add(gameObject.transform.position);
+            _points = new HashSet<Vector3>();
+            _line = GetComponent<LineRenderer>();
         }
 
-        for (int i = 0; i < allHits.Count; i++)
+
+        // Generate the points for lineRenderer to exist
+        public void CreatePath(List<List<Vector3>> allHits, bool preview = false, List<Vector3> hitsPreview = null)
         {
-            _points.UnionWith(allHits[i]);
+            _points.Clear();
+
+            if (allHits.Count < 1)
+            {
+                _points.Add(gameObject.transform.position);
+            }
+
+            for (int i = 0; i < allHits.Count; i++)
+            {
+                _points.UnionWith(allHits[i]);
+            }
+
+            if (preview)
+            {
+                _points.UnionWith(hitsPreview);
+            }
+
+            _line.positionCount = _points.Count;
+            _line.SetPositions(_points.ToArray());
         }
 
-        if (preview)
+
+        //Set WayPoint by changing command block Sprite
+        public void SetWayPoint(SpriteRenderer image, int count)
         {
-            _points.UnionWith(hitsPreview);
+            if (count > 0)
+            {
+                image.sprite = RobotsHandler.WayPoints[count - 1];
+            }
+            else
+            {
+                image.sprite = null;
+            }
         }
 
-        _line.positionCount = _points.Count;
-        _line.SetPositions(_points.ToArray());
-    }
 
-    public void SetWayPoint(SpriteRenderer image, int count)
-    {
-        if (count > 0)
+        public void DeleteLine()
         {
-            image.sprite = RobotsHandler.WayPoints[count - 1];
+            _points.Clear();
+            _line.positionCount = _points.Count;
         }
-        else
-        {
-            image.sprite = null;
-        }
-    }
-
-    public void DeleteLine()
-    {
-        _points.Clear();
-        _line.positionCount = _points.Count;
     }
 }

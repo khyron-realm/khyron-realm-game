@@ -1,0 +1,651 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1979333959, guid: 3bcb0d35ddf493043aaa14715c4ae5dc, type: 3}
+  m_Name: RainbowFoldersRuleset
+  m_EditorClassIdentifier: 
+  Rules:
+  - Type: 0
+    Key: Animations
+    Ordinal: 0
+    Priority: 0
+    IconType: 2510
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 130
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Audio
+    Ordinal: 1
+    Priority: 0
+    IconType: 2020
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Editor
+    Ordinal: 2
+    Priority: 0
+    IconType: 2030
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 40
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Data
+    Ordinal: 3
+    Priority: 0
+    IconType: 2140
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Editor Default Resources
+    Ordinal: 4
+    Priority: 0
+    IconType: 2140
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Extensions
+    Ordinal: 5
+    Priority: 0
+    IconType: 2040
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Fonts
+    Ordinal: 6
+    Priority: 0
+    IconType: 2060
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Icons
+    Ordinal: 7
+    Priority: 0
+    IconType: 2190
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Materials
+    Ordinal: 8
+    Priority: 0
+    IconType: 2570
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 140
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Meshes
+    Ordinal: 9
+    Priority: 0
+    IconType: 2580
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 90
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Plugins
+    Ordinal: 10
+    Priority: 0
+    IconType: 2600
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 200
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Prefabs
+    Ordinal: 11
+    Priority: 0
+    IconType: 2610
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 150
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Project
+    Ordinal: 12
+    Priority: 0
+    IconType: 2120
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: RainbowAssets
+    Ordinal: 13
+    Priority: 0
+    IconType: 2130
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Resources
+    Ordinal: 14
+    Priority: 0
+    IconType: 2140
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 240
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Scenes
+    Ordinal: 15
+    Priority: 0
+    IconType: 2650
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 50
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Scripts
+    Ordinal: 16
+    Priority: 0
+    IconType: 2660
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 190
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Shaders
+    Ordinal: 17
+    Priority: 0
+    IconType: 2670
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 50
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Terrains
+    Ordinal: 18
+    Priority: 0
+    IconType: 2180
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Textures
+    Ordinal: 19
+    Priority: 0
+    IconType: 2190
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Physics
+    Ordinal: 20
+    Priority: 0
+    IconType: 2090
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Flares
+    Ordinal: 21
+    Priority: 0
+    IconType: 2050
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Android
+    Ordinal: 22
+    Priority: 0
+    IconType: 3000
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: iOS
+    Ordinal: 23
+    Priority: 0
+    IconType: 3010
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Windows
+    Ordinal: 24
+    Priority: 0
+    IconType: 3040
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: Mac
+    Ordinal: 25
+    Priority: 0
+    IconType: 3020
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 0
+    Key: WebGL
+    Ordinal: 26
+    Priority: 0
+    IconType: 3030
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scriptable Objects
+    Ordinal: 27
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 76ac8de6113819b4a9663ad44176a322, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 76ac8de6113819b4a9663ad44176a322, type: 3}
+    IsIconRecursive: 1
+    BackgroundType: 150
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Sounds
+    Ordinal: 28
+    Priority: 0
+    IconType: 2520
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 30
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Tiles
+    Ordinal: 29
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 5fa77ba0e6991434b93ae45c86567e63, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 5fa77ba0e6991434b93ae45c86567e63, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 100
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Resources/Robots
+    Ordinal: 30
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 9f4601e644b3f5848ae371adc0443ed2, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 9f4601e644b3f5848ae371adc0443ed2, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 140
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scriptable Objects/Robots
+    Ordinal: 31
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 9f4601e644b3f5848ae371adc0443ed2, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 9f4601e644b3f5848ae371adc0443ed2, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 140
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scriptable Objects/Mine Resources
+    Ordinal: 32
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 3ebd8a672fefa4f428ef6461cd5e0f02, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 3ebd8a672fefa4f428ef6461cd5e0f02, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 30
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Robot Related
+    Ordinal: 33
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 9f4601e644b3f5848ae371adc0443ed2, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 9f4601e644b3f5848ae371adc0443ed2, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 140
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/ScriptableObjects
+    Ordinal: 34
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 76ac8de6113819b4a9663ad44176a322, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 76ac8de6113819b4a9663ad44176a322, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 160
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Tiles
+    Ordinal: 35
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 5fa77ba0e6991434b93ae45c86567e63, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 5fa77ba0e6991434b93ae45c86567e63, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 100
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Camera Movement
+    Ordinal: 36
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 61418ee2e1d6a814587a573665931c87, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 61418ee2e1d6a814587a573665931c87, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 240
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Touch
+    Ordinal: 37
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 6da353c97c508f942ab4b5d663e76544, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 6da353c97c508f942ab4b5d663e76544, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 40
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Timer
+    Ordinal: 38
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: c3f3402bca0d0894282dd6bce9045608, type: 3}
+    LargeIcon: {fileID: 2800000, guid: c3f3402bca0d0894282dd6bce9045608, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 40
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Manager Scripts
+    Ordinal: 39
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 66abf162432416d48af08f19adbe969f, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 66abf162432416d48af08f19adbe969f, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 120
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Mine Generator/ScriptableObjects
+    Ordinal: 40
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 76ac8de6113819b4a9663ad44176a322, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 76ac8de6113819b4a9663ad44176a322, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 150
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Canvas
+    Ordinal: 41
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 70b21532aa1343640935463c0ed71a39, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 70b21532aa1343640935463c0ed71a39, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 20
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 1
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Mine Generator
+    Ordinal: 42
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 465c913451623734c8439cb9854f4825, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 465c913451623734c8439cb9854f4825, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 140
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Robot Related/Robot Mining Process/Command block
+    Ordinal: 43
+    Priority: 0
+    IconType: 10
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Robot Related/Robot Mining Process/Commands
+    Ordinal: 44
+    Priority: 0
+    IconType: 60
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Robot Related/Robot Mining Process/Interfaces
+    Ordinal: 45
+    Priority: 0
+    IconType: 120
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Robot Related/Robot Mining Process/LineRenderer
+    Ordinal: 46
+    Priority: 0
+    IconType: 30
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Robot Related/Robot Mining Process/Mining Types
+    Ordinal: 47
+    Priority: 0
+    IconType: 240
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Robot Related/Robot Mining Process/Movement
+    Ordinal: 48
+    Priority: 0
+    IconType: 160
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Robot Related/Robot Mining Process
+    Ordinal: 49
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 6002fb1b4fbf9ee46a9d1a8416ca825a, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 6002fb1b4fbf9ee46a9d1a8416ca825a, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 110
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Resources/Beacon
+    Ordinal: 50
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 2653fa21a7606444db23784f621b980b, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 2653fa21a7606444db23784f621b980b, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 40
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Beacon Related
+    Ordinal: 51
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 2653fa21a7606444db23784f621b980b, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 2653fa21a7606444db23784f621b980b, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 40
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Auxiliary
+    Ordinal: 52
+    Priority: 0
+    IconType: 1200
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 200
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0

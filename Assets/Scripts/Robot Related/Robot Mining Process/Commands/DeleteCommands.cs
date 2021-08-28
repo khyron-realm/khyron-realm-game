@@ -7,46 +7,54 @@ using UnityEngine;
 /// Responsible for deleting the last command given
 /// 
 /// </summary>
-public class DeleteCommands : MonoBehaviour, IDeleteCommand<List<Vector3>>
+
+namespace RobotActions
 {
-    private GameObject _commandBlock;
-
-    private void Awake()
+    public class DeleteCommands : MonoBehaviour, IDeleteCommand<List<Vector3>>
     {
-        GetComponent<IMining<Vector3>>().OnFinishedMining += SetCommandBlockToRobotPosition;
-    }
+        private GameObject _commandBlock;
 
-    #region "Setters and Getters"
-    public GameObject CommandBlock
-    {
-        set
+        private void Awake()
         {
-            _commandBlock = value;
+            GetComponent<IMining<Vector3>>().OnFinishedMining += SetCommandBlockToRobotPosition;
         }
-    }
-    #endregion
 
-    #region "Methods"
-    public void DeleteCommand(List<List<Vector3>> _allHits)
-    {
-        _allHits.RemoveAt(_allHits.Count - 1);
-
-        if (_allHits.Count > 0)
+        #region "Setters and Getters"
+        public GameObject CommandBlock
         {
-            SetCommandBlockPosition(_allHits[_allHits.Count - 1]);
+            set
+            {
+                _commandBlock = value;
+            }
         }
-    }
+        #endregion
 
-    private void SetCommandBlockPosition(List<Vector3> hits)
-    {
-        List<Vector3> lastCommand = new List<Vector3>(hits);
-        Vector3 position = lastCommand[lastCommand.Count - 1];
-        _commandBlock.transform.position = new Vector3(position.x, position.y, -6f);
-    }
+        #region "Methods"
+        public void DeleteCommand(List<List<Vector3>> _allHits)
+        {
+            _allHits.RemoveAt(_allHits.Count - 1);
 
-    private void SetCommandBlockToRobotPosition()
-    {
-        _commandBlock.transform.position = new Vector3(transform.position.x, transform.position.y, -6f);
+            if (_allHits.Count > 0)
+            {
+                SetCommandBlockPosition(_allHits[_allHits.Count - 1]);
+            }
+        }
+
+
+        // command block position == last command pisition
+        private void SetCommandBlockPosition(List<Vector3> hits)
+        {
+            List<Vector3> lastCommand = new List<Vector3>(hits);
+            Vector3 position = lastCommand[lastCommand.Count - 1];
+            _commandBlock.transform.position = new Vector3(position.x, position.y, -6f);
+        }
+
+
+        // command block position == robot position
+        private void SetCommandBlockToRobotPosition()
+        {
+            _commandBlock.transform.position = new Vector3(transform.position.x, transform.position.y, -6f);
+        }
+        #endregion
     }
-    #endregion
 }

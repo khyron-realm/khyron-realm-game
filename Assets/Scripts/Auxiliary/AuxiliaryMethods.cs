@@ -10,7 +10,7 @@ public class AuxiliaryMethods
         float NewRange = (NewMax - NewMin);
         float NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin;
 
-        return (NewValue);
+        return Mathf.Clamp(NewValue, NewMin, NewMax);
     }
 
     public static Direction ConvertDirection(Direction temp)

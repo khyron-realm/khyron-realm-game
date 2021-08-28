@@ -1,21 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RobotDeployActions;
 
 public class RobotsHandler : MonoBehaviour
 {
     // Scriptable object with data about the robots
     [SerializeField]
+    [Header("Robots that will be deployed in the mine")]
     private List<Robot> _robots;
 
     // Robot prefab [template]
     [SerializeField]
+    [Header("Prefab of the robot")]
     private GameObject _robotPrefab;
 
     [SerializeField]
+    [Header("Initial Deploy position of robots after they are instanced")]
     private Vector2 _position;
 
     [SerializeField]
+    [Header("Waypoints Sprites")]
     private List<Sprite> _wayPoints;
 
     public static List<Sprite> WayPoints;

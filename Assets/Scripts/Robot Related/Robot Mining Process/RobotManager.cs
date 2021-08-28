@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RobotActions;
+using RobotActions.CommandBlock;
+
 
 /// <summary>
 /// 
@@ -71,7 +74,7 @@ public class RobotManager : MonoBehaviour
     private SpriteRenderer _commandBlockSprite;
 
     // Components that implemnents the interfaces attached to the gameObject
-    private PreviewCommands _handleTouch;
+    private IPreviewCommand<Vector3> _handleTouch;
     private IExecuteCommand<List<Vector3>> _executeCommand;
     private IDeleteCommand<List<Vector3>> _deleteCommand;
 
@@ -158,7 +161,7 @@ public class RobotManager : MonoBehaviour
 
     private void GetCommandsScripts()
     {
-        _handleTouch = GetComponent<PreviewCommands>();
+        _handleTouch = GetComponent<IPreviewCommand<Vector3>>();
         _executeCommand = GetComponent<IExecuteCommand<List<Vector3>>>();
         _deleteCommand = GetComponent<IDeleteCommand<List<Vector3>>>();
 
