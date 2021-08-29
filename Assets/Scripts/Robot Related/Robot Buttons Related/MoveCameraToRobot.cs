@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RobotDeployActions
+namespace RobotButtonInteractions
 {
     public class MoveCameraToRobot : MonoBehaviour
     {

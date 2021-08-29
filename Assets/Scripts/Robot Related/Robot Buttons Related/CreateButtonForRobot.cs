@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RobotDeployActions
+namespace RobotButtonInteractions
 {
     public class CreateButtonForRobot : MonoBehaviour
     {
@@ -33,6 +33,7 @@ namespace RobotDeployActions
             newButton.GetComponent<DeployRobot>().Robot = robot;
             newButton.GetComponent<ManagePreviewOfPath>().Robot = robot;
             newButton.GetComponent<MoveCameraToRobot>().Robot = robot;
+            newButton.GetComponent<RobotState>().Robot = robot;
 
             newButton.transform.SetParent(canvas.transform, false);
 

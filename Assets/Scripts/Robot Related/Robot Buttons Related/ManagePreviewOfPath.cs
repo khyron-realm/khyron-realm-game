@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// 
 /// </summary>
 
-namespace RobotDeployActions
+namespace RobotButtonInteractions
 {
     public class ManagePreviewOfPath : MonoBehaviour
     {

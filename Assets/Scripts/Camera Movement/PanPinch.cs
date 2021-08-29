@@ -48,6 +48,7 @@ namespace CameraActions
         private float resolutionRatio;
 
         // Raised when the orthographic size of the camera is changed
+        // Used by other cameras (Children of main camera) to adjust their orthographic size
         public static event Action OnChangingOrto;
 
         // If orto is > than maxOrto, activiate the minimap view
@@ -95,7 +96,7 @@ namespace CameraActions
 
                 CheckIfMinimapIsActivated(ref touchZero, ref touchOne);
 
-                if (_minimapActivated == false)
+                if (_minimapActivated == false && Camera.main.orthographicSize <= orthoMax)
                 {
                     PanningFunction((touchZero.deltaPosition + touchOne.deltaPosition) / 2);
 
@@ -137,6 +138,7 @@ namespace CameraActions
 
         private void PanningFunction(Vector2 touchDeltaPosition)
         {
+            
             Vector3 screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 1f);
             Vector3 screenTouch = screenCenter + new Vector3(touchDeltaPosition.x, touchDeltaPosition.y, 0f);
 
@@ -152,6 +154,7 @@ namespace CameraActions
 
             transform.position = new Vector3(x, y, -10f);
         }
+
 
         private void SetTouchingRobot()
         {

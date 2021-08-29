@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 // Manage all buttons of all robots
-
-namespace RobotDeployActions
+namespace RobotButtonInteractions
 {
     public class ManageButtonsTouched : MonoBehaviour
     {
-        public static void DisableOtherButtons(GameObject selecteButton)
+        public static void DeselectOtherButtons(GameObject selecteButton)
         {
             foreach (GameObject item in CreateButtonForRobot.buttons)
             {
@@ -22,7 +23,7 @@ namespace RobotDeployActions
         }
 
 
-        public static void DisableAllButtons()
+        public static void DeselectAllButtons()
         {
             foreach (GameObject item in CreateButtonForRobot.buttons)
             {
@@ -40,6 +41,22 @@ namespace RobotDeployActions
                 if (selecteButton != item)
                 {
                     item.GetComponent<MoveCameraToRobot>().StopMoveCamera();
+                }
+            }
+        }
+
+
+        public static void DisableButtons(bool active)
+        {
+            foreach (GameObject item in CreateButtonForRobot.buttons)
+            {
+                if(active)
+                {
+                    item.GetComponent<Button>().enabled = true;
+                }
+                else
+                {
+                    item.GetComponent<Button>().enabled = false;
                 }
             }
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RobotDeployActions
+namespace RobotButtonInteractions
 {
     public class SelectedButton : MonoBehaviour
     {
@@ -19,7 +19,7 @@ namespace RobotDeployActions
         private void SelectRobot()
         {
             transform.localScale = new Vector3(1.2f, 1.2f, 1);
-            ManageButtonsTouched.DisableOtherButtons(gameObject);
+            ManageButtonsTouched.DeselectOtherButtons(gameObject);
         }
 
         // Scale down button

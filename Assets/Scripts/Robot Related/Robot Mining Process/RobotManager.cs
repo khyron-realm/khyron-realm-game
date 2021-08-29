@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -81,6 +82,8 @@ public class RobotManager : MonoBehaviour
     private IMining<Vector3> _mine;
     private IMove _move;
 
+    public event Action OnCommandGiven;
+
     private void Awake()
     {
         _allTiles = new List<List<Vector3>>();
@@ -113,6 +116,8 @@ public class RobotManager : MonoBehaviour
     {
         if (MaximumNumberOfCommands() && _handleTouch.TilesPositions.Count > 0)
         {
+            OnCommandGiven?.Invoke();
+
             _directions.Add(_handleTouch.Direction);
             _directionSaved = AuxiliaryMethods.ConvertDirection(_handleTouch.Direction);
 
