@@ -18,7 +18,7 @@ namespace RobotActions
             float temp = 0f;
             while (temp < 1f)
             {
-                temp += Time.deltaTime;
+                temp += Time.deltaTime * 2;
                 OnMoving?.Invoke();
                 if (smoothMovement)
                 {

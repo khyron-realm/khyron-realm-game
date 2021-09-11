@@ -18,7 +18,7 @@ namespace RobotButtonInteractions
         // Scale up button and deselect other buttons
         private void SelectRobot()
         {
-            transform.localScale = new Vector3(1.2f, 1.2f, 1);
+            transform.localScale = new Vector3(1.1f, 1.1f, 1);
             ManageButtonsTouched.DeselectOtherButtons(gameObject);
         }
 

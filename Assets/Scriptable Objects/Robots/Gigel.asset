@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b0e4fce530eaa4dab92fab5796a516, type: 3}
   m_Name: Gigel
   m_EditorClassIdentifier: 
-  movementSpeed: 3
-  fieldOfVision: 3
-  damagePerSecond: 600
-  actionNumber: 3
-  actionLength: 5
+  movementSpeed: 30
+  fieldOfVision: 6
+  damagePerSecond: 3600
+  actionNumber: 5
+  actionLength: 10

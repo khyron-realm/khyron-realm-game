@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using TilesData;
 
 
@@ -14,6 +15,15 @@ namespace RobotActions.Vision
 
         private int _vision;
 
+        [SerializeField]
+        private int _visibleLayer;
+
+        [SerializeField]
+        private int _hiddenLayer;
+
+        [SerializeField]
+        private string _enemyTag;
+
         private void Awake()
         {
             _vision = GetComponent<RobotManager>().robot.fieldOfVision;
@@ -21,6 +31,7 @@ namespace RobotActions.Vision
             _moveComponent = GetComponent<IMove>();
             _moveComponent.OnMoving += Discover;
         }
+
 
         private void Discover()
         {
@@ -37,7 +48,8 @@ namespace RobotActions.Vision
             }
         }
 
-        private void VisionFiled(int length, Vector3Int one, Vector3Int two)
+
+        private void VisionField(int length, Vector3Int one, Vector3Int two)
         {
             for (int i = 0; i < length; i++)
             {
@@ -48,12 +60,32 @@ namespace RobotActions.Vision
             }
         }
 
+
         private void CreateCircleVision()
         {
-            VisionFiled(_vision, Vector3Int.up, Vector3Int.left);
-            VisionFiled(_vision, Vector3Int.up, Vector3Int.right);
-            VisionFiled(_vision, Vector3Int.down, Vector3Int.left);
-            VisionFiled(_vision, Vector3Int.down, Vector3Int.right);
+            VisionField(_vision, Vector3Int.up, Vector3Int.left);
+            VisionField(_vision, Vector3Int.up, Vector3Int.right);
+            VisionField(_vision, Vector3Int.down, Vector3Int.left);
+            VisionField(_vision, Vector3Int.down, Vector3Int.right);
         }
+
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if(collision.tag == _enemyTag)
+            {
+                collision.gameObject.layer = _visibleLayer;
+            } 
+        }
+
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.tag == _enemyTag)
+            {
+                collision.gameObject.layer = _hiddenLayer;
+
+            }
+        }   
     }
 }

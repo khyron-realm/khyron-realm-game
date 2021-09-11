@@ -865,3 +865,15 @@ MonoBehaviour:
     BackgroundTexture: {fileID: 0}
     IsBackgroundRecursive: 0
     IsHidden: 0
+  - Type: 1
+    Key: Assets/Scriptable Objects/Mine
+    Ordinal: 71
+    Priority: 0
+    IconType: 1
+    SmallIcon: {fileID: 2800000, guid: 465c913451623734c8439cb9854f4825, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 465c913451623734c8439cb9854f4825, type: 3}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
