@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Mine Pattern", menuName = "Mine Pattern")]
 public class MinePatterns : ScriptableObject
 {
-    public bool[,] values;
+    public bool[] values;
 }

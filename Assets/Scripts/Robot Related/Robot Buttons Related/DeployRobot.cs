@@ -13,7 +13,7 @@ using TilesData;
 /// 
 /// </summary>
 
-namespace RobotDeployActions
+namespace RobotButtonInteractions
 {
     public class DeployRobot : MonoBehaviour
     {
@@ -22,6 +22,7 @@ namespace RobotDeployActions
 
         // Button asociated with the robot
         private Button _button;
+        private bool _hasMoved = false;
 
         public GameObject Robot
         {
@@ -31,6 +32,7 @@ namespace RobotDeployActions
             }
         }
 
+        // Called when robot is deployed in the mine
         public event Action OnDeployed;
 
         private void Awake()
@@ -39,15 +41,18 @@ namespace RobotDeployActions
             _button.onClick.AddListener(StartDeployOperation);
         }
 
+
         public void DeselectRobot()
         {
             StopCoroutine("Deploy");
         }
 
+
         private void StartDeployOperation()
         {
             StartCoroutine("Deploy");
         }
+
 
         private IEnumerator Deploy()
         {
@@ -58,15 +63,27 @@ namespace RobotDeployActions
                 Vector3Int temp = UserTouch.TouchPositionInt(0, UserTouch.touchArea);
                 Vector3Int nullVector = new Vector3Int(-99999, -99999, -99999);
 
-                if (temp != nullVector && UserTouch.TouchPhaseEnded(0))
+                if(UserTouch.TouchPhaseMoved(0))
+                {
+                    _hasMoved = true;
+                }
+
+                // if finger have moved, dont deploy the robot cause user is searching for an area to deploy
+                if (UserTouch.TouchPhaseEnded(0) && _hasMoved == true)
+                {
+                    _hasMoved = false;
+                    temp = nullVector;
+                }
+
+                if (temp != nullVector && UserTouch.TouchPhaseEnded(0) && _hasMoved == false)
                 {
                     DeployRobotInTheMap(temp);
-
                     check = false;
                 }
                 yield return null;
             }
         }
+
 
         private void DeployRobotInTheMap(Vector3Int temp)
         {

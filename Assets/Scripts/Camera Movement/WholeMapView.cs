@@ -3,11 +3,11 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using RobotDeployActions;
+using RobotButtonInteractions;
 
 namespace CameraActions
 {
-    public class WholeMapPreview : MonoBehaviour
+    public class WholeMapView : MonoBehaviour
     {
         [SerializeField]
         [Header("List of cameras that see the minimap")]
@@ -48,10 +48,12 @@ namespace CameraActions
         {
             if (temp)
             {
+                ManageButtonsTouched.DisableButtons(false);
                 StartCoroutine("ActivateMinimap");
             }
             else
             {
+                ManageButtonsTouched.DisableButtons(true);
                 StartCoroutine("DezactivateMinimap");
             }
         }
@@ -78,12 +80,14 @@ namespace CameraActions
             _map.SetActive(false);
             _miniMap.SetActive(true);
 
-            ManageButtonsTouched.DisableAllButtons();
+            ManageButtonsTouched.DeselectAllButtons();
         }
 
 
         private IEnumerator DezactivateMinimap()
         {
+            GetComponent<PanPinch>().enabled = false;
+
             float temp = 0f;
             while (temp < 1f)
             {
@@ -97,6 +101,8 @@ namespace CameraActions
 
                 yield return null;
             }
+
+            GetComponent<PanPinch>().enabled = true;
 
             _map.SetActive(true);
             _miniMap.SetActive(false);

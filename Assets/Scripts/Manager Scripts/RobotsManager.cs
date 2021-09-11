@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RobotDeployActions;
+using RobotButtonInteractions;
 
 public class RobotsManager : MonoBehaviour
 {
@@ -47,6 +47,9 @@ public class RobotsManager : MonoBehaviour
                 // Instatiate prefab
                 GameObject tempRobot = Instantiate(_robotPrefab, _position, Quaternion.identity);
 
+                // Add custom property to every robot
+                tempRobot.GetComponent<RobotManager>().robot = item;
+
                 robots.Add(tempRobot);
 
                 // Set prefab to inactive until user deploy the robot
@@ -54,10 +57,6 @@ public class RobotsManager : MonoBehaviour
 
                 // Create button for robots
                 CreateButtonForRobot.CreateButton(tempRobot);
-
-                // Add custom property to every robot
-                tempRobot.GetComponent<RobotManager>().robot = item;
-  
             }
         }
     }

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 9198045388763162928}
   - component: {fileID: -3342378675817156915}
   - component: {fileID: 7110614854247399130}
+  - component: {fileID: 4381776544837962158}
   m_Layer: 5
   m_Name: ButtonRobots
   m_TagString: Untagged
@@ -185,9 +186,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e601f0b764bf3d240a869ea72fb4e9a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameras:
-  - {fileID: 0}
-  - {fileID: 0}
+--- !u!114 &4381776544837962158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6310109669982823486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 143e662d1c7cde14fb8c7d40e609420d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateNotDeployed: {fileID: 21300000, guid: 366337fa2c22ff94f867f219c14f5aea, type: 3}
+  _stateIdle: {fileID: 21300000, guid: 6c5126f8a3b14b040bc6315d1eac23cb, type: 3}
+  _stateMining: {fileID: 21300000, guid: afad732bd5f8a784cbe72c932670b15f, type: 3}
 --- !u!1 &8568383389053336441
 GameObject:
   m_ObjectHideFlags: 0
