@@ -90,6 +90,8 @@ public class ProgressBar : MonoBehaviour
         _text.text = _currentValue.ToString();
     }
 
+
+    // Management of the text
     public void MakeTextLarge(int value)
     {
         _text.fontSize += value;

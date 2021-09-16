@@ -2,61 +2,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public struct RobotsPlayerProgress
+{
+    public bool availableRobot;
+    public int robotLevel;
+}
+
+
 public class RobotsManager : MonoBehaviour
 {
     // Scriptable object with data about the robots
     [SerializeField]
-    [Header("Robots that will be deployed in the mine")]
+    [Header("All robots that exist in the game")]
     private List<Robot> _robots;
 
-    // Robot prefab [template]
-    [SerializeField]
-    [Header("Prefab of the robot")]
-    private GameObject _robotPrefab;
 
-    [SerializeField]
-    [Header("Initial Deploy position of robots after they are instanced")]
-    private Vector2 _position;
+    // List of robots
+    public static List<Robot> robots;
 
-    [SerializeField]
-    [Header("Waypoints Sprites")]
-    private List<Sprite> _wayPoints;
 
-    public static List<Sprite> WayPoints;
+    // List of robots with their stats
+    public static Dictionary<string, RobotsPlayerProgress> robotsData;
 
-    public static List<GameObject> robots;
 
     private void Awake()
     {
-        WayPoints = _wayPoints;
-        robots = new List<GameObject>();
+        robots = new List<Robot>();
+        robotsData = new Dictionary<string, RobotsPlayerProgress>();
+
+        foreach (Robot item in _robots)
+        {
+            robots.Add(item);
+        }
+
+        CreateDictionary();
     }
 
-    private void Start()
+    private void CreateDictionary()
     {
-        if (_robotPrefab == null || _wayPoints == null)
+        foreach (Robot item in _robots)
         {
-            Debug.LogWarning("Robot prefab or SO, not added to the editor!! -- RobotsHandler/30");
-        }
-        else
-        {
-            // Pre Instatiate all available robots
-            foreach (Robot item in _robots)
+            RobotsPlayerProgress temp;
+            temp.availableRobot = false;
+            temp.robotLevel = 0;
+
+            try
             {
-                // Instatiate prefab
-                GameObject tempRobot = Instantiate(_robotPrefab, _position, Quaternion.identity);
-
-                // Add custom property to every robot
-                // tempRobot.GetComponent<RobotManager>().robot = item;
-
-                robots.Add(tempRobot);
-
-                // Set prefab to inactive until user deploy the robot
-                tempRobot.SetActive(false);
-
-                // Create button for robots
-                // CreateButtonForRobot.CreateButton(tempRobot);
+                robotsData.Add(item.name, temp);
             }
+            catch
+            {
+                print("Duplicate of the robot");
+            }
+            
         }
+    }
+
+    public void UnlockRobot(string name)
+    {
+        RobotsPlayerProgress temp;
+        temp.availableRobot = true;
+        temp.robotLevel = robotsData[name].robotLevel;
+
+        robotsData[name] = temp;
+    }
+
+    public void UpgradeRobot(string name)
+    {
+        RobotsPlayerProgress temp;
+        temp.availableRobot = robotsData[name].availableRobot;
+        temp.robotLevel = robotsData[name].robotLevel + 1;
+
+        robotsData[name] = temp;
     }
 }

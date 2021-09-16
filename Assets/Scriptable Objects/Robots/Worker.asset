@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameOfTheRobot: Worker
   description: Works like hell for nothing
-  buildTime: 30
-  icon: {fileID: 21300000, guid: 8ba5881a39e4d844a8395426023f3cbc, type: 3}
+  buildTime: 8
+  icon: {fileID: 21300000, guid: 3103c716bb6dc3a44abb0fae3e03fee5, type: 3}
   robotLevel:
   - {fileID: 11400000, guid: 9d8f00ba8ff463040a5b5691012fd52e, type: 2}

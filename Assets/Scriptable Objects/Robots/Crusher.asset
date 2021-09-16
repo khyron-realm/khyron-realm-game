@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameOfTheRobot: Crusher
   description: Beat the ass out of you
-  buildTime: 180
-  icon: {fileID: 0}
+  buildTime: 10
+  icon: {fileID: 21300000, guid: c11f32a52dad1754ead7a7d156f82376, type: 3}
   robotLevel: []
