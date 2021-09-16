@@ -12,28 +12,4 @@ public class AuxiliaryMethods
 
         return Mathf.Clamp(NewValue, NewMin, NewMax);
     }
-
-    public static Direction ConvertDirection(Direction temp)
-    {
-        if (temp == Direction.left)
-        {
-            return Direction.right;
-        }
-        else if (temp == Direction.right)
-        {
-            return Direction.left;
-        }
-        else if (temp == Direction.up)
-        {
-            return Direction.down;
-        }
-        else if (temp == Direction.down)
-        {
-            return Direction.up;
-        }
-        else
-        {
-            return Direction.none;
-        }
-    }
 }

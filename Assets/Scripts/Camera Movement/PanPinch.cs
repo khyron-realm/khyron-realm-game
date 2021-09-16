@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RobotActions.CommandBlock;
 
 
 namespace CameraActions
@@ -47,7 +46,6 @@ namespace CameraActions
 
         private float resolutionRatio;
 
-        private bool _inRect = false;
 
         // Raised when the orthographic size of the camera is changed
         // Used by other cameras (Children of main camera) to adjust their orthographic size
@@ -58,11 +56,9 @@ namespace CameraActions
 
         private void Awake()
         {
-            CommandBlockHandler.OnGivingCommand += SetTouchingRobot;
             resolutionRatio = Screen.width / Screen.height;
             _lineCamera = _camera.GetComponent<Camera>();
         }
-
 
         private void Update()
         {
@@ -77,7 +73,6 @@ namespace CameraActions
             }
         }
 
-
         private void Panning()
         {
             // One finger on the screen [Pan]
@@ -90,7 +85,6 @@ namespace CameraActions
                 }
             }
         }
-
 
         private void Pinching()
         {
@@ -126,7 +120,6 @@ namespace CameraActions
             }
         }
 
-
         // Check if user pinch fast when ortho size is at the maxium value
         private void CheckIfMinimapIsActivated(ref Touch touchZero, ref Touch touchOne)
         {
@@ -139,7 +132,6 @@ namespace CameraActions
                 }
             }
         }
-
 
         private void PanningFunction(Vector2 touchDeltaPosition)
         {

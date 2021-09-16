@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
+    private int _frameRate;
+
     void Start()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = _frameRate;
     }
 }

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using RobotButtonInteractions;
 
 namespace CameraActions
 {
@@ -47,13 +46,11 @@ namespace CameraActions
         private void MinimapActivation(bool temp)
         {
             if (temp)
-            {
-                ManageButtonsTouched.DisableButtons(false);
+            { 
                 StartCoroutine("ActivateMinimap");
             }
             else
             {
-                ManageButtonsTouched.DisableButtons(true);
                 StartCoroutine("DezactivateMinimap");
             }
         }
@@ -80,7 +77,6 @@ namespace CameraActions
             _map.SetActive(false);
             _miniMap.SetActive(true);
 
-            ManageButtonsTouched.DeselectAllButtons();
         }
 
 
