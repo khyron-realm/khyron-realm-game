@@ -107,7 +107,7 @@ namespace CameraActions
 
                     float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
-                    float zoomSpeed = AuxiliaryMethods.Scale(orthoMin, orthoMax, 0.0052f, 0.0162f, Camera.main.orthographicSize);
+                    float zoomSpeed = AuxiliaryMethods.AuxiliaryMethods.Scale(orthoMin, orthoMax, 0.0052f, 0.0162f, Camera.main.orthographicSize);
 
                     Camera.main.orthographicSize += deltaMagnitudeDiff * zoomSpeed;
                     _lineCamera.orthographicSize += deltaMagnitudeDiff * zoomSpeed;

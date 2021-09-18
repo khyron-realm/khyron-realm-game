@@ -3,52 +3,81 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField]
-    private Text _timeText;
+    [SerializeField] private Text _timeText;
 
-    [SerializeField]
-    private float _timeRemaining = 10;
+    private int _totalTime = 0;
+    private WaitForSeconds _standardTime;
 
-    private bool _timerIsRunning = false;
-
-
-    private void Start()
+    public int totalTime
     {
-        _timerIsRunning = true;
-    }
-
-    private void Update()
-    {
-        if (_timerIsRunning)
+        get
         {
-            if (_timeRemaining > 0)
+            return _totalTime;
+        }
+        set
+        {
+            if(_totalTime > -1)
             {
-                _timeRemaining -= Time.deltaTime;
-                DisplayTime(_timeRemaining);
-            }
-            else
-            {
-                Invoke("ReloadAll", 2.0f);
-            }
+                _totalTime = value;
+            } 
         }
     }
 
-    private void DisplayTime(float timeToDisplay)
+    private void Awake()
     {
-        timeToDisplay += 1;
-
-        float minutes = Mathf.FloorToInt(timeToDisplay / 60);
-        float seconds = Mathf.FloorToInt(timeToDisplay % 60);
-
-        _timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        _standardTime = new WaitForSeconds(1f);
     }
 
-    private void ReloadAll()
+
+    // Time Operations
+    public void AddTime(int time)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        _totalTime += time;
+        DisplayTime();
+    }
+    public void DecreaseTime(int time)
+    {
+        _totalTime -= time;
+        DisplayTime();
+    }
+
+
+    // Show Time
+    private void DisplayTime()
+    {
+        float hours = Mathf.FloorToInt(_totalTime / 3600);
+        float minutes = Mathf.FloorToInt((_totalTime % 3600) / 60);
+        float seconds = Mathf.FloorToInt(_totalTime % 60);
+
+        if(hours < 1)
+        {
+            if(minutes < 1)
+            {
+                _timeText.text = string.Format("{0}s", seconds);
+            }  
+            else
+            {
+                _timeText.text = string.Format("{0}m {1}s", minutes, seconds);
+            }
+        }
+        else
+        {
+            _timeText.text = string.Format("{0}h {1}m {2}s", hours, minutes, seconds);
+        }        
+    }
+    public void TimeTextState(bool temp)
+    {
+        _timeText.gameObject.SetActive(temp);
+    }
+
+
+    // Timer 
+    public IEnumerator ActivateTimer()
+    {
+        DecreaseTime(1);
+        yield return _standardTime;
     }
 }

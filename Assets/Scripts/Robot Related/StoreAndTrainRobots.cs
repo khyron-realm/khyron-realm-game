@@ -9,9 +9,9 @@ public class StoreAndTrainRobots : MonoBehaviour
 {
     [SerializeField] private int _robotsLimit;
     [SerializeField] private RobotsManagerUI _managerUI;
-
+    [SerializeField] private Timer _time;
     [SerializeField] private GameObject _canvasForRobotsInTrain;
-    [SerializeField] private Text _timeText;
+
 
     // Gameobjects that represent the robots in training from the right side
     private List<GameObject> _robotsInBuildingIcons;
@@ -20,18 +20,17 @@ public class StoreAndTrainRobots : MonoBehaviour
     public static List<Robot> robotsInTraining;
     public static List<Robot> robotsTrained;
 
-    // Total time of building
-    public static int totalTime;
 
-    // Check if coroutine started once
-    private bool _once = false;
+    // icon elements
     private ProgressBar _timeBar;
     private Text _timeBarText;
 
+
+    private float _tempTime = 0;
+    private bool _once = false;
+
     private void Awake()
     {
-        totalTime = 0;
-
         robotsInTraining = new List<Robot>();
         _robotsInBuildingIcons = new List<GameObject>();
 
@@ -47,8 +46,7 @@ public class StoreAndTrainRobots : MonoBehaviour
         if (robotsTrained.Count + robotsInTraining.Count < _robotsLimit)
         {
             robotsInTraining.Add(robot);
-
-            TimeIncrement(robot.buildTime);
+            _time.AddTime(robot.buildTime);
 
             CreateIconInTheRightForRobotInBuilding(robot);
 
@@ -75,7 +73,7 @@ public class StoreAndTrainRobots : MonoBehaviour
             _robotsInBuildingIcons.Remove(robotIcon);
         }
      
-        RecalculateTime(_timeText);
+        RecalculateTime();
         DezactivateIcon(robotIcon);
 
         if (_robotsInBuildingIcons.Count > 0)
@@ -87,7 +85,10 @@ public class StoreAndTrainRobots : MonoBehaviour
         {
             StopCoroutine("BuildRobots");
             _once = false;
-            totalTime = 0;
+            _time.TimeTextState(false);
+
+            // Reset Time
+            _time.totalTime = 0;
         }
     }
 
@@ -127,27 +128,16 @@ public class StoreAndTrainRobots : MonoBehaviour
     }
 
 
-    // Time remained for building robots
-    private static void RecalculateTime(Text _timeText)
+    private void RecalculateTime()
     {
-        totalTime = 0;
+        _time.totalTime = 0;
 
         foreach (Robot item in robotsInTraining)
         {
-            totalTime += item.buildTime;
+            _time.AddTime(item.buildTime);
         }
 
-        _timeText.text = totalTime.ToString();
-    }
-    private void TimeIncrement(int time)
-    {
-        totalTime += time;
-        _timeText.text = totalTime.ToString();
-    }
-    private void TimeDecrement(int time)
-    {
-        totalTime -= time;
-        _timeText.text = totalTime.ToString();
+        _time.DecreaseTime((int)_tempTime);
     }
 
 
@@ -156,6 +146,7 @@ public class StoreAndTrainRobots : MonoBehaviour
     {
         if (_once == false)
         {
+            _time.TimeTextState(true);
             StartCoroutine("BuildRobots");
             _once = true;
         }
@@ -174,17 +165,16 @@ public class StoreAndTrainRobots : MonoBehaviour
                 _timeBar.MaxValue = robotsInTraining[i].buildTime;
             }
 
-            float temp = 0;
+            _tempTime = 0;
 
-            while (robotsInTraining[i] != null && temp < robotsInTraining[i].buildTime)
+            while (robotsInTraining[i] != null && _tempTime < robotsInTraining[i].buildTime)
             {
-                temp += 1;
-                _timeBar.CurrentValue = (int)temp;
-                _timeBarText.text = (robotsInTraining[i].buildTime - temp).ToString();
+                _tempTime += 1;
 
-                TimeDecrement(1);
+                _timeBar.CurrentValue = (int)_tempTime;
+                _timeBarText.text = (robotsInTraining[i].buildTime - _tempTime).ToString();
 
-                yield return new WaitForSeconds(1f);
+                yield return _time.ActivateTimer();
             }
 
             robotsTrained.Add(robotsInTraining[i]);
@@ -197,5 +187,6 @@ public class StoreAndTrainRobots : MonoBehaviour
         }
 
         _once = false;
+        _time.TimeTextState(false);
     }
 }

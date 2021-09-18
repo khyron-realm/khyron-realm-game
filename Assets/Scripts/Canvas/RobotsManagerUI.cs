@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Managers.Robots;
 
 
 // Takes care of creating the buttons and assigning Robots to them
@@ -14,12 +15,7 @@ public class RobotsManagerUI : MonoBehaviour
     [Header("Button Prefab that will be instantiated")]
     [SerializeField] private Button _buttonToInstantiate;
 
-    public delegate void ListenerOfTheButton();
-
-    public ListenerOfTheButton listener;
-
     private List<Button> _buttons;
-
     public event Action<Robot> OnButtonPressed;
 
 

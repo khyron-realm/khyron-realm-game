@@ -9,7 +9,7 @@ public class ObjectPoolingTrainingRobots : MonoBehaviour
     [SerializeField] private GameObject objectToPool;
     [SerializeField] private int amountToPool;
 
-    [SerializeField] private GameObject _canvasToPooL;
+    [SerializeField] private GameObject _canvasToPool;
 
     public static List<GameObject> pooledObjects; 
     
@@ -25,7 +25,7 @@ public class ObjectPoolingTrainingRobots : MonoBehaviour
         GameObject tmp; for (int i = 0; i < amountToPool; i++)
         {
             tmp = Instantiate(objectToPool);
-            tmp.transform.SetParent(_canvasToPooL.transform, false);
+            tmp.transform.SetParent(_canvasToPool.transform, false);
             tmp.SetActive(false);
             pooledObjects.Add(tmp);
         }
