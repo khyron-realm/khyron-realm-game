@@ -13,7 +13,7 @@ namespace Manager.Store
         public static event Action OnToMuchResources;
 
         // Add resources
-        private int Add(string resource, int amount)
+        private static int Add(string resource, int amount)
         {
             int level = WhatLevelToUpdate(resource);
 
@@ -29,7 +29,7 @@ namespace Manager.Store
 
             return level;
         }
-        public void AddResource(string resource, int amount)
+        public static void AddResource(string resource, int amount)
         {
             switch (resource)
             {
@@ -57,7 +57,7 @@ namespace Manager.Store
 
 
         // Remove resources 
-        private int Remove(string resource, int amount)
+        private static int Remove(string resource, int amount)
         {
             int level = WhatLevelToUpdate(resource);
 
@@ -74,7 +74,7 @@ namespace Manager.Store
             OnResourcesModified?.Invoke(resource);
             return level;
         }
-        public void RemoveResource(string resource, int amount)
+        public static void RemoveResource(string resource, int amount)
         {
             switch (resource)
             {
@@ -102,7 +102,7 @@ namespace Manager.Store
 
 
         // Aux methods
-        private bool ValidateOperation(int resource, int amount, bool type)
+        private static bool ValidateOperation(int resource, int amount, bool type)
         {
             if (!type)
             {
@@ -127,7 +127,7 @@ namespace Manager.Store
                 }
             }
         }
-        private int WhatLevelToUpdate(string resource)
+        private static int WhatLevelToUpdate(string resource)
         {
             switch (resource)
             {
@@ -145,9 +145,57 @@ namespace Manager.Store
         }
 
 
-        public void Adagsgfd()
+
+        public static bool DoAllResourcesPay(int energy, int lithium, int titanium, int silicon, bool temp)
         {
-            AddResource("energy", 50);
+
+            return true;
+        }
+
+
+        private static void EnergyOperation(int amount, bool temp)
+        {
+            if(temp)
+            {
+                StoreDataResources.energyLevel += amount;
+            }
+            else
+            {
+                StoreDataResources.energyLevel -= amount;
+            }
+        }
+        private static void LithiumOperation(int amount, bool temp)
+        {
+            if (temp)
+            {
+                StoreDataResources.lithiumLevel += amount;
+            }
+            else
+            {
+                StoreDataResources.lithiumLevel -= amount;
+            }
+        }
+        private static void TitaniumOperation(int amount, bool temp)
+        {
+            if (temp)
+            {
+                StoreDataResources.titaniumLevel += amount;
+            }
+            else
+            {
+                StoreDataResources.titaniumLevel -= amount;
+            }
+        }
+        private static void SiliconOperation(int amount, bool temp)
+        {
+            if (temp)
+            {
+                StoreDataResources.silliconLevel += amount;
+            }
+            else
+            {
+                StoreDataResources.silliconLevel -= amount;
+            }
         }
     }
 }

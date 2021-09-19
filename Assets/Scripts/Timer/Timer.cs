@@ -23,6 +23,10 @@ public class Timer : MonoBehaviour
             {
                 _totalTime = value;
             } 
+            else
+            {
+                _totalTime = 0;
+            }
         }
     }
 
@@ -36,6 +40,11 @@ public class Timer : MonoBehaviour
     public void AddTime(int time)
     {
         _totalTime += time;
+        DisplayTime();
+    }
+    public void AddTime(Robot robot)
+    {
+        _totalTime += robot.buildTime;
         DisplayTime();
     }
     public void DecreaseTime(int time)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Managers.Robots
+namespace Manager.Robots
 {
     public class RobotsLevelingUp:MonoBehaviour
     {

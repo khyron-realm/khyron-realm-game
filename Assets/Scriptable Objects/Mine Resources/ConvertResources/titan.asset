@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameOfResource: titan
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 0289475b76ea73c42a55233ca7993240, type: 3}
   block: {fileID: 0}

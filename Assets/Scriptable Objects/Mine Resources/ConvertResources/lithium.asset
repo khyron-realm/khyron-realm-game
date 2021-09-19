@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameOfResource: lithium
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: c26cbd30ab928f7489e0f79fab450ae3, type: 3}
   block: {fileID: 0}

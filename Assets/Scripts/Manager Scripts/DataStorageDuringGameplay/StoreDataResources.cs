@@ -24,10 +24,10 @@ namespace Manager.Store
 
         private static void InitValuesOfStoredData()
         {
-            energyLevel = 0;
-            lithiumLevel = 0;
-            titaniumLevel = 0;
-            silliconLevel = 0;
+            energyLevel = 400;
+            lithiumLevel = 400;
+            titaniumLevel = 400;
+            silliconLevel = 400;
         }  
     }
 }

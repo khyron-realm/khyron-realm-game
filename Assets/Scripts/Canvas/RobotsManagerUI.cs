@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Managers.Robots;
+using Manager.Robots;
 
 
 // Takes care of creating the buttons and assigning Robots to them

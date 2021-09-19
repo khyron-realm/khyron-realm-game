@@ -16,4 +16,5 @@ MonoBehaviour:
   description: Kabuum
   buildTime: 10
   icon: {fileID: 21300000, guid: 3a188256484773f499134ec7171cba9f, type: 3}
-  robotLevel: []
+  robotLevel:
+  - {fileID: 11400000, guid: 9d8f00ba8ff463040a5b5691012fd52e, type: 2}

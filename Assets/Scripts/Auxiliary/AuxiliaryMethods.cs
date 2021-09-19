@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Managers.Robots;
+using Manager.Robots;
 
 namespace AuxiliaryMethods
 {

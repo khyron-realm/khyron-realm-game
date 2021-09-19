@@ -4,7 +4,7 @@ using UnityEngine;
 using AuxiliaryMethods;
 
 
-namespace Managers.Robots
+namespace Manager.Robots
 {
     [RequireComponent(typeof(RobotsLevelingUp))]
     [RequireComponent(typeof(RobotsUnlocking))]

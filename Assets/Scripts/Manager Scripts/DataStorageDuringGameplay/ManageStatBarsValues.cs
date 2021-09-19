@@ -24,21 +24,17 @@ namespace Manager.Store
         {
             GiveValuesToStatic();
             InitMaximumLevels();
+            InitCurrentLevels();
 
             xpBar.MaxValue = StoreDataPlayerStats.levelsThresholds.levelsThresholds[0];
+            xpBar.CurrentValue = StoreDataPlayerStats.currentXp;
 
             ManageStatsOperations.OnXpAdded += HandleBarAnimationForXpBar;
             ManageStatsOperations.OnLevelUp += HandleBarAnimationForLevelUp;
             ManageResourcesOperations.OnResourcesModified += HandleBarAnimationForResources;
         }
 
-        private void InitMaximumLevels()
-        {
-            energyBar.MaxValue = StoreDataResources.maximumLevel;
-            lithiumBar.MaxValue = StoreDataResources.maximumLevel;
-            titaniumBar.MaxValue = StoreDataResources.maximumLevel;
-            silliconBar.MaxValue = StoreDataResources.maximumLevel;
-        }
+
         private void GiveValuesToStatic()
         {
             xpBar = _xpBar;
@@ -47,6 +43,21 @@ namespace Manager.Store
             titaniumBar = _titaniumBar;
             silliconBar = _silliconBar;
         }
+        private void InitCurrentLevels()
+        {
+            energyBar.CurrentValue = StoreDataResources.energyLevel;
+            lithiumBar.CurrentValue = StoreDataResources.lithiumLevel;
+            titaniumBar.CurrentValue = StoreDataResources.titaniumLevel;
+            silliconBar.CurrentValue = StoreDataResources.silliconLevel;
+        }
+        private void InitMaximumLevels()
+        {
+            energyBar.MaxValue = StoreDataResources.maximumLevel;
+            lithiumBar.MaxValue = StoreDataResources.maximumLevel;
+            titaniumBar.MaxValue = StoreDataResources.maximumLevel;
+            silliconBar.MaxValue = StoreDataResources.maximumLevel;
+        }
+        
 
 
         private void HandleBarAnimationForResources(string resource)

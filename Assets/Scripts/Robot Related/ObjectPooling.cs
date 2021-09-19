@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPoolingTrainingRobots : MonoBehaviour
+public class ObjectPooling : MonoBehaviour
 {
-    public static ObjectPoolingTrainingRobots SharedInstance;
+    public static ObjectPooling SharedInstance;
 
     [SerializeField] private GameObject objectToPool;
     [SerializeField] private int amountToPool;

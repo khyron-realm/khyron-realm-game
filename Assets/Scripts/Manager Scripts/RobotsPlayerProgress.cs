@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Managers.Robots
+namespace Manager.Robots
 {
     public struct RobotsPlayerProgress
     {
