@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41eeb18ef9dbc9349b4077c8938148b8, type: 3}
   m_Name: Worker-1-Build
   m_EditorClassIdentifier: 
-  energy: 4
-  lithium: 2
-  silicon: 2
-  titanium: 4
+  energy: 40
+  lithium: 20
+  silicon: 20
+  titanium: 40

@@ -74,7 +74,9 @@ namespace Manager.Train
                     _tempTime += 1;
 
                     ManageIcons.timeBar.CurrentValue = (int)_tempTime;
-                    ManageIcons.timeBarText.text = (StoreTrainRobots.robotsInTraining[i].buildTime - _tempTime).ToString();
+                    //ManageIcons.timeBarText.text = (StoreTrainRobots.robotsInTraining[i].buildTime - _tempTime).ToString();
+                    _time.DisplayTime(ManageIcons.timeBarText, (int)(StoreTrainRobots.robotsInTraining[i].buildTime - _tempTime));
+                    
 
                     yield return _time.ActivateTimer();
                 }

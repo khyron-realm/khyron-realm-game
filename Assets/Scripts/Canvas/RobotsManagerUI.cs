@@ -15,6 +15,8 @@ public class RobotsManagerUI : MonoBehaviour
     [Header("Button Prefab that will be instantiated")]
     [SerializeField] private Button _buttonToInstantiate;
 
+    [SerializeField] private bool _hasPriceDisplayed;
+
     private List<Button> _buttons;
     public event Action<Robot> OnButtonPressed;
 
@@ -33,14 +35,22 @@ public class RobotsManagerUI : MonoBehaviour
             Button newButton = Instantiate(_buttonToInstantiate);
             newButton.transform.SetParent(_canvas.transform, false);
             newButton.GetComponent<Image>().sprite = item.icon;
+            
+            if(_hasPriceDisplayed)
+                ShowPrice(item, newButton);
 
             MakeButtonsAvailable(item, newButton);
             AddListenerToButton(item, newButton);
-            
+
             _buttons.Add(newButton);
         }
     }
 
+    private static void ShowPrice(Robot item, Button newButton)
+    {
+        int temp = RobotsManager.robotsData[item.nameOfTheRobot.ToString()].robotLevel;
+        newButton.transform.GetChild(0).GetComponent<Text>().text = item.robotLevel[temp].priceToBuild.energy.ToString();
+    }
 
     private static void MakeButtonsAvailable(Robot item, Button newButton)
     {

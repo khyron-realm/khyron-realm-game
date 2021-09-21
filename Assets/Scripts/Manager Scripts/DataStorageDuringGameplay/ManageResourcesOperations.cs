@@ -13,65 +13,67 @@ namespace Manager.Store
         public static event Action OnToMuchResources;
 
         // Add resources
-        public static void Add(GameResources resource, int amount)
+        public static bool Add(GameResources resource, int amount)
         {
+            
             if (ValidateOperation(resource, amount, true))
             {
                 resource.currentValue += amount;
+                OnResourcesModified?.Invoke(resource.nameOfResource);
+                return true;
             }
             else
             {
                 resource.currentValue = resource.maxValue;
+                OnResourcesModified?.Invoke(resource.nameOfResource);
                 OnToMuchResources?.Invoke();
-            }
-
-            OnResourcesModified?.Invoke(resource.nameOfResource);
+                return false;
+            }       
         }
-        public static void Remove(GameResources resource, int amount)
+        public static bool Remove(GameResources resource, int amount)
         {
+            
             if (ValidateOperation(resource, amount, false))
             {
                 resource.currentValue -= amount;
-            }
-            else
-            {
-                OnNotEnoughResources?.Invoke();
-            }
-
-            OnResourcesModified?.Invoke(resource.nameOfResource);
-        }
-
-
-        public static bool PayAllResources(int energyAmount, int lithiumAmount, int titaniumAmount, int siliconAmount)
-        {
-            bool energy = ValidateOperation(StoreDataResources.energy, energyAmount, false);
-            bool lithium = ValidateOperation(StoreDataResources.lithium, lithiumAmount, false);
-            bool titanium = ValidateOperation(StoreDataResources.titanium, titaniumAmount, false);
-            bool silicon = ValidateOperation(StoreDataResources.silicon, siliconAmount, false);
-
-            if(energy && lithium && titanium && silicon)
-            {
-                Remove(StoreDataResources.energy, energyAmount);
-                Remove(StoreDataResources.lithium, lithiumAmount);
-                Remove(StoreDataResources.titanium, titaniumAmount);
-                Remove(StoreDataResources.silicon, siliconAmount);
+                OnResourcesModified?.Invoke(resource.nameOfResource);
                 return true;
             }
             else
             {
                 OnNotEnoughResources?.Invoke();
+                OnResourcesModified?.Invoke(resource.nameOfResource);
                 return false;
+            }     
+        }
+
+
+        public static void PayResources(int lithiumAmount, int titaniumAmount, int siliconAmount)
+        {
+            bool lithium = ValidateOperation(StoreDataResources.lithium, lithiumAmount, false);
+            bool titanium = ValidateOperation(StoreDataResources.titanium, titaniumAmount, false);
+            bool silicon = ValidateOperation(StoreDataResources.silicon, siliconAmount, false);
+
+            if (lithium && titanium && silicon)
+            {
+                Remove(StoreDataResources.lithium, lithiumAmount);
+                Remove(StoreDataResources.titanium, titaniumAmount);
+                Remove(StoreDataResources.silicon, siliconAmount);
+            }
+            else
+            {
+                OnNotEnoughResources?.Invoke();
             }
         }
-        public static void RefundPayment(int energyAmount, int lithiumAmount, int titaniumAmount, int siliconAmount)
+        public static void RefundPayment(int lithiumAmount, int titaniumAmount, int siliconAmount)
         {
-            Add(StoreDataResources.energy, energyAmount);
             Add(StoreDataResources.lithium, lithiumAmount);
             Add(StoreDataResources.titanium, titaniumAmount);
             Add(StoreDataResources.silicon, siliconAmount);
         }
 
 
+        // PayResources
         private static bool ValidateOperation(GameResources resource, int amount, bool type)
         {
             if (!type)

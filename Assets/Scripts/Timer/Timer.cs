@@ -55,7 +55,7 @@ public class Timer : MonoBehaviour
 
 
     // Show Time
-    private void DisplayTime()
+    public void DisplayTime()
     {
         float hours = Mathf.FloorToInt(_totalTime / 3600);
         float minutes = Mathf.FloorToInt((_totalTime % 3600) / 60);
@@ -76,6 +76,28 @@ public class Timer : MonoBehaviour
         {
             _timeText.text = string.Format("{0}h {1}m {2}s", hours, minutes, seconds);
         }        
+    }
+    public void DisplayTime(Text text, int time)
+    {
+        float hours = Mathf.FloorToInt(time / 3600);
+        float minutes = Mathf.FloorToInt((time % 3600) / 60);
+        float seconds = Mathf.FloorToInt(time % 60);
+
+        if (hours < 1)
+        {
+            if (minutes < 1)
+            {
+                text.text = string.Format("{0}s", seconds);
+            }
+            else
+            {
+                text.text = string.Format("{0}m {1}s", minutes, seconds);
+            }
+        }
+        else
+        {
+            text.text = string.Format("{0}h {1}m {2}s", hours, minutes, seconds);
+        }
     }
     public void TimeTextState(bool temp)
     {
