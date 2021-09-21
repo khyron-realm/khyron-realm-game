@@ -13,100 +13,70 @@ namespace Manager.Store
         public static event Action OnToMuchResources;
 
         // Add resources
-        private static int Add(string resource, int amount)
+        public static void Add(GameResources resource, int amount)
         {
-            int level = WhatLevelToUpdate(resource);
-
-            if (ValidateOperation(level, amount, true))
+            if (ValidateOperation(resource, amount, true))
             {
-                level += amount;
+                resource.currentValue += amount;
             }
             else
             {
-                level = StoreDataResources.maximumLevel;
+                resource.currentValue = resource.maxValue;
                 OnToMuchResources?.Invoke();
             }
 
-            return level;
+            OnResourcesModified?.Invoke(resource.nameOfResource);
         }
-        public static void AddResource(string resource, int amount)
+        public static void Remove(GameResources resource, int amount)
         {
-            switch (resource)
+            if (ValidateOperation(resource, amount, false))
             {
-                case "energy":
-                    StoreDataResources.energyLevel = Add("energy", amount);
-                    OnResourcesModified?.Invoke(resource);
-                    break;
-
-                case "lithium":
-                    StoreDataResources.lithiumLevel = Add("lithium", amount);
-                    OnResourcesModified?.Invoke(resource);
-                    break;
-
-                case "titanium":
-                    StoreDataResources.titaniumLevel = Add("titanium", amount);
-                    OnResourcesModified?.Invoke(resource);
-                    break;
-
-                case "silicon":
-                    StoreDataResources.silliconLevel = Add("silicon", amount);
-                    OnResourcesModified?.Invoke(resource);
-                    break;
-            }
-        }
-
-
-        // Remove resources 
-        private static int Remove(string resource, int amount)
-        {
-            int level = WhatLevelToUpdate(resource);
-
-            if (ValidateOperation(level, amount, false))
-            {
-                level -= amount;
+                resource.currentValue -= amount;
             }
             else
             {
-                //StartCoroutine(BarAnimation(bar, level, 0.6f));
                 OnNotEnoughResources?.Invoke();
             }
 
-            OnResourcesModified?.Invoke(resource);
-            return level;
+            OnResourcesModified?.Invoke(resource.nameOfResource);
         }
-        public static void RemoveResource(string resource, int amount)
+
+
+        public static bool PayAllResources(int energyAmount, int lithiumAmount, int titaniumAmount, int siliconAmount)
         {
-            switch (resource)
+            bool energy = ValidateOperation(StoreDataResources.energy, energyAmount, false);
+            bool lithium = ValidateOperation(StoreDataResources.lithium, lithiumAmount, false);
+            bool titanium = ValidateOperation(StoreDataResources.titanium, titaniumAmount, false);
+            bool silicon = ValidateOperation(StoreDataResources.silicon, siliconAmount, false);
+
+            if(energy && lithium && titanium && silicon)
             {
-                case "energy":
-                    StoreDataResources.energyLevel = Remove("energy", amount);
-                    OnResourcesModified?.Invoke(resource);
-                    break;
-
-                case "lithium":
-                    StoreDataResources.lithiumLevel = Remove("lithium", amount);
-                    OnResourcesModified?.Invoke(resource);
-                    break;
-
-                case "titanium":
-                    StoreDataResources.titaniumLevel = Remove("titanium", amount);
-                    OnResourcesModified?.Invoke(resource);
-                    break;
-
-                case "silicon":
-                    StoreDataResources.silliconLevel = Remove("silicon", amount);
-                    OnResourcesModified?.Invoke(resource);
-                    break;
+                Remove(StoreDataResources.energy, energyAmount);
+                Remove(StoreDataResources.lithium, lithiumAmount);
+                Remove(StoreDataResources.titanium, titaniumAmount);
+                Remove(StoreDataResources.silicon, siliconAmount);
+                return true;
+            }
+            else
+            {
+                OnNotEnoughResources?.Invoke();
+                return false;
             }
         }
+        public static void RefundPayment(int energyAmount, int lithiumAmount, int titaniumAmount, int siliconAmount)
+        {
+            Add(StoreDataResources.energy, energyAmount);
+            Add(StoreDataResources.lithium, lithiumAmount);
+            Add(StoreDataResources.titanium, titaniumAmount);
+            Add(StoreDataResources.silicon, siliconAmount);
+        }
 
 
-        // Aux methods
-        private static bool ValidateOperation(int resource, int amount, bool type)
+        private static bool ValidateOperation(GameResources resource, int amount, bool type)
         {
             if (!type)
             {
-                if (resource - amount > 0)
+                if (resource.currentValue - amount > 0)
                 {
                     return true;
                 }
@@ -117,7 +87,7 @@ namespace Manager.Store
             }
             else
             {
-                if (resource + amount < StoreDataResources.maximumLevel)
+                if (resource.currentValue + amount <= resource.maxValue)
                 {
                     return true;
                 }
@@ -125,76 +95,6 @@ namespace Manager.Store
                 {
                     return false;
                 }
-            }
-        }
-        private static int WhatLevelToUpdate(string resource)
-        {
-            switch (resource)
-            {
-                case "energy":
-                    return StoreDataResources.energyLevel;
-                case "lithium":
-                    return StoreDataResources.lithiumLevel;
-                case "titanium":
-                    return StoreDataResources.titaniumLevel;
-                case "silicon":
-                    return StoreDataResources.silliconLevel;
-                default:
-                    return 0;
-            }
-        }
-
-
-
-        public static bool DoAllResourcesPay(int energy, int lithium, int titanium, int silicon, bool temp)
-        {
-
-            return true;
-        }
-
-
-        private static void EnergyOperation(int amount, bool temp)
-        {
-            if(temp)
-            {
-                StoreDataResources.energyLevel += amount;
-            }
-            else
-            {
-                StoreDataResources.energyLevel -= amount;
-            }
-        }
-        private static void LithiumOperation(int amount, bool temp)
-        {
-            if (temp)
-            {
-                StoreDataResources.lithiumLevel += amount;
-            }
-            else
-            {
-                StoreDataResources.lithiumLevel -= amount;
-            }
-        }
-        private static void TitaniumOperation(int amount, bool temp)
-        {
-            if (temp)
-            {
-                StoreDataResources.titaniumLevel += amount;
-            }
-            else
-            {
-                StoreDataResources.titaniumLevel -= amount;
-            }
-        }
-        private static void SiliconOperation(int amount, bool temp)
-        {
-            if (temp)
-            {
-                StoreDataResources.silliconLevel += amount;
-            }
-            else
-            {
-                StoreDataResources.silliconLevel -= amount;
             }
         }
     }

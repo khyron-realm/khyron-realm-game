@@ -10,9 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 438e35143816b5f4cab56a2ed55be91e, type: 3}
-  m_Name: titan
+  m_Name: titanium
   m_EditorClassIdentifier: 
-  nameOfResource: titan
+  nameOfResource: titanium
   description: 
-  icon: {fileID: 21300000, guid: 0289475b76ea73c42a55233ca7993240, type: 3}
+  icon: {fileID: 21300000, guid: dbe163abab6178d4890a1cf5ffae5cd2, type: 3}
+  convertSprite: {fileID: 0}
   block: {fileID: 0}
+  conversionRate: 0
+  maxValue: 400
+  currentValue: 400

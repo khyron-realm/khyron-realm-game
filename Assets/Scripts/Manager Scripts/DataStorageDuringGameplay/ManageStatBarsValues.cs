@@ -20,6 +20,12 @@ namespace Manager.Store
         public static ProgressBar silliconBar;
 
 
+        private Coroutine energy;
+        private Coroutine lithium;
+        private Coroutine titanium;
+        private Coroutine silicon;
+
+
         private void Awake()
         {
             GiveValuesToStatic();
@@ -45,10 +51,10 @@ namespace Manager.Store
         }
         private void InitCurrentLevels()
         {
-            energyBar.CurrentValue = StoreDataResources.energyLevel;
-            lithiumBar.CurrentValue = StoreDataResources.lithiumLevel;
-            titaniumBar.CurrentValue = StoreDataResources.titaniumLevel;
-            silliconBar.CurrentValue = StoreDataResources.silliconLevel;
+            energyBar.CurrentValue = StoreDataResources.energy.currentValue;
+            lithiumBar.CurrentValue = StoreDataResources.lithium.currentValue;
+            titaniumBar.CurrentValue = StoreDataResources.titanium.currentValue;
+            silliconBar.CurrentValue = StoreDataResources.silicon.currentValue;
         }
         private void InitMaximumLevels()
         {
@@ -59,32 +65,39 @@ namespace Manager.Store
         }
         
 
-
         private void HandleBarAnimationForResources(string resource)
         {
-            switch(resource)
+            switch (resource)
             {
                 case "energy":
-                    StartCoroutine(BarAnimation(energyBar, StoreDataResources.energyLevel, 0.6f));
+                    if (energy != null)
+                        StopCoroutine(energy);
+                    energy = StartCoroutine(BarAnimation(energyBar, StoreDataResources.energy.currentValue));
                     break;
                 case "lithium":
-                    StartCoroutine(BarAnimation(lithiumBar, StoreDataResources.lithiumLevel, 0.6f));
+                    if (lithium != null)
+                        StopCoroutine(lithium);
+                    lithium = StartCoroutine(BarAnimation(lithiumBar, StoreDataResources.lithium.currentValue));
                     break;
                 case "titanium":
-                    StartCoroutine(BarAnimation(titaniumBar, StoreDataResources.titaniumLevel, 0.6f));
+                    if (titanium != null)
+                        StopCoroutine(titanium);
+                    titanium = StartCoroutine(BarAnimation(titaniumBar, StoreDataResources.titanium.currentValue));
                     break;
                 case "silicon":
-                    StartCoroutine(BarAnimation(silliconBar, StoreDataResources.silliconLevel, 0.6f));
+                    if (silicon != null)
+                        StopCoroutine(silicon);
+                    silicon = StartCoroutine(BarAnimation(silliconBar, StoreDataResources.silicon.currentValue));
                     break;
             }
         }
         private void HandleBarAnimationForXpBar()
         {
-            StartCoroutine(BarAnimation(xpBar, StoreDataPlayerStats.currentXp, 0.6f));
+            StartCoroutine(BarAnimation(xpBar, StoreDataPlayerStats.currentXp));
         }
         private void HandleBarAnimationForLevelUp(int level)
         {
-            StartCoroutine(BarAnimation(xpBar, StoreDataPlayerStats.currentXp, 2f));
+            StartCoroutine(BarAnimation(xpBar, StoreDataPlayerStats.currentXp));
             xpBar.MaxValue = StoreDataPlayerStats.levelsThresholds.levelsThresholds[StoreDataPlayerStats.currentLevel];
         }
 
@@ -105,14 +118,12 @@ namespace Manager.Store
                     return null;
             }
         }
-
-
-        public static IEnumerator BarAnimation(ProgressBar bar, int endGoal, float time)
+        public static IEnumerator BarAnimation(ProgressBar bar, int endGoal)
         {
             float temp = 0f;
-            while (temp < time)
+            while (temp < 1)
             {
-                temp += Time.deltaTime;
+                temp += Time.deltaTime / 3;             
                 bar.CurrentValue = Mathf.RoundToInt(Mathf.Lerp(bar.CurrentValue, endGoal, temp));
                 yield return null;
             }

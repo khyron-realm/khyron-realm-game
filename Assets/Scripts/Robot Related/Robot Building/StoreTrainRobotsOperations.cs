@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Manager.Store;
+using Manager.PayOperation;
 
 
 namespace Manager.Train
@@ -14,16 +15,13 @@ namespace Manager.Train
         // events
         public static event Action OnStartOperation;
         public static event Action OnStopOperation;
+
         public static event Action<Robot> OnRobotAdded;
         public static event Action<Robot> OnRobotRemoved;
-        public static event Action<Robot> OnTransactionDone;
-
-        private static bool _enough = false;
 
         private void Awake()
         {
             _managerUI.OnButtonPressed += AddRobotsToBuild;
-            ManageResourcesOperations.OnNotEnoughResources += EnoughToPay;
         }
 
 
@@ -31,10 +29,8 @@ namespace Manager.Train
         public static void AddRobotsToBuild(Robot robot)
         {
             if (StoreTrainRobots.robotsTrained.Count + StoreTrainRobots.robotsInTraining.Count < StoreTrainRobots.robotsLimit)
-            {
-                OnTransactionDone?.Invoke(robot);
-                
-                if(!_enough)
+            {               
+                if(PayRobots.StartPaymenetProcedure(robot))
                 {
                     OnRobotAdded?.Invoke(robot);
                     StoreTrainRobots.robotsInTraining.Add(robot);
@@ -45,11 +41,7 @@ namespace Manager.Train
                         OnStartOperation?.Invoke();
                     }
 
-                }
-                else
-                {
-                    _enough = false;
-                }             
+                }         
             }
         }
         public static void RemoveRobotsToBuild(Robot robot, GameObject robotIcon)
@@ -57,18 +49,12 @@ namespace Manager.Train
             if (robotIcon == ManageIcons.robotsInBuildingIcons[0])
             {
                 OnStopOperation?.Invoke();
-                OnRobotRemoved?.Invoke(robot);
-
-                StoreTrainRobots.robotsInTraining.Remove(robot);
-                ManageIcons.robotsInBuildingIcons.Remove(robotIcon);
-                
+                Remove(robot, robotIcon);
                 OnStartOperation?.Invoke();
             }
             else
             {
-                OnRobotRemoved?.Invoke(robot);
-                StoreTrainRobots.robotsInTraining.Remove(robot);
-                ManageIcons.robotsInBuildingIcons.Remove(robotIcon);              
+                Remove(robot, robotIcon);
             }
 
 
@@ -86,9 +72,13 @@ namespace Manager.Train
             }
         }
 
-        private void EnoughToPay()
+
+        private static void Remove(Robot robot, GameObject robotIcon)
         {
-            _enough = true;
+            OnRobotRemoved?.Invoke(robot);
+            PayRobots.RefundRobot(robot);
+            StoreTrainRobots.robotsInTraining.Remove(robot);
+            ManageIcons.robotsInBuildingIcons.Remove(robotIcon);
         }
     }
 }

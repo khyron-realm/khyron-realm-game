@@ -14,5 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameOfResource: silicon
   description: 
-  icon: {fileID: 21300000, guid: 13b08d1d0dcf1864cb99d007bc0d9bda, type: 3}
+  icon: {fileID: 21300000, guid: c925c6cf885ae4b4689738026ac76247, type: 3}
+  convertSprite: {fileID: 0}
   block: {fileID: 0}
+  conversionRate: 0
+  maxValue: 400
+  currentValue: 400
