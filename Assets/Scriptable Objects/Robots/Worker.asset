@@ -15,6 +15,6 @@ MonoBehaviour:
   nameOfTheRobot: Worker
   description: Works like hell for nothing
   buildTime: 10
-  icon: {fileID: 21300000, guid: 3103c716bb6dc3a44abb0fae3e03fee5, type: 3}
+  icon: {fileID: 21300000, guid: 5ac1215d915c7b445b86bc7a5c0b4811, type: 3}
   robotLevel:
   - {fileID: 11400000, guid: 9d8f00ba8ff463040a5b5691012fd52e, type: 2}

@@ -7,7 +7,9 @@ namespace Manager.Train
 {
     public class BuildRobots : MonoBehaviour
     {
+        [SerializeField] private Text _numberOfRobots;
         [SerializeField] private Timer _time;
+        [SerializeField] private GameObject _tempLoadingBar;
 
         private bool _once = false;
         private static float _tempTime = 0;
@@ -16,10 +18,16 @@ namespace Manager.Train
 
         private void Awake()
         {
-            time = _time;
+            time = _time;           
             StoreTrainRobotsOperations.OnStartOperation += StartBuildingRobots;
             StoreTrainRobotsOperations.OnStopOperation += StopBuildingRobots;
             StoreTrainRobotsOperations.OnRobotAdded += _time.AddTime;
+            
+        }
+
+        private void Start()
+        {
+            DisplayNumberOfRobots();
         }
 
 
@@ -40,6 +48,12 @@ namespace Manager.Train
                 StartCoroutine("BuildingRobots");
                 _once = true;
             }
+        }
+
+
+        private void DisplayNumberOfRobots()
+        {
+            _numberOfRobots.text = string.Format("{0}/30", StoreTrainRobots.robotsTrained.Count);
         }
 
 
@@ -74,7 +88,6 @@ namespace Manager.Train
                     _tempTime += 1;
 
                     ManageIcons.timeBar.CurrentValue = (int)_tempTime;
-                    //ManageIcons.timeBarText.text = (StoreTrainRobots.robotsInTraining[i].buildTime - _tempTime).ToString();
                     _time.DisplayTime(ManageIcons.timeBarText, (int)(StoreTrainRobots.robotsInTraining[i].buildTime - _tempTime));
                     
 
@@ -82,6 +95,7 @@ namespace Manager.Train
                 }
 
                 StoreTrainRobots.robotsTrained.Add(StoreTrainRobots.robotsInTraining[i]);
+                DisplayNumberOfRobots();
                 StoreTrainRobots.robotsInTraining.Remove(StoreTrainRobots.robotsInTraining[i]);
 
                 ManageIconsDuringTraining.DezactivateIcon(ManageIcons.robotsInBuildingIcons[i]);

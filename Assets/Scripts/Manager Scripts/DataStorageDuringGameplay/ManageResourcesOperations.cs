@@ -78,7 +78,7 @@ namespace Manager.Store
         {
             if (!type)
             {
-                if (resource.currentValue - amount > 0)
+                if (resource.currentValue - amount >= 0)
                 {
                     return true;
                 }

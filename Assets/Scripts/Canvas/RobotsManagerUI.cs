@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Manager.Robots;
+using Manager.Upgrade;
 
 
 // Takes care of creating the buttons and assigning Robots to them
@@ -23,7 +24,7 @@ public class RobotsManagerUI : MonoBehaviour
 
     private void Awake()
     {
-        _buttons = new List<Button>();
+        _buttons = new List<Button>();     
         CreateButtons();
     }
 
@@ -45,13 +46,11 @@ public class RobotsManagerUI : MonoBehaviour
             _buttons.Add(newButton);
         }
     }
-
     private static void ShowPrice(Robot item, Button newButton)
     {
         int temp = RobotsManager.robotsData[item.nameOfTheRobot.ToString()].robotLevel;
         newButton.transform.GetChild(0).GetComponent<Text>().text = item.robotLevel[temp].priceToBuild.energy.ToString();
     }
-
     private static void MakeButtonsAvailable(Robot item, Button newButton)
     {
         if (RobotsManager.robotsData[item.nameOfTheRobot].availableRobot == false)
@@ -69,10 +68,26 @@ public class RobotsManagerUI : MonoBehaviour
             AddListenerRobotToEachButton(item);
         });
     }
-
-
     private void AddListenerRobotToEachButton(Robot robot)
     {
         OnButtonPressed?.Invoke(robot);
+    }
+
+
+    public void MakeAllButtonsInactive()
+    {
+        foreach (Button item in _buttons)
+        {
+            item.enabled = false;
+            item.GetComponent<Image>().color = new Color(0.9f, 0.9f, 0.9f, 0.7f);
+        }
+    }
+    public void MakeAllButtonsActive()
+    {
+        foreach (Button item in _buttons)
+        {
+            item.enabled = true;
+            item.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        }
     }
 }

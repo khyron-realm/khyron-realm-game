@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41eeb18ef9dbc9349b4077c8938148b8, type: 3}
-  m_Name: Worker-1-Upgrade
+  m_Name: Reaper-1-Build
   m_EditorClassIdentifier: 
-  energy: 100
+  energy: 80
   lithium: 0
   silicon: 0
   titanium: 0

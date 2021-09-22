@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameOfTheRobot: Thor
   description: Kabuum
-  buildTime: 10
-  icon: {fileID: 21300000, guid: 3a188256484773f499134ec7171cba9f, type: 3}
+  buildTime: 200
+  icon: {fileID: 21300000, guid: 5ac1215d915c7b445b86bc7a5c0b4811, type: 3}
   robotLevel:
   - {fileID: 11400000, guid: 218853702bd48444caddba244b167e5e, type: 2}

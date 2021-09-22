@@ -11,7 +11,7 @@ namespace Manager.Train
     public class StoreTrainRobotsOperations : MonoBehaviour
     {
         [SerializeField] private RobotsManagerUI _managerUI;
-
+        
         // events
         public static event Action OnStartOperation;
         public static event Action OnStopOperation;
