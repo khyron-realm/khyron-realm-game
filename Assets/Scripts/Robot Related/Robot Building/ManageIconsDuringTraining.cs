@@ -25,15 +25,7 @@ namespace Manager.Train
                     {
                         StoreTrainRobotsOperations.RemoveRobotsToBuild(robot, newRobotToCreate);
                     });
-
-                ActivateDezactivateIconLoadingBar(newRobotToCreate, false);
             }
-        }
-
-        public static void ActivateDezactivateIconLoadingBar(GameObject newRobotToCreate, bool allocation)
-        {
-            newRobotToCreate.transform.GetChild(1).gameObject.SetActive(allocation);
-            newRobotToCreate.transform.GetChild(2).gameObject.SetActive(allocation);
         }
 
         public static void DezactivateIcon(GameObject robotIcon)

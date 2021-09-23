@@ -28,6 +28,10 @@ namespace Manager.Upgrade
             _timer.TimeTextState(false);
         }
 
+        private void Start()
+        {
+            DisplayRobotToUpgrade(RobotsManager.robots[0]);
+        }
 
         private void DisplayRobotToUpgrade(Robot robot)
         {
@@ -37,7 +41,6 @@ namespace Manager.Upgrade
             _displayStatsImage.sprite = robot.robotLevel[temp].upgradeImage;
             _nameOfTheRobot.text = robot.nameOfTheRobot;
         }
-
 
         private void StartUpgradingProcedure()
         {

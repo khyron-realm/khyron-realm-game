@@ -9,7 +9,11 @@ namespace Manager.Train
     {
         [SerializeField] private Text _numberOfRobots;
         [SerializeField] private Timer _time;
-        [SerializeField] private GameObject _tempLoadingBar;
+
+        [Space(20f)]
+
+        [SerializeField] private Text _timeRemained;
+        [SerializeField] private ProgressBar _tempLoadingBar;
 
         private bool _once = false;
         private static float _tempTime = 0;
@@ -18,7 +22,7 @@ namespace Manager.Train
 
         private void Awake()
         {
-            time = _time;           
+            time = _time;
             StoreTrainRobotsOperations.OnStartOperation += StartBuildingRobots;
             StoreTrainRobotsOperations.OnStopOperation += StopBuildingRobots;
             StoreTrainRobotsOperations.OnRobotAdded += _time.AddTime;
@@ -70,15 +74,13 @@ namespace Manager.Train
         }
         private IEnumerator BuildingRobots()
         {
+            _timeRemained.enabled = true;
+
             for (int i = 0; i < StoreTrainRobots.robotsInTraining.Count; i++)
             {
                 if (ManageIcons.robotsInBuildingIcons.Count > 0)
                 {
-                    ManageIconsDuringTraining.ActivateDezactivateIconLoadingBar(ManageIcons.robotsInBuildingIcons[0], true);
-
-                    ManageIcons.timeBarText = ManageIcons.robotsInBuildingIcons[0].transform.GetChild(1).GetComponent<Text>();
-                    ManageIcons.timeBar = ManageIcons.robotsInBuildingIcons[0].transform.GetChild(2).GetComponent<ProgressBar>();
-                    ManageIcons.timeBar.MaxValue = StoreTrainRobots.robotsInTraining[i].buildTime;
+                    _tempLoadingBar.MaxValue = StoreTrainRobots.robotsInTraining[i].buildTime;
                 }
 
                 _tempTime = 0;
@@ -87,10 +89,9 @@ namespace Manager.Train
                 {
                     _tempTime += 1;
 
-                    ManageIcons.timeBar.CurrentValue = (int)_tempTime;
-                    _time.DisplayTime(ManageIcons.timeBarText, (int)(StoreTrainRobots.robotsInTraining[i].buildTime - _tempTime));
+                    _tempLoadingBar.CurrentValue = (int)_tempTime;
+                    time.DisplayTime(_timeRemained, (int)(StoreTrainRobots.robotsInTraining[i].buildTime - _tempTime));
                     
-
                     yield return _time.ActivateTimer();
                 }
 
@@ -105,7 +106,11 @@ namespace Manager.Train
             }
 
             _once = false;
-            _time.TimeTextState(false);
+            time.TimeTextState(false);
+
+            // last robot loading bar
+            _timeRemained.enabled = false;
+            _tempLoadingBar.MaxValue = 1;
         }
     }
 }

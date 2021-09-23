@@ -17,4 +17,4 @@ MonoBehaviour:
   priceToBuild: {fileID: 11400000, guid: e384d93769b19d24e93513b4f5fc1b5f, type: 2}
   timeToUpgrade: 120
   priceToUpgrade: {fileID: 11400000, guid: c6803c4bb7e54074a82487b384aa4a08, type: 2}
-  upgradeImage: {fileID: 21300000, guid: 8ba5881a39e4d844a8395426023f3cbc, type: 3}
+  upgradeImage: {fileID: 21300000, guid: 170b2bfc0c299bc458fce8b4ec8ab0ab, type: 3}
