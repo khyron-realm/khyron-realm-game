@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Manager.Store
 {
-    public class ManageStatBarsValues : MonoBehaviour
+    public class StatBarsOperations : MonoBehaviour
     {
         [SerializeField] private ProgressBar _xpBar;
         [SerializeField] private ProgressBar _energyBar;
@@ -35,9 +35,9 @@ namespace Manager.Store
             xpBar.MaxValue = StoreDataPlayerStats.levelsThresholds.levelsThresholds[0];
             xpBar.CurrentValue = StoreDataPlayerStats.currentXp;
 
-            ManageStatsOperations.OnXpAdded += HandleBarAnimationForXpBar;
-            ManageStatsOperations.OnLevelUp += HandleBarAnimationForLevelUp;
-            ManageResourcesOperations.OnResourcesModified += HandleBarAnimationForResources;
+            StatsOperations.OnXpAdded += HandleBarAnimationForXpBar;
+            StatsOperations.OnLevelUp += HandleBarAnimationForLevelUp;
+            ResourcesOperations.OnResourcesModified += HandleBarAnimationForResources;
         }
 
 

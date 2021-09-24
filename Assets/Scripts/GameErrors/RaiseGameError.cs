@@ -26,9 +26,9 @@ namespace GameErrors
         {
             _text.enabled = false;
 
-            ManageResourcesOperations.OnNotEnoughResources += NotEnoughResources;
-            ManageResourcesOperations.OnNotEnoughEnergy += NotEnoughEnergy;
-            ManageResourcesOperations.OnToMuchResources += ToManyResources;
+            ResourcesOperations.OnNotEnoughResources += NotEnoughResources;
+            ResourcesOperations.OnNotEnoughEnergy += NotEnoughEnergy;
+            ResourcesOperations.OnToMuchResources += ToManyResources;
             StoreTrainRobotsOperations.OnMaximumCapacityAchieved += MaxCapacityAchieved;
         }
 

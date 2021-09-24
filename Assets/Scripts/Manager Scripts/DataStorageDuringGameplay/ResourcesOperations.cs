@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Manager.Store
 {
-    public class ManageResourcesOperations : MonoBehaviour
+    public class ResourcesOperations : MonoBehaviour
     {
         public static event Action<string> OnResourcesModified;
 

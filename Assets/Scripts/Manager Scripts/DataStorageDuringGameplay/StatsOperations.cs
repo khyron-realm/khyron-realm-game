@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Manager.Store
 {
-    public class ManageStatsOperations : MonoBehaviour
+    public class StatsOperations : MonoBehaviour
     {
         public static event Action<int> OnLevelUp;
         public static event Action OnXpAdded;

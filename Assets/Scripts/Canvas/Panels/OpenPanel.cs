@@ -41,7 +41,7 @@ public class OpenPanel : MonoBehaviour, IPointerClickHandler
     {
         _bgImage = _bgPanel.GetComponent<Image>();
 
-        ClosePanel.OnExit += SetFalse;
+        ClosePanelUsingBackround.OnExit += SetFalse;
     }
 
 

@@ -47,7 +47,7 @@ namespace Manager.Upgrade
             int temp = GetInfoLevel();
             _curentLevelOfTheRobot = _selectedRobot.robotLevel[temp];
 
-            if (ManageResourcesOperations.Remove(StoreDataResources.energy, _curentLevelOfTheRobot.priceToUpgrade.energy))
+            if (ResourcesOperations.Remove(StoreDataResources.energy, _curentLevelOfTheRobot.priceToUpgrade.energy))
             {
                 _upgradeButton.enabled = false;
 

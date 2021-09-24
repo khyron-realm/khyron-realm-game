@@ -54,9 +54,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="images/img2.jpg" alt="Logo" width="1000" height="400">
+<img src="images/img3.jpg" alt="Logo" width="1000" height="400">
 
-Unlimited Game ... The next 2D social strategy game with an interconnected economy system that teach users basic finance and an entrepreneurial mindset.
+Unlimited Game ... The next 2D social casual game with an interconnected economy system that teach users basic finance and selling skils.
 
 ### Built With
 
@@ -94,61 +94,107 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
 < PROJECT ROOT >
    |
    |-- Animations                               
-   |-- Editor    
+   |-- Editor   
+   |-- Fonts 
    |-- Materials
-      | -- Render Textures
-      | -- Robot asociated
       | -- Shaders
    |-- Meshes
    |-- Plugins
+      | -- RainbowAssets
    |-- Prefabs
-      | -- Beacon
       | -- Buttons
+      | -- Icons
       | -- Robot
    |-- Resources
-      | -- Beacon
       | -- Blocks
+      | -- Buttons
       | -- IconFolders
-      | -- MiniMap
-      | -- Preview Line
+      | -- Map
+      | -- Panels
+      | -- Resources
       | -- Robots
-      | -- Shapes
       | -- UI
-      | -- Waypoints Robot
    |-- Scenes
    |-- Scriptable Objetcs
       | -- Mine Resources
+      | -- Player
+      | -- Prices
       | -- Robots
    |-- Scripts
       | -- Auxiliary
-      | -- Beacon related
+          | -- AuxiliaryMethods.cs              #Auxiliary methods
       | -- Camera movement
+          | -- PanPinch.cs                      #Script for moving the camera using touch inpun 
       | -- Canvas
+          | -- Bars
+              | -- ProgressBar.cs               #Progress ba handler, manage visual state of the progress bar
+          | -- Panels
+              | -- ClosePanelUsingBackGround.cs #Closes selected pabel using the background
+              | -- OpenPanel.cs                 #Open the panel that is selected for the curent gameObject + handle animations for opening the panel
+          | -- CanvasHelper.cs                  #Resize the UI to fit inside the phone safe zone
+          | -- ChangeScreen.cs                  #Activate one Gameobject and dezactivate the other one -- used for changing screens from hq to map
+          | -- RobotsManagerUI.cs               #Used to instantiate buttons for all robots in the desired canvas
+      | -- GameErrors
+          | -- RaiseGameError.cs                #Displays on the screen the error that happened {Not enough resources etc}
       | -- Manager Scripts
-      | -- Mine Generation
+          | -- DataStorageDuringGameplay
+              | -- ResourcesOperations.cs
+              | -- StatBarsOperations.cs
+              | -- StatsOperaions.cs
+              | -- StoreDataPlayerStats.cs
+              | -- StoreDaraResources.cs
+          | -- RobotHandlers
+              | -- RobotLevelingUp.cs
+              | -- RobotManager.cs
+              | -- RobotPLayerProgress.cs
+              | -- RobotsUnlocking.cs
+          | -- GameManager                      #Manage game
+      | -- Mine Generation                      #In review
           | -- ScriptableObjects
+              | -- MinePatterns.cs
+              | -- MineResources.cs
           | -- Values Generation
+              | -- GridGeneratePositions.cs
+              | -- GridHiddenValues.cs
+              | -- GridVisibleValues.cs
+          | -- MineGenerator.cs
+      | -- Resources          
+          | -- ConvertResources.cs               #Used for converting resources into energy
       | -- Robot Related
-          | -- Resources Drop
-          | -- Robot Deploy
-          | -- Robot Mining Process
-              | -- Command Block
-              | -- Commands
-              | -- Interfaces
-              | -- LineRenderer
-              | -- Mining Types
-              | -- Movement
-          | -- Robot Vision
+          | -- RobotBuilding
+              | -- BuildRobots.cs                #Coroutine with the logic of building the robots
+              | -- ManageIcons.cs                #Manage icons that will apear in the right in the building phase
+              | -- ManageIconsDuringTraining.cs  #Manage icons that will apear in the right in the building phase 
+              | -- PayRobots.cs                  #Is doing the payment for each robot [Pay,refund]
+              | -- StoreTrainRobots.cs           #Keep track of robots in building and robots already built
+              | -- StoreTrainRobotsOperations.cs #Operations of adding and removing robots from the queue
+          | -- RobotUpgrading
+              | -- UpgradeRobots.cs              #Upgrade robots logic
+          | -- HallOfFameInstantiateRobots.cs    #Instantiate panel with robots and 
+          | -- ObjectPooling.cs                  #Takes care of 30 gameObjects by activating and dezactivating them based on the need
       | -- Scriptable Objetcts
-      | -- Tiles
+          | -- Mine
+              | -- MinePlacingBlocks.cs
+          | -- Player
+              | -- LevelsThresholds.cs
+          | -- Resources
+              | -- GameResources.cs
+              | -- PriceToBuildOrUpgrade.cs
+          | -- Robots
+              | -- Robot.cs
+              | -- RobotLevel.cs
+              | -- StatusRobot.cs
+      | -- Tiles                                  #In review
+      | -- Timer
+          | -- Timer.cs                           #Keeps track of the time during a procces
       | -- Touch
+          | -- UserTouch.cs                       #Fundamental touch operations simplifiend in methods
    |-- Sounds
    |-- Tiles
   ************************************************************************
 ```
 ## Used Plugins and Software
 
-1. [TexturePacker](https://www.codeandweb.com/texturepacker)
 1. [Rainbow Folders 2](https://assetstore.unity.com/packages/tools/utilities/rainbow-folders-2-143526)
 
 <!-- LICENSE -->
