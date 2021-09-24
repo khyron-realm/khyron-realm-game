@@ -19,6 +19,8 @@ namespace Manager.Train
         public static event Action<Robot> OnRobotAdded;
         public static event Action<Robot> OnRobotRemoved;
 
+        public static event Action OnMaximumCapacityAchieved;
+
         private void Awake()
         {
             _managerUI.OnButtonPressed += AddRobotsToBuild;
@@ -40,8 +42,11 @@ namespace Manager.Train
                     {
                         OnStartOperation?.Invoke();
                     }
-
                 }         
+            }
+            else
+            {
+                OnMaximumCapacityAchieved?.Invoke();
             }
         }
         public static void RemoveRobotsToBuild(Robot robot, GameObject robotIcon)
@@ -60,11 +65,6 @@ namespace Manager.Train
 
             BuildRobots.RecalculateTime();
             ManageIconsDuringTraining.DezactivateIcon(robotIcon);
-
-            if (ManageIcons.robotsInBuildingIcons.Count > 0)
-            {
-                ManageIconsDuringTraining.ActivateDezactivateIconLoadingBar(ManageIcons.robotsInBuildingIcons[0], true);
-            }
 
             if (StoreTrainRobots.robotsInTraining.Count < 1)
             {

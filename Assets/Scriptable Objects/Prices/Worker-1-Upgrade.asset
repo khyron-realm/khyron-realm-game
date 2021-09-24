@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Worker-1-Upgrade
   m_EditorClassIdentifier: 
   energy: 100
-  lithium: 50
-  silicon: 50
-  titanium: 50
+  lithium: 0
+  silicon: 0
+  titanium: 0

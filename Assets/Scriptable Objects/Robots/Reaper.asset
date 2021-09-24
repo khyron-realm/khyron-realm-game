@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameOfTheRobot: Reaper
   description: The robot of the gods
-  buildTime: 10
-  icon: {fileID: 21300000, guid: 8651581ca7509b44c9b4bee6e75a5cc9, type: 3}
+  buildTime: 70
+  icon: {fileID: 21300000, guid: 604eae4213d1d324f8e3aab29c3fedc2, type: 3}
   robotLevel:
   - {fileID: 11400000, guid: 218853702bd48444caddba244b167e5e, type: 2}

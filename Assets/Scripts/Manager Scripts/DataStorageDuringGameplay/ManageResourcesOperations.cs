@@ -10,9 +10,10 @@ namespace Manager.Store
         public static event Action<string> OnResourcesModified;
 
         public static event Action OnNotEnoughResources;
+        public static event Action OnNotEnoughEnergy;
         public static event Action OnToMuchResources;
 
-        // Add resources
+        // Add and Remove operation for one resource or curreny
         public static bool Add(GameResources resource, int amount)
         {
             
@@ -41,13 +42,22 @@ namespace Manager.Store
             }
             else
             {
-                OnNotEnoughResources?.Invoke();
+                if(resource == StoreDataResources.energy)
+                {
+                    OnNotEnoughEnergy?.Invoke();
+                }
+                else
+                {
+                    OnNotEnoughResources?.Invoke();
+                }
+                
                 OnResourcesModified?.Invoke(resource.nameOfResource);
                 return false;
             }     
         }
 
 
+        // Add and remove operation for all 3 resources
         public static void PayResources(int lithiumAmount, int titaniumAmount, int siliconAmount)
         {
             bool lithium = ValidateOperation(StoreDataResources.lithium, lithiumAmount, false);
@@ -73,12 +83,12 @@ namespace Manager.Store
         }
 
 
-        // PayResources
+        // Check if operation can be done
         private static bool ValidateOperation(GameResources resource, int amount, bool type)
         {
             if (!type)
             {
-                if (resource.currentValue - amount > 0)
+                if (resource.currentValue - amount >= 0)
                 {
                     return true;
                 }

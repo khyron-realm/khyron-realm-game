@@ -8,6 +8,9 @@ public class RobotLevel : ScriptableObject
     public StatusRobot status;
     public Sprite statusImage;
     public PriceToBuildOrUpgrade priceToBuild;
+
+    public int timeToUpgrade;
     public PriceToBuildOrUpgrade priceToUpgrade;
+
     public Sprite upgradeImage;
 }

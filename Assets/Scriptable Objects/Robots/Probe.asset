@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameOfTheRobot: Probe
   description: collector  of the gods
-  buildTime: 10
-  icon: {fileID: 21300000, guid: d986fc439788ec4469a0973e87a88248, type: 3}
+  buildTime: 30
+  icon: {fileID: 21300000, guid: 883e3b90095659b479f6451576f052fb, type: 3}
   robotLevel:
   - {fileID: 11400000, guid: 9d8f00ba8ff463040a5b5691012fd52e, type: 2}

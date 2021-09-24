@@ -7,7 +7,13 @@ namespace Manager.Train
 {
     public class BuildRobots : MonoBehaviour
     {
+        [SerializeField] private Text _numberOfRobots;
         [SerializeField] private Timer _time;
+
+        [Space(20f)]
+
+        [SerializeField] private Text _timeRemained;
+        [SerializeField] private ProgressBar _tempLoadingBar;
 
         private bool _once = false;
         private static float _tempTime = 0;
@@ -20,6 +26,12 @@ namespace Manager.Train
             StoreTrainRobotsOperations.OnStartOperation += StartBuildingRobots;
             StoreTrainRobotsOperations.OnStopOperation += StopBuildingRobots;
             StoreTrainRobotsOperations.OnRobotAdded += _time.AddTime;
+            
+        }
+
+        private void Start()
+        {
+            DisplayNumberOfRobots();
         }
 
 
@@ -43,6 +55,12 @@ namespace Manager.Train
         }
 
 
+        private void DisplayNumberOfRobots()
+        {
+            _numberOfRobots.text = string.Format("{0}/30", StoreTrainRobots.robotsTrained.Count);
+        }
+
+
         public static void RecalculateTime()
         {
             time.totalTime = 0;
@@ -56,15 +74,13 @@ namespace Manager.Train
         }
         private IEnumerator BuildingRobots()
         {
+            _timeRemained.enabled = true;
+
             for (int i = 0; i < StoreTrainRobots.robotsInTraining.Count; i++)
             {
                 if (ManageIcons.robotsInBuildingIcons.Count > 0)
                 {
-                    ManageIconsDuringTraining.ActivateDezactivateIconLoadingBar(ManageIcons.robotsInBuildingIcons[0], true);
-
-                    ManageIcons.timeBarText = ManageIcons.robotsInBuildingIcons[0].transform.GetChild(1).GetComponent<Text>();
-                    ManageIcons.timeBar = ManageIcons.robotsInBuildingIcons[0].transform.GetChild(2).GetComponent<ProgressBar>();
-                    ManageIcons.timeBar.MaxValue = StoreTrainRobots.robotsInTraining[i].buildTime;
+                    _tempLoadingBar.MaxValue = StoreTrainRobots.robotsInTraining[i].buildTime;
                 }
 
                 _tempTime = 0;
@@ -73,15 +89,14 @@ namespace Manager.Train
                 {
                     _tempTime += 1;
 
-                    ManageIcons.timeBar.CurrentValue = (int)_tempTime;
-                    //ManageIcons.timeBarText.text = (StoreTrainRobots.robotsInTraining[i].buildTime - _tempTime).ToString();
-                    _time.DisplayTime(ManageIcons.timeBarText, (int)(StoreTrainRobots.robotsInTraining[i].buildTime - _tempTime));
+                    _tempLoadingBar.CurrentValue = (int)_tempTime;
+                    time.DisplayTime(_timeRemained, (int)(StoreTrainRobots.robotsInTraining[i].buildTime - _tempTime));
                     
-
                     yield return _time.ActivateTimer();
                 }
 
                 StoreTrainRobots.robotsTrained.Add(StoreTrainRobots.robotsInTraining[i]);
+                DisplayNumberOfRobots();
                 StoreTrainRobots.robotsInTraining.Remove(StoreTrainRobots.robotsInTraining[i]);
 
                 ManageIconsDuringTraining.DezactivateIcon(ManageIcons.robotsInBuildingIcons[i]);
@@ -91,7 +106,11 @@ namespace Manager.Train
             }
 
             _once = false;
-            _time.TimeTextState(false);
+            time.TimeTextState(false);
+
+            // last robot loading bar
+            _timeRemained.enabled = false;
+            _tempLoadingBar.MaxValue = 1;
         }
     }
 }
