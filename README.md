@@ -36,16 +36,12 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -196,6 +192,7 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
 ## Used Plugins and Software
 
 1. [Rainbow Folders 2](https://assetstore.unity.com/packages/tools/utilities/rainbow-folders-2-143526)
+2. [DotWeen](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
 
 <!-- LICENSE -->
 ## License

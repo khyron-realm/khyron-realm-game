@@ -19,7 +19,7 @@ namespace Manager.Store
         public static ProgressBar titaniumBar;
         public static ProgressBar silliconBar;
 
-
+        
         private Coroutine energy;
         private Coroutine lithium;
         private Coroutine titanium;
