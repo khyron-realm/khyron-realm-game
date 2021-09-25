@@ -80,5 +80,10 @@ namespace Manager.Train
             StoreTrainRobots.robotsInTraining.Remove(robot);
             ManageIcons.robotsInBuildingIcons.Remove(robotIcon);
         }
+
+        private void OnDestroy()
+        {
+            _managerUI.OnButtonPressed -= AddRobotsToBuild;
+        }
     }
 }

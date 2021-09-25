@@ -90,4 +90,13 @@ public class RobotsManagerUI : MonoBehaviour
             item.GetComponent<Image>().color = new Color(1, 1, 1, 1);
         }
     }
+
+
+    private void OnDestroy()
+    {
+        foreach (Button item in _buttons)
+        {
+            item.onClick.RemoveAllListeners();
+        }
+    }
 }

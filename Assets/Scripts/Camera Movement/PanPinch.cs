@@ -37,40 +37,15 @@ namespace CameraActions
         [Header("Maximum orthographic size")]
         private float orthoMax;
 
-        [SerializeField]
-        [Header("Threshold value for the the deltaPosition of the touches for the minimap to be activated")]
-        private int _minimapActivationSensibility = 120;
-
-        private bool _touchingRobot = false;
-        private bool _minimapActivated = false;
-
-        private float resolutionRatio;
-
-
-        // Raised when the orthographic size of the camera is changed
-        // Used by other cameras (Children of main camera) to adjust their orthographic size
-        public static event Action OnChangingOrto;
-
-        // If orto is > than maxOrto, activiate the minimap view
-        public static event Action<bool> OnMinimapActivation;
 
         private void Awake()
         {
-            resolutionRatio = Screen.width / Screen.height;
             _lineCamera = _camera.GetComponent<Camera>();
         }
 
         private void Update()
         {
-            if (_touchingRobot == false)
-            {
                 Panning();
-                Pinching();
-            }
-            else
-            {
-                _touchingRobot = false;
-            }
         }
 
         private void Panning()
@@ -78,7 +53,7 @@ namespace CameraActions
             // One finger on the screen [Pan]
             
             {
-                if (Input.touchCount > 0 && Input.touchCount < 2 && Input.GetTouch(0).phase == TouchPhase.Moved && _minimapActivated == false)
+                if (Input.touchCount > 0 && Input.touchCount < 2 && Input.GetTouch(0).phase == TouchPhase.Moved)
                 {
                     Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
                     PanningFunction(touchDeltaPosition);
@@ -93,9 +68,7 @@ namespace CameraActions
                 Touch touchZero = Input.GetTouch(0);
                 Touch touchOne = Input.GetTouch(1);
 
-                CheckIfMinimapIsActivated(ref touchZero, ref touchOne);
-
-                if (_minimapActivated == false && Camera.main.orthographicSize <= orthoMax)
+                if (Camera.main.orthographicSize <= orthoMax)
                 {
                     PanningFunction((touchZero.deltaPosition + touchOne.deltaPosition) / 2);
 
@@ -112,23 +85,9 @@ namespace CameraActions
                     Camera.main.orthographicSize += deltaMagnitudeDiff * zoomSpeed;
                     _lineCamera.orthographicSize += deltaMagnitudeDiff * zoomSpeed;
 
-                    OnChangingOrto?.Invoke();
 
                     Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, orthoMin, orthoMax);
                     _lineCamera.orthographicSize = Mathf.Clamp(_lineCamera.orthographicSize, orthoMin, orthoMax);
-                }
-            }
-        }
-
-        // Check if user pinch fast when ortho size is at the maxium value
-        private void CheckIfMinimapIsActivated(ref Touch touchZero, ref Touch touchOne)
-        {
-            if (Mathf.Abs((touchZero.deltaPosition - touchOne.deltaPosition).x) > _minimapActivationSensibility && Camera.main.orthographicSize > orthoMax - 1)
-            {
-                if (UserTouch.TouchPhaseEnded(0))
-                {
-                    _minimapActivated = !_minimapActivated;
-                    OnMinimapActivation?.Invoke(_minimapActivated);
                 }
             }
         }
@@ -146,18 +105,7 @@ namespace CameraActions
                 Vector3 worldDeltaPosition = worldTouchPosition - worldCenterPosition;
 
                 transform.Translate(-worldDeltaPosition);
-
-                float x = Mathf.Clamp(transform.position.x, _limitXMin + Camera.main.orthographicSize * resolutionRatio, _limitXMax - Camera.main.orthographicSize * resolutionRatio);
-                float y = Mathf.Clamp(transform.position.y, limitYMin + Camera.main.orthographicSize, limitYMax - Camera.main.orthographicSize);
-
-                transform.position = new Vector3(x, y, -10f);
-
             }
-        }
-
-        private void SetTouchingRobot()
-        {
-            _touchingRobot = true;
         }
     }
 }

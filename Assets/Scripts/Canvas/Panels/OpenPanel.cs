@@ -106,4 +106,9 @@ public class OpenPanel : MonoBehaviour, IPointerClickHandler
             yield return null;
         }
     }
+
+    private void OnDestroy()
+    {
+        ClosePanelUsingBackround.OnExit -= SetFalse;
+    }
 }

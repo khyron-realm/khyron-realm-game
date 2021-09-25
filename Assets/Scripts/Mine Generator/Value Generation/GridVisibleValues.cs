@@ -6,10 +6,10 @@ namespace Grid
 {
     public class GridVisibleValues
     {
-        public static int seedVisible;
+        public static int s_seedVisible;
 
         // Array of array with visible values of all mine blocks
-        private static int[,] _visibleValues;
+        private static int[,] s_visibleValues;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Grid
         /// </returns>
         public static int[,] GenerateVisibleValues(int rows, int columns, List<MineResources> allMineResources, int[,] temp_hidden, List<int> seeds)
         {
-            _visibleValues = new int[rows, columns];
+            s_visibleValues = new int[rows, columns];
 
             CreateVisibleValuesForStadardBlocks(rows, columns, temp_hidden);
             AddResourcesToTheMine(rows, columns, allMineResources, seeds);
 
-            return _visibleValues;
+            return s_visibleValues;
         }
 
 
@@ -58,11 +58,11 @@ namespace Grid
                 {
                     if (temp_hidden[i, j] == 0)
                     {
-                        _visibleValues[i, j] = 0;
+                        s_visibleValues[i, j] = 0;
                     }
                     if (temp_hidden[i, j] == 1)
                     {
-                        _visibleValues[i, j] = 1;
+                        s_visibleValues[i, j] = 1;
                     }
                 }
             }
@@ -124,7 +124,7 @@ namespace Grid
 
             if (temp < rarityCoeficient)
             {
-                _visibleValues[i, j] = code;    
+                s_visibleValues[i, j] = code;    
             }
         }
     }

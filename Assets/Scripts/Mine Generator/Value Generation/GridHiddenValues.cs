@@ -8,9 +8,9 @@ namespace Grid
     {
         // Array of array with hidden values of all mine blocks
 
-        public static int seedHidden;
+        public static int s_seedHidden;
 
-        private static int[,] _hiddenValues;
+        private static int[,] s_hiddenValues;
 
         // Possible values for mine blocks
         private enum values {stoneType1, stoneType2};
@@ -34,12 +34,12 @@ namespace Grid
         /// </returns>
         public static int[,] GenerateHiddenValues(int rows, int columns, float diversification)
         {
-            _hiddenValues = new int[rows, columns];
+            s_hiddenValues = new int[rows, columns];
 
             GenerateStoneLayer(rows, columns);
             AddStonePatternsToMine(rows, columns, diversification);
 
-            return _hiddenValues;
+            return s_hiddenValues;
         }
 
 
@@ -57,7 +57,7 @@ namespace Grid
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    _hiddenValues[i, j] = (int)values.stoneType1;
+                    s_hiddenValues[i, j] = (int)values.stoneType1;
                 }
             }
         }
@@ -76,7 +76,7 @@ namespace Grid
         {
             //float randomNoise = Random.Range(-10000f, 10000f);
 
-            float randomNoise = seedHidden;
+            float randomNoise = s_seedHidden;
 
             for (int i = 0; i < rows; i++)
             {
@@ -112,7 +112,7 @@ namespace Grid
 
             if (temp == 1)
             {
-                _hiddenValues[i, j] = (int)values.stoneType2;
+                s_hiddenValues[i, j] = (int)values.stoneType2;
             }
         }
     }

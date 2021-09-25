@@ -7,79 +7,70 @@ using TilesData;
 
 namespace Grid
 {
+    //[ExecuteInEditMode]
     public class MineGenerator : MonoBehaviour
     {
-        [SerializeField]
+        #region "Input fields" 
+        [SerializeField] private RuleTile _groundTileType1;  
+        [SerializeField] private RuleTile _groundTileType2;
         [Space(20f)]
-        private RuleTile _groundTileType1;
+        
 
-        [SerializeField]
+        [SerializeField] private int _rows;    
+        [SerializeField] private int _columns;
         [Space(20f)]
-        private RuleTile _groundTileType2;
+
 
         [SerializeField]
+        [Range(0, 1)] private float _diversification;
         [Space(20f)]
-        private Vector2Int _startPosition;
+        
 
-        [SerializeField]
+        [SerializeField] private int _seedHidden;          
+        [SerializeField] private int _seedVisible;
+        [SerializeField] private List<int> _resourcesSeed;
+
+
+        [SerializeField] private List<int> _healthOfBlocks;
         [Space(20f)]
-        private int _rows;
 
-        [SerializeField]
-        private int _columns;
 
-        [SerializeField]
+        [SerializeField] private List<MineResources> _resources;
         [Space(20f)]
-        [Range(0, 1)]
-        private float _diversification;
 
-        [SerializeField]
-        [Space(20f)]
-        private int _seedHidden;
 
-        [SerializeField]
-        private int _seedVisible;
-
-        [SerializeField]
-        private List<int> _resourcesSeed;
-
-        [SerializeField]
-        private List<int> _healthOfBlocks;
-
-        [SerializeField]
-        [Space(20f)]
-        private List<MineResources> _resources;
-
-        [SerializeField]
-        [Space(20f)]
-        private List<AreaToDestroy> _areaToDestroy;
+        [SerializeField] private MineShape _shape;
+        private bool[,] _areaOfBlocks;
+        #endregion
 
         private void Start()
         {
+            _areaOfBlocks = new bool[_rows, _columns];
+            Make2DArray();
             Generate();
         }
 
 
         public void Generate()
         {
-            GridHiddenValues.seedHidden = _seedHidden;
-            GridVisibleValues.seedVisible = _seedVisible;
+            GridHiddenValues.s_seedHidden = _seedHidden;
+            GridVisibleValues.s_seedVisible = _seedVisible;
 
             int[,] temp_hidden = GridHiddenValues.GenerateHiddenValues(_rows, _columns, _diversification);
             int[,] temp_visible = GridVisibleValues.GenerateVisibleValues(_rows, _columns, _resources, temp_hidden, _resourcesSeed);
 
-            // In future we use a scriptable object with the data stored
-            bool[,] temp_placeAble = GridGeneratePosition.GenerateValuesForPlacing(_rows, _columns, _areaToDestroy);
-
-            for (int row = _startPosition.y; row < _rows + _startPosition.y; row++)
+            // Used when user want to create a new shape 
+            // bool[,] temp_placeAble = GridGenerateAllPositionsForShaping.GenerateValuesForPlacing(_rows, _columns);
+            
+            for (int row = 0; row < _rows; row++)
             {
                 List<StoreDataAboutTiles> temp = new List<StoreDataAboutTiles>();
 
-                for (int col = _startPosition.x; col < _columns + _startPosition.x; col++)
+                for (int col = 0; col < _columns; col++)
                 {
-                    if (temp_placeAble[row - _startPosition.y, col - _startPosition.x] == true)
+                    if (_areaOfBlocks[row, col] == true) // _areaOfBlocks is replaced with temp_placeAble when user wishes to change the shape of the mine [in unity is done]
                     {
-                        if(temp_hidden[row - _startPosition.y, col - _startPosition.x] == 0)
+                        if(temp_hidden[row, col] == 0)
                         {
                             StoreAllTiles.instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType1);
                             StoreData(temp_visible, row, temp, col, _healthOfBlocks[0]);
@@ -95,6 +86,7 @@ namespace Grid
             }
         }
 
+
         private void StoreData(int[,] temp_visible, int row, List<StoreDataAboutTiles> temp, int col, int health)
         {
             if (temp_visible[row, col] > 1)
@@ -104,6 +96,17 @@ namespace Grid
             else
             {
                 temp.Add(new StoreDataAboutTiles(health));
+            }
+        }
+
+
+        // Convert from 1 dimensional array to 2d array
+        private void Make2DArray()
+        {
+            for (int i = 0; i < _shape.values.Length; i++)
+            {
+                //print((int)(i / _rows) + " " + (int)(i % _rows));
+                _areaOfBlocks[(int)(i / _columns), (int)(i % _columns)] = _shape.values[i];
             }
         }
     }

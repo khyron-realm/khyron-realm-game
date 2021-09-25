@@ -32,6 +32,7 @@ namespace GameErrors
             StoreTrainRobotsOperations.OnMaximumCapacityAchieved += MaxCapacityAchieved;
         }
 
+
         private void NotEnoughResources()
         {
             _text.text = _notEnoughResources;
@@ -102,6 +103,15 @@ namespace GameErrors
 
                 yield return null;
             }
+        }
+
+
+        private void OnDestroy()
+        {
+            ResourcesOperations.OnNotEnoughResources -= NotEnoughResources;
+            ResourcesOperations.OnNotEnoughEnergy -= NotEnoughEnergy;
+            ResourcesOperations.OnToMuchResources -= ToManyResources;
+            StoreTrainRobotsOperations.OnMaximumCapacityAchieved -= MaxCapacityAchieved;
         }
     }
 }

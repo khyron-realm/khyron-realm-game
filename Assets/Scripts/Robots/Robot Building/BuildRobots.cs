@@ -112,5 +112,13 @@ namespace Manager.Train
             _timeRemained.enabled = false;
             _tempLoadingBar.MaxValue = 1;
         }
+
+
+        private void OnDestroy()
+        {
+            StoreTrainRobotsOperations.OnStartOperation -= StartBuildingRobots;
+            StoreTrainRobotsOperations.OnStopOperation -= StopBuildingRobots;
+            StoreTrainRobotsOperations.OnRobotAdded -= _time.AddTime;
+        }
     }
 }

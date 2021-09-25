@@ -35,11 +35,13 @@ namespace Mine
 
         private void TouchedGameObject(GameObject temp)
         {
+            _enterButtonImage.color = new Color(1,1,1,0);
             _enterButtonTransform.localPosition = new Vector2(0, -2);
             _mineDetailes.SetActive(true);
             _mineDetailes.transform.position = temp.transform.position;
             
-            _enterButtonTransform.DOLocalMoveY(-2.3f, 0.2f);            
+            _enterButtonTransform.DOLocalMoveY(-2.4f, 0.2f);
+            _enterButtonImage.DOFade(1, 0.4f);
         }
     }
 }
