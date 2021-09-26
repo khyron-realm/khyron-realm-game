@@ -74,8 +74,6 @@ namespace Grid
         /// <param name="dirt_depth"> Depth of First layer </param>
         private static void AddStonePatternsToMine(int rows, int columns, float diversification)
         {
-            //float randomNoise = Random.Range(-10000f, 10000f);
-
             float randomNoise = s_seedHidden;
 
             for (int i = 0; i < rows; i++)

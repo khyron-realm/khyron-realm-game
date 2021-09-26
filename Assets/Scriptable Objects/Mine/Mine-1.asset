@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e76aa3016f7728e4d80502b3f1b4cfc8, type: 3}
+  m_Name: Mine-1
+  m_EditorClassIdentifier: 
+  HiddenSeed: 24325
+  Seeds:
+  - {fileID: 11400000, guid: 160f7fc7bf9febf44aa8fce231b509ec, type: 2}
+  - {fileID: 11400000, guid: 13673993b05e4e04b9c6542a16522aef, type: 2}
+  - {fileID: 11400000, guid: 27098969e22445a44804bee2d8e739a9, type: 2}

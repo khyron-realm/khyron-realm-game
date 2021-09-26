@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d16dada72a7e8f488cc5b29b412fdff, type: 3}
-  m_Name: 3
+  m_Script: {fileID: 11500000, guid: 7edc33dbc5277e24eb2f381eaef469b6, type: 3}
+  m_Name: SiliconSeeds
   m_EditorClassIdentifier: 
-  resourceTile: {fileID: 11400000, guid: de7542d07f1053f44b40342d4293b258, type: 2}
-  dropValueMin: 1
-  dropValueMax: 6
-  rarityCoeficient: 0.2
-  frequency: 0.2
+  Seed: 43624
+  RarityCoeficient: 0.2
+  Frequency: 0.12

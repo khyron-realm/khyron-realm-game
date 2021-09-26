@@ -6,8 +6,6 @@ namespace Grid
 {
     public class GridVisibleValues
     {
-        public static int s_seedVisible;
-
         // Array of array with visible values of all mine blocks
         private static int[,] s_visibleValues;
 
@@ -31,12 +29,12 @@ namespace Grid
         ///     Visible values for all blocks in the mine [stone, dirt, resources]
         /// 
         /// </returns>
-        public static int[,] GenerateVisibleValues(int rows, int columns, List<MineResources> allMineResources, int[,] temp_hidden, List<int> seeds)
+        public static int[,] GenerateVisibleValues(int rows, int columns, List<MineResources> allMineResources, int[,] temp_hidden, List<ResourcesValuesForMineGeneration> seeds)
         {
             s_visibleValues = new int[rows, columns];
 
             CreateVisibleValuesForStadardBlocks(rows, columns, temp_hidden);
-            AddResourcesToTheMine(rows, columns, allMineResources, seeds);
+            AddResourcesToTheMine(rows, columns, seeds);
 
             return s_visibleValues;
         }
@@ -76,22 +74,20 @@ namespace Grid
         /// </summary>
         /// <param name="columns"> Number of columns in the mine </param>
         /// <param name="allMineResources"> The list of all resources with their settings </param>
-        private static void AddResourcesToTheMine(int rows, int columns, List<MineResources> allMineResources, List<int> seeds)
+        private static void AddResourcesToTheMine(int rows, int columns, List<ResourcesValuesForMineGeneration> seeds)
         {
-            foreach (MineResources resource in allMineResources)
+            foreach (ResourcesValuesForMineGeneration resource in seeds)
             {
                 // create index for the respective resource
-                int code = allMineResources.IndexOf(resource) + 2;
+                int code = seeds.IndexOf(resource) + 2;
 
-
-                //float randomNoise = Random.Range(-1000f, 1000f);
-                float randomNoise = seeds[code - 2];
+                float randomNoise = code - 2;
 
                 for (int i = 0; i < rows; i++)
                 {
                     for (int j = 0; j < columns; j++)
                     {
-                        GenerateChunks(resource.frequency, i, j, code, randomNoise, resource.rarityCoeficient);
+                        GenerateChunks(resource.Frequency, i, j, code, randomNoise, resource.RarityCoeficient);
                     }
                 }
             }

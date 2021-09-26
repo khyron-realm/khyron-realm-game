@@ -24,11 +24,10 @@ namespace Grid
         [SerializeField]
         [Range(0, 1)] private float _diversification;
         [Space(20f)]
-        
 
-        [SerializeField] private int _seedHidden;          
-        [SerializeField] private int _seedVisible;
-        [SerializeField] private List<int> _resourcesSeed;
+
+        [SerializeField] private MineValues _value;
+        [Space(20f)]
 
 
         [SerializeField] private List<int> _healthOfBlocks;
@@ -53,15 +52,14 @@ namespace Grid
 
         public void Generate()
         {
-            GridHiddenValues.s_seedHidden = _seedHidden;
-            GridVisibleValues.s_seedVisible = _seedVisible;
+            GridHiddenValues.s_seedHidden = _value.HiddenSeed;
 
             int[,] temp_hidden = GridHiddenValues.GenerateHiddenValues(_rows, _columns, _diversification);
-            int[,] temp_visible = GridVisibleValues.GenerateVisibleValues(_rows, _columns, _resources, temp_hidden, _resourcesSeed);
+            int[,] temp_visible = GridVisibleValues.GenerateVisibleValues(_rows, _columns, _resources, temp_hidden, _value.Seeds);
 
             // Used when user want to create a new shape 
             // bool[,] temp_placeAble = GridGenerateAllPositionsForShaping.GenerateValuesForPlacing(_rows, _columns);
-            
+
             for (int row = 0; row < _rows; row++)
             {
                 List<StoreDataAboutTiles> temp = new List<StoreDataAboutTiles>();

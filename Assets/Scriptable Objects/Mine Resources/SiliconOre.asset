@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d16dada72a7e8f488cc5b29b412fdff, type: 3}
-  m_Name: 1
+  m_Name: SiliconOre
   m_EditorClassIdentifier: 
-  resourceTile: {fileID: 11400000, guid: 4f37dd6d61726e54fadd244e90d58ee4, type: 2}
-  dropValueMin: 3
-  dropValueMax: 6
-  rarityCoeficient: 0.2
-  frequency: 0.2
+  ResourceTile: {fileID: 0}
+  DropValueMin: 0
+  DropValueMax: 0
+  Coef: {fileID: 11400000, guid: 7743214b4014cd247ada50d3046a808e, type: 2}
