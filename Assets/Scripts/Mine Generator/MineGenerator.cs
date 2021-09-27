@@ -26,10 +26,6 @@ namespace Grid
         [Space(20f)]
 
 
-        [SerializeField] private MineValues _value;
-        [Space(20f)]
-
-
         [SerializeField] private List<int> _healthOfBlocks;
         [Space(20f)]
 
@@ -52,10 +48,10 @@ namespace Grid
 
         public void Generate()
         {
-            GridHiddenValues.s_seedHidden = _value.HiddenSeed;
-
             int[,] temp_hidden = GridHiddenValues.GenerateHiddenValues(_rows, _columns, _diversification);
-            int[,] temp_visible = GridVisibleValues.GenerateVisibleValues(_rows, _columns, _resources, temp_hidden, _value.Seeds);
+            int[,] temp_visibles = GridVisibleValues.GenerateVisibleValues(_rows, _columns, _resources, temp_hidden);
+
+            MineEnergyEstimation.NumberOfEachResource(_resources.Count, _rows, _columns, temp_visibles);
 
             // Used when user want to create a new shape 
             // bool[,] temp_placeAble = GridGenerateAllPositionsForShaping.GenerateValuesForPlacing(_rows, _columns);
@@ -71,12 +67,12 @@ namespace Grid
                         if(temp_hidden[row, col] == 0)
                         {
                             StoreAllTiles.instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType1);
-                            StoreData(temp_visible, row, temp, col, _healthOfBlocks[0]);
+                            StoreData(temp_visibles, row, temp, col, _healthOfBlocks[0]);
                         }
                         else
                         {
                             StoreAllTiles.instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType2);
-                            StoreData(temp_visible, row, temp, col, _healthOfBlocks[1]);
+                            StoreData(temp_visibles, row, temp, col, _healthOfBlocks[1]);
                         }                            
                     }
                 }
@@ -103,7 +99,6 @@ namespace Grid
         {
             for (int i = 0; i < _shape.values.Length; i++)
             {
-                //print((int)(i / _rows) + " " + (int)(i % _rows));
                 _areaOfBlocks[(int)(i / _columns), (int)(i % _columns)] = _shape.values[i];
             }
         }

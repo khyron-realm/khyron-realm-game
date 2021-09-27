@@ -15,6 +15,7 @@ namespace Grid
         // Possible values for mine blocks
         private enum values {stoneType1, stoneType2};
 
+
         /// <summary>
         /// 
         ///     Generate hidden values for the blocks in the mine
@@ -34,6 +35,8 @@ namespace Grid
         /// </returns>
         public static int[,] GenerateHiddenValues(int rows, int columns, float diversification)
         {
+            s_seedHidden = GetMineGenerationData.HiddenSeed;
+
             s_hiddenValues = new int[rows, columns];
 
             GenerateStoneLayer(rows, columns);

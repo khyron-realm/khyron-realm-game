@@ -21,5 +21,4 @@ public class ChangeScreen : MonoBehaviour, IPointerClickHandler
     {
         ScreenChange();
     }
-
 }

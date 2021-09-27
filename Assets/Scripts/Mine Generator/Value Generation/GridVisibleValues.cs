@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Save;
 
 namespace Grid
 {
@@ -29,8 +30,10 @@ namespace Grid
         ///     Visible values for all blocks in the mine [stone, dirt, resources]
         /// 
         /// </returns>
-        public static int[,] GenerateVisibleValues(int rows, int columns, List<MineResources> allMineResources, int[,] temp_hidden, List<ResourcesValuesForMineGeneration> seeds)
+        public static int[,] GenerateVisibleValues(int rows, int columns, List<MineResources> allMineResources, int[,] temp_hidden)
         {
+            List<ResourcesData> seeds = new List<ResourcesData>(GetMineGenerationData.ResourcesData);
+
             s_visibleValues = new int[rows, columns];
 
             CreateVisibleValuesForStadardBlocks(rows, columns, temp_hidden);
@@ -74,9 +77,9 @@ namespace Grid
         /// </summary>
         /// <param name="columns"> Number of columns in the mine </param>
         /// <param name="allMineResources"> The list of all resources with their settings </param>
-        private static void AddResourcesToTheMine(int rows, int columns, List<ResourcesValuesForMineGeneration> seeds)
+        private static void AddResourcesToTheMine(int rows, int columns, List<ResourcesData> seeds)
         {
-            foreach (ResourcesValuesForMineGeneration resource in seeds)
+            foreach (ResourcesData resource in seeds)
             {
                 // create index for the respective resource
                 int code = seeds.IndexOf(resource) + 2;
@@ -93,7 +96,7 @@ namespace Grid
             }
         }
 
-        
+
         /// <summary>
         /// 
         /// Generate chunks of every resource using perlin noise as user requested
@@ -120,7 +123,7 @@ namespace Grid
 
             if (temp < rarityCoeficient)
             {
-                s_visibleValues[i, j] = code;    
+                s_visibleValues[i, j] = code;
             }
         }
     }

@@ -13,7 +13,7 @@ namespace Mine
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            OnGameObjectTouched?.Invoke(gameObject);
+            OnGameObjectTouched?.Invoke(gameObject);  
         }
     }
 }

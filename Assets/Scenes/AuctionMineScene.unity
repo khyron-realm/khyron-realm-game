@@ -454,12 +454,11 @@ MonoBehaviour:
   _rows: 45
   _columns: 30
   _diversification: 0.131
-  _value: {fileID: 11400000, guid: df439e6d97731e64cb599818f7298fd9, type: 2}
   _healthOfBlocks: 9001000020030000
   _resources:
   - {fileID: 11400000, guid: f3914cce19825af438b570165cc889ec, type: 2}
-  - {fileID: 11400000, guid: 8680dd346bb48944c87a423105a25fea, type: 2}
   - {fileID: 11400000, guid: d9ff99c23ab4abb4aac69e85779f18c0, type: 2}
+  - {fileID: 11400000, guid: 8680dd346bb48944c87a423105a25fea, type: 2}
   _shape: {fileID: 11400000, guid: cc551631c8907374fa4708d54b9425db, type: 2}
 --- !u!4 &446433886
 Transform:
