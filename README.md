@@ -154,6 +154,14 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
               | -- GridHiddenValues.cs
               | -- GridVisibleValues.cs
           | -- MineGenerator.cs
+      | -- Networking
+          | -- GameControl.cs                    #Singleton class for darkrift client object
+          | -- LoginManager.cs                   #Manager for authenticating the user
+          | -- Player.cs                         #Player details class
+          | -- Rsa.cs                            #RSA encryption method
+          | -- Singleton.cs                      #Singleton class template
+          | -- Tags.cs                           #Tags for message communication
+          | -- UnlimitedPlayerManager.cs         #Manager for connecting player to server and executing actions 
       | -- Resources          
           | -- ConvertResources.cs               #Used for converting resources into energy
       | -- Robot Related
@@ -185,8 +193,8 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
           | -- Timer.cs                           #Keeps track of the time during a procces
       | -- Touch
           | -- UserTouch.cs                       #Fundamental touch operations simplifiend in methods
-   |-- Sounds
-   |-- Tiles
+   | -- Sounds
+   | -- Tiles
   ************************************************************************
 ```
 ## Used Plugins and Software
