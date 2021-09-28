@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d16dada72a7e8f488cc5b29b412fdff, type: 3}
   m_Name: TitaniumOre
   m_EditorClassIdentifier: 
-  ResourceTile: {fileID: 0}
+  ResourceTile: {fileID: 11400000, guid: 77118f0f3d9a16742911bfdbb739f70a, type: 2}
   DropValueMin: 0
   DropValueMax: 0
-  Coef: {fileID: 11400000, guid: 23cf7102f7ca70f49a0ece9d3572a96b, type: 2}

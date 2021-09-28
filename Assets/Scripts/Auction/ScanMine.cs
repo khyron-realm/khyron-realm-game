@@ -7,6 +7,7 @@ using TilesData;
 public class ScanMine : MonoBehaviour
 {
     [SerializeField] private int _vision;
+    [SerializeField] private bool _showScannedArea;
 
     private HashSet<Vector3Int> _blocksToDiscover;
 
@@ -16,18 +17,20 @@ public class ScanMine : MonoBehaviour
     }
 
 
-    public void Discover()
+    public void Discover(Vector3Int temp)
     {
-        // Middle of the circle of vision
-        Vector3Int temp = new Vector3Int((int)gameObject.transform.position.x, (int)gameObject.transform.position.y, 0);
-
         CreateCircleVision();
 
         foreach (Vector3Int item in _blocksToDiscover)
         {
-            if (StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource != null && StoreAllTiles.instance.Tilemap.GetTile(temp + item) != null)
+            if(StoreAllTiles.instance.Tilemap.GetTile(temp + item) != null && _showScannedArea)
             {
-                StoreAllTiles.instance.Tilemap.SetTile(temp + item, StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource.ResourceTile);
+                StoreAllTiles.instance.Tilemap.SetColor(temp + item, Color.red);
+            }
+
+            if (StoreAllTiles.instance.Tilemap.GetTile(temp + item) != null && StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource != null)
+            {             
+               StoreAllTiles.instance.Tilemap.SetTile(temp + item, StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource.ResourceTile);
             }
         }
     }

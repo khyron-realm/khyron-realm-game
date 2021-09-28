@@ -48,7 +48,7 @@ namespace Save
 
         public static float GenerateRandomValuesForCoeficients()
         {
-            return Random.Range(0.132f, 0.216f);
+            return Random.Range(0.18f, 0.24f);
         }
 
 
