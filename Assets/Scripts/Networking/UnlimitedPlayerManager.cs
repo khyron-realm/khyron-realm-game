@@ -8,12 +8,9 @@ using Networking;
 
 public class UnlimitedPlayerManager : MonoBehaviour
 {
-    [SerializeField] [Tooltip("The DarkRift client communication")]
-    private UnityClient client;
-
     void Awake()
     {
-        client.MessageReceived += MessageReceived;
+        GameControl.Client.MessageReceived += MessageReceived;
     }
 
     void MessageReceived(object sender, MessageReceivedEventArgs e)
@@ -46,6 +43,12 @@ public class UnlimitedPlayerManager : MonoBehaviour
                 Debug.Log("Player id = " + id);
             }
         }
+    }
+
+    // Method for user log in - to be called from the authentication screen
+    void Login(string username, string password)
+    {
+        LoginManager.Login(username, password);
     }
     
     void PlayerDisconnect(object sender, MessageReceivedEventArgs e) {}
