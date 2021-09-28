@@ -4,25 +4,21 @@ using UnityEngine;
 
 public class ObjectPooling : MonoBehaviour
 {
-    public static ObjectPooling SharedInstance;
+    //public static ObjectPooling SharedInstance;
 
     [SerializeField] private GameObject objectToPool;
     [SerializeField] private int amountToPool;
 
     [SerializeField] private GameObject _canvasToPool;
 
-    public static List<GameObject> pooledObjects; 
+    private List<GameObject> pooledObjects; 
     
-    private void Awake()
-    {
-        SharedInstance = this;
-    }
-
 
     private void Start()
     {
         pooledObjects = new List<GameObject>();
-        GameObject tmp; for (int i = 0; i < amountToPool; i++)
+        GameObject tmp; 
+        for (int i = 0; i < amountToPool; i++)
         {
             tmp = Instantiate(objectToPool);
             tmp.transform.SetParent(_canvasToPool.transform, false);

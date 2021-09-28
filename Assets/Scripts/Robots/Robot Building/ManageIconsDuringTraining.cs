@@ -8,9 +8,18 @@ namespace Manager.Train
 {
     public class ManageIconsDuringTraining : MonoBehaviour
     {
+        [SerializeField] private ObjectPooling _object;
+
+        private static ObjectPooling ObjectPooling;
+
+        private void Awake()
+        {
+            ObjectPooling = _object;
+        }
+
         public static void CreateIconInTheRightForRobotInBuilding(Robot robot)
         {
-            GameObject newRobotToCreate = ObjectPooling.SharedInstance.GetPooledObjects();
+            GameObject newRobotToCreate = ObjectPooling.GetPooledObjects();
 
             if (newRobotToCreate != null)
             {

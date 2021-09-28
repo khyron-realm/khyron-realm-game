@@ -22,6 +22,12 @@ namespace Mine
 
         [Header("All Mines on the minimap")]
         [SerializeField] private List<MineTouched> _mines;
+
+        [Header("Aquired gameObject with the button")]
+        [SerializeField] private GameObject _aquiredGameObject;
+
+        [Header("All Mines on the minimap")]
+        [SerializeField] private Button _aquiredButton;
         #endregion
 
         #region "Private Members"
@@ -50,13 +56,31 @@ namespace Mine
         }
 
 
-        private void TouchedGameObject(GameObject temp)
+        private void TouchedGameObject(GameObject temp, bool aquired)
         {
+            MineValues value = temp.GetComponent<MineValues>();
+            AdjustStaticMembers(value);
+
             if (_currentGameObject != temp)
             {
                 _currentGameObject = temp;
+            }
 
-                MineValues value = temp.GetComponent<MineValues>();
+            if(aquired)
+            { 
+                _mineDetails.SetActive(false);
+                _aquiredGameObject.SetActive(true);
+                _aquiredGameObject.transform.position = temp.transform.position;
+
+                _aquiredButton.image.color = new Color(1, 1, 1, 0);
+                _aquiredButton.transform.localPosition = new Vector2(0, -2);
+
+                _aquiredButton.transform.DOLocalMoveY(-2.4f, 0.2f);
+                _aquiredButton.image.DOFade(1, 0.4f);
+            }
+            else
+            {
+                _aquiredGameObject.SetActive(false);
 
                 _refreshButton.onClick.RemoveAllListeners();
                 _refreshButton.onClick.AddListener(value.Refresh);
@@ -67,8 +91,6 @@ namespace Mine
                         AdjustStaticMembers(value);
                     });
 
-                AdjustStaticMembers(value);
-
                 _enterButtonImage.color = new Color(1, 1, 1, 0);
                 _refreshButtonImage.color = new Color(1, 1, 1, 0);
 
@@ -78,16 +100,18 @@ namespace Mine
                 _mineDetails.SetActive(true);
                 _mineDetails.transform.position = temp.transform.position;
 
+                // Animations
                 _enterButtonTransform.DOLocalMoveY(-2.4f, 0.2f);
                 _enterButtonImage.DOFade(1, 0.4f);
 
                 _refreshButtonTransform.DOLocalMoveX(-2.8f, 0.2f);
                 _refreshButtonImage.DOFade(1, 0.4f);
-            }           
+                // end of animations
+            }
         }
+             
 
-
-        private static void AdjustStaticMembers(MineValues value)
+        private void AdjustStaticMembers(MineValues value)
         {
             GetMineGenerationData.HiddenSeed = value.HiddenSeed;
             GetMineGenerationData.ResourcesData = new List<ResourcesData>(value.ResourcesData);

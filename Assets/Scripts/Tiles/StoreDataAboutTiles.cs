@@ -10,8 +10,6 @@ namespace TilesData
     {
         private int _health;
         private MineResources _resource = null;
-        //private bool _deployable = false;
-        //private bool _beaconDeployed = false;
 
         // If block is Mined
         public static event Action<MineResources> OnMinedBlock;

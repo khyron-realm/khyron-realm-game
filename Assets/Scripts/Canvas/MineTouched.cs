@@ -9,11 +9,13 @@ namespace Mine
 {
     public class MineTouched : MonoBehaviour, IPointerClickHandler
     {
-        public event Action<GameObject> OnGameObjectTouched;
+        [SerializeField] private bool _isMineAquired;
+
+        public event Action<GameObject, bool> OnGameObjectTouched;
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            OnGameObjectTouched?.Invoke(gameObject);  
+            OnGameObjectTouched?.Invoke(gameObject, _isMineAquired);  
         }
     }
 }

@@ -40,10 +40,11 @@ public class OpenPanel : MonoBehaviour, IPointerClickHandler
     private void Awake()
     {
         _bgImage = _bgPanel.GetComponent<Image>();
+        _bgPanel.GetComponent<ClosePanelUsingBackround>().OnExit += SetFalse;
 
-        ClosePanelUsingBackround.OnExit += SetFalse;
+        SetActive();
+        SetFalse();
     }
-
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -109,6 +110,13 @@ public class OpenPanel : MonoBehaviour, IPointerClickHandler
 
     private void OnDestroy()
     {
-        ClosePanelUsingBackround.OnExit -= SetFalse;
+        try
+        {
+            _bgPanel.GetComponent<ClosePanelUsingBackround>().OnExit -= SetFalse;
+        }
+        catch
+        {
+
+        }   
     }
 }

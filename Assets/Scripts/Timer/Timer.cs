@@ -15,7 +15,7 @@ public class Timer : MonoBehaviour
     private int _maxTime = 0;
     private WaitForSeconds _standardTime;
 
-    public int totalTime
+    public int TotalTime
     {
         get
         {
@@ -36,6 +36,7 @@ public class Timer : MonoBehaviour
 
     private void Awake()
     {
+        _timeText.text = "";     
         _standardTime = new WaitForSeconds(1f);
     }
 

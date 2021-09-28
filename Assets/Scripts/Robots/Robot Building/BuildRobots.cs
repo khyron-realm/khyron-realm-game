@@ -22,7 +22,12 @@ namespace Manager.Train
 
         private void Awake()
         {
+            _timeRemained.text = "";
+            _tempLoadingBar.MaxValue = 1;
+            _tempLoadingBar.CurrentValue = 1;
+
             time = _time;
+
             StoreTrainRobotsOperations.OnStartOperation += StartBuildingRobots;
             StoreTrainRobotsOperations.OnStopOperation += StopBuildingRobots;
             StoreTrainRobotsOperations.OnRobotAdded += _time.AddTime;
@@ -42,7 +47,7 @@ namespace Manager.Train
             time.TimeTextState(false);
 
             // Reset Time
-            time.totalTime = 0;
+            time.TotalTime = 0;
         }
         private void StartBuildingRobots()
         {
@@ -63,7 +68,7 @@ namespace Manager.Train
 
         public static void RecalculateTime()
         {
-            time.totalTime = 0;
+            time.TotalTime = 0;
 
             foreach (Robot item in StoreTrainRobots.robotsInTraining)
             {
