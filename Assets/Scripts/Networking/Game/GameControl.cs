@@ -3,22 +3,22 @@ using System.Diagnostics.CodeAnalysis;
 using DarkRift.Client.Unity;
 using UnityEngine;
 
-namespace Networking
+namespace Networking.Game
 {
     public class GameControl : Singleton<GameControl>
     {
         [SerializeField] [Tooltip("The DarkRift client communication object")]
-        public UnityClient NetworkClient;
+        public UnityClient networkClient;
 
         [SuppressMessage("ReSharper", "Unity.NoNullPropagation")] 
-        public static UnityClient Client => Instance?.NetworkClient;
+        public static UnityClient Client => Instance?.networkClient;
         
         protected GameControl() {}
 
         public void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            NetworkClient = GetComponent<UnityClient>();
+            networkClient = GetComponent<UnityClient>();
         }
     }
 }

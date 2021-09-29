@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using UnityEngine;
 
-namespace Networking
+namespace Networking.Login
 {
     public class Rsa : MonoBehaviour
     {

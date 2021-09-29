@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Networking
+namespace Networking.Game
 {
     /// <inheritdoc />
     /// <summary>

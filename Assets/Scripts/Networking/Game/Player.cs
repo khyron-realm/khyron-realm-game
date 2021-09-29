@@ -1,6 +1,6 @@
 using DarkRift;
 
-namespace Networking
+namespace Networking.Game
 {
     public class Player
     {
