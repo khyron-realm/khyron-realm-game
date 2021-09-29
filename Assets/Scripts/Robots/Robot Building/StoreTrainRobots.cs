@@ -9,15 +9,17 @@ namespace Manager.Train
     {
         [SerializeField] private int _robotsLimit;
 
-        public static List<Robot> robotsInTraining;
-        public static List<Robot> robotsTrained;
-        public static int robotsLimit;
+        public static List<Robot> RobotsInTraining;
+        public static List<Robot> RobotsTrained;
+        public static int RobotsLimit;
 
         private void Awake()
         {
-            robotsInTraining = new List<Robot>();
-            robotsTrained = new List<Robot>();
-            robotsLimit = _robotsLimit;
+            RobotsInTraining = new List<Robot>();
+            RobotsTrained = new List<Robot>();
+
+
+            RobotsLimit = _robotsLimit;
         }
     }
 }

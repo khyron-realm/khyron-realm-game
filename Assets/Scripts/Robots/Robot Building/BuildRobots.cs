@@ -22,6 +22,8 @@ namespace Manager.Train
 
         private void Awake()
         {
+            GetRobotsTrained.RobotsBuilt = new List<Robot>();
+
             _timeRemained.text = "";
             _tempLoadingBar.MaxValue = 1;
             _tempLoadingBar.CurrentValue = 1;
@@ -62,7 +64,7 @@ namespace Manager.Train
 
         private void DisplayNumberOfRobots()
         {
-            _numberOfRobots.text = string.Format("{0}/30", StoreTrainRobots.robotsTrained.Count);
+            _numberOfRobots.text = string.Format("{0}/30", StoreTrainRobots.RobotsTrained.Count);
         }
 
 
@@ -70,7 +72,7 @@ namespace Manager.Train
         {
             time.TotalTime = 0;
 
-            foreach (Robot item in StoreTrainRobots.robotsInTraining)
+            foreach (Robot item in StoreTrainRobots.RobotsInTraining)
             {
                 time.AddTime(item.buildTime);
             }
@@ -81,28 +83,31 @@ namespace Manager.Train
         {
             _timeRemained.enabled = true;
 
-            for (int i = 0; i < StoreTrainRobots.robotsInTraining.Count; i++)
+            for (int i = 0; i < StoreTrainRobots.RobotsInTraining.Count; i++)
             {
                 if (ManageIcons.robotsInBuildingIcons.Count > 0)
                 {
-                    _tempLoadingBar.MaxValue = StoreTrainRobots.robotsInTraining[i].buildTime;
+                    _tempLoadingBar.MaxValue = StoreTrainRobots.RobotsInTraining[i].buildTime;
                 }
 
                 _tempTime = 0;
 
-                while (StoreTrainRobots.robotsInTraining[i] != null && _tempTime < StoreTrainRobots.robotsInTraining[i].buildTime)
+                while (StoreTrainRobots.RobotsInTraining[i] != null && _tempTime < StoreTrainRobots.RobotsInTraining[i].buildTime)
                 {
                     _tempTime += 1;
 
                     _tempLoadingBar.CurrentValue = (int)_tempTime;
-                    time.DisplayTime(_timeRemained, (int)(StoreTrainRobots.robotsInTraining[i].buildTime - _tempTime));
+                    time.DisplayTime(_timeRemained, (int)(StoreTrainRobots.RobotsInTraining[i].buildTime - _tempTime));
                     
                     yield return _time.ActivateTimer();
                 }
 
-                StoreTrainRobots.robotsTrained.Add(StoreTrainRobots.robotsInTraining[i]);
+                StoreTrainRobots.RobotsTrained.Add(StoreTrainRobots.RobotsInTraining[i]);
+
+                GetRobotsTrained.RobotsBuilt = new List<Robot>(StoreTrainRobots.RobotsTrained);
+
                 DisplayNumberOfRobots();
-                StoreTrainRobots.robotsInTraining.Remove(StoreTrainRobots.robotsInTraining[i]);
+                StoreTrainRobots.RobotsInTraining.Remove(StoreTrainRobots.RobotsInTraining[i]);
 
                 ManageIconsDuringTraining.DezactivateIcon(ManageIcons.robotsInBuildingIcons[i]);
 

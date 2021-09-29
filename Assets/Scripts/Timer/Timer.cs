@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
+    [SerializeField] private bool _hasTimeText;
     [SerializeField] private Text _timeText;
 
     [SerializeField] private bool _hasProgressBar;
@@ -14,6 +15,7 @@ public class Timer : MonoBehaviour
     private int _totalTime = 0;
     private int _maxTime = 0;
     private WaitForSeconds _standardTime;
+
 
     public int TotalTime
     {
@@ -33,7 +35,30 @@ public class Timer : MonoBehaviour
             }
         }
     }
+    public bool HasTimeText
+    {
+        get
+        {
+            return _hasTimeText;
+        }
+        set
+        { 
+            if(value == false)
+            {
+                _timeText.enabled = false;
+            }   
+            else
+            {
+                
+                _timeText.enabled = true;
+                DisplayTime();
+            }
 
+            _hasTimeText = value;       
+        }
+    }
+
+    
     private void Awake()
     {
         _timeText.text = "";     
@@ -54,19 +79,33 @@ public class Timer : MonoBehaviour
     public void AddTime(int time)
     {
         _totalTime += time;
-        SetProgressBarMaxValue();
-        DisplayTime();
+        DoStuff();
     }
     public void AddTime(Robot robot)
     {
         _totalTime += robot.buildTime;
-        SetProgressBarMaxValue();
-        DisplayTime();
+        DoStuff();
     }
     public void DecreaseTime(int time)
     {
         _totalTime -= time;
-        DisplayTime();
+
+        if(_hasTimeText)
+        {
+            DisplayTime();
+        }
+    }
+    private void DoStuff()
+    {
+        if (_hasProgressBar)
+        {
+            SetProgressBarMaxValue();
+        }
+
+        if (_hasTimeText)
+        {
+            DisplayTime();
+        }
     }
 
 
@@ -130,7 +169,7 @@ public class Timer : MonoBehaviour
         if(_hasProgressBar)
         {
             _bar.CurrentValue = _maxTime - _totalTime;
-        }      
+        }    
     }
     private void SetProgressBarMaxValue()
     {
@@ -140,6 +179,7 @@ public class Timer : MonoBehaviour
             _maxTime = _totalTime;
         }
     }
+
 
     // Timer 
     public IEnumerator ActivateTimer()

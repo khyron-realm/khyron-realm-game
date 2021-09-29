@@ -10,6 +10,7 @@ public class ScanMine : MonoBehaviour
     [SerializeField] private bool _showScannedArea;
 
     private HashSet<Vector3Int> _blocksToDiscover;
+    private bool _done = false;
 
     private void Awake()
     {
@@ -17,21 +18,30 @@ public class ScanMine : MonoBehaviour
     }
 
 
-    public void Discover(Vector3Int temp)
+    public bool Discover(Vector3Int temp)
     {
         CreateCircleVision();
 
-        foreach (Vector3Int item in _blocksToDiscover)
+        if(StoreAllTiles.instance.Tilemap.GetTile(temp) != null)
         {
-            if(StoreAllTiles.instance.Tilemap.GetTile(temp + item) != null && _showScannedArea)
+            foreach (Vector3Int item in _blocksToDiscover)
             {
-                StoreAllTiles.instance.Tilemap.SetColor(temp + item, Color.red);
+                if (StoreAllTiles.instance.Tilemap.GetTile(temp + item) != null && StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource != null)
+                {
+                    StoreAllTiles.instance.Tilemap.SetTile(temp + item, StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource.ResourceTile);
+                    _done = true;
+                }
             }
-
-            if (StoreAllTiles.instance.Tilemap.GetTile(temp + item) != null && StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource != null)
-            {             
-               StoreAllTiles.instance.Tilemap.SetTile(temp + item, StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource.ResourceTile);
-            }
+        }
+        
+        if(_done)
+        {
+            _done = false;
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 

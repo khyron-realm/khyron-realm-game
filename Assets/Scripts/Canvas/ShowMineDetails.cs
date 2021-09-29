@@ -38,6 +38,7 @@ namespace Mine
         private Image _refreshButtonImage;
 
         private GameObject _currentGameObject;
+        private Timer _tempTimer;
         #endregion
 
         private void Awake()
@@ -59,7 +60,9 @@ namespace Mine
         private void TouchedGameObject(GameObject temp, bool aquired)
         {
             MineValues value = temp.GetComponent<MineValues>();
-            AdjustStaticMembers(value);
+            TimeValues time = temp.GetComponent<TimeValues>();
+
+            AdjustStaticMembers(value, time);
 
             if (_currentGameObject != temp)
             {
@@ -80,6 +83,19 @@ namespace Mine
             }
             else
             {
+                if(_tempTimer != null)
+                {
+                    _tempTimer.HasTimeText = false;
+                }
+
+                _tempTimer = temp.GetComponent<Timer>();
+
+                if(_tempTimer != null)
+                {
+                    _tempTimer.HasTimeText = true;
+                }
+                
+
                 _aquiredGameObject.SetActive(false);
 
                 _refreshButton.onClick.RemoveAllListeners();
@@ -88,7 +104,7 @@ namespace Mine
                 _refreshButton.onClick.AddListener(
                     delegate
                     {
-                        AdjustStaticMembers(value);
+                        AdjustStaticMembers(value, time);
                     });
 
                 _enterButtonImage.color = new Color(1, 1, 1, 0);
@@ -110,11 +126,14 @@ namespace Mine
             }
         }
              
-
-        private void AdjustStaticMembers(MineValues value)
+        
+        
+        private void AdjustStaticMembers(MineValues value, TimeValues time)
         {
             GetMineGenerationData.HiddenSeed = value.HiddenSeed;
             GetMineGenerationData.ResourcesData = new List<ResourcesData>(value.ResourcesData);
+
+            GetTimeTillAuctionEnds.TimeOfTheMine = time.TimeTillFinished;
         }
     }
 }

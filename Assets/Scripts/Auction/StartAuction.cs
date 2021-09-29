@@ -2,31 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Save;
 
 public class StartAuction : MonoBehaviour
 {
-    [SerializeField] public int _totalTimeOfAuction;
+    [SerializeField] private Timer _time;
+    [SerializeField] private int _totalTime;
 
-    public Text _timeText;
+    private MineValues _valuesMine;
+    private TimeValues _valuesTime;
+
+    private Coroutine _coroute;
 
     private void Start()
-    {     
-        //StartCoroutine(AuctionInProgress());
+    {
+        _valuesMine = GetComponent<MineValues>();
+        _valuesTime = GetComponent<TimeValues>();
+
+        if(_valuesTime.TimeTillFinished == 0)
+        {
+            _coroute = StartCoroutine(AuctionInProgress(_totalTime));
+        }
+        else
+        {
+            _coroute = StartCoroutine(AuctionInProgress(_valuesTime.TimeTillFinished));
+        }
+    }
+
+    public void Restart()
+    {
+        StopCoroutine(_coroute);
+        _coroute = StartCoroutine(AuctionInProgress(_totalTime));
     }
 
 
-    private IEnumerator AuctionInProgress()
+    private IEnumerator AuctionInProgress(int time)
     {
-        int temp = _totalTimeOfAuction;
-       
-        while (temp > 1)
+        _time.TotalTime = time;
+        
+        while (_time.TotalTime > 1)
         {
-            temp -= 1;
+            _valuesTime.TimeTillFinished = _time.TotalTime;
+            _valuesTime.SaveData();
 
-            if(_timeText != null)
-                _timeText.text = _totalTimeOfAuction.ToString();
+            yield return _time.ActivateTimer();
+        }
 
-            yield return new WaitForSeconds(1f);
-        }       
+        _valuesMine.Refresh();
+        _coroute = StartCoroutine(AuctionInProgress(_totalTime));
     }
 }

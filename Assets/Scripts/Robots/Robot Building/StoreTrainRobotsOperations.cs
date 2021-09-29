@@ -30,15 +30,15 @@ namespace Manager.Train
         // Add and remove robots from build order
         public static void AddRobotsToBuild(Robot robot)
         {
-            if (StoreTrainRobots.robotsTrained.Count + StoreTrainRobots.robotsInTraining.Count < StoreTrainRobots.robotsLimit)
+            if (StoreTrainRobots.RobotsTrained.Count + StoreTrainRobots.RobotsInTraining.Count < StoreTrainRobots.RobotsLimit)
             {               
                 if(PayRobots.StartPaymenetProcedure(robot))
                 {
                     OnRobotAdded?.Invoke(robot);
-                    StoreTrainRobots.robotsInTraining.Add(robot);
+                    StoreTrainRobots.RobotsInTraining.Add(robot);
                     ManageIconsDuringTraining.CreateIconInTheRightForRobotInBuilding(robot);
 
-                    if (StoreTrainRobots.robotsInTraining.Count > 0)
+                    if (StoreTrainRobots.RobotsInTraining.Count > 0)
                     {
                         OnStartOperation?.Invoke();
                     }
@@ -66,7 +66,7 @@ namespace Manager.Train
             BuildRobots.RecalculateTime();
             ManageIconsDuringTraining.DezactivateIcon(robotIcon);
 
-            if (StoreTrainRobots.robotsInTraining.Count < 1)
+            if (StoreTrainRobots.RobotsInTraining.Count < 1)
             {
                 OnStopOperation?.Invoke();
             }
@@ -77,7 +77,7 @@ namespace Manager.Train
         {
             OnRobotRemoved?.Invoke(robot);
             PayRobots.RefundRobot(robot);
-            StoreTrainRobots.robotsInTraining.Remove(robot);
+            StoreTrainRobots.RobotsInTraining.Remove(robot);
             ManageIcons.robotsInBuildingIcons.Remove(robotIcon);
         }
 
