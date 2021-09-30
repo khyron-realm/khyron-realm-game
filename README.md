@@ -41,7 +41,7 @@
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#license">License</a></li>
+    <li><a href="#references">References</a></li>
   </ol>
 </details>
 
@@ -202,12 +202,9 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
 1. [Rainbow Folders 2](https://assetstore.unity.com/packages/tools/utilities/rainbow-folders-2-143526)
 2. [DotWeen](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
 
-<!-- LICENSE -->
-## License
 
-Project Template adapted from [Othneil Drew](https://github.com/othneildrew) / [Best-README-Template](https://github.com/othneildrew/Best-README-Template).
+<!-- REFERENCES -->
+## References
 
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[product-screenshot]: images/screenshot.png
+1. Darkrift example [Darkrift2_Boilerplate](https://github.com/mwage/DarkRift2_Boilerplate)
+1. Project Template adapted from [Othneil Drew](https://github.com/othneildrew) / [Best-README-Template](https://github.com/othneildrew/Best-README-Template).
