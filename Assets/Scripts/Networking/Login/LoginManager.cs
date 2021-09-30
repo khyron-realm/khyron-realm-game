@@ -55,12 +55,12 @@ namespace Networking.Login
                     break;
                 }
                     
-                case LoginTags.AddPlayerSuccess:
+                case LoginTags.AddUserSuccess:
                 {
                     break;
                 }
 
-                case LoginTags.AddPlayedFailed:
+                case LoginTags.AddUserFailed:
                 {
                     using var reader = message.GetReader();
                     if (reader.Length != 1)
@@ -79,7 +79,7 @@ namespace Networking.Login
             writer.Write(username);
             writer.Write(Rsa.Encrypt(Encoding.UTF8.GetBytes(password)));
 
-            using var msg = Message.Create(LoginTags.LoginPlayer, writer);
+            using var msg = Message.Create(LoginTags.LoginUser, writer);
             GameControl.Client.SendMessage(msg, SendMode.Reliable);
         }
 
@@ -87,7 +87,7 @@ namespace Networking.Login
         {
             IsLoggedIn = false;
 
-            using var msg = Message.CreateEmpty(LoginTags.LogoutPlayer);
+            using var msg = Message.CreateEmpty(LoginTags.LogoutUser);
             GameControl.Client.SendMessage(msg, SendMode.Reliable);
         }
     }
