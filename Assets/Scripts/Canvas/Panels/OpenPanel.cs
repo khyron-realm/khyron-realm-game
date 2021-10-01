@@ -3,120 +3,98 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
-public class OpenPanel : MonoBehaviour, IPointerClickHandler
+
+namespace Panels
 {
-    #region "Input Fields"
-
-    [SerializeField]
-    [Header("Panel that will be opened")]
-    [Space(10f)]
-    private GameObject _panel;
-
-    [SerializeField]
-    [Header("BackGround Panel")]
-    [Space(30f)]
-    private GameObject _bgPanel;
-
-    [SerializeField]
-    [Header("The value for the popup scale [normal --> 1 + value --> normal]")]
-    [Space(30f)]
-    private float _popUpScaleValue;
-
-    [SerializeField]
-    [Range(0,1)]
-    [Header("BackGround trasparency [alpha value]")]
-    [Space(30f)]
-    private float _bgTransparency;
-
-    #endregion
-
-    #region "Private members used in script"
-    private Image _bgImage;
-
-    #endregion
-
-
-    private void Awake()
+    public class OpenPanel : MonoBehaviour, IPointerClickHandler
     {
-        _bgImage = _bgPanel.GetComponent<Image>();
-        _bgPanel.GetComponent<ClosePanelUsingBackround>().OnExit += SetFalse;
+        #region "Input Fields"
 
-        SetActive();
-        SetFalse();
-    }
+        [SerializeField]
+        [Header("Panel that will be opened")]
+        [Space(10f)]
+        private GameObject _panel;
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        SetActive();
-    }
+        [SerializeField]
+        [Header("BackGround Panel")]
+        [Space(30f)]
+        private GameObject _bgPanel;
 
-    // Set Panel and Bg to active
-    public void SetActive()
-    {
-        _panel.SetActive(true);
-        _bgPanel.SetActive(true);
+        [SerializeField]
+        [Header("Scale Value")]
+        [Space(30f)]
+        private float _popUpScaleValue;
 
-        StartCoroutine("ChangeBgTransparency");
-        StartCoroutine("PopUpScale");
-    }
+        [SerializeField]
+        [Range(0, 1)]
+        [Header("BackGround trasparency [alpha value]")]
+        [Space(30f)]
+        private float _bgTransparency;
 
+        #endregion
 
-    // Set Panel and Bg to inactive
-    public void SetFalse()
-    {
-        _panel.SetActive(false);
-        _panel.transform.localScale = new Vector3(1,1,0);
+        #region "Private members used in script"
 
-        _bgPanel.SetActive(false);
-        _bgImage.color = new Color(0,0,0,0);
-    }
+        private Image _bgImage;
+        private Sequence _mySequence;
 
+        #endregion
 
-    // Change transparency
-    private IEnumerator ChangeBgTransparency()
-    {
-        float temp = 0;
-        while (temp < _bgTransparency)
+        private void Awake()
         {
-            temp += Time.deltaTime * 1.2f;
-            _bgImage.color = new Color(0, 0, 0, temp);
-            yield return null;
-        } 
-    }
+            _bgImage = _bgPanel.GetComponent<Image>();
+            _bgPanel.GetComponent<ClosePanelUsingBackround>().OnExit += SetFalse;
 
+            OpenPanelAnimation();
 
-    // Pop Up Scale animation
-    private IEnumerator PopUpScale()
-    {
-        float temp = 0;
-        while (temp < _popUpScaleValue)
-        {
-            temp += Time.deltaTime;
-            _panel.transform.localScale = new Vector3(1 + temp, 1 + temp, 0);
-
-            yield return null;
+            SetActive();
+            SetFalse();
         }
 
-        temp = 0;
-        while (temp < _popUpScaleValue)
+        public void OnPointerClick(PointerEventData eventData)
         {
-            temp += Time.deltaTime;
-            _panel.transform.localScale = new Vector3(1 + _popUpScaleValue - temp, 1 + _popUpScaleValue - temp, 0);
-
-            yield return null;
+            SetActive();
         }
-    }
 
-    private void OnDestroy()
-    {
-        try
+
+        public void SetActive()
         {
-            _bgPanel.GetComponent<ClosePanelUsingBackround>().OnExit -= SetFalse;
+            _panel.SetActive(true);
+            _bgPanel.SetActive(true);
+
+            _mySequence.Restart();
         }
-        catch
+        public void SetFalse()
         {
+            _panel.SetActive(false);
+            _panel.transform.localScale = new Vector3(1, 1, 0);
 
-        }   
+            _bgPanel.SetActive(false);
+            _bgImage.color = new Color(0, 0, 0, 0);
+        }
+
+
+        private void OpenPanelAnimation()
+        {
+            _mySequence = DOTween.Sequence();
+            _mySequence.Append(_panel.transform.DOScale(_popUpScaleValue, 0.12f));
+            _mySequence.Append(_panel.transform.DOScale(1, 0.12f));
+            _mySequence.Append(_bgImage.DOColor(new Color(0, 0, 0, 0.5f), 0.3f));
+            _mySequence.SetAutoKill(false);
+        }
+
+        private void OnDestroy()
+        {
+            try
+            {
+                _bgPanel.GetComponent<ClosePanelUsingBackround>().OnExit -= SetFalse;
+            }
+            catch
+            {
+
+            }
+        }
     }
 }

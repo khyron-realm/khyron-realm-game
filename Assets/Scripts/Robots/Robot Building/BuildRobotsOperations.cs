@@ -2,17 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Manager.Store;
 using Manager.PayOperation;
+using Manager.Robots;
 
 
 namespace Manager.Train
 {
-    public class StoreTrainRobotsOperations : MonoBehaviour
+    public class BuildRobotsOperations : MonoBehaviour
     {
         [SerializeField] private RobotsManagerUI _managerUI;
 
-        // events
+        #region "Events"
         public static event Action OnStartOperation;
         public static event Action OnStopOperation;
 
@@ -20,6 +20,7 @@ namespace Manager.Train
         public static event Action<Robot> OnRobotRemoved;
 
         public static event Action OnMaximumCapacityAchieved;
+        #endregion
 
         private void Awake()
         {
@@ -30,18 +31,18 @@ namespace Manager.Train
         // Add and remove robots from build order
         public static void AddRobotsToBuild(Robot robot)
         {
-            if (StoreTrainRobots.RobotsTrained.Count + StoreTrainRobots.RobotsInTraining.Count < StoreTrainRobots.RobotsLimit)
+            if (StoreRobots.RobotsTrained.Count + StoreRobots.RobotsInTraining.Count < StoreRobots.RobotsLimit)
             {               
                 if(PayRobots.StartPaymenetProcedure(robot))
                 {
-                    OnRobotAdded?.Invoke(robot);
-                    StoreTrainRobots.RobotsInTraining.Add(robot);
-                    ManageIconsDuringTraining.CreateIconInTheRightForRobotInBuilding(robot);
-
-                    if (StoreTrainRobots.RobotsInTraining.Count > 0)
+                    if (StoreRobots.RobotsInTraining.Count > 0)
                     {
                         OnStartOperation?.Invoke();
                     }
+
+                    OnRobotAdded?.Invoke(robot);
+                    StoreRobots.RobotsInTraining.Add(robot);
+                    RobotsInBuildingOperations.CreateIconInTheRightForRobotInBuilding(robot);                   
                 }         
             }
             else
@@ -51,7 +52,7 @@ namespace Manager.Train
         }
         public static void RemoveRobotsToBuild(Robot robot, GameObject robotIcon)
         {
-            if (robotIcon == ManageIcons.robotsInBuildingIcons[0])
+            if (robotIcon == RobotsInBuilding.robotsInBuildingIcons[0])
             {
                 OnStopOperation?.Invoke();
                 Remove(robot, robotIcon);
@@ -64,9 +65,9 @@ namespace Manager.Train
 
 
             BuildRobots.RecalculateTime();
-            ManageIconsDuringTraining.DezactivateIcon(robotIcon);
+            RobotsInBuildingOperations.DezactivateIcon(robotIcon);
 
-            if (StoreTrainRobots.RobotsInTraining.Count < 1)
+            if (StoreRobots.RobotsInTraining.Count < 1)
             {
                 OnStopOperation?.Invoke();
             }
@@ -77,8 +78,8 @@ namespace Manager.Train
         {
             OnRobotRemoved?.Invoke(robot);
             PayRobots.RefundRobot(robot);
-            StoreTrainRobots.RobotsInTraining.Remove(robot);
-            ManageIcons.robotsInBuildingIcons.Remove(robotIcon);
+            StoreRobots.RobotsInTraining.Remove(robot);
+            RobotsInBuilding.robotsInBuildingIcons.Remove(robotIcon);
         }
 
         private void OnDestroy()

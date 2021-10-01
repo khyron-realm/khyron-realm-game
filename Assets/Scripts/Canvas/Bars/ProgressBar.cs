@@ -5,100 +5,105 @@ using TMPro;
 using UnityEngine.UI;
 
 
-public class ProgressBar : MonoBehaviour
+namespace Panels
 {
-    #region "InputFields"
-
-    [SerializeField] private int _maxValue;
-
-    [SerializeField] private int _currentValue;
-
-    private void OnValidate()
+    public class ProgressBar : MonoBehaviour
     {
-        if (_maxValue < 0)
+        #region "InputFields"
+
+        [SerializeField] private int _maxValue;
+
+        [SerializeField] private int _currentValue;
+
+        private void OnValidate()
         {
-            _maxValue = 0;
-        }
-
-        _currentValue = Mathf.Clamp(_currentValue, 0, _maxValue);
-    }
-
-    [SerializeField] private Image _fillImage;
-
-    [Space(20f)]
-
-    [SerializeField] private bool _hasText;
-   
-    [SerializeField] private TextMeshProUGUI _text;
-
-    #endregion
-
-    #region "Public Values"
-
-    public int MaxValue
-    {
-        get
-        {
-            return _maxValue;
-        }
-        set
-        {
-            if(value > 0)
-            {
-                _maxValue = value;
-            }
-            else
+            if (_maxValue < 0)
             {
                 _maxValue = 0;
             }
-        }
-    }
 
-    public int CurrentValue
-    {
-        get
+            _currentValue = Mathf.Clamp(_currentValue, 0, _maxValue);
+        }
+
+        [SerializeField] private Image _fillImage;
+
+        [Space(20f)]
+
+        [SerializeField] private bool _hasText;
+
+        [SerializeField] private TextMeshProUGUI _text;
+
+        #endregion
+
+        #region "Public Values"
+
+        public int MaxValue
         {
-            return _currentValue;
+            get
+            {
+                return _maxValue;
+            }
+            set
+            {
+                if (value > 0)
+                {
+                    _maxValue = value;
+                }
+                else
+                {
+                    _maxValue = 0;
+                }
+
+                CorelateValues();
+            }
         }
-        set
+        public int CurrentValue
         {
-            _currentValue = Mathf.Clamp(value, 0, _maxValue);
+            get
+            {
+                return _currentValue;
+            }
+            set
+            {
+                _currentValue = Mathf.Clamp(value, 0, _maxValue);
+
+                CorelateValues();
+            }
         }
-    }
 
-    #endregion
+        #endregion
 
-    private void Update()
-    {
-        SetFillAmount();
-        if(_hasText)
+        private void SetFillAmount()
         {
-            SetText();
+            if (_maxValue > 0)
+            {
+                _fillImage.fillAmount = (float)_currentValue / (float)_maxValue;
+            }
         }
-    }
-
-    private void SetFillAmount()
-    {
-        if(_maxValue > 0)
+        private void SetText()
         {
-            _fillImage.fillAmount = (float)_currentValue / (float)_maxValue;
+            _text.text = _currentValue.ToString();
         }
-    }
-
-    private void SetText()
-    {
-        _text.text = _currentValue.ToString();
-    }
 
 
-    // Management of the text
-    public void MakeTextLarge(int value)
-    {
-        _text.fontSize += value;
-    }
+        private void CorelateValues()
+        {
+            SetFillAmount();
 
-    public void MakeTextSmaller(int value)
-    {
-        _text.fontSize -= value;
+            if (_hasText)
+            {
+                SetText();
+            }
+        }
+
+
+        public void MakeTextLarge(int value)
+        {
+            _text.fontSize += value;
+        }
+        public void MakeTextSmaller(int value)
+        {
+            _text.fontSize -= value;
+        }
     }
 }

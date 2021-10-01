@@ -11,12 +11,12 @@ namespace Manager.PayOperation
         public static bool StartPaymenetProcedure(Robot robot)
         {
             PriceToBuildOrUpgrade price = GetCost(robot);
-            return ResourcesOperations.Remove(StoreDataResources.energy, price.energy);
+            return ResourcesOperations.Remove(StoreResourcesAmount.energy, price.energy);
         }
         public static void RefundRobot(Robot robot)
         {
             PriceToBuildOrUpgrade price = GetCost(robot);
-            ResourcesOperations.Add(StoreDataResources.energy, price.energy);
+            ResourcesOperations.Add(StoreResourcesAmount.energy, price.energy);
         }
 
 

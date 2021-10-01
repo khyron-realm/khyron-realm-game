@@ -1093,3 +1093,171 @@ MonoBehaviour:
     BackgroundTexture: {fileID: 0}
     IsBackgroundRecursive: 0
     IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Canvas/InstantiateButtons
+    Ordinal: 90
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Manager Scripts/Robot Handlers
+    Ordinal: 91
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Manager Scripts/Scene
+    Ordinal: 92
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Manager Scripts/DataStorageDuringGameplay
+    Ordinal: 93
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Robots/Robot Building
+    Ordinal: 94
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Robots/RobotUpgrading
+    Ordinal: 95
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Robots/Robot Upgrading
+    Ordinal: 96
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Canvas/Instantiate Canvas Elements
+    Ordinal: 97
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Canvas/Panels
+    Ordinal: 98
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/Canvas/Bars
+    Ordinal: 99
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/ScriptableObjects/Mine
+    Ordinal: 100
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/ScriptableObjects/Player
+    Ordinal: 101
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/ScriptableObjects/Resources
+    Ordinal: 102
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0
+  - Type: 1
+    Key: Assets/Scripts/ScriptableObjects/Robots
+    Ordinal: 103
+    Priority: 0
+    IconType: 40
+    SmallIcon: {fileID: 0}
+    LargeIcon: {fileID: 0}
+    IsIconRecursive: 0
+    BackgroundType: 0
+    BackgroundTexture: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsHidden: 0

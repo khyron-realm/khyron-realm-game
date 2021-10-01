@@ -8,8 +8,9 @@ using Manager.Train;
 
 namespace GameErrors
 {
-    public class RaiseGameError : MonoBehaviour
+    public class RaiseGameErrors : MonoBehaviour
     {
+        #region "Input data"
         [SerializeField] private Text _text;
 
         [Space(20f)]
@@ -18,6 +19,7 @@ namespace GameErrors
         [SerializeField] private string _notEnoughEnergy;
         [SerializeField] private string _toManyResources;
         [SerializeField] private string _maxCapacity;
+        #endregion
 
         private float _time;
         private bool _once = false;
@@ -29,7 +31,7 @@ namespace GameErrors
             ResourcesOperations.OnNotEnoughResources += NotEnoughResources;
             ResourcesOperations.OnNotEnoughEnergy += NotEnoughEnergy;
             ResourcesOperations.OnToMuchResources += ToManyResources;
-            StoreTrainRobotsOperations.OnMaximumCapacityAchieved += MaxCapacityAchieved;
+            BuildRobotsOperations.OnMaximumCapacityAchieved += MaxCapacityAchieved;
         }
 
 
@@ -77,7 +79,7 @@ namespace GameErrors
             while (_time < 3)
             {
                 _time += Time.deltaTime;
-                _text.color = Color.Lerp(Color.red, new Color(1, 1, 1, 0), _time/3);     
+                _text.color = Color.Lerp(Color.red, new Color(1, 1, 1, 0), _time / 3);
                 yield return null;
             }
 
@@ -111,7 +113,8 @@ namespace GameErrors
             ResourcesOperations.OnNotEnoughResources -= NotEnoughResources;
             ResourcesOperations.OnNotEnoughEnergy -= NotEnoughEnergy;
             ResourcesOperations.OnToMuchResources -= ToManyResources;
-            StoreTrainRobotsOperations.OnMaximumCapacityAchieved -= MaxCapacityAchieved;
+            BuildRobotsOperations.OnMaximumCapacityAchieved -= MaxCapacityAchieved;
         }
     }
+
 }

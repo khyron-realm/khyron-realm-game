@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Manager.Store
 {
-    public class StoreDataResources : MonoBehaviour
+    public class StoreResourcesAmount : MonoBehaviour
     {
         [SerializeField] private int _maximumLevel;
         public static int maximumLevel;

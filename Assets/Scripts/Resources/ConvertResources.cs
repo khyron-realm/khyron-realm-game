@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Manager.Store;
+using CountDown;
 
 namespace Manager.Convert
 {
     public class ConvertResources : MonoBehaviour
     {
+        #region "Input data"
         [SerializeField] private Timer _timer;
         [SerializeField] private Button _button;
         [SerializeField] private int _timeToConvert;
+        #endregion
 
         private void Awake()
         {
             _timer.TimeTextState(false);
         }
-
 
         public void Convert()
         {
@@ -27,7 +29,6 @@ namespace Manager.Convert
 
             StartCoroutine(RunConversion());
         }
-
 
         private IEnumerator RunConversion()
         {
@@ -40,7 +41,7 @@ namespace Manager.Convert
 
             _button.enabled = true;
             _timer.TimeTextState(false);
-            ResourcesOperations.Add(StoreDataResources.energy, 100);
+            ResourcesOperations.Add(StoreResourcesAmount.energy, 100);
         }
     }
 }

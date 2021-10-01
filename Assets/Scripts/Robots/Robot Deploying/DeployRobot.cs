@@ -18,27 +18,19 @@ namespace RobotButtonInteractions
     public class DeployRobot : MonoBehaviour
     {
         // Robot to deploy
-        private GameObject _robot;
+        [SerializeField] private GameObject _robot;
+        [SerializeField] private Button _button;
 
-        // Button asociated with the robot
-        private Button _button;
         private bool _hasMoved = false;
-
-        public GameObject Robot
-        {
-            set
-            {
-                _robot = value;
-            }
-        }
+        bool check = true;
 
         // Called when robot is deployed in the mine
         public event Action OnDeployed;
 
         private void Awake()
         {
-            _button = GetComponent<Button>();
             _button.onClick.AddListener(StartDeployOperation);
+            OnDeployed += ChangeCheck;
         }
 
 
@@ -48,19 +40,17 @@ namespace RobotButtonInteractions
         }
 
 
-        private void StartDeployOperation()
+        public void StartDeployOperation()
         {
             StartCoroutine("Deploy");
         }
-
+        
 
         private IEnumerator Deploy()
-        {
-            bool check = true;
-
+        {          
             while (check)
             {
-                Vector3Int temp = UserTouch.TouchPositionInt(0, UserTouch.touchArea);
+                Vector3Int temp = UserTouch.TouchPositionInt(0);
                 Vector3Int nullVector = new Vector3Int(-99999, -99999, -99999);
 
                 if(UserTouch.TouchPhaseMoved(0))
@@ -77,8 +67,7 @@ namespace RobotButtonInteractions
 
                 if (temp != nullVector && UserTouch.TouchPhaseEnded(0) && _hasMoved == false)
                 {
-                    DeployRobotInTheMap(temp);
-                    check = false;
+                    DeployRobotInTheMap(temp);                  
                 }
                 yield return null;
             }
@@ -87,15 +76,25 @@ namespace RobotButtonInteractions
 
         private void DeployRobotInTheMap(Vector3Int temp)
         {
-            StoreAllTiles.instance.Tilemap.SetTile(temp, null);
-            StoreAllTiles.instance.tiles[temp.x][temp.y].Health = -1;
+            if (StoreAllTiles.instance.Tilemap.GetTile(temp) != null)
+            {
+                StoreAllTiles.instance.Tilemap.SetTile(temp, null);
+                StoreAllTiles.instance.tiles[temp.x][temp.y].Health = -1;
 
-            _robot.SetActive(true);        
-            _robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f, 0f);
+                GameObject robot = Instantiate(_robot);
+                robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f, 0f);
 
-            _button.onClick.RemoveListener(StartDeployOperation);
+                _button.onClick.RemoveListener(StartDeployOperation);
 
-            OnDeployed?.Invoke();
+                OnDeployed?.Invoke();
+            }
+            
+        }
+
+
+        private void ChangeCheck()
+        {
+            check = false;
         }
     }
 }

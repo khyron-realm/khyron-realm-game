@@ -3,22 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ChangeScreen : MonoBehaviour, IPointerClickHandler
+namespace Panels
 {
-    [SerializeField]
-    private GameObject _currentScreen;
-
-    [SerializeField]
-    private GameObject _screenToGo;
-
-    public void ScreenChange()
+    public class ChangeScreen : MonoBehaviour, IPointerClickHandler
     {
-        _currentScreen.SetActive(false);
-        _screenToGo.SetActive(true);
-    }
+        #region "Input data"
+        [SerializeField] private GameObject _currentScreen;
+        [SerializeField] private GameObject _screenToGo;
+        #endregion
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        ScreenChange();
+        public void ScreenChange()
+        {
+            _currentScreen.SetActive(false);
+            _screenToGo.SetActive(true);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            ScreenChange();
+        }
     }
 }

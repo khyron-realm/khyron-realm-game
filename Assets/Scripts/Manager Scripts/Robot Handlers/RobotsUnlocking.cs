@@ -5,11 +5,12 @@ using UnityEngine;
 
 namespace Manager.Robots
 {
-    public class RobotsUnlocking:MonoBehaviour
+    public static class RobotsUnlocking
     {
-        public void UnlockRobot(string name)
+        public static void UnlockRobot(string name)
         {
             RobotsPlayerProgress temp;
+
             temp.availableRobot = true;
             temp.robotLevel = RobotsManager.robotsData[name].robotLevel;
 

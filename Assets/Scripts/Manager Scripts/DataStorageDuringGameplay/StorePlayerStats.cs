@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Manager.Store
 {
-    public class StoreDataPlayerStats : MonoBehaviour
+    public class StorePlayerStats : MonoBehaviour
     {
         [SerializeField] private LevelsThresholds _levelsThresholds;
 

@@ -5,19 +5,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using Manager.Robots;
 using Manager.Store;
+using CountDown;
+
 
 namespace Manager.Upgrade
 {
     public class UpgradeRobots : MonoBehaviour
     {
+        #region "Input data" 
         [SerializeField] private Image _displayStatsImage;
         [SerializeField] private Text _nameOfTheRobot;
         [SerializeField] private Button _upgradeButton;
 
         [SerializeField] private RobotsManagerUI _robotManager;
         [SerializeField] private Timer _timer;
-
-
+        #endregion
+        
         private Robot _selectedRobot;
         private RobotLevel _curentLevelOfTheRobot;
 
@@ -25,6 +28,7 @@ namespace Manager.Upgrade
         {
             _robotManager.OnButtonPressed += DisplayRobotToUpgrade;
             _upgradeButton.onClick.AddListener(StartUpgradingProcedure);
+
             _timer.TimeTextState(false);
         }
 
@@ -38,6 +42,7 @@ namespace Manager.Upgrade
             _selectedRobot = robot;
 
             int temp = GetInfoLevel();
+
             _displayStatsImage.sprite = robot.robotLevel[temp].upgradeImage;
             _nameOfTheRobot.text = robot.nameOfTheRobot;
         }
@@ -47,7 +52,7 @@ namespace Manager.Upgrade
             int temp = GetInfoLevel();
             _curentLevelOfTheRobot = _selectedRobot.robotLevel[temp];
 
-            if (ResourcesOperations.Remove(StoreDataResources.energy, _curentLevelOfTheRobot.priceToUpgrade.energy))
+            if (ResourcesOperations.Remove(StoreResourcesAmount.energy, _curentLevelOfTheRobot.priceToUpgrade.energy))
             {
                 _upgradeButton.enabled = false;
 

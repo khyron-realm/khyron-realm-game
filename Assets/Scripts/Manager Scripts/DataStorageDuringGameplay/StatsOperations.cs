@@ -13,18 +13,18 @@ namespace Manager.Store
 
         public void AddXP(int xp)
         {
-            StoreDataPlayerStats.currentXp += xp;
+            StorePlayerStats.currentXp += xp;
             CheckIfLevelUp();    
         }
 
         private void CheckIfLevelUp()
         {
-            if (StoreDataPlayerStats.currentLevel < StoreDataPlayerStats.levelsThresholds.levelsThresholds.Count && StoreDataPlayerStats.currentXp > StoreDataPlayerStats.levelsThresholds.levelsThresholds[StoreDataPlayerStats.currentLevel - 1])
+            if (StorePlayerStats.currentLevel < StorePlayerStats.levelsThresholds.levelsThresholds.Count && StorePlayerStats.currentXp > StorePlayerStats.levelsThresholds.levelsThresholds[StorePlayerStats.currentLevel - 1])
             {
-                StoreDataPlayerStats.currentXp -= StoreDataPlayerStats.levelsThresholds.levelsThresholds[StoreDataPlayerStats.currentLevel - 1];
-                StoreDataPlayerStats.currentLevel++;
+                StorePlayerStats.currentXp -= StorePlayerStats.levelsThresholds.levelsThresholds[StorePlayerStats.currentLevel - 1];
+                StorePlayerStats.currentLevel++;
 
-                OnLevelUp?.Invoke(StoreDataPlayerStats.currentLevel);
+                OnLevelUp?.Invoke(StorePlayerStats.currentLevel);
             }
             else
             {

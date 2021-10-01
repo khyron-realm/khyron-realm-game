@@ -7,6 +7,12 @@ namespace AuxiliaryMethods
 {
     public class AuxiliaryMethods
     {
+        /// <summary>
+        /// 
+        /// Map a value from and old range to a new one
+        /// 
+        /// </summary>
+        /// <returns> New Value mapped in the range NewMin and NewMax </returns>
         public static float Scale(float OldMin, float OldMax, float NewMin, float NewMax, float OldValue)
         {
             float OldRange = (OldMax - OldMin);
@@ -25,6 +31,7 @@ namespace AuxiliaryMethods
             foreach (Robot item in robots)
             {
                 RobotsPlayerProgress temp;
+
                 temp.availableRobot = false;
                 temp.robotLevel = 0;
 

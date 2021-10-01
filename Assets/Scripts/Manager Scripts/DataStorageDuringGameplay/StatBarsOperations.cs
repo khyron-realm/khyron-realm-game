@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Panels;
+using DG.Tweening;
+
 
 namespace Manager.Store
 {
@@ -24,8 +27,8 @@ namespace Manager.Store
             InitMaximumLevels();
             InitCurrentLevels();
 
-            _xpBar.MaxValue = StoreDataPlayerStats.levelsThresholds.levelsThresholds[0];
-            _xpBar.CurrentValue = StoreDataPlayerStats.currentXp;
+            _xpBar.MaxValue = StorePlayerStats.levelsThresholds.levelsThresholds[0];
+            _xpBar.CurrentValue = StorePlayerStats.currentXp;
 
             StatsOperations.OnXpAdded += HandleBarAnimationForXpBar;
             StatsOperations.OnLevelUp += HandleBarAnimationForLevelUp;
@@ -35,17 +38,17 @@ namespace Manager.Store
 
         private void InitCurrentLevels()
         {
-            _energyBar.CurrentValue = StoreDataResources.energy.currentValue;
-            _lithiumBar.CurrentValue = StoreDataResources.lithium.currentValue;
-            _titaniumBar.CurrentValue = StoreDataResources.titanium.currentValue;
-            _silliconBar.CurrentValue = StoreDataResources.silicon.currentValue;
+            _energyBar.CurrentValue = StoreResourcesAmount.energy.currentValue;
+            _lithiumBar.CurrentValue = StoreResourcesAmount.lithium.currentValue;
+            _titaniumBar.CurrentValue = StoreResourcesAmount.titanium.currentValue;
+            _silliconBar.CurrentValue = StoreResourcesAmount.silicon.currentValue;
         }
         private void InitMaximumLevels()
         {
-            _energyBar.MaxValue = StoreDataResources.maximumLevel;
-            _lithiumBar.MaxValue = StoreDataResources.maximumLevel;
-            _titaniumBar.MaxValue = StoreDataResources.maximumLevel;
-            _silliconBar.MaxValue = StoreDataResources.maximumLevel;
+            _energyBar.MaxValue = StoreResourcesAmount.maximumLevel;
+            _lithiumBar.MaxValue = StoreResourcesAmount.maximumLevel;
+            _titaniumBar.MaxValue = StoreResourcesAmount.maximumLevel;
+            _silliconBar.MaxValue = StoreResourcesAmount.maximumLevel;
         }
         
 
@@ -56,33 +59,33 @@ namespace Manager.Store
                 case "energy":
                     if (energy != null)
                         StopCoroutine(energy);
-                    energy = StartCoroutine(BarAnimation(_energyBar, StoreDataResources.energy.currentValue));
+                    energy = StartCoroutine(BarAnimation(_energyBar, StoreResourcesAmount.energy.currentValue));
                     break;
                 case "lithium":
                     if (lithium != null)
                         StopCoroutine(lithium);
-                    lithium = StartCoroutine(BarAnimation(_lithiumBar, StoreDataResources.lithium.currentValue));
+                    lithium = StartCoroutine(BarAnimation(_lithiumBar, StoreResourcesAmount.lithium.currentValue));
                     break;
                 case "titanium":
                     if (titanium != null)
                         StopCoroutine(titanium);
-                    titanium = StartCoroutine(BarAnimation(_titaniumBar, StoreDataResources.titanium.currentValue));
+                    titanium = StartCoroutine(BarAnimation(_titaniumBar, StoreResourcesAmount.titanium.currentValue));
                     break;
                 case "silicon":
                     if (silicon != null)
                         StopCoroutine(silicon);
-                    silicon = StartCoroutine(BarAnimation(_silliconBar, StoreDataResources.silicon.currentValue));
+                    silicon = StartCoroutine(BarAnimation(_silliconBar, StoreResourcesAmount.silicon.currentValue));
                     break;
             }
         }
         private void HandleBarAnimationForXpBar()
         {
-            StartCoroutine(BarAnimation(_xpBar, StoreDataPlayerStats.currentXp));
+            StartCoroutine(BarAnimation(_xpBar, StorePlayerStats.currentXp));
         }
         private void HandleBarAnimationForLevelUp(int level)
         {
-            StartCoroutine(BarAnimation(_xpBar, StoreDataPlayerStats.currentXp));
-            _xpBar.MaxValue = StoreDataPlayerStats.levelsThresholds.levelsThresholds[StoreDataPlayerStats.currentLevel];
+            StartCoroutine(BarAnimation(_xpBar, StorePlayerStats.currentXp));          
+            _xpBar.MaxValue = StorePlayerStats.levelsThresholds.levelsThresholds[StorePlayerStats.currentLevel];
         }
 
 

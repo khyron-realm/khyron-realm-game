@@ -42,7 +42,7 @@ namespace Manager.Store
             }
             else
             {
-                if(resource == StoreDataResources.energy)
+                if(resource == StoreResourcesAmount.energy)
                 {
                     OnNotEnoughEnergy?.Invoke();
                 }
@@ -60,15 +60,15 @@ namespace Manager.Store
         // Add and remove operation for all 3 resources
         public static void PayResources(int lithiumAmount, int titaniumAmount, int siliconAmount)
         {
-            bool lithium = ValidateOperation(StoreDataResources.lithium, lithiumAmount, false);
-            bool titanium = ValidateOperation(StoreDataResources.titanium, titaniumAmount, false);
-            bool silicon = ValidateOperation(StoreDataResources.silicon, siliconAmount, false);
+            bool lithium = ValidateOperation(StoreResourcesAmount.lithium, lithiumAmount, false);
+            bool titanium = ValidateOperation(StoreResourcesAmount.titanium, titaniumAmount, false);
+            bool silicon = ValidateOperation(StoreResourcesAmount.silicon, siliconAmount, false);
 
             if (lithium && titanium && silicon)
             {
-                Remove(StoreDataResources.lithium, lithiumAmount);
-                Remove(StoreDataResources.titanium, titaniumAmount);
-                Remove(StoreDataResources.silicon, siliconAmount);
+                Remove(StoreResourcesAmount.lithium, lithiumAmount);
+                Remove(StoreResourcesAmount.titanium, titaniumAmount);
+                Remove(StoreResourcesAmount.silicon, siliconAmount);
             }
             else
             {
@@ -77,9 +77,9 @@ namespace Manager.Store
         }
         public static void RefundPayment(int lithiumAmount, int titaniumAmount, int siliconAmount)
         {
-            Add(StoreDataResources.lithium, lithiumAmount);
-            Add(StoreDataResources.titanium, titaniumAmount);
-            Add(StoreDataResources.silicon, siliconAmount);
+            Add(StoreResourcesAmount.lithium, lithiumAmount);
+            Add(StoreResourcesAmount.titanium, titaniumAmount);
+            Add(StoreResourcesAmount.silicon, siliconAmount);
         }
 
 

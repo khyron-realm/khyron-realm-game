@@ -53,12 +53,12 @@ public class InstatiateButtonsForRobotsInMine : MonoBehaviour
 
     private void TouchedListener(Button newButton)
     {
-        newButton.transform.DOScale(1.12f, 0.2f);
+        newButton.transform.DOScale(1.12f, 0.18f);
         foreach (Button item in _buttons)
         {
             if(newButton != item)
             {
-                item.transform.DOScale(1, 0.2f);
+                item.transform.DOScale(1, 0.18f);
             }
         }
     }

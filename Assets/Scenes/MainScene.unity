@@ -809,7 +809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panel: {fileID: 2024436158}
   _bgPanel: {fileID: 930833976}
-  _popUpScaleValue: 0.08
+  _popUpScaleValue: 1.08
   _bgTransparency: 0.4
 --- !u!61 &119942924
 BoxCollider2D:
@@ -2794,7 +2794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mineDetails: {fileID: 1169625063}
-  _mineButton: {fileID: 292951300}
+  _mineButton: {fileID: 292951302}
   _refreshButton: {fileID: 1431123402}
   _mines:
   - {fileID: 1062792600}
@@ -2803,7 +2803,7 @@ MonoBehaviour:
   - {fileID: 1041498424}
   - {fileID: 1361104248}
   - {fileID: 1201918817}
-  _aquiredGameObject: {fileID: 391188148}
+  _aquiredDetails: {fileID: 391188148}
   _aquiredButton: {fileID: 555087998}
 --- !u!1 &406715088
 GameObject:
@@ -5812,7 +5812,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -8305,7 +8305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panel: {fileID: 881529305}
   _bgPanel: {fileID: 930833976}
-  _popUpScaleValue: 0.08
+  _popUpScaleValue: 1.08
   _bgTransparency: 0.4
 --- !u!61 &1141305470
 BoxCollider2D:
@@ -8559,7 +8559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panel: {fileID: 224076908}
   _bgPanel: {fileID: 930833976}
-  _popUpScaleValue: 0.08
+  _popUpScaleValue: 1.08
   _bgTransparency: 0.4
 --- !u!1 &1169625063
 GameObject:
@@ -9252,7 +9252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panel: {fileID: 507613054}
   _bgPanel: {fileID: 930833976}
-  _popUpScaleValue: 0.08
+  _popUpScaleValue: 1.08
   _bgTransparency: 0.4
 --- !u!61 &1280846823
 BoxCollider2D:
@@ -11202,8 +11202,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1549684277}
   - component: {fileID: 1549684276}
-  - component: {fileID: 1549684279}
-  - component: {fileID: 1549684278}
   m_Layer: 0
   m_Name: RobotsManager
   m_TagString: Untagged
@@ -11243,30 +11241,6 @@ Transform:
   m_Father: {fileID: 790242268}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1549684278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1549684275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6da881c95c202344d89629e885a31250, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1549684279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1549684275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f8d3b825c5c47444ad94700c7a6841a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1571739596
 GameObject:
   m_ObjectHideFlags: 0
@@ -11565,7 +11539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panel: {fileID: 629942792}
   _bgPanel: {fileID: 930833976}
-  _popUpScaleValue: 0.08
+  _popUpScaleValue: 1.08
   _bgTransparency: 0.4
 --- !u!61 &1584883685
 BoxCollider2D:

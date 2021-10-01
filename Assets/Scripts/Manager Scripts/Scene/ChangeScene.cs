@@ -4,12 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class ChangeScene : MonoBehaviour
+namespace Scenes
 {
-    [SerializeField] string _sceneToLoad;
-    // Start is called before the first frame update
-    public void GoToScene()
+    public class ChangeScene : MonoBehaviour
     {
-        SceneManager.LoadSceneAsync(_sceneToLoad);
+        [SerializeField] string _sceneToLoad;
+
+        public void GoToScene()
+        {
+            SceneManager.LoadSceneAsync(_sceneToLoad);
+        }
     }
 }

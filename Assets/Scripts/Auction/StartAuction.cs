@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Save;
+using CountDown;
 
 public class StartAuction : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class StartAuction : MonoBehaviour
         _valuesMine = GetComponent<MineValues>();
         _valuesTime = GetComponent<TimeValues>();
 
-        if(_valuesTime.TimeTillFinished == 0)
+        if (_valuesTime.TimeTillFinished == 0)
         {
             _coroute = StartCoroutine(AuctionInProgress(_totalTime));
         }

@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Panels;
 
 
 namespace Manager.Train
 {
-    public class ManageIcons : MonoBehaviour
+    public class RobotsInBuilding : MonoBehaviour
     {
         // List with icons
         public static List<GameObject> robotsInBuildingIcons;

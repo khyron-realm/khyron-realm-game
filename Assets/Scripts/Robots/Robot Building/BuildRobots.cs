@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Panels;
+using CountDown;
+
 
 namespace Manager.Train
 {
     public class BuildRobots : MonoBehaviour
     {
+        #region "Input data"
         [SerializeField] private Text _numberOfRobots;
         [SerializeField] private Timer _time;
 
@@ -14,11 +18,12 @@ namespace Manager.Train
 
         [SerializeField] private Text _timeRemained;
         [SerializeField] private ProgressBar _tempLoadingBar;
+        #endregion
 
         private bool _once = false;
         private static float _tempTime = 0;
 
-        public static Timer time;
+        public static Timer Time;
 
         private void Awake()
         {
@@ -28,11 +33,11 @@ namespace Manager.Train
             _tempLoadingBar.MaxValue = 1;
             _tempLoadingBar.CurrentValue = 1;
 
-            time = _time;
+            Time = _time;
 
-            StoreTrainRobotsOperations.OnStartOperation += StartBuildingRobots;
-            StoreTrainRobotsOperations.OnStopOperation += StopBuildingRobots;
-            StoreTrainRobotsOperations.OnRobotAdded += _time.AddTime;
+            BuildRobotsOperations.OnStartOperation += StartBuildingRobots;
+            BuildRobotsOperations.OnStopOperation += StopBuildingRobots;
+            BuildRobotsOperations.OnRobotAdded += Time.AddTime;
             
         }
 
@@ -46,16 +51,15 @@ namespace Manager.Train
         {
             StopCoroutine("BuildingRobots");
             _once = false;
-            time.TimeTextState(false);
 
-            // Reset Time
-            time.TotalTime = 0;
+            Time.TimeTextState(false);
+            Time.TotalTime = 0;
         }
         private void StartBuildingRobots()
         {
             if (_once == false)
             {
-                _time.TimeTextState(true);
+                Time.TimeTextState(true);
                 StartCoroutine("BuildingRobots");
                 _once = true;
             }
@@ -64,59 +68,58 @@ namespace Manager.Train
 
         private void DisplayNumberOfRobots()
         {
-            _numberOfRobots.text = string.Format("{0}/30", StoreTrainRobots.RobotsTrained.Count);
+            _numberOfRobots.text = string.Format("{0}/30", StoreRobots.RobotsTrained.Count);
         }
 
 
         public static void RecalculateTime()
         {
-            time.TotalTime = 0;
+            Time.TotalTime = 0;
 
-            foreach (Robot item in StoreTrainRobots.RobotsInTraining)
+            foreach (Robot item in StoreRobots.RobotsInTraining)
             {
-                time.AddTime(item.buildTime);
+                Time.AddTime(item.buildTime);
             }
 
-            time.DecreaseTime((int)_tempTime);
+            Time.DecreaseTime((int)_tempTime);
         }
         private IEnumerator BuildingRobots()
         {
             _timeRemained.enabled = true;
 
-            for (int i = 0; i < StoreTrainRobots.RobotsInTraining.Count; i++)
+            for (int i = 0; i < StoreRobots.RobotsInTraining.Count; i++)
             {
-                if (ManageIcons.robotsInBuildingIcons.Count > 0)
+                if (RobotsInBuilding.robotsInBuildingIcons.Count > 0)
                 {
-                    _tempLoadingBar.MaxValue = StoreTrainRobots.RobotsInTraining[i].buildTime;
+                    _tempLoadingBar.MaxValue = StoreRobots.RobotsInTraining[i].buildTime;
                 }
 
                 _tempTime = 0;
 
-                while (StoreTrainRobots.RobotsInTraining[i] != null && _tempTime < StoreTrainRobots.RobotsInTraining[i].buildTime)
+                while (StoreRobots.RobotsInTraining[i] != null && _tempTime < StoreRobots.RobotsInTraining[i].buildTime)
                 {
                     _tempTime += 1;
 
                     _tempLoadingBar.CurrentValue = (int)_tempTime;
-                    time.DisplayTime(_timeRemained, (int)(StoreTrainRobots.RobotsInTraining[i].buildTime - _tempTime));
+                    Time.DisplayTime(_timeRemained, (int)(StoreRobots.RobotsInTraining[i].buildTime - _tempTime));
                     
                     yield return _time.ActivateTimer();
                 }
 
-                StoreTrainRobots.RobotsTrained.Add(StoreTrainRobots.RobotsInTraining[i]);
+                StoreRobots.RobotsTrained.Add(StoreRobots.RobotsInTraining[i]);
 
-                GetRobotsTrained.RobotsBuilt = new List<Robot>(StoreTrainRobots.RobotsTrained);
+                GetRobotsTrained.RobotsBuilt = new List<Robot>(StoreRobots.RobotsTrained);
 
                 DisplayNumberOfRobots();
-                StoreTrainRobots.RobotsInTraining.Remove(StoreTrainRobots.RobotsInTraining[i]);
+                StoreRobots.RobotsInTraining.Remove(StoreRobots.RobotsInTraining[i]);
 
-                ManageIconsDuringTraining.DezactivateIcon(ManageIcons.robotsInBuildingIcons[i]);
-
-                ManageIcons.robotsInBuildingIcons.RemoveAt(i);
+                RobotsInBuildingOperations.DezactivateIcon(RobotsInBuilding.robotsInBuildingIcons[i]);
+                RobotsInBuilding.robotsInBuildingIcons.RemoveAt(i);
                 i--;
             }
 
             _once = false;
-            time.TimeTextState(false);
+            Time.TimeTextState(false);
 
             // last robot loading bar
             _timeRemained.enabled = false;
@@ -126,9 +129,9 @@ namespace Manager.Train
 
         private void OnDestroy()
         {
-            StoreTrainRobotsOperations.OnStartOperation -= StartBuildingRobots;
-            StoreTrainRobotsOperations.OnStopOperation -= StopBuildingRobots;
-            StoreTrainRobotsOperations.OnRobotAdded -= _time.AddTime;
+            BuildRobotsOperations.OnStartOperation -= StartBuildingRobots;
+            BuildRobotsOperations.OnStopOperation -= StopBuildingRobots;
+            BuildRobotsOperations.OnRobotAdded -= _time.AddTime;
         }
     }
 }

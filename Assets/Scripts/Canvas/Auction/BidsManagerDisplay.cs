@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-
+using ObjectPool;
+using Panels;
 
 public class BidsManagerDisplay : MonoBehaviour
 {

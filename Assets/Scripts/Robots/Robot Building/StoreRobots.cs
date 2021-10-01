@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Manager.Train
 {
-    public class StoreTrainRobots : MonoBehaviour
+    public class StoreRobots : MonoBehaviour
     {
         [SerializeField] private int _robotsLimit;
 
@@ -17,7 +17,6 @@ namespace Manager.Train
         {
             RobotsInTraining = new List<Robot>();
             RobotsTrained = new List<Robot>();
-
 
             RobotsLimit = _robotsLimit;
         }

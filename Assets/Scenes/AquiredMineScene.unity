@@ -660,7 +660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvas: {fileID: 635522755}
-  _buttonToInstantiate: {fileID: 972259439496882681, guid: b8714e89dbe6d9746bedfd2b38149edd, type: 3}
+  _buttonToInstantiate: {fileID: 8172230705043739021, guid: 26c1673df78d50a41ac87ae89231a207, type: 3}
 --- !u!4 &809491454
 Transform:
   m_ObjectHideFlags: 0

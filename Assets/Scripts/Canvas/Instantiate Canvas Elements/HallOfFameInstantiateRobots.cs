@@ -4,13 +4,14 @@ using UnityEngine;
 using Manager.Robots;
 
 
-namespace Manager.PresentRobots
+namespace Manager.Robots
 {
     public class HallOfFameInstantiateRobots : MonoBehaviour
     {
+        #region "Input data"
         [SerializeField] private GameObject _templateToInstantiate;
         [SerializeField] private GameObject _canvas;
-
+        #endregion
 
         private void Start()
         {
