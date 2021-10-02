@@ -1,71 +1,94 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using DarkRift;
 using DarkRift.Client;
-using DarkRift.Client.Unity;
-using Networking;
 using Networking.Login;
 using Networking.Tags;
+using UnityEngine;
 
 namespace Networking.Game
 {
+    /// <summary>
+    ///     Player manager that handles the game messages
+    /// </summary>
     public class UnlimitedPlayerManager : MonoBehaviour
     {
-        void Awake()
+        private void Awake()
         {
             GameControl.Client.MessageReceived += OnDataHandler;
         }
 
-        void OnDataHandler(object sender, MessageReceivedEventArgs e)
+        /// <summary>
+        ///     Message received handler that receives each message and executes the necessary actions
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The client object</param>
+        private void OnDataHandler(object sender, MessageReceivedEventArgs e)
         {
-            using (Message message = e.GetMessage())
+            using (var message = e.GetMessage())
             {
                 // Check if message is for this plugin
-                if (message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Game + 1))
-                {
-                    return;
-                }
+                if (message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Game + 1)) return;
 
                 switch (message.Tag)
                 {
                     case GameTags.PlayerConnectTag:
                     {
-                        PlayerConnect(sender, e);
+                        Debug.Log("Player connected");
+                        //PlayerConnect(e);
                         break;
                     }
+                    
                     case GameTags.PlayerDisconnectTag:
                     {
-                        PlayerDisconnect(sender, e);
+                        Debug.Log("Player disconnected");
+                        //PlayerDisconnect(e);
                         break;
                     }
                 }
             }
         }
 
-        void PlayerConnect(object sender, MessageReceivedEventArgs e)
+        /// <summary>
+        ///     Player connected actions
+        /// </summary>
+        /// <param name="e">The client object</param>
+        private void PlayerConnect(MessageReceivedEventArgs e)
         {
-            Debug.Log("Player connected");
-            using (Message message = e.GetMessage()) {
-                using (DarkRiftReader reader = message.GetReader())
+            using (var message = e.GetMessage())
+            {
+                using (var reader = message.GetReader())
                 {
-                    string id = reader.ReadString();
-                    string name = reader.ReadString();
-                    ushort level = reader.ReadUInt16();
-                    ushort experience = reader.ReadUInt16();
-                    ushort energy = reader.ReadUInt16();
-                    
+                    var id = reader.ReadString();
+                    var name = reader.ReadString();
+                    var level = reader.ReadUInt16();
+                    var experience = reader.ReadUInt16();
+                    var energy = reader.ReadUInt16();
+
                     Debug.Log("Player id = " + id);
                 }
             }
         }
 
-        // Method for user log in - to be called from the authentication screen
-        void Login(string username, string password)
+        /// <summary>
+        ///     Player disconnected actions
+        /// </summary>
+        /// <param name="e">The client object</param>
+        private void PlayerDisconnect(MessageReceivedEventArgs e)
+        {
+        }
+
+        #region Test methods
+
+        private void Login(string username, string password)
         {
             LoginManager.Login(username, password);
         }
-        
-        void PlayerDisconnect(object sender, MessageReceivedEventArgs e) {}
+
+        private void AddUser(string username, string password)
+        {
+            Debug.Log("Adding user");
+            LoginManager.AddUser(username, password);
+            Debug.Log("User added");
+        }
+
+        #endregion
     }
 }

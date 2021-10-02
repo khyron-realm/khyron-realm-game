@@ -4,15 +4,22 @@ using UnityEngine;
 
 namespace Networking.Login
 {
+    /// <summary>
+    ///     RSA class for encrypting a string
+    /// </summary>
     public class Rsa : MonoBehaviour
     {
         private static string _key;
-        
+
+        /// <summary>
+        ///     Loads the public key on application load
+        /// </summary>
         private void Awake()
         {
             try
             {
-                if (Resources.Load("PublicKey") is TextAsset { } keyFile) _key = keyFile.text;
+                var keyFile = Resources.Load("PublicKey") as TextAsset;
+                _key = keyFile.text;
             }
             catch (Exception e)
             {
@@ -20,6 +27,11 @@ namespace Networking.Login
             }
         }
 
+        /// <summary>
+        ///     Encrypts data stream with the selected private key
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>The encrypted string</returns>
         public static byte[] Encrypt(byte[] input)
         {
             using var rsa = new RSACryptoServiceProvider(4096);

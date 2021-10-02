@@ -1,19 +1,21 @@
-using System;
-using System.Diagnostics.CodeAnalysis;
 using DarkRift.Client.Unity;
 using UnityEngine;
 
 namespace Networking.Game
 {
+    /// <summary>
+    ///     Creates a networking client to connect to the DarkRift server
+    /// </summary>
     public class GameControl : Singleton<GameControl>
     {
         [SerializeField] [Tooltip("The DarkRift client communication object")]
         public UnityClient networkClient;
 
-        [SuppressMessage("ReSharper", "Unity.NoNullPropagation")] 
+        protected GameControl()
+        {
+        }
+
         public static UnityClient Client => Instance?.networkClient;
-        
-        protected GameControl() {}
 
         public void Awake()
         {
