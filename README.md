@@ -117,82 +117,102 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
       | -- Prices
       | -- Robots
    |-- Scripts
-      | -- Auxiliary
-          | -- AuxiliaryMethods.cs               #Auxiliary methods
-      | -- Camera movement
-          | -- PanPinch.cs                       #Script for moving the camera using touch input 
-      | -- Canvas
-          | -- Bars
-              | -- ProgressBar.cs                #Progress ba handler, manage visual state of the progress bar
-          | -- Panels
-              | -- ClosePanelUsingBackGround.cs  #Closes selected panel using the background
-              | -- OpenPanel.cs                  #Open the panel that is selected for the curent gameObject + handle animations for opening the panel
-          | -- CanvasHelper.cs                   #Resize the UI to fit inside the phone safe zone
-          | -- ChangeScreen.cs                   #Activate one Gameobject and dezactivate the other one -- used for changing screens from hq to map
-          | -- RobotsManagerUI.cs                #Used to instantiate buttons for all robots in the desired canvas
-      | -- GameErrors
-          | -- RaiseGameError.cs                 #Displays on the screen the error that happened {Not enough resources etc}
-      | -- Manager Scripts
-          | -- DataStorageDuringGameplay
-              | -- ResourcesOperations.cs        #Operations of removing and adding with the resources [all 4]
-              | -- StatBarsOperations.cs         #Manage values and what is displayed on the stat bars of resources
-              | -- StatsOperaions.cs             #Manage operations of level and Xp
-              | -- StoreDataPlayerStats.cs  
-              | -- StoreDaraResources.cs
-          | -- RobotHandlers
-              | -- RobotLevelingUp.cs            #Takes care of robots leveling up
-              | -- RobotManager.cs               
-              | -- RobotPlayerProgress.cs
-              | -- RobotsUnlocking.cs
-          | -- Scenes
-              | -- ChangeScenes.cs
-          | -- GameManager                       #Manage game
-      | -- Mine Generator                     
-          | -- Mine Creation Tools
-              | -- ShapeTheMine.cs
-          | -- Values Generation
-              | -- GridGeneratePositions.cs
-              | -- GridHiddenValues.cs
-              | -- GridVisibleValues.cs
-          | -- GetMineGenerationData.cs          #Used to mantain data about the mine across the scenes
-          | -- MineEnergyEstimates.cs            #An estimated price of the mine in energy
-          | -- MineGenerator.cs
-      | -- Resources          
-          | -- ConvertResources.cs               #Used for converting resources into energy
-      | -- Robot Related
-          | -- RobotBuilding
-              | -- BuildRobots.cs                #Coroutine with the logic of building the robots
-              | -- ManageIcons.cs                #Store icons that will apear in the right in the building phase
-              | -- ManageIconsDuringTraining.cs  #Manage icons that will apear in the right in the building phase 
-              | -- PayRobots.cs                  #Is doing the payment for each robot [Pay,refund]
-              | -- StoreTrainRobots.cs           #Keep track of robots in building and robots already built
-              | -- StoreTrainRobotsOperations.cs #Operations of adding and removing robots from the queue
-          | -- RobotUpgrading
-              | -- UpgradeRobots.cs              #Upgrade robots logic
-          | -- HallOfFameInstantiateRobots.cs    #Instantiate panel with robots and 
-          | -- ObjectPooling.cs                  #Takes care of 30 gameObjects by activating and dezactivating them based on the need
-      | -- Save
-          | -- MineData.cs                       #Serializable class that have the data about the mine | Used to be save in binary format
-          | -- MinesValues.cs                    #Generate Random Values for mine parameters and save/load them
-          | -- SaveSystem.cs                     #Saves and Load data
-      | -- Scriptable Objetcts
-          | -- Mine
-              | -- MineResources.cs
-              | -- MineShape.cs                  #Create SO that stores the shape of the mine
-          | -- Player
-              | -- LevelsThresholds.cs
-          | -- Resources
-              | -- GameResources.cs
-              | -- PriceToBuildOrUpgrade.cs
-          | -- Robots
-              | -- Robot.cs
-              | -- RobotLevel.cs
-              | -- StatusRobot.cs
-      | -- Tiles                                  #In review
-      | -- Timer
-          | -- Timer.cs                           #Keeps track of the time during a procces
-      | -- Touch
-          | -- UserTouch.cs                       #Fundamental touch operations simplifiend in methods
+      |-- Auxiliary Methods
+          |-- AuxiliaryMethods.cs                   #Auxiliary methods
+      |-- Bidding   
+          |-- ActivateScanning.cs
+          |-- ScanMine.cs
+          |-- StartAuction.cs 
+      |-- Camera Actions
+          |-- PanPinch.cs                           #Script for moving the camera using touch input 
+          |-- UserTouch.cs                          #Fundamental touch operations simplifiend in methods
+      |-- Canvas
+          |-- CanvasHelper.cs
+      |-- Convert
+          |-- ConvertResources.cs                   #Used for converting resources into energy
+      |-- GameErrors
+          |-- RaiseGameError.cs                     #Displays on the screen the error that happened {Not enough resources etc}
+      |-- Manager Scripts
+          |-- GameManager                           #Manage game
+      |-- Mine                      
+          |-- Mine Creation Tools
+              |-- ShapeTheMine.cs
+          |-- Values Generation
+              |-- GridGeneratePositions.cs
+              |-- GridHiddenValues.cs
+              |-- GridVisibleValues.cs
+          |-- MineEnergyEstimates.cs                #An estimated price of the mine in energy
+          |-- MineGenerator.cs
+          |-- MineTouched.cs
+          |-- RefreshMineValues.cs
+          |-- ShowMineDetails.cs
+      |-- Object Pooling
+          |-- ObjectPooling.cs                      #Takes care of 30 gameObjects by activating and dezactivating them based on the need
+      |-- Panels     
+          |-- BidsDisplayUI.cs
+          |-- ChangeScreen.cs
+          |-- ClosePanelUsingBackground.cs
+          |-- Confirm.cs
+          |-- OpenPanel.cs
+          |-- ProgressBar.cs    
+      |-- Pay Operations
+          |-- PayRobots.cs
+      |-- Robot 
+          |-- DeployRobots.cs
+          |-- HallOfFameInstantiateRobots.cs        #Instantiate panel with robots and
+          |-- RobotManagerUIForMine.cs
+          |-- RobotLevelingUp.cs                    #Takes care of robots leveling up
+          |-- RobotManager.cs               
+          |-- RobotPlayerProgress.cs
+          |-- RobotsUnlocking.cs                    
+      |-- Save
+          |-- Persistent Data Across Scenes
+              |-- GetMineGenerationData.cs
+              |-- GetRobotsTrained.cs
+              |-- GetTimeTillAuctionEnds.cs
+          |-- Serializable Class For Storage Data
+              |-- MineData.cs                       #Serializable class that have the data about the mine | Used to be save in binary format
+              |-- TimeData.cs
+          |-- Values
+              |-- ISaveOperations.cs
+              |-- MineValues.cs
+              |-- TimeValues.cs        
+          |-- SaveSystem.cs                         #Saves and Load data
+      |-- Scenes Management
+          |-- ChangeScenes.cs
+      |-- Scriptable Objetcts
+          |-- Mine
+              |-- MineResources.cs
+              |-- MineShape.cs                      #Create SO that stores the shape of the mine
+          |-- Player
+              |-- LevelsThresholds.cs
+          |-- Resources
+              |-- GameResources.cs
+              |-- PriceToBuildOrUpgrade.cs
+          |-- Robots
+              |-- Robot.cs
+              |-- RobotLevel.cs
+              |-- StatusRobot.cs
+      |-- Stores
+          |-- ResourcesOperations.cs                #Operations of removing and adding with the resources [all 4]
+          |-- StatBarsOperations.cs                 #Manage values and what is displayed on the stat bars of resources
+          |-- StatsOperaions.cs                     #Manage operations of level and Xp
+          |-- StoreDataPlayerStats.cs  
+          |-- StoreDaraResources.cs
+      |-- Tiles Data                        
+          |-- DataOfTile.cs
+          |-- StoreAllTiles.cs
+          |-- TilesRule.cs
+      |-- Timer
+          |-- Timer.cs                              #Keeps track of the time during a procces
+      |-- Train
+          |-- BuildRobots.cs
+          |-- BuildRobotsOperations.cs
+          |-- RobotsInBuilding.cs
+          |-- RobotsInBuildingOperations.cs
+          |-- StoreRobots.cs
+      |-- Upgrade
+          |-- UpgradeRobots.cs         
    |-- Sounds
    |-- Tiles
   ************************************************************************

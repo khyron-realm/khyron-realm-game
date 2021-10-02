@@ -3,33 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using Save;
 
-public class TimeValues : MonoBehaviour
+namespace Save
 {
-    [HideInInspector] public int TimeTillFinished;
-
-    private void Awake()
+    public class TimeValues : MonoBehaviour, ISaveOperations
     {
-        LoadData();
-    }
+        #region "Public members"
+        [HideInInspector] public int TimeTillFinished;
+        #endregion
 
-    public void SaveData()
-    {
-        SaveSystem.SaveTimeData(this, gameObject);
-    }
-
-
-    //Load data from files
-    public void LoadData()
-    {
-        TimeData temp = SaveSystem.LoadTimeData(gameObject);
-
-        if (temp != null)
+        private void Awake()
         {
-            TimeTillFinished = temp.TimeTillFinish;
+            LoadData();
         }
-        else
+
+        /// <summary>
+        /// Saves data about the time
+        /// </summary>
+        public void SaveData()
         {
-            SaveData();
+            SaveSystem.SaveTimeData(this, gameObject);
+        }
+
+
+        /// <summary>
+        /// Load data about the time
+        /// </summary>
+        public void LoadData()
+        {
+            TimeData temp = SaveSystem.LoadTimeData(gameObject);
+
+            if (temp != null)
+            {
+                TimeTillFinished = temp.TimeTillFinish;
+            }
+            else
+            {
+                SaveData();
+            }
         }
     }
 }

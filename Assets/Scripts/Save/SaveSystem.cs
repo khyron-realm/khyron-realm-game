@@ -11,6 +11,7 @@ namespace Save
     {
         // ----> Save <----
 
+        // ## Mine ##
         public static void SaveMineData(MineValues mineData, GameObject temp)
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -25,6 +26,7 @@ namespace Save
         }
 
 
+        // ## Time ##
         public static void SaveTimeData(TimeValues timeData, GameObject temp)
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -37,7 +39,6 @@ namespace Save
             formatter.Serialize(stream, data);
             stream.Close();
         }
-
 
 
         // ----> Load <----
