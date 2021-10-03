@@ -61,7 +61,7 @@ namespace CameraActions
         {
             if (Input.touchCount > 0)
             {
-                if (Mathf.Abs(Input.GetTouch(0).deltaPosition.x) > touchSensitivity || Mathf.Abs(Input.GetTouch(0).deltaPosition.y) > touchSensitivity)
+                if (Mathf.Abs(Input.GetTouch(0).deltaPosition.x) > 20 || Mathf.Abs(Input.GetTouch(0).deltaPosition.y) > 20)
                 {
                     return Input.GetTouch(touchNumber).phase == TouchPhase.Moved ? true : false;
                 }

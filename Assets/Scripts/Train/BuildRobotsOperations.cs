@@ -34,15 +34,16 @@ namespace Manager.Train
             if (StoreRobots.RobotsTrained.Count + StoreRobots.RobotsInTraining.Count < StoreRobots.RobotsLimit)
             {               
                 if(PayRobots.StartPaymenetProcedure(robot))
-                {
+                {               
+                    StoreRobots.RobotsInTraining.Add(robot);
+                    RobotsInBuildingOperations.CreateIconInTheRightForRobotInBuilding(robot);
+
+                    OnRobotAdded?.Invoke(robot);
+
                     if (StoreRobots.RobotsInTraining.Count > 0)
                     {
                         OnStartOperation?.Invoke();
-                    }
-
-                    OnRobotAdded?.Invoke(robot);
-                    StoreRobots.RobotsInTraining.Add(robot);
-                    RobotsInBuildingOperations.CreateIconInTheRightForRobotInBuilding(robot);                   
+                    }                                    
                 }         
             }
             else

@@ -119,6 +119,7 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
    |-- Scripts
       |-- Auxiliary Methods
           |-- AuxiliaryMethods.cs                   #Auxiliary methods that have universal meaning
+          |-- ObjectPooling.cs                      #Pools objects for different purposes 
       |-- Bidding   
           |-- ActivateScanning.cs                   #Activates the scanning procedure and handle inputs 
           |-- ScanMine.cs                           #It is responsable for discovering one area as user requested
@@ -145,9 +146,7 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
           |-- MineGenerator.cs                      #Generates the mine [Instantiate tilemap]
           |-- MineTouched.cs                        #Detect if mine is touched and Invokes an event
           |-- RefreshMineValues.cs                  #Refresh the seeds and coeficients for mine generation
-          |-- ShowMineDetails.cs                    #Shows more buttons and details about the mine [Enter button, refresh button]
-      |-- Object Pooling
-          |-- ObjectPooling.cs                      #Pools objects for different purposes 
+          |-- ShowMineDetails.cs                    #Shows more buttons and details about the mine [Enter button, refresh button]         
       |-- Panels     
           |-- BidsDisplayUI.cs                      #Displays the bids in the AuctionScene
           |-- ChangeScreen.cs                       #Used to change screens in the same scene [HQ -- > Map --> HQ]
@@ -160,19 +159,19 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
       |-- Robot 
           |-- DeployRobots.cs                       #
           |-- HallOfFameInstantiateRobots.cs        #Instantiate panel with robots and
-          |-- RobotManagerUIForMine.cs              #
+          |-- RobotManagerUIForMine.cs              #Instantiate buttons in the mine with all trained robots
           |-- RobotLevelingUp.cs                    #Takes care of robots leveling up
           |-- RobotManager.cs                       #
-          |-- RobotPlayerProgress.cs                #
-          |-- RobotsUnlocking.cs                    #
+          |-- RobotPlayerProgress.cs                #Struct that store the level and state [lock/unlocked] of the robot
+          |-- RobotsUnlocking.cs                    #Unlocks the robot for user
       |-- Save
           |-- Persistent Data Across Scenes
-              |-- GetMineGenerationData.cs          #
-              |-- GetRobotsTrained.cs               #
-              |-- GetTimeTillAuctionEnds.cs         #
-          |-- Serializable Class For Storage Data   #
+              |-- GetMineGenerationData.cs          #Static class with data that persist across scenes
+              |-- GetRobotsTrained.cs               #Static class with data that persist across scenes
+              |-- GetTimeTillAuctionEnds.cs         #Static class with data that persist across scenes
+          |-- Serializable Class For Storage Data   
               |-- MineData.cs                       #Serializable class that have the data about the mine | Used to be save in binary format
-              |-- TimeData.cs                       #
+              |-- TimeData.cs                       #Serializable class that have data about the auction time | Used to be save in binary format
           |-- Values
               |-- ISaveOperations.cs                #Interface for basic SAVE and LOAD operations of any data
               |-- MineValues.cs                     #
@@ -204,7 +203,7 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
           |-- StoreAllTiles.cs                      #
           |-- TilesRule.cs                          #
       |-- Timer
-          |-- Timer.cs                              #Keeps track of the time during a procces
+          |-- Timer.cs                              #Keeps track of the time during a process
       |-- Train
           |-- BuildRobots.cs                        #
           |-- BuildRobotsOperations.cs              #

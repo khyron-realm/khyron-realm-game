@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Panels;
-using DG.Tweening;
-
 
 namespace Manager.Store
 {
@@ -20,6 +18,8 @@ namespace Manager.Store
         private Coroutine lithium;
         private Coroutine titanium;
         private Coroutine silicon;
+
+        public float temp;
 
 
         private void Awake()

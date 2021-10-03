@@ -43,6 +43,7 @@ namespace Mine
             _areaOfBlocks = new bool[_rows, _columns];
             Make2DArray();
             Generate();
+            StoreAllBlocksPositions();
         }
 
 
@@ -72,21 +73,21 @@ namespace Mine
                     {
                         if(temp_hidden[row, col] == 0)
                         {
-                            StoreAllTiles.instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType1);
+                            StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType1);
                             StoreData(temp_visibles, row, temp, col, _healthOfBlocks[0]);
                         }
                         else
                         {
-                            StoreAllTiles.instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType2);
+                            StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType2);
                             StoreData(temp_visibles, row, temp, col, _healthOfBlocks[1]);
                         }                            
                     }
                 }
-                StoreAllTiles.instance.tiles.Add(temp);
+                StoreAllTiles.Instance.Tiles.Add(temp);
             }
         }
 
-
+            
         /// <summary>
         /// 
         /// Saves the block data 
@@ -107,6 +108,29 @@ namespace Mine
             else
             {
                 temp.Add(new DataOfTile(health));
+            }
+        }
+
+
+        /// <summary>
+        /// Get all blocks positions and store them in a list
+        /// </summary>
+        private void StoreAllBlocksPositions()
+        {
+            StoreAllTiles.Instance.Tilemap.CompressBounds();
+            BoundsInt bounds = StoreAllTiles.Instance.Tilemap.cellBounds;
+            TileBase[] allTiles = StoreAllTiles.Instance.Tilemap.GetTilesBlock(bounds);
+
+            for (int x = 0; x < bounds.size.x; x++)
+            {
+                for (int y = 0; y < bounds.size.y; y++)
+                {
+                    TileBase tile = allTiles[x + y * bounds.size.x];
+                    if(tile != null)
+                    {
+                        StoreAllTiles.Instance.TilesPositions.Add(new Vector2Int(x, y));
+                    }
+                }
             }
         }
 

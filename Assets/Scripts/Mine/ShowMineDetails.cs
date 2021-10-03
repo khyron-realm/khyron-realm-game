@@ -70,11 +70,11 @@ namespace Mine
 
                     _aquiredDetails.transform.position = temp.transform.position;
                     
-                    AnimateMineButton();
+                    AnimateMineButton(_aquiredButton);
                 }
                 else
                 {
-                    ActualizeTimer(temp);
+                    TimeActualisation(temp);
 
                     _mineDetails.SetActive(true);
                     _aquiredDetails.SetActive(false);
@@ -87,7 +87,7 @@ namespace Mine
 
 
                     // Animate mine button and refresh button
-                    AnimateMineButton();
+                    AnimateMineButton(_mineButton);
                     AnimateRefreshButton();
                 }
             }
@@ -104,7 +104,7 @@ namespace Mine
                     AdjustStaticMembers(_value, _time);
                 });
         }
-        private void ActualizeTimer(GameObject temp)
+        private void TimeActualisation(GameObject temp)
         {
             if (_tempTimer != null)
             {
@@ -120,13 +120,13 @@ namespace Mine
         }
 
 
-        private void AnimateMineButton()
+        private void AnimateMineButton(Button temp)
         {
-            _mineButton.image.color = new Color(1, 1, 1, 0);
-            _mineButton.transform.localPosition = new Vector2(0, -2);
+            temp.image.color = new Color(1, 1, 1, 0);
+            temp.transform.localPosition = new Vector2(0, -2);
 
-            _mineButton.transform.DOLocalMoveY(-2.4f, 0.2f);
-            _mineButton.image.DOFade(1, 0.4f);
+            temp.transform.DOLocalMoveY(-2.4f, 0.2f);
+            temp.image.DOFade(1, 0.4f);
         }
         private void AnimateRefreshButton()
         {

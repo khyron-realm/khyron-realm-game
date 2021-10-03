@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3257401983335390129}
   - component: {fileID: 2720460767937471725}
+  - component: {fileID: -4099983831675400289}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Untagged
@@ -82,3 +83,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-4099983831675400289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081672677367500380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0db68a36ea9b0674195c0367122079e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

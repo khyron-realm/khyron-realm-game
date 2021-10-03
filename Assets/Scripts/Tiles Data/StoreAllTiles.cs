@@ -7,24 +7,28 @@ namespace Tiles.Tiledata
 {
 	public class StoreAllTiles : MonoBehaviour
 	{
-		public static StoreAllTiles instance;
+		public static StoreAllTiles Instance;
 		public Tilemap Tilemap;
 
 		// Nested List with data about the Tiles
-		public List<List<DataOfTile>> tiles;
+		public List<List<DataOfTile>> Tiles;
+
+		// List with all blocks positions
+		public List<Vector2Int> TilesPositions;
 
 		private void Awake()
 		{
-			if (instance == null)
+			if (Instance == null)
 			{
-				instance = this;
+				Instance = this;
 			}
-			else if (instance != this)
+			else if (Instance != this)
 			{
 				Destroy(gameObject);
 			}
 
-			tiles = new List<List<DataOfTile>>();
+			Tiles = new List<List<DataOfTile>>();
+			TilesPositions = new List<Vector2Int>();
 		}
 	}
 }

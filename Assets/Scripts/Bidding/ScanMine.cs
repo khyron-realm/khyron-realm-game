@@ -32,13 +32,13 @@ namespace Bidding
         {
             CreateCircleVision();
 
-            if (StoreAllTiles.instance.Tilemap.GetTile(temp) != null)
+            if (StoreAllTiles.Instance.Tilemap.GetTile(temp) != null)
             {
                 foreach (Vector3Int item in _blocksToDiscover)
                 {
-                    if (StoreAllTiles.instance.Tilemap.GetTile(temp + item) != null && StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource != null)
+                    if (StoreAllTiles.Instance.Tilemap.GetTile(temp + item) != null && StoreAllTiles.Instance.Tiles[temp.x + item.x][temp.y + item.y].Resource != null)
                     {
-                        StoreAllTiles.instance.Tilemap.SetTile(temp + item, StoreAllTiles.instance.tiles[temp.x + item.x][temp.y + item.y].Resource.ResourceTile);
+                        StoreAllTiles.Instance.Tilemap.SetTile(temp + item, StoreAllTiles.Instance.Tiles[temp.x + item.x][temp.y + item.y].Resource.ResourceTile);
                         _done = true;
                     }
                 }

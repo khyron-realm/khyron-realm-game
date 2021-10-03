@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Manager.Robots;
 
-namespace AuxiliaryMethods
+namespace AuxiliaryClasses
 {
     public class AuxiliaryMethods
     {

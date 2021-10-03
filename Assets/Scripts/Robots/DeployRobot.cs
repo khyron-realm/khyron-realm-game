@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using System;
 using Tiles.Tiledata;
 using CameraActions;
+using Manager.Robots.Mining;
+using DG.Tweening;
+
 
 /// <summary>
 /// 
@@ -24,12 +27,16 @@ namespace Manager.Robots
         #endregion
 
         #region "Private members"
+
         private bool _hasMoved = false;
         private bool check = true;
+
+        private RobotMining _mining;
+
         #endregion
 
         private void Awake()
-        {
+        {      
             _button.onClick.AddListener(StartDeployOperation);
         }
 
@@ -89,17 +96,27 @@ namespace Manager.Robots
         /// <param name="temp"> The position for deploy </param>
         private void DeployRobotInTheMap(Vector3Int temp)
         {
-            if (StoreAllTiles.instance.Tilemap.GetTile(temp) != null)
+            if (StoreAllTiles.Instance.Tilemap.GetTile(temp) != null)
             {
-                StoreAllTiles.instance.Tilemap.SetTile(temp, null);
-                StoreAllTiles.instance.tiles[temp.x][temp.y].Health = -1;
+                StoreAllTiles.Instance.Tilemap.SetTile(temp, null);
+                StoreAllTiles.Instance.Tiles[temp.x][temp.y].Health = -1;
 
+                
                 GameObject robot = Instantiate(_robot);
                 robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f, 0f);
 
+                _mining = robot.GetComponent<RobotMining>();
                 _button.onClick.RemoveListener(StartDeployOperation);
 
                 check = false;
+
+                _mining.StartMining();
+
+
+                _button.onClick.RemoveAllListeners();
+
+                _button.transform.DOLocalMoveX(-1, 1f).OnComplete(() => _button.transform.gameObject.SetActive(false));
+                _button.image.DOColor(new Color(0,0,0,0), 0.8f);
             }
             
         }
