@@ -52,10 +52,10 @@ namespace Mine
             }
         }
 
-        private void TouchedGameObject(GameObject temp, bool aquired)
+        private void TouchedGameObject(GameObject temp, bool aquired, GameObject manager)
         {
-            _value = temp.GetComponent<MineValues>();
-            _time = temp.GetComponent<TimeValues>();
+            _value = manager.GetComponent<MineValues>();
+            _time = manager.GetComponent<TimeValues>();
 
             AdjustStaticMembers(_value, _time);
 
@@ -68,18 +68,18 @@ namespace Mine
                     _mineDetails.SetActive(false);
                     _aquiredDetails.SetActive(true);
 
-                    _aquiredDetails.transform.position = temp.transform.position;
+                    _aquiredDetails.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0);
                     
                     AnimateMineButton(_aquiredButton);
                 }
                 else
                 {
-                    TimeActualisation(temp);
+                    TimeActualisation(manager);
 
                     _mineDetails.SetActive(true);
                     _aquiredDetails.SetActive(false);
 
-                    _mineDetails.transform.position = temp.transform.position;
+                    _mineDetails.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0);
 
 
                     // Add listeners to refresh button

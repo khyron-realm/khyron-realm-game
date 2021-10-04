@@ -32,12 +32,14 @@ namespace Manager.Robots
         private bool check = true;
 
         private RobotMining _mining;
+        private Robot _robotSelected;
 
         #endregion
 
         private void Awake()
         {      
             _button.onClick.AddListener(StartDeployOperation);
+            RobotManagerUIForMine.OnButtonPressed += RobotMine;
         }
 
 
@@ -110,15 +112,19 @@ namespace Manager.Robots
 
                 check = false;
 
-                _mining.StartMining();
-
+                _mining.StartMining(_robotSelected, robot);
 
                 _button.onClick.RemoveAllListeners();
 
-                _button.transform.DOLocalMoveX(-1, 1f).OnComplete(() => _button.transform.gameObject.SetActive(false));
-                _button.image.DOColor(new Color(0,0,0,0), 0.8f);
-            }
-            
+                _button.transform.DOLocalMoveX(-1, 0.4f).OnComplete(() => _button.transform.gameObject.SetActive(false));
+                _button.image.DOColor(new Color(0,0,0,0), 0.4f);
+            }           
+        }
+
+
+        private void RobotMine(Robot robot)
+        {
+            _robotSelected = robot;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Manager.PayOperation
 
         private static PriceToBuildOrUpgrade GetCost(Robot robot)
         {
-            int level = RobotsManager.robotsData[robot.nameOfTheRobot].robotLevel;
+            int level = RobotsManager.robotsData[robot.nameOfTheRobot].RobotLevel;
             return robot.robotLevel[level].priceToBuild;
         }
     }

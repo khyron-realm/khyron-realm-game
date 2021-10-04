@@ -66,7 +66,7 @@ namespace Manager.Upgrade
 
         private int GetInfoLevel()
         {
-            return RobotsManager.robotsData[_selectedRobot.nameOfTheRobot.ToString()].robotLevel;
+            return RobotsManager.robotsData[_selectedRobot.nameOfTheRobot.ToString()].RobotLevel;
         }
 
         private IEnumerator Upgrading()

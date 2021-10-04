@@ -3,25 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using Tiles.Tiledata;
 using DG.Tweening;
+using Manager.Robots.Damage;
 
 
 namespace Manager.Robots.Mining
 {
     public class RobotMining : MonoBehaviour
     {
+        [SerializeField] private RobotsGetDamage _damage;
+
         #region "Private members"
+
         private bool _check;
         private bool _movementFinished;
         private float _movementSpeed = 6f;
+
         #endregion
 
 
-        public void StartMining()
+        public void StartMining(Robot robot, GameObject robotGameObject)
         {
+            _damage.GetHealthFromRobot(robot);
+            _damage.GetRobotGameObject(robotGameObject);
+
             StartCoroutine("MiningProcess");
         }
-        
 
+    
         private IEnumerator MiningProcess()
         {
             while(true)
@@ -41,7 +49,7 @@ namespace Manager.Robots.Mining
                     while (!_check)
                     {
                         StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health -= (int)(40f);
-
+                       
                         if (StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health < 0)
                         {
                             StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), null);
@@ -50,6 +58,8 @@ namespace Manager.Robots.Mining
 
                         yield return null;
                     }
+
+                    _damage.DoDamage(20);
 
                     if (StoreAllTiles.Instance.TilesPositions.Count < 1)
                     {

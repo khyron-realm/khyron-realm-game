@@ -59,12 +59,12 @@ namespace Manager.Robots
         }
         private static void ShowPrice(Robot item, Button newButton)
         {
-            int temp = RobotsManager.robotsData[item.nameOfTheRobot.ToString()].robotLevel;
+            int temp = RobotsManager.robotsData[item.nameOfTheRobot.ToString()].RobotLevel;
             newButton.transform.GetChild(0).GetComponent<Text>().text = item.robotLevel[temp].priceToBuild.energy.ToString();
         }
         private static void MakeButtonsAvailable(Robot item, Button newButton)
         {
-            if (RobotsManager.robotsData[item.nameOfTheRobot].availableRobot == false)
+            if (RobotsManager.robotsData[item.nameOfTheRobot].AvailableRobot == false)
             {
                 newButton.interactable = true;
             }

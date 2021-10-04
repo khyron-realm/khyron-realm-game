@@ -32,8 +32,8 @@ namespace AuxiliaryClasses
             {
                 RobotsPlayerProgress temp;
 
-                temp.availableRobot = false;
-                temp.robotLevel = 0;
+                temp.AvailableRobot = false;
+                temp.RobotLevel = 0;
 
                 try
                 {

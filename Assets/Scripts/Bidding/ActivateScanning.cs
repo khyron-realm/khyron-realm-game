@@ -68,6 +68,7 @@ namespace Bidding
 
                         if (_scanner.Discover(intPosition) == true)
                         {
+                            
                             _scannCounts--;
 
                             temp = _poolOfObjects.GetPooledObjects();

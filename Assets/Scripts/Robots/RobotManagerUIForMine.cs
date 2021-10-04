@@ -22,7 +22,7 @@ namespace Manager.Robots
         private List<Button> _buttons;
         #endregion
 
-        public event Action<Robot> OnButtonPressed;
+        public static event Action<Robot> OnButtonPressed;
 
         private void Awake()
         {

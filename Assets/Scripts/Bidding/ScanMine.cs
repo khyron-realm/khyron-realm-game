@@ -36,10 +36,12 @@ namespace Bidding
             {
                 foreach (Vector3Int item in _blocksToDiscover)
                 {
-                    if (StoreAllTiles.Instance.Tilemap.GetTile(temp + item) != null && StoreAllTiles.Instance.Tiles[temp.x + item.x][temp.y + item.y].Resource != null)
+                    if (StoreAllTiles.Instance.Tilemap.GetTile(temp + item) != null )
                     {
-                        StoreAllTiles.Instance.Tilemap.SetTile(temp + item, StoreAllTiles.Instance.Tiles[temp.x + item.x][temp.y + item.y].Resource.ResourceTile);
                         _done = true;
+
+                        if (StoreAllTiles.Instance.Tiles[temp.x + item.x][temp.y + item.y].Resource != null)
+                            StoreAllTiles.Instance.Tilemap.SetTile(temp + item, StoreAllTiles.Instance.Tiles[temp.x + item.x][temp.y + item.y].Resource.ResourceTile);                      
                     }
                 }
             }

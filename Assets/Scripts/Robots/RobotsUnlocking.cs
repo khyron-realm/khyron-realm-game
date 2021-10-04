@@ -11,8 +11,8 @@ namespace Manager.Robots
         {
             RobotsPlayerProgress temp;
 
-            temp.availableRobot = true;
-            temp.robotLevel = RobotsManager.robotsData[name].robotLevel;
+            temp.AvailableRobot = true;
+            temp.RobotLevel = RobotsManager.robotsData[name].RobotLevel;
 
             RobotsManager.robotsData[name] = temp;
         }
