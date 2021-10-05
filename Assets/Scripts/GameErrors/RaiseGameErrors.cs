@@ -17,7 +17,7 @@ namespace GameErrors
 
         [SerializeField] private string _notEnoughResources;
         [SerializeField] private string _notEnoughEnergy;
-        [SerializeField] private string _toManyResources;
+        [SerializeField] private string _tooManyResources;
         [SerializeField] private string _maxCapacity;
         #endregion
 
@@ -30,7 +30,7 @@ namespace GameErrors
 
             ResourcesOperations.OnNotEnoughResources += NotEnoughResources;
             ResourcesOperations.OnNotEnoughEnergy += NotEnoughEnergy;
-            ResourcesOperations.OnToMuchResources += ToManyResources;
+            ResourcesOperations.OnToMuchResources += TooManyResources;
             BuildRobotsOperations.OnMaximumCapacityAchieved += MaxCapacityAchieved;
         }
 
@@ -45,9 +45,9 @@ namespace GameErrors
             _text.text = _notEnoughEnergy;
             StartShowingPopUp();
         }
-        private void ToManyResources()
+        private void TooManyResources()
         {
-            _text.text = _toManyResources;
+            _text.text = _tooManyResources;
             StartShowingPopUp();
         }
         private void MaxCapacityAchieved()
@@ -112,7 +112,7 @@ namespace GameErrors
         {
             ResourcesOperations.OnNotEnoughResources -= NotEnoughResources;
             ResourcesOperations.OnNotEnoughEnergy -= NotEnoughEnergy;
-            ResourcesOperations.OnToMuchResources -= ToManyResources;
+            ResourcesOperations.OnToMuchResources -= TooManyResources;
             BuildRobotsOperations.OnMaximumCapacityAchieved -= MaxCapacityAchieved;
         }
     }

@@ -95,15 +95,5 @@ namespace Panels
                 SetText();
             }
         }
-
-
-        public void MakeTextLarge(int value)
-        {
-            _text.fontSize += value;
-        }
-        public void MakeTextSmaller(int value)
-        {
-            _text.fontSize -= value;
-        }
     }
 }

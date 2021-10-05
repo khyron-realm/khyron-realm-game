@@ -6,7 +6,7 @@ namespace Mine
 {
     public class MineEnergyEstimation
     {
-        private static List<int> ResourcesCount;
+        private static List<int> s_resourcesCount;
 
         /// <summary>
         /// 
@@ -19,11 +19,11 @@ namespace Mine
         /// <param name="values"> The visible values of the mine </param>
         public static void NumberOfEachResource(int numberOfResources, int rows, int columns, int[,] values)
         {
-            ResourcesCount = new List<int>();
+            s_resourcesCount = new List<int>();
 
             for (int i = 0; i < numberOfResources; i++)
             {
-                ResourcesCount.Add(0);
+                s_resourcesCount.Add(0);
             }
 
             for (int i = 0; i < rows; i++)
@@ -32,7 +32,7 @@ namespace Mine
                 {
                     if (values[i, j] > 1)
                     {
-                        ResourcesCount[values[i, j] - 2]++;
+                        s_resourcesCount[values[i, j] - 2]++;
                     }
                 }
             }
