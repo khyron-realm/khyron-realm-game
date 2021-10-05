@@ -1,3 +1,4 @@
+using DarkRift;
 using DarkRift.Client;
 using Networking.Login;
 using Networking.Tags;
@@ -10,6 +11,9 @@ namespace Networking.Game
     /// </summary>
     public class UnlimitedPlayerManager : MonoBehaviour
     {
+        [SerializeField]
+        public bool ShowDebug = true;
+        
         private void Awake()
         {
             GameControl.Client.MessageReceived += OnDataHandler;
@@ -29,57 +33,84 @@ namespace Networking.Game
 
                 switch (message.Tag)
                 {
-                    case GameTags.PlayerConnectTag:
+                    case GameTags.PlayerConnected:
                     {
-                        Debug.Log("Player connected");
-                        //PlayerConnect(e);
+                        PlayerConnected(e);
                         break;
                     }
                     
-                    case GameTags.PlayerDisconnectTag:
+                    case GameTags.PlayerDisconnected:
                     {
-                        Debug.Log("Player disconnected");
-                        //PlayerDisconnect(e);
+                        PlayerDisconnected(e);
+                        break;
+                    }
+
+                    case GameTags.PlayerData:
+                    {
+                        GetPlayerData(e);
                         break;
                     }
                 }
             }
         }
 
+        #region ReceivedCalls
+        
         /// <summary>
         ///     Player connected actions
         /// </summary>
         /// <param name="e">The client object</param>
-        private void PlayerConnect(MessageReceivedEventArgs e)
+        private void PlayerConnected(MessageReceivedEventArgs e)
         {
-            using (var message = e.GetMessage())
-            {
-                using (var reader = message.GetReader())
-                {
-                    var id = reader.ReadString();
-                    var name = reader.ReadString();
-                    var level = reader.ReadUInt16();
-                    var experience = reader.ReadUInt16();
-                    var energy = reader.ReadUInt16();
-
-                    Debug.Log("Player id = " + id);
-                }
-            }
+            if (ShowDebug) Debug.Log("Player connected");
         }
 
         /// <summary>
         ///     Player disconnected actions
         /// </summary>
         /// <param name="e">The client object</param>
-        private void PlayerDisconnect(MessageReceivedEventArgs e)
+        private void PlayerDisconnected(MessageReceivedEventArgs e)
         {
+            if (ShowDebug) Debug.Log("Player disconnected");
         }
 
-        #region Test methods
-
-        private void Login(string username, string password)
+        /// <summary>
+        ///     Receive player data from the DarkRift server
+        /// </summary>
+        /// <param name="e">The client object</param>
+        private void GetPlayerData(MessageReceivedEventArgs e)
         {
-            LoginManager.Login(username, password);
+            if (ShowDebug) Debug.Log("Received player data");
+
+            using var message = e.GetMessage();
+            using var reader = message.GetReader();
+            var player = reader.ReadSerializable<PlayerData>();
+
+            if (ShowDebug)
+            {
+                Debug.Log("Received data:");
+                Debug.Log("Player id = " + player.Id);
+                Debug.Log("Player level = " + player.Level);
+                Debug.Log("Player experience = " + player.Experience);
+                Debug.Log("Player energy = " + player.Energy);
+                Debug.Log("Silicon = " + player.Silicon.Name);
+                Debug.Log("Lithium = " + player.Lithium.Name);
+                Debug.Log("Titanium = " + player.Titanium.Name);
+            }
+        }
+        
+        #endregion
+        
+        #region NetworkCalls
+        
+        #endregion
+
+        #region Test methods
+        
+        public static void GetPlayerData()
+        {
+            using var msg = Message.CreateEmpty(GameTags.PlayerData);
+            GameControl.Client.SendMessage(msg, SendMode.Reliable);
         }
 
         private void AddUser(string username, string password)

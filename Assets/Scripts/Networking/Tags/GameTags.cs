@@ -4,12 +4,12 @@ namespace Networking.Tags
     {
         private const ushort Shift = Tags.Game * Tags.TagsPerPlugin;
 
-        public const ushort PlayerConnectTag = 0 + Shift;
-        public const ushort PlayerDisconnectTag = 1 + Shift;
-        public const ushort PlayerInformationTag = 2 + Shift;
+        public const ushort PlayerConnected = 0 + Shift;
+        public const ushort PlayerDisconnected = 1 + Shift;
+        public const ushort PlayerInformation = 2 + Shift;
 
         public const ushort RequestFailed = 3 + Shift;
 
-        public const ushort PlayerDataTag = 4 + Shift;
+        public const ushort PlayerData = 4 + Shift;
     }
 }
