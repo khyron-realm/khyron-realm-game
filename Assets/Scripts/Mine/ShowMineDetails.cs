@@ -57,6 +57,12 @@ namespace Mine
             _value = manager.GetComponent<MineValues>();
             _time = manager.GetComponent<TimeValues>();
 
+            _mineButton.onClick.AddListener(
+                delegate
+                {
+                    AdjustStaticMembers(_value, _time);
+                });
+
             AdjustStaticMembers(_value, _time);
 
             if (_currentGameObject != temp)
