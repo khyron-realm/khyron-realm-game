@@ -12,7 +12,19 @@ namespace Networking.Login
     /// </summary>
     public class LoginManager : MonoBehaviour
     {
+        [SerializeField]
+        public bool ShowDebug = true;
         public static bool IsLoggedIn { get; private set; }
+
+        public delegate void SuccessfulLoginEventHandler();
+        public delegate void FailedLoginEventHandler(byte errorId);
+        public delegate void SuccessfulAddUserEventHandler();
+        public delegate void FailedAddUserEventHandler(byte errorId);
+        
+        public static event SuccessfulLoginEventHandler onSuccessfulLogin;
+        public static event FailedLoginEventHandler onFailedLogin;
+        public static event SuccessfulAddUserEventHandler onSuccessfulAddUser;
+        public static event FailedAddUserEventHandler onFailedAddUser;
 
         private void Awake()
         {
@@ -31,7 +43,7 @@ namespace Networking.Login
         /// </summary>
         /// <param name="sender">The sender object</param>
         /// <param name="e">The client object</param>
-        private static void OnDataHandler(object sender, MessageReceivedEventArgs e)
+        private void OnDataHandler(object sender, MessageReceivedEventArgs e)
         {
             using var message = e.GetMessage();
 
@@ -42,34 +54,46 @@ namespace Networking.Login
             {
                 case LoginTags.LoginSuccess:
                 {
+                    if (ShowDebug) Debug.Log("Successfully logged in");
                     IsLoggedIn = true;
-                    Debug.Log("Successfully logged in");
+                    onSuccessfulLogin?.Invoke();
                     break;
                 }
 
                 case LoginTags.LoginFailed:
                 {
+                    if (ShowDebug) Debug.Log("Cannot log in");
                     using var reader = message.GetReader();
-                    if (reader.Length != 1) Debug.LogWarning("Invalid LoginFailed error data received");
-                    Debug.Log("Cannot log in");
+                    if (reader.Length != 1)
+                    {
+                        Debug.LogWarning("Invalid LoginFailed error data received");
+                        return;
+                    }
+                    onFailedLogin?.Invoke(reader.ReadByte());
                     break;
                 }
 
                 case LoginTags.AddUserSuccess:
                 {
-                    Debug.Log("Successfully added user");
+                    if (ShowDebug) Debug.Log("Successfully added user");
+                    onSuccessfulAddUser?.Invoke();
                     break;
                 }
 
                 case LoginTags.AddUserFailed:
                 {
+                    if (ShowDebug) Debug.Log("Cannot add a new user");
                     using var reader = message.GetReader();
                     if (reader.Length != 1) Debug.LogWarning("Invalid LoginFailed error data received");
-                    Debug.Log("Cannot add a new user");
+                    onFailedAddUser?.Invoke(reader.ReadByte());
                     break;
                 }
             }
         }
+        
+        #region ReceivedCalls
+
+        #endregion
 
         #region NetworkCalls
 
@@ -86,6 +110,7 @@ namespace Networking.Login
 
             using var msg = Message.Create(LoginTags.LoginUser, writer);
             GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            Debug.Log("Logging in");
         }
 
         /// <summary>
