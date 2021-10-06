@@ -31,6 +31,16 @@ namespace Manager.Robots.Damage
 
 
         /// <summary>
+        /// Destory robot
+        /// </summary>
+        public void DestroyRobot()
+        {
+            _health = -1;
+            OnDead?.Invoke(_robotGameObject);
+        }
+
+
+        /// <summary>
         /// Used to get health of the robot from its stats based on level
         /// </summary>
         /// <param name="currentRobot"></param>
