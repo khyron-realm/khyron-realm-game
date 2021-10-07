@@ -1,6 +1,5 @@
 using DarkRift;
 using DarkRift.Client;
-using Networking.Login;
 using Networking.Tags;
 using UnityEngine;
 
@@ -11,8 +10,16 @@ namespace Networking.Game
     /// </summary>
     public class UnlimitedPlayerManager : MonoBehaviour
     {
-        [SerializeField]
-        public bool ShowDebug = true;
+        public static bool ShowDebug = true;
+        public delegate void ConversionAcceptedEventHandler();
+        public delegate void ConversionRejectedEventHandler(byte errorId);
+        public delegate void ConversionFinishedEventHandler();
+
+        public static event ConversionAcceptedEventHandler OnConversionAccepted;
+        public static event ConversionRejectedEventHandler OnConversionRejected;
+        public static event ConversionFinishedEventHandler OnConversionFinished;
+
+        public static PlayerData player = null;
         
         private void Awake()
         {
@@ -24,7 +31,7 @@ namespace Networking.Game
         /// </summary>
         /// <param name="sender">The sender object</param>
         /// <param name="e">The client object</param>
-        private void OnDataHandler(object sender, MessageReceivedEventArgs e)
+        private static void OnDataHandler(object sender, MessageReceivedEventArgs e)
         {
             using (var message = e.GetMessage())
             {
@@ -44,10 +51,48 @@ namespace Networking.Game
                         PlayerDisconnected(e);
                         break;
                     }
-
+                    
                     case GameTags.PlayerData:
                     {
                         GetPlayerData(e);
+                        break;
+                    }
+
+                    case GameTags.ConversionAccepted:
+                    {
+                        if (ShowDebug) Debug.Log("Conversion accepted");
+                        OnConversionAccepted?.Invoke();
+                        break;
+                    }
+                    
+                    case GameTags.ConversionStatus:
+                    {
+                        if (ShowDebug) Debug.Log("Conversion status");
+                        
+                        OnConversionAccepted?.Invoke();
+                        break;
+                    }
+                    
+                    case GameTags.ConversionRejected:
+                    {
+                        if (ShowDebug) Debug.Log("Conversion rejected");
+                        using (var reader = message.GetReader())
+                        {
+                            if (reader.Length != 1)
+                            {
+                                Debug.LogWarning("Conversion rejected error data received");
+                                return;
+                            }
+
+                            OnConversionRejected?.Invoke(reader.ReadByte());
+                        }
+                        
+                        break;
+                    }
+
+                    case GameTags.ConversionFinished:
+                    {
+                        ConversionFinished(e);
                         break;
                     }
                 }
@@ -60,7 +105,7 @@ namespace Networking.Game
         ///     Player connected actions
         /// </summary>
         /// <param name="e">The client object</param>
-        private void PlayerConnected(MessageReceivedEventArgs e)
+        private static void PlayerConnected(MessageReceivedEventArgs e)
         {
             if (ShowDebug) Debug.Log("Player connected");
         }
@@ -69,7 +114,7 @@ namespace Networking.Game
         ///     Player disconnected actions
         /// </summary>
         /// <param name="e">The client object</param>
-        private void PlayerDisconnected(MessageReceivedEventArgs e)
+        private static void PlayerDisconnected(MessageReceivedEventArgs e)
         {
             if (ShowDebug) Debug.Log("Player disconnected");
         }
@@ -78,13 +123,13 @@ namespace Networking.Game
         ///     Receive player data from the DarkRift server
         /// </summary>
         /// <param name="e">The client object</param>
-        private void GetPlayerData(MessageReceivedEventArgs e)
+        private static void GetPlayerData(MessageReceivedEventArgs e)
         {
             if (ShowDebug) Debug.Log("Received player data");
 
             using var message = e.GetMessage();
             using var reader = message.GetReader();
-            var player = reader.ReadSerializable<PlayerData>();
+            player = reader.ReadSerializable<PlayerData>();
 
             if (ShowDebug)
             {
@@ -96,30 +141,47 @@ namespace Networking.Game
                 Debug.Log("Silicon = " + player.Silicon.Name);
                 Debug.Log("Lithium = " + player.Lithium.Name);
                 Debug.Log("Titanium = " + player.Titanium.Name);
+                Debug.Log("Worker = " + player.Worker.Name);
+                Debug.Log("Probe = " + player.Probe.Name);
+                Debug.Log("Crusher = " + player.Crusher.Name);
             }
         }
-        
+
+        private static void ConversionFinished(MessageReceivedEventArgs e)
+        {
+            if (ShowDebug) Debug.Log("Conversion finished");
+
+            using var message = e.GetMessage();
+            using var reader = message.GetReader();
+            player.Energy = reader.ReadUInt32();
+
+            OnConversionFinished?.Invoke();
+        }
+
         #endregion
         
         #region NetworkCalls
         
-        #endregion
-
-        #region Test methods
-        
-        public static void GetPlayerData()
+        public static void GetPlayerDataRequest()
         {
             using var msg = Message.CreateEmpty(GameTags.PlayerData);
             GameControl.Client.SendMessage(msg, SendMode.Reliable);
         }
-
-        private void AddUser(string username, string password)
+        
+        public static void SendConvertRequest()
         {
-            Debug.Log("Adding user");
-            LoginManager.AddUser(username, password);
-            Debug.Log("User added");
+            using var msg = Message.CreateEmpty(GameTags.ConvertResources);
+            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            if(ShowDebug) Debug.Log("Converting resources ...");
         }
-
+        
+        public static void SendConvertStatusRequest()
+        {
+            using var msg = Message.CreateEmpty(GameTags.ConversionStatus);
+            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            if(ShowDebug) Debug.Log("Asking for conversion status resources ...");
+        }
+        
         #endregion
     }
 }

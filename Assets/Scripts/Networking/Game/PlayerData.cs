@@ -8,17 +8,20 @@ namespace Networking.Game
     public class PlayerData : IDarkRiftSerializable
     {
         public string Id { get; set; }
-        public ushort Level { get; set; }
+        public byte Level { get; set; }
         public ushort Experience { get; set; }
-        public ushort Energy { get; set; }
+        public uint Energy { get; set; }
         public Resource Silicon { get; set; }
         public Resource Lithium { get; set; }
         public Resource Titanium { get; set; }
-        
-        public PlayerData() {}
-        
-        public PlayerData(string id, ushort level, ushort experience, ushort energy, Resource silicon, Resource lithium,
-            Resource titanium)
+        public Robot Worker { get; set; }
+        public Robot Probe { get; set; }
+        public Robot Crusher { get; set; }
+
+        public PlayerData() { }
+
+        public PlayerData(string id, byte level, ushort experience, uint energy, Resource silicon, Resource lithium,
+            Resource titanium, Robot worker, Robot probe, Robot crusher)
         {
             Id = id;
             Level = level;
@@ -27,6 +30,9 @@ namespace Networking.Game
             Silicon = silicon;
             Lithium = lithium;
             Titanium = titanium;
+            Worker = worker;
+            Probe = probe;
+            Crusher = crusher;
         }
         
         /// <summary>
@@ -36,12 +42,15 @@ namespace Networking.Game
         public void Deserialize(DeserializeEvent e)
         {
             Id = e.Reader.ReadString();
-            Level = e.Reader.ReadUInt16();
+            Level = e.Reader.ReadByte();
             Experience = e.Reader.ReadUInt16();
-            Energy = e.Reader.ReadUInt16();
+            Energy = e.Reader.ReadUInt32();
             Silicon = e.Reader.ReadSerializable<Resource>();
             Lithium = e.Reader.ReadSerializable<Resource>();
             Titanium = e.Reader.ReadSerializable<Resource>();
+            Worker = e.Reader.ReadSerializable<Robot>();
+            Probe = e.Reader.ReadSerializable<Robot>();
+            Crusher = e.Reader.ReadSerializable<Robot>();
         }
         
         /// <summary>
@@ -57,6 +66,9 @@ namespace Networking.Game
             e.Writer.Write(Silicon);
             e.Writer.Write(Lithium);
             e.Writer.Write(Titanium);
+            e.Writer.Write(Worker);
+            e.Writer.Write(Probe);
+            e.Writer.Write(Crusher);
         }
     }
 }
