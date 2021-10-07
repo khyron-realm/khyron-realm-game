@@ -22,7 +22,9 @@ namespace Manager.Robots
     public class DeployRobot : MonoBehaviour
     {
         #region "Input data"
-        [SerializeField] private GameObject _robot;
+        [SerializeField] private GameObject _robotMiner;
+        [SerializeField] private GameObject _robotVision;
+
         [SerializeField] private Button _button;
         #endregion
 
@@ -31,8 +33,10 @@ namespace Manager.Robots
         private bool _hasMoved = false;
         private bool check = true;
 
-        private RobotMining _mining;
+        private IMineOperations _mining;
         private Robot _robotSelected;
+
+        private GameObject robotToDeploy;
 
         #endregion
 
@@ -100,22 +104,20 @@ namespace Manager.Robots
         {
             if (StoreAllTiles.Instance.Tilemap.GetTile(temp) != null)
             {
+                GameObject robot;
+
                 StoreAllTiles.Instance.Tilemap.SetTile(temp, null);
                 StoreAllTiles.Instance.Tiles[temp.x][temp.y].Health = -1;
 
-                
-                GameObject robot = Instantiate(_robot);
+                robot = Instantiate(robotToDeploy);
                 robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f, 0f);
 
-                _mining = robot.GetComponent<RobotMining>();
-                _button.onClick.RemoveListener(StartDeployOperation);
-
-                check = false;
-
-                _mining.StartMining(_robotSelected, robot);
-
+                _mining = robot.GetComponent<IMineOperations>();
+                _mining.StartMineOperation(_robotSelected, robot);
+              
                 _button.onClick.RemoveAllListeners();
 
+                check = false;
                 _button.transform.DOLocalMoveX(-1, 0.4f).OnComplete(() => _button.transform.gameObject.SetActive(false));
                 _button.image.DOColor(new Color(0,0,0,0), 0.4f);
             }           
@@ -125,6 +127,16 @@ namespace Manager.Robots
         private void RobotMine(Robot robot)
         {
             _robotSelected = robot;
+
+            switch(_robotSelected.nameOfTheRobot)
+            {
+                case "Worker":
+                    robotToDeploy = _robotMiner;
+                    break;
+                default:
+                    robotToDeploy = _robotVision;
+                    break;
+            }
         }
     }
 }

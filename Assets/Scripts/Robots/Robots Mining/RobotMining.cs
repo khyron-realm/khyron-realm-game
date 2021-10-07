@@ -9,23 +9,33 @@ using Manager.Robots.Damage;
 
 namespace Manager.Robots.Mining
 {
-    public class RobotMining : MonoBehaviour
+    public class RobotMining : MonoBehaviour, IMineOperations
     {
+        #region "Input data"
         [SerializeField] private RobotsGetDamage _damage;
+        [SerializeField] private Ease _robotsMovingType;
+        #endregion
 
         #region "Private members"
 
         private bool _check;
-        private bool _movementFinished;
+        private bool _movementFinished = true;
         private float _movementSpeed = 2f;
-
-        private bool _temp = false;
 
         private List<Vector3Int> _allPositions;
 
         private static List<Tuple<float, Vector2Int>> blocksToMine;
 
+        private MineResources _resourceMined;
+
+        private Vector3 _positionOfResource;
+
+        private float dist = 65532;
+        private Vector2Int nearBlock;
+
         #endregion
+
+        public event Action<MineResources, Vector3> OnResourceMined;
 
         private void Awake()
         {
@@ -41,7 +51,7 @@ namespace Manager.Robots.Mining
         }
 
 
-        public void StartMining(Robot robot, GameObject robotGameObject)
+        public void StartMineOperation(Robot robot, GameObject robotGameObject)
         {
             _damage.GetHealthFromRobot(robot);
             _damage.GetRobotGameObject(robotGameObject);
@@ -49,64 +59,63 @@ namespace Manager.Robots.Mining
             StartCoroutine("MiningProcess");
         }
 
-        
+
+        /// <summary>
+        /// The Mining process
+        /// </summary>
         private IEnumerator MiningProcess()
         {
             while(true)
             {
                 _check = false;
-                _movementFinished = false;
+                bool _mined = false;
 
                 Vector2Int block = GenerateAreaOfRobot();
-
-                float time = TimeForMoving(ref block);
-                WayOfMining(block, time);
-
-                yield return new WaitForSeconds(time);
-
-                if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(block.x, block.y, 0)) != null)
+             
+                if(StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(block.x, block.y, 0)) != null && _movementFinished == true)
                 {
-                    if (_movementFinished == true)
+
+                    if(StoreAllTiles.Instance.Tiles[block.x][block.y].Resource != null)
                     {
-                        while (!_check)
-                        {
-                            StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health -= (int)(40f);
-
-                            if (StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health < 0)
-                            {
-                                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), null);
-                                _check = true;
-                            }
-
-                            yield return null;
-                        }
+                        StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), StoreAllTiles.Instance.Tiles[block.x][block.y].Resource.ResourceTile);
+                        
+                        _resourceMined = StoreAllTiles.Instance.Tiles[block.x][block.y].Resource;
+                        _positionOfResource = new Vector3(block.x, block.y, 0);
+                        _mined = true;
                     }
+
+                    while (!_check)
+                    {
+                        StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health -= (int)(20f);
+
+                        if (StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health < 0)
+                        {
+                            StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), null);
+                            _check = true;
+                        }
+
+                        yield return null;
+                    }
+
+                    if(_mined)
+                    {
+                        OnResourceMined?.Invoke(_resourceMined, _positionOfResource);
+                    }                 
                 }
 
-                 _damage.DoDamage(20);
+                _movementFinished = false;
+
+                float time = TimeForMoving(ref block);
+
+                gameObject.transform.DOMove(new Vector3(block.x + 0.5f, block.y + 0.5f, 0), time).SetEase(_robotsMovingType).OnComplete(() => { _movementFinished = true; });
+                yield return new WaitForSeconds(time);
+
+                _damage.DoDamage(20);
 
                 if (StoreAllTiles.Instance.TilesPositions.Count < 1)
                 {
                     break;
                 }
-            }
-        }
-
-
-        /// <summary>
-        /// The way of orientation for the robot left or right mining
-        /// </summary>
-        /// <param name="block"> The position of the block </param>
-        /// <param name="time"> The time required to go to the block </param>
-        private void WayOfMining(Vector2Int block, float time)
-        {
-            if (block.x > gameObject.transform.position.x)
-            {
-                gameObject.transform.DOMove(new Vector3(block.x + 0.5f, block.y + 0.5f, 0), time).OnComplete(() => { _movementFinished = true; });
-            }
-            else
-            {
-                gameObject.transform.DOMove(new Vector3(block.x + 0.5f, block.y + 0.5f, 0), time).OnComplete(() => { _movementFinished = true; });
             }
         }
 
@@ -125,100 +134,37 @@ namespace Manager.Robots.Mining
 
 
         /// <summary>
-        /// Random block to mine in the mine
+        /// Generates the values of "random" predictible path for robots
         /// </summary>
-        /// <returns> the position of the block</returns>
-        private Vector2Int GenerateRandomBlockToMine()
-        {
-            Vector2Int temp = StoreAllTiles.Instance.TilesPositions[UnityEngine.Random.Range(0, StoreAllTiles.Instance.TilesPositions.Count)];
-            StoreAllTiles.Instance.TilesPositions.Remove(temp);
-            return temp;
-        }
-
-
-        //// test
-        //private Vector2Int PatternGridMining()
-        //{
-        //    _numberOfBlocksOnARow++;
-
-        //    Vector3Int blockToMine;
-        //    Vector3Int robotPos = new Vector3Int((int)(gameObject.transform.position.x), (int)(gameObject.transform.position.y), 0);
-
-        //    if (_numberOfBlocksOnARow % 5 == 0)
-        //    {             
-        //        blockToMine = robotPos + Down;
-        //        _temp = !_temp;
-
-        //        return (Vector2Int)blockToMine;               
-        //    }
-
-        //    if(_temp)
-        //    {               
-        //        blockToMine = robotPos + Right;
-        //    }
-        //    else
-        //    {
-        //        blockToMine = robotPos + Left;
-        //    }
-
-        //    return (Vector2Int)blockToMine;           
-        //}
-
-
         private static void GenerateValues()
         {
             int randOne = UnityEngine.Random.Range(-99999, 99999);
             int randTwo = UnityEngine.Random.Range(-99999, 99999);
 
-            //float nx;
-            //float ny;
-
-
             for (int i = 0; i < 45; i++)
             {
                 for (int j = 0; j < 30; j++)
                 {
-                    //if(StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(i, j ,0)) != null)
-                    
-                    //nx = i / 45 - 0.5f;
-                    //ny = j / 30 - 0.5f;
-
-                    //float d = Mathf.Abs(nx) + Mathf.Abs(ny);
-
                     float e = Mathf.Pow(Mathf.PerlinNoise(i * 0.2f + randOne, j * 0.3f + randTwo), 1.2f);
-                    //e = (1 + e - d) / 2;
 
                     blocksToMine.Add(new Tuple<float, Vector2Int>(e, new Vector2Int(i, j)));                                                                 
                 }
             }           
-
-            //blocksToMine.Sort((a, b) => b.Item1.CompareTo(a.Item1));
         }
 
 
-        //private Vector2Int MineBlock()
-        //{
-        //    Vector2Int temp = blocksToMine[0].Item2;
-
-        //    if(blocksToMine.Count > 1)
-        //    {
-        //        blocksToMine.RemoveAt(0);
-        //    }
-            
-        //    return temp;
-        //}
-
-
-
+        /// <summary>
+        /// Generate the position of the next block to mine
+        /// </summary>
+        /// <returns>Position of the next block</returns>
         private Vector2Int GenerateAreaOfRobot()
         {
-            float keepValue = 0;
-
-            Vector2Int food = StoreAllTiles.Instance.TilesPositions[UnityEngine.Random.Range(0, StoreAllTiles.Instance.TilesPositions.Count)];
-
+            Vector2Int positionStandard = nearBlock;
+            float keepValue = 0;           
+            
             foreach (Vector2Int item in _allPositions)
             {
-                Vector2Int robotPosition = new Vector2Int((int)(transform.position.x -0.5f), (int)(transform.position.y - 0.5f)) + item;
+                Vector2Int robotPosition = new Vector2Int((int)(transform.position.x - 0.5f), (int)(transform.position.y - 0.5f)) + item;
 
                 int position = robotPosition.x * 30 + robotPosition.y;
 
@@ -227,14 +173,40 @@ namespace Manager.Robots.Mining
                     if (blocksToMine[position].Item1 > keepValue && StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(robotPosition.x, robotPosition.y, 0)) != null)
                     {
                         keepValue = blocksToMine[position].Item1;
-                        food = blocksToMine[position].Item2;
+                        nearBlock = blocksToMine[position].Item2;
+
+                        if (StoreAllTiles.Instance.Tiles[robotPosition.x][robotPosition.y].Resource != null)
+                        {
+                            break;
+                        }
                     }
                 }              
             }
 
-            StoreAllTiles.Instance.TilesPositions.Remove(food);
+            if(nearBlock == positionStandard)
+            {
+                FindNearestBlock(new Vector2Int((int)(gameObject.transform.position.x - 0.5f), (int)(gameObject.transform.position.y - 0.5f)));
+            }
 
-            return food;
+            StoreAllTiles.Instance.TilesPositions.Remove(nearBlock);
+
+            return nearBlock;
+        }
+
+
+        private void FindNearestBlock(Vector2Int temp)
+        {
+            dist = 65532;
+
+            foreach (Vector2Int item in StoreAllTiles.Instance.TilesPositions)
+            {
+                if (Vector2Int.Distance(temp, item) < dist)
+                {
+                    dist = Vector2Int.Distance(temp, item);
+                    
+                    nearBlock = item;
+                }
+            }
         }
     }
 }

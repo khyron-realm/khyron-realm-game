@@ -9690,7 +9690,7 @@ GameObject:
   - component: {fileID: 1170113535}
   - component: {fileID: 1170113537}
   m_Layer: 5
-  m_Name: SilliconBar
+  m_Name: SiliconBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
