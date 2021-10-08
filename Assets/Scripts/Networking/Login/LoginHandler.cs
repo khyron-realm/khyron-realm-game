@@ -6,8 +6,9 @@ public class LoginHandler : MonoBehaviour
 {
     public void onClickLogin()
     {
-        //LoginManager.Login("gigel", "12345");
-        UnlimitedPlayerManager.GetPlayerDataRequest();
-        UnlimitedPlayerManager.SendConvertRequest();
+        LoginManager.Login("gigel", "12345");
+        LoginManager.AddUser("serban", "parola");
+        //UnlimitedPlayerManager.GetPlayerDataRequest();
+        //UnlimitedPlayerManager.SendConvertRequest();
     }
 }
