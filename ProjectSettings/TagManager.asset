@@ -15,11 +15,11 @@ TagManager:
   - UI
   - Blocks
   - Robot
-  - FogOfWarMain
-  - FogOfWarSecondary
+  - 
+  - 
   - LinePreview
-  - EnemyRobotsHidden
-  - EnemyRobotsVisible
+  - 
+  - 
   - 
   - 
   - 
@@ -42,16 +42,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Robot
-    uniqueID: 1104123445
-    locked: 0
-  - name: WayPoint
-    uniqueID: 2607079299
-    locked: 0
-  - name: FogOfWar
-    uniqueID: 2539910303
-    locked: 0
-  - name: LinePreview
-    uniqueID: 2649902673
     locked: 0

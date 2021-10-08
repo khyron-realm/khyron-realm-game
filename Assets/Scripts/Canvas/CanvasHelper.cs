@@ -96,8 +96,6 @@ namespace CanvasActions
 
         private static void OrientationChanged()
         {
-            //Debug.Log("Orientation changed from " + lastOrientation + " to " + Screen.orientation + " at " + Time.time);
-
             lastOrientation = Screen.orientation;
             lastResolution.x = Screen.width;
             lastResolution.y = Screen.height;
@@ -107,8 +105,6 @@ namespace CanvasActions
 
         private static void ResolutionChanged()
         {
-            //Debug.Log("Resolution changed from " + lastResolution + " to (" + Screen.width + ", " + Screen.height + ") at " + Time.time);
-
             lastResolution.x = Screen.width;
             lastResolution.y = Screen.height;
 
@@ -117,8 +113,6 @@ namespace CanvasActions
 
         private static void SafeAreaChanged()
         {
-            // Debug.Log("Safe Area changed from " + lastSafeArea + " to " + Screen.safeArea.size + " at " + Time.time);
-
             lastSafeArea = Screen.safeArea;
 
             for (int i = 0; i < helpers.Count; i++)

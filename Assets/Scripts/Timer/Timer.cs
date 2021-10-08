@@ -3,52 +3,199 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using Panels;
 
-public class Timer : MonoBehaviour
+
+namespace CountDown
 {
-    [SerializeField]
-    private Text _timeText;
-
-    [SerializeField]
-    private float _timeRemaining = 10;
-
-    private bool _timerIsRunning = false;
-
-
-    private void Start()
+    public class Timer : MonoBehaviour
     {
-        _timerIsRunning = true;
-    }
+        #region "Input data"
+        [SerializeField] private bool _hasTimeText;
+        [SerializeField] private Text _timeText;
 
-    private void Update()
-    {
-        if (_timerIsRunning)
+        [SerializeField] private bool _hasProgressBar;
+        [SerializeField] private ProgressBar _bar;
+        #endregion
+
+        #region "Private Variables"
+        private int _totalTime = 0;
+        private int _maxTime = 0;
+        private WaitForSeconds _standardTime;
+        #endregion
+
+        #region "Public Variables"
+        public int TotalTime
         {
-            if (_timeRemaining > 0)
+            get
             {
-                _timeRemaining -= Time.deltaTime;
-                DisplayTime(_timeRemaining);
+                return _totalTime;
+            }
+            set
+            {
+                if (_totalTime > -1)
+                {
+                    _totalTime = value;
+                }
+                else
+                {
+                    _totalTime = 0;
+                }
+            }
+        }
+        public bool HasTimeText
+        {
+            get
+            {
+                return _hasTimeText;
+            }
+            set
+            {
+                if (value == false)
+                {
+                    _timeText.enabled = false;
+                }
+                else
+                {
+
+                    _timeText.enabled = true;
+                    DisplayTime();
+                }
+
+                _hasTimeText = value;
+            }
+        }
+        #endregion
+
+        private void Awake()
+        {
+            _timeText.text = "";
+            _standardTime = new WaitForSeconds(1f);
+        }
+
+        private void Start()
+        {
+            if (_hasProgressBar)
+            {
+                _bar.CurrentValue = 1;
+                _bar.MaxValue = 1;
+            }
+        }
+
+
+        // Time Operations
+        public void AddTime(int time)
+        {
+            _totalTime += time;
+            DataActualization();
+        }
+        public void AddTime(Robot robot)
+        {
+            _totalTime += robot.buildTime;
+            DataActualization();
+        }
+        public void DecreaseTime(int time)
+        {
+            _totalTime -= time;
+
+            if (_hasTimeText)
+            {
+                DisplayTime();
+            }
+        }
+
+        private void DataActualization()
+        {
+            if (_hasProgressBar)
+            {
+                SetProgressBarMaxValue();
+            }
+
+            if (_hasTimeText)
+            {
+                DisplayTime();
+            }
+        }
+
+
+        // Show Time
+        public void DisplayTime()
+        {
+            float hours = Mathf.FloorToInt(_totalTime / 3600);
+            float minutes = Mathf.FloorToInt((_totalTime % 3600) / 60);
+            float seconds = Mathf.FloorToInt(_totalTime % 60);
+
+            UpdateProgressBar();
+
+            if (hours < 1)
+            {
+                if (minutes < 1)
+                {
+                    _timeText.text = string.Format("{0}s", seconds);
+                }
+                else
+                {
+                    _timeText.text = string.Format("{0}m {1}s", minutes, seconds);
+                }
             }
             else
             {
-                Invoke("ReloadAll", 2.0f);
+                _timeText.text = string.Format("{0}h {1}m {2}s", hours, minutes, seconds);
             }
         }
-    }
+        public void DisplayTime(Text text, int time)
+        {
+            float hours = Mathf.FloorToInt(time / 3600);
+            float minutes = Mathf.FloorToInt((time % 3600) / 60);
+            float seconds = Mathf.FloorToInt(time % 60);
 
-    private void DisplayTime(float timeToDisplay)
-    {
-        timeToDisplay += 1;
+            UpdateProgressBar();
 
-        float minutes = Mathf.FloorToInt(timeToDisplay / 60);
-        float seconds = Mathf.FloorToInt(timeToDisplay % 60);
+            if (hours < 1)
+            {
+                if (minutes < 1)
+                {
+                    text.text = string.Format("{0}s", seconds);
+                }
+                else
+                {
+                    text.text = string.Format("{0}m {1}s", minutes, seconds);
+                }
+            }
+            else
+            {
+                text.text = string.Format("{0}h {1}m {2}s", hours, minutes, seconds);
+            }
+        }
+        public void TimeTextState(bool temp)
+        {
+            _timeText.gameObject.SetActive(temp);
+        }
 
-        _timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-    }
 
-    private void ReloadAll()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        private void UpdateProgressBar()
+        {
+            if (_hasProgressBar)
+            {
+                _bar.CurrentValue = _maxTime - _totalTime;
+            }
+        }
+        private void SetProgressBarMaxValue()
+        {
+            if (_hasProgressBar)
+            {
+                _bar.MaxValue = _totalTime;
+                _maxTime = _totalTime;
+            }
+        }
+
+
+        // Timer 
+        public IEnumerator ActivateTimer()
+        {
+            DecreaseTime(1);
+            UpdateProgressBar();
+            yield return _standardTime;
+        }
     }
 }
