@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d16dada72a7e8f488cc5b29b412fdff, type: 3}
+  m_Name: LithiumOre
+  m_EditorClassIdentifier: 
+  ResourceTile: {fileID: 11400000, guid: 4f37dd6d61726e54fadd244e90d58ee4, type: 2}
+  DropValueMin: 0
+  DropValueMax: 0

@@ -4,8 +4,22 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    private int _frameRate;
+    [SerializeField] private int _frameRate;
+
+    private static GameManager s_instance = null;
+
+    void Awake()
+    {
+        if (s_instance == null)
+        {
+            s_instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
 
     void Start()
     {
