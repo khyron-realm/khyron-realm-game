@@ -23,11 +23,9 @@ namespace Manager.Robots.Mining
         private float _movementSpeed = 2f;
 
         private List<Vector3Int> _allPositions;
-
         private static List<Tuple<float, Vector2Int>> blocksToMine;
 
         private MineResources _resourceMined;
-
         private Vector3 _positionOfResource;
 
         private float dist = 65532;

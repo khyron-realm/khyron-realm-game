@@ -102,7 +102,7 @@ namespace Manager.Robots
         /// <param name="temp"> The position for deploy </param>
         private void DeployRobotInTheMap(Vector3Int temp)
         {
-            if (StoreAllTiles.Instance.Tilemap.GetTile(temp) != null)
+            if (StoreAllTiles.Instance.TilesPositions.Contains((Vector2Int)temp))
             {
                 GameObject robot;
 
