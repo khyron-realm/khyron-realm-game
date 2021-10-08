@@ -1,9 +1,9 @@
 using DarkRift;
 
-namespace Networking.Game
+namespace Networking.GameElements
 {
     /// <summary>
-    /// 
+    ///     Stores the resource data
     /// </summary>
     public class Resource : IDarkRiftSerializable
     {

@@ -1,5 +1,8 @@
+using System;
+using System.Linq;
 using DarkRift;
 using DarkRift.Client;
+using Networking.GameElements;
 using Networking.Tags;
 using UnityEngine;
 
@@ -11,7 +14,7 @@ namespace Networking.Game
     public class UnlimitedPlayerManager : MonoBehaviour
     {
         public static bool ShowDebug = true;
-        public delegate void ConversionAcceptedEventHandler();
+        public delegate void ConversionAcceptedEventHandler(DateTime remainingTime);
         public delegate void ConversionRejectedEventHandler(byte errorId);
         public delegate void ConversionFinishedEventHandler();
 
@@ -60,39 +63,19 @@ namespace Networking.Game
 
                     case GameTags.ConversionAccepted:
                     {
-                        if (ShowDebug) Debug.Log("Conversion accepted");
-                        OnConversionAccepted?.Invoke();
-                        break;
-                    }
-                    
-                    case GameTags.ConversionStatus:
-                    {
-                        if (ShowDebug) Debug.Log("Conversion status");
-                        
-                        OnConversionAccepted?.Invoke();
+                        ConversionAccepted(message);
                         break;
                     }
                     
                     case GameTags.ConversionRejected:
                     {
-                        if (ShowDebug) Debug.Log("Conversion rejected");
-                        using (var reader = message.GetReader())
-                        {
-                            if (reader.Length != 1)
-                            {
-                                Debug.LogWarning("Conversion rejected error data received");
-                                return;
-                            }
-
-                            OnConversionRejected?.Invoke(reader.ReadByte());
-                        }
-                        
+                        ConversionRejected(message);
                         break;
                     }
 
                     case GameTags.ConversionFinished:
                     {
-                        ConversionFinished(e);
+                        ConversionFinished(message);
                         break;
                     }
                 }
@@ -138,20 +121,44 @@ namespace Networking.Game
                 Debug.Log("Player level = " + player.Level);
                 Debug.Log("Player experience = " + player.Experience);
                 Debug.Log("Player energy = " + player.Energy);
-                Debug.Log("Silicon = " + player.Silicon.Name);
-                Debug.Log("Lithium = " + player.Lithium.Name);
-                Debug.Log("Titanium = " + player.Titanium.Name);
-                Debug.Log("Worker = " + player.Worker.Name);
-                Debug.Log("Probe = " + player.Probe.Name);
-                Debug.Log("Crusher = " + player.Crusher.Name);
+                foreach(int iterator in Enumerable.Range(0, player.Robots.Length))
+                {
+                    Debug.Log("Resource = " + player.Resources[iterator].Name);
+                }
+                foreach(int iterator in Enumerable.Range(0, player.Robots.Length))
+                {
+                    Debug.Log("Robot = " + player.Robots[iterator].Name);
+                }
+                DateTime time = DateTime.FromBinary(player.ResourceConversion.EndTime);
+                Debug.Log("Conversion end time: " + time);
             }
         }
 
-        private static void ConversionFinished(MessageReceivedEventArgs e)
+        private static void ConversionAccepted(Message message)
         {
-            if (ShowDebug) Debug.Log("Conversion finished");
+            using var reader = message.GetReader();
+            DateTime finishTime = DateTime.FromBinary(reader.ReadInt64());
+                        
+            // Compute remaining time 
+            DateTime remainingTime = finishTime;
 
-            using var message = e.GetMessage();
+            OnConversionAccepted?.Invoke(remainingTime);
+        }
+
+        private static void ConversionRejected(Message message)
+        {
+            using var reader = message.GetReader();
+            if (reader.Length != 1)
+            {
+                Debug.LogWarning("Conversion rejected error data received");
+                return;
+            }
+
+            OnConversionRejected?.Invoke(reader.ReadByte());
+        }
+
+        private static void ConversionFinished(Message message)
+        {
             using var reader = message.GetReader();
             player.Energy = reader.ReadUInt32();
 
@@ -173,13 +180,6 @@ namespace Networking.Game
             using var msg = Message.CreateEmpty(GameTags.ConvertResources);
             GameControl.Client.SendMessage(msg, SendMode.Reliable);
             if(ShowDebug) Debug.Log("Converting resources ...");
-        }
-        
-        public static void SendConvertStatusRequest()
-        {
-            using var msg = Message.CreateEmpty(GameTags.ConversionStatus);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
-            if(ShowDebug) Debug.Log("Asking for conversion status resources ...");
         }
         
         #endregion

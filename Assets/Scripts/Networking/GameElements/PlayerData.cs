@@ -1,6 +1,7 @@
 using DarkRift;
+using Networking.Game;
 
-namespace Networking.Game
+namespace Networking.GameElements
 {
     /// <summary>
     ///     Stores the player data
@@ -11,28 +12,26 @@ namespace Networking.Game
         public byte Level { get; set; }
         public ushort Experience { get; set; }
         public uint Energy { get; set; }
-        public Resource Silicon { get; set; }
-        public Resource Lithium { get; set; }
-        public Resource Titanium { get; set; }
-        public Robot Worker { get; set; }
-        public Robot Probe { get; set; }
-        public Robot Crusher { get; set; }
+        public Resource[] Resources { get; set; }
+        public Robot[] Robots { get; set; }
+        public BuildTask ResourceConversion { get; set; }
+        public BuildTask RobotUpgrade { get; set; }
+        public BuildTask[] RobotBuilding { get; set; }
 
         public PlayerData() { }
 
-        public PlayerData(string id, byte level, ushort experience, uint energy, Resource silicon, Resource lithium,
-            Resource titanium, Robot worker, Robot probe, Robot crusher)
+        public PlayerData(string id, byte level, ushort experience, uint energy, Resource[] resources, Robot[] robots,
+            BuildTask resourceConversion, BuildTask robotUpgrade, BuildTask[] robotBuilding)
         {
             Id = id;
             Level = level;
             Experience = experience;
             Energy = energy;
-            Silicon = silicon;
-            Lithium = lithium;
-            Titanium = titanium;
-            Worker = worker;
-            Probe = probe;
-            Crusher = crusher;
+            Resources = resources;
+            Robots = robots;
+            ResourceConversion = resourceConversion;
+            RobotUpgrade = robotUpgrade;
+            RobotBuilding = robotBuilding;
         }
         
         /// <summary>
@@ -45,12 +44,11 @@ namespace Networking.Game
             Level = e.Reader.ReadByte();
             Experience = e.Reader.ReadUInt16();
             Energy = e.Reader.ReadUInt32();
-            Silicon = e.Reader.ReadSerializable<Resource>();
-            Lithium = e.Reader.ReadSerializable<Resource>();
-            Titanium = e.Reader.ReadSerializable<Resource>();
-            Worker = e.Reader.ReadSerializable<Robot>();
-            Probe = e.Reader.ReadSerializable<Robot>();
-            Crusher = e.Reader.ReadSerializable<Robot>();
+            Resources = e.Reader.ReadSerializables<Resource>();
+            Robots = e.Reader.ReadSerializables<Robot>();
+            ResourceConversion = e.Reader.ReadSerializable<BuildTask>();
+            RobotUpgrade = e.Reader.ReadSerializable<BuildTask>();
+            RobotBuilding = e.Reader.ReadSerializables<BuildTask>();
         }
         
         /// <summary>
@@ -63,12 +61,11 @@ namespace Networking.Game
             e.Writer.Write(Level);
             e.Writer.Write(Experience);
             e.Writer.Write(Energy);
-            e.Writer.Write(Silicon);
-            e.Writer.Write(Lithium);
-            e.Writer.Write(Titanium);
-            e.Writer.Write(Worker);
-            e.Writer.Write(Probe);
-            e.Writer.Write(Crusher);
+            e.Writer.Write(Resources);
+            e.Writer.Write(Robots);
+            e.Writer.Write(ResourceConversion);
+            e.Writer.Write(RobotUpgrade);
+            e.Writer.Write(RobotBuilding);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Networking.Game
@@ -24,29 +25,24 @@ namespace Networking.Game
         {
             UnlimitedPlayerManager.SendConvertRequest();
         }
-        
-        public void ConversionStatus()
-        {
-            UnlimitedPlayerManager.SendConvertStatusRequest();
-        }
-        
+
         #endregion
 
         #region ProcessServerResponse
 
-        private void ConversionAccepted()
+        private void ConversionAccepted(DateTime remainingTime)
         {
-            
+            Debug.Log("Conversion accepted");
         }
 
         private void ConversionRejected(byte errorId)
         {
-            
+            Debug.Log("Conversion rejected");
         }
 
         private void ConversionFinished()
         {
-            
+            Debug.Log("Conversion finished");
         }
 
         #endregion

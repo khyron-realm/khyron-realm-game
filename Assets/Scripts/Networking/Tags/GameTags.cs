@@ -13,12 +13,19 @@ namespace Networking.Tags
 
         public const ushort PlayerData = 4 + Shift;
         
-        public const ushort ConversionStatus = 5 + Shift;
-        public const ushort ConversionInProgress = 6 + Shift;
-        public const ushort ConversionNotAvailable = 7 + Shift;
-        public const ushort ConvertResources = 8 + Shift;
-        public const ushort ConversionAccepted = 9 + Shift;
-        public const ushort ConversionRejected = 10 + Shift;
-        public const ushort ConversionFinished = 11 + Shift;
+        public const ushort ConvertResources = 5 + Shift;
+        public const ushort ConversionAccepted = 6 + Shift;
+        public const ushort ConversionRejected = 7 + Shift;
+        public const ushort ConversionFinished = 8 + Shift;
+        
+        public const ushort UpgradeRobot = 9 + Shift;
+        public const ushort UpgradeRobotAccepted = 10 + Shift;
+        public const ushort UpgradeRobotRejected = 11 + Shift;
+        public const ushort UpgradeRobotFinished = 12 + Shift;
+        
+        public const ushort BuildRobot = 13 + Shift;
+        public const ushort BuildRobotAccepted = 14 + Shift;
+        public const ushort BuildRobotRejected = 15 + Shift;
+        public const ushort BuildRobotFinished = 16 + Shift;
     }
 }
