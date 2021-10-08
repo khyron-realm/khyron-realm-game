@@ -34,6 +34,7 @@ namespace Manager.Robots.Mining
         #endregion
 
         public event Action<MineResources, Vector3> OnResourceMined;
+        private bool _robotNear = true;
 
         private void Awake()
         {
@@ -89,6 +90,7 @@ namespace Manager.Robots.Mining
                         if (StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health < 0)
                         {
                             StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), null);
+                            StoreAllTiles.Instance.TilesPositions.Remove(nearBlock);
                             _check = true;
                         }
 
@@ -108,7 +110,7 @@ namespace Manager.Robots.Mining
                 gameObject.transform.DOMove(new Vector3(block.x + 0.5f, block.y + 0.5f, 0), time).SetEase(_robotsMovingType).OnComplete(() => { _movementFinished = true; });
                 yield return new WaitForSeconds(time);
 
-                _damage.DoDamage(20);
+                //_damage.DoDamage(20);
 
                 if (StoreAllTiles.Instance.TilesPositions.Count < 1)
                 {
@@ -183,15 +185,21 @@ namespace Manager.Robots.Mining
 
             if(nearBlock == positionStandard)
             {
-                FindNearestBlock(new Vector2Int((int)(gameObject.transform.position.x - 0.5f), (int)(gameObject.transform.position.y - 0.5f)));
+                FindNearestBlock(new Vector2Int((int)(gameObject.transform.position.x - 0.5f), (int)(gameObject.transform.position.y - 0.5f)));               
+                //_robotNear = false;
+                //StartCoroutine(WaitToGetNear());
             }
 
             StoreAllTiles.Instance.TilesPositions.Remove(nearBlock);
-
+            
             return nearBlock;
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="temp"></param>
         private void FindNearestBlock(Vector2Int temp)
         {
             dist = 65532;
@@ -206,5 +214,22 @@ namespace Manager.Robots.Mining
                 }
             }
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        //private IEnumerator WaitToGetNear()
+        //{
+        //    while(true)
+        //    {
+        //        if (Vector2Int.Distance(new Vector2Int((int)(gameObject.transform.position.x - 0.5f), (int)(gameObject.transform.position.y - 0.5f)), nearBlock) < 2)
+        //        {
+        //            _robotNear = true;
+        //            break;
+        //        }                
+        //        yield return null;
+        //    }           
+        //}
     }
 }

@@ -29,7 +29,7 @@ namespace Networking.Login
         public void LoginUser()
         {
             string username = "gigel";
-            string password = "12345";
+            string password = "1gfd";
             LoginManager.Login(username, password);
         }
         

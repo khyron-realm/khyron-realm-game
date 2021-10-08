@@ -47,11 +47,11 @@ namespace Manager.Robots.Mining
 
             resource.GetComponent<SpriteRenderer>().sprite = _resource;
             resource.GetComponent<SpriteRenderer>().color = Color.white;
-            resource.transform.position = gameObject.transform.position;
+            resource.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, -1);
 
             resource.SetActive(true);
-            resource.transform.DOMoveY(position.y + 2f, 1.2f).OnComplete(()=> resource.SetActive(false));
-            resource.GetComponent<SpriteRenderer>().DOFade(0, 1f);
+            resource.transform.DOMoveY(position.y + 3f, 1.4f).OnComplete(()=> resource.SetActive(false));
+            resource.GetComponent<SpriteRenderer>().DOFade(0, 1.4f);
         }
     }
 }
