@@ -37,13 +37,13 @@ namespace Authentification
 
         private void SuccessfulLogin()
         {
-            //...
+            print("succes");
         }
 
 
         private void FailedLogin(byte errorId)
         {
-            //...
+            print("not good");
         }
 
 

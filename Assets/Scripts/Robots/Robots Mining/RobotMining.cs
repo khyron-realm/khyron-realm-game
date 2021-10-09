@@ -14,6 +14,9 @@ namespace Manager.Robots.Mining
         #region "Input data"
         [SerializeField] private RobotsGetDamage _damage;
         [SerializeField] private Ease _robotsMovingType;
+
+        [SerializeField] private Animator _animator;
+        [SerializeField] private ParticleSystem _particles;
         #endregion
 
         #region "Private members"
@@ -31,6 +34,8 @@ namespace Manager.Robots.Mining
         private float dist = 65532;
         private Vector2Int nearBlock;
 
+        private ParticleSystem _particlesForMining;
+
         #endregion
 
         public event Action<MineResources, Vector3> OnResourceMined;
@@ -47,6 +52,8 @@ namespace Manager.Robots.Mining
             _allPositions.Add(Vector3Int.down);
             _allPositions.Add(Vector3Int.right);
             _allPositions.Add(Vector3Int.left);
+
+            _particlesForMining = Instantiate(_particles);
         }
 
 
@@ -62,6 +69,7 @@ namespace Manager.Robots.Mining
         /// <summary>
         /// The Mining process
         /// </summary>
+        [Obsolete]
         private IEnumerator MiningProcess()
         {
             while(true)
@@ -83,6 +91,19 @@ namespace Manager.Robots.Mining
                         _mined = true;
                     }
 
+                    _particlesForMining.enableEmission = true;
+                    _particlesForMining.transform.position = new  Vector3(block.x + 0.5f, block.y + 0.5f, -1);
+
+                    _animator.SetBool("isMining", true);
+                    if(gameObject.transform.position.x > block.x)
+                    {
+                        gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                    }
+                    else
+                    {
+                        gameObject.transform.localScale = new Vector3(-0.5f, 0.5f, 1);
+                    }
+
                     while (!_check)
                     {
                         StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health -= (int)(20f);
@@ -97,17 +118,27 @@ namespace Manager.Robots.Mining
                         yield return null;
                     }
 
-                    if(_mined)
+                    _particlesForMining.enableEmission = false;
+                    _animator.SetBool("isMining", false);
+
+                    if (_mined)
                     {
                         OnResourceMined?.Invoke(_resourceMined, _positionOfResource);
                     }                 
                 }
 
                 _movementFinished = false;
-
                 float time = TimeForMoving(ref block);
 
-                gameObject.transform.DOMove(new Vector3(block.x + 0.5f, block.y + 0.5f, 0), time).SetEase(_robotsMovingType).OnComplete(() => { _movementFinished = true; });
+                
+
+                gameObject.transform.DOMove(new Vector3(block.x + 0.5f, block.y + 0.5f, 0), time).SetEase(_robotsMovingType).OnComplete(() => 
+                { 
+                    _movementFinished = true;
+                }
+                );
+
+
                 yield return new WaitForSeconds(time);
 
                 //_damage.DoDamage(20);
@@ -214,22 +245,5 @@ namespace Manager.Robots.Mining
                 }
             }
         }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        //private IEnumerator WaitToGetNear()
-        //{
-        //    while(true)
-        //    {
-        //        if (Vector2Int.Distance(new Vector2Int((int)(gameObject.transform.position.x - 0.5f), (int)(gameObject.transform.position.y - 0.5f)), nearBlock) < 2)
-        //        {
-        //            _robotNear = true;
-        //            break;
-        //        }                
-        //        yield return null;
-        //    }           
-        //}
     }
 }

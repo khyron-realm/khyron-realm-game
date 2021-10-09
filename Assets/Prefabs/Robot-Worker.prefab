@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -7404102398447709204}
   - component: {fileID: -830722144197673256}
   - component: {fileID: 6298407207713645354}
+  - component: {fileID: 5420643316999168158}
   m_Layer: 0
   m_Name: Robot-Worker
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 8081672677367500380}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 31.5, y: 10.5, z: 0}
-  m_LocalScale: {x: 0.14, y: 0.14, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -100,6 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: {fileID: -7404102398447709204}
   _robotsMovingType: 1
+  _animator: {fileID: 5420643316999168158}
+  _particles: {fileID: 8472594242037789130, guid: fbebd93fcf19de44c9df2cf65f1023f7, type: 3}
 --- !u!114 &-7404102398447709204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,3 +144,22 @@ MonoBehaviour:
   _lithiumOre: {fileID: 21300000, guid: 30637e24f02fe914b8895805262c3b08, type: 3}
   _siliconOre: {fileID: 21300000, guid: 810fdd568e349a7498cbf54e75a99c7e, type: 3}
   _titanOre: {fileID: 21300000, guid: 6632ad0ac10de804282860a30d28f266, type: 3}
+--- !u!95 &5420643316999168158
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081672677367500380}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 823e77cd4c4e0074fa182e35d2e95f1a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
