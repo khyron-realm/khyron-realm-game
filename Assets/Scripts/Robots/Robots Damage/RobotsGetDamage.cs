@@ -19,13 +19,18 @@ namespace Manager.Robots.Damage
         /// Method for doing damage to robots
         /// </summary>
         /// <param name="amount"> The amount of damage given </param>
-        public void DoDamage(int amount)
+        public bool DoDamage(int amount)
         {
             _health -= amount;
 
             if(_health < 0)
             {
                 OnDead?.Invoke(_robotGameObject);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

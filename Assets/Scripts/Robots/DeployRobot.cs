@@ -38,6 +38,8 @@ namespace Manager.Robots
 
         private GameObject robotToDeploy;
 
+        private static float s_zPosition = 0;
+
         #endregion
 
         private void Awake()
@@ -110,7 +112,9 @@ namespace Manager.Robots
                 StoreAllTiles.Instance.Tiles[temp.x][temp.y].Health = -1;
 
                 robot = Instantiate(robotToDeploy);
-                robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f, 0f);
+                s_zPosition -= 0.1f;
+
+                robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f, s_zPosition);
 
                 _mining = robot.GetComponent<IMineOperations>();
                 _mining.StartMineOperation(_robotSelected, robot);

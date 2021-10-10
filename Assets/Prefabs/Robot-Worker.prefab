@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: {fileID: -7404102398447709204}
+  _animator: {fileID: 5420643316999168158}
 --- !u!114 &6298407207713645354
 MonoBehaviour:
   m_ObjectHideFlags: 0
