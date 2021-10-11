@@ -14,28 +14,36 @@ namespace Networking.Game
     public class UnlimitedPlayerManager : MonoBehaviour
     {
         public static bool ShowDebug = true;
+        public static PlayerData player;
 
         #region Handlers
 
-        public delegate void ConversionAcceptedEventHandler();
+        public delegate void PlayerDataUnavailableEventHandler();
+        public delegate void CancelConversionAcceptedEventHandler();
+        public delegate void ConversionAcceptedEventHandler(long time);
         public delegate void ConversionRejectedEventHandler(byte errorId);
-        public delegate void UpgradingAcceptedEventHandler();
+        public delegate void CancelUpgradeAcceptedEventHandler();
+        public delegate void UpgradingAcceptedEventHandler(long time);
         public delegate void UpgradingRejectedEventHandler(byte errorId);
-        public delegate void BuildingAcceptedEventHandler();
+        public delegate void CancelBuildAcceptedEventHandler();
+        public delegate void BuildingAcceptedEventHandler(long time);
         public delegate void BuildingRejectedEventHandler(byte errorId);
+        public static event PlayerDataUnavailableEventHandler OnPlayerDataUnavailable;
+        public static event CancelConversionAcceptedEventHandler OnCancelConversionAccepted;
         public static event ConversionAcceptedEventHandler OnConversionAccepted;
         public static event ConversionRejectedEventHandler OnConversionRejected;
+        public static event CancelUpgradeAcceptedEventHandler OnCancelUpgradingAccepted;
         public static event UpgradingAcceptedEventHandler OnUpgradingAccepted;
         public static event UpgradingRejectedEventHandler OnUpgradingRejected;
+        public static event CancelBuildAcceptedEventHandler OnCancelBuildingAccepted;
         public static event BuildingAcceptedEventHandler OnBuildingAccepted;
         public static event BuildingRejectedEventHandler OnBuildingRejected;
 
         #endregion
-
-        public static PlayerData player = null;
         
         private void Awake()
         {
+            player = null;
             GameControl.Client.MessageReceived += OnDataHandler;
         }
 
@@ -71,6 +79,18 @@ namespace Networking.Game
                     break;
                 }
 
+                case GameTags.PlayerDataUnavailable:
+                {
+                    PlayerDataUnavailable(message);
+                    break;
+                }
+
+                case GameTags.CancelConversionAccepted:
+                {
+                    CancelConversionAccepted(message);
+                    break;
+                }
+
                 case GameTags.ConversionAccepted:
                 {
                     ConversionAccepted(message);
@@ -80,6 +100,12 @@ namespace Networking.Game
                 case GameTags.ConversionRejected:
                 {
                     ConversionRejected(message);
+                    break;
+                }
+
+                case GameTags.CancelUpgradeAccepted:
+                {
+                    CancelUpgradeAccepted(message);
                     break;
                 }
                     
@@ -92,6 +118,12 @@ namespace Networking.Game
                 case GameTags.UpgradeRobotRejected:
                 {
                     UpgradeRobotRejected(message);
+                    break;
+                }
+
+                case GameTags.CancelBuildAccepted:
+                {
+                    CancelBuildAccepted(message);
                     break;
                 }
 
@@ -109,7 +141,7 @@ namespace Networking.Game
             }
         }
 
-        #region ReceivedCalls
+        #region ConnectionHandlers
 
         /// <summary>
         ///     Player connected actions
@@ -129,6 +161,10 @@ namespace Networking.Game
             if (ShowDebug) Debug.Log("Player disconnected");
         }
 
+        #endregion
+        
+        #region ReceivedCalls
+        
         /// <summary>
         ///     Receive player data from the DarkRift server
         /// </summary>
@@ -161,18 +197,33 @@ namespace Networking.Game
         }
 
         /// <summary>
+        ///     Receive player data unavailable message
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void PlayerDataUnavailable(Message message)
+        {
+            OnPlayerDataUnavailable?.Invoke();
+        }
+
+        /// <summary>
+        ///     Receive the cancel conversion accepted confirmation
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void CancelConversionAccepted(Message message)
+        {
+            OnCancelConversionAccepted?.Invoke();
+        }
+        
+        /// <summary>
         ///     Receive the conversion accepted confirmation
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void ConversionAccepted(Message message)
         {
             using var reader = message.GetReader();
-            DateTime finishTime = DateTime.FromBinary(reader.ReadInt64());
+            var finishTime = reader.ReadInt64();
             
-            // Compute remaining time
-            DateTime remainingTime = finishTime;
-
-            OnConversionAccepted?.Invoke();
+            OnConversionAccepted?.Invoke(finishTime);
         }
 
         /// <summary>
@@ -192,18 +243,24 @@ namespace Networking.Game
         }
         
         /// <summary>
+        ///     Receive the cancel upgrade robot accepted confirmation
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void CancelUpgradeAccepted(Message message)
+        {
+            OnCancelUpgradingAccepted?.Invoke();
+        }
+        
+        /// <summary>
         ///     Receive the upgrade robot accepted confirmation
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void UpgradeRobotAccepted(Message message)
         {
             using var reader = message.GetReader();
-            DateTime finishTime = DateTime.FromBinary(reader.ReadInt64());
+            var finishTime = reader.ReadInt64();
             
-            // Compute remaining time 
-            DateTime remainingTime = finishTime;
-
-            OnUpgradingAccepted?.Invoke();
+            OnUpgradingAccepted?.Invoke(finishTime);
         }
 
         /// <summary>
@@ -223,18 +280,24 @@ namespace Networking.Game
         }
         
         /// <summary>
+        ///     Receive the cancel build robot accepted confirmation
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void CancelBuildAccepted(Message message)
+        {
+            OnCancelBuildingAccepted?.Invoke();
+        }
+        
+        /// <summary>
         ///     Receive the build robot accepted confirmation
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void BuildRobotAccepted(Message message)
         {
             using var reader = message.GetReader();
-            DateTime finishTime = DateTime.FromBinary(reader.ReadInt64());
+            var finishTime = reader.ReadInt64();
             
-            // Compute remaining time 
-            DateTime remainingTime = finishTime;
-
-            OnBuildingAccepted?.Invoke();
+            OnBuildingAccepted?.Invoke(finishTime);
         }
 
         /// <summary>
@@ -280,17 +343,41 @@ namespace Networking.Game
         }
         
         /// <summary>
+        ///     Request for cancelling the conversion of the resources to energy
+        /// </summary>
+        public static void CancelConversionRequest()
+        {
+            using var msg = Message.CreateEmpty(GameTags.CancelConversion);
+            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            
+            if(ShowDebug) Debug.Log("Cancelling the conversion of resources ...");
+        }
+
+        /// <summary>
         ///     Request for upgrading a robot
         /// </summary>
         /// <param name="robotId">The robot type</param>
-        public static void UpgradingRequest(byte robotId)
+        /// <param name="robotPart">The robot part</param>
+        public static void UpgradingRequest(byte robotId, byte robotPart)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(robotId);
+            writer.Write(robotPart);
             using var msg = Message.Create(GameTags.UpgradeRobot, writer);
             GameControl.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Trying to upgrade robot ...");
+        }
+        
+        /// <summary>
+        ///     Request for cancelling the upgrading of the robot
+        /// </summary>
+        public static void CancelUpgradingRequest()
+        {
+            using var msg = Message.CreateEmpty(GameTags.CancelUpgrade);
+            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            
+            if(ShowDebug) Debug.Log("Cancelling the upgrading of the robot ...");
         }
         
         /// <summary>
@@ -304,6 +391,17 @@ namespace Networking.Game
             using var msg = Message.Create(GameTags.BuildRobot, writer);
             GameControl.Client.SendMessage(msg, SendMode.Reliable);
             if(ShowDebug) Debug.Log("Trying to build robot ...");
+        }
+        
+        /// <summary>
+        ///     Request for cancelling the building of the robot
+        /// </summary>
+        public static void CancelBuildingRequest()
+        {
+            using var msg = Message.CreateEmpty(GameTags.CancelBuild);
+            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            
+            if(ShowDebug) Debug.Log("Cancelling the building of the robot ...");
         }
         
         #endregion
