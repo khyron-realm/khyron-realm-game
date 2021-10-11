@@ -25,26 +25,7 @@ namespace Manager.Robots.Mining
         public void StartMineOperation(Robot robot, GameObject robotGameObject)
         {
             AnimationDetection();
-            StartCoroutine(DiscoverTheMine());
-        }
-
-
-        private IEnumerator DiscoverTheMine()
-        {
-            for (int i = -_radius; i < _radius; i++)
-            {
-                for (int j = -_radius; j < _radius; j++)
-                {
-                    Vector3Int temp = new Vector3Int((int)gameObject.transform.position.x, (int)gameObject.transform.position.y, 0) + i * Vector3Int.up + j * Vector3Int.left;
-
-                    if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(temp.x), (int)(temp.y), 0)) != null && StoreAllTiles.Instance.Tiles[temp.x][temp.y].Resource != null)
-                    {
-                        StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(temp.x), (int)(temp.y), 0), StoreAllTiles.Instance.Tiles[temp.x][temp.y].Resource.ResourceTile);
-                    }
-
-                    yield return null;
-                }
-            }
+            StartCoroutine(Circle(new Vector2Int((int)gameObject.transform.position.x, (int)gameObject.transform.position.y), 4));
         }
 
 
@@ -54,6 +35,57 @@ namespace Manager.Robots.Mining
             _circleScan.SetActive(true);
             _circleScan.transform.DOScale(4, 2f).OnComplete(() => _circleScan.SetActive(false));
             _circleScan.GetComponent<SpriteRenderer>().DOFade(0, 2f).SetEase(_fadingStyle);
+        }
+
+
+        private IEnumerator Circle(Vector2Int centerPosition, int radius)
+        {
+            for (int i  = centerPosition.x - radius; i <= centerPosition.x; i++)
+            {
+                for (int j = centerPosition.y - radius; j <= centerPosition.y; j++)
+                {
+                    // we don't have to take the square root, it's slow
+                    if ((i - centerPosition.x) * (i - centerPosition.x) + (j - centerPosition.y) * (j - centerPosition.y) <= radius * radius)
+                    {
+                        int xSym = centerPosition.x - (i - centerPosition.x);
+                        int ySym = centerPosition.y - (j - centerPosition.y);
+
+                        //StoreAllTiles.Instance.Tilemap.SetColor(new Vector3Int((int)(xSym), (int)(ySym), 0), Color.green);
+                        //StoreAllTiles.Instance.Tilemap.SetColor(new Vector3Int((int)(i), (int)(ySym), 0), Color.green);
+                        //StoreAllTiles.Instance.Tilemap.SetColor(new Vector3Int((int)(i), (int)(j), 0), Color.green);
+                        //StoreAllTiles.Instance.Tilemap.SetColor(new Vector3Int((int)(xSym), (int)(j), 0), Color.green);
+
+                        int ttt = Random.Range(0, 2);
+
+                        if(ttt == 0)
+                        {
+                            if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != null && StoreAllTiles.Instance.Tiles[i][j].Resource != null)
+                            {
+                                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(i), (int)(j), 0), StoreAllTiles.Instance.Tiles[i][j].Resource.ResourceTile);
+                            }
+
+                            if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(ySym), 0)) != null && StoreAllTiles.Instance.Tiles[i][ySym].Resource != null)
+                            {
+                                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(i), (int)(ySym), 0), StoreAllTiles.Instance.Tiles[i][ySym].Resource.ResourceTile);
+                            }
+
+                            if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(xSym), (int)(j), 0)) != null && StoreAllTiles.Instance.Tiles[xSym][j].Resource != null)
+                            {
+                                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(xSym), (int)(j), 0), StoreAllTiles.Instance.Tiles[xSym][j].Resource.ResourceTile);
+                            }
+
+                            if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(xSym), (int)(ySym), 0)) != null && StoreAllTiles.Instance.Tiles[xSym][ySym].Resource != null)
+                            {
+                                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(xSym), (int)(ySym), 0), StoreAllTiles.Instance.Tiles[xSym][ySym].Resource.ResourceTile);
+                            }
+                        }                     
+                    }
+
+                    yield return null;
+                }
+
+                yield return null;
+            }
         }
     }
 }

@@ -87,6 +87,7 @@ namespace Manager.Robots
                 if (newButton != item)
                 {
                     item.transform.DOScale(1, 0.18f);
+                    item.GetComponent<DeployRobot>().DeselectRobot();
                 }
             }
         }

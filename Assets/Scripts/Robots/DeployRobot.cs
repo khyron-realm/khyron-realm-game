@@ -34,9 +34,9 @@ namespace Manager.Robots
         private bool check = true;
 
         private IMineOperations _mining;
-        private Robot _robotSelected;
 
-        private GameObject robotToDeploy;
+        private static Robot _robotSelected;
+        private static GameObject robotToDeploy;
 
         private static float s_zPosition = 0;
 

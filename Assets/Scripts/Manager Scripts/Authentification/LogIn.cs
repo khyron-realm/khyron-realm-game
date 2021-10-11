@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Networking.Login;
+using Scenes;
+using Save;
 
 
 namespace Authentification
@@ -12,24 +14,50 @@ namespace Authentification
         #region "Input data"
         [SerializeField] private InputField _userNameField;
         [SerializeField] private InputField _passwordField;
+        [SerializeField] private ChangeScene _scene;
+        [SerializeField] private PlayerValues _playerData;
         #endregion
 
         #region "Private members" 
         private string _userName = "";
         private string _password = "";
+
+        private bool _whatLogin;
         #endregion
 
         private void Awake()
         {
             LoginManager.OnSuccessfulLogin += SuccessfulLogin;
-            LoginManager.OnFailedLogin += FailedLogin;
+            LoginManager.OnFailedLogin += FailedLogin;        
+        }
+
+        private void Start()
+        {
+            AutomaticLogIn();
         }
 
 
+        /// <summary>
+        /// LogIn automatic with the saved credentials
+        /// </summary>
+        private void AutomaticLogIn()
+        {
+            LoginManager.Login(_playerData.Username, _playerData.Password);
+        }
+
+
+        /// <summary>
+        /// Standard logIn operation that is added to buttons
+        /// </summary>
         public void LogInToServer()
         {
             _userName = _userNameField.text;
             _password = _passwordField.text;
+
+            _playerData.Username = _userName;
+            _playerData.Password = _password;
+
+            _playerData.SaveData();
 
             LoginManager.Login(_userName, _password);
         }
@@ -37,13 +65,13 @@ namespace Authentification
 
         private void SuccessfulLogin()
         {
-            print("succes");
+            _scene.GoToScene();
         }
 
 
         private void FailedLogin(byte errorId)
         {
-            print("not good");
+            print("Try Again");
         }
 
 

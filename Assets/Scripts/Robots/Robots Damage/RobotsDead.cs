@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace Manager.Robots.Damage
 {
@@ -26,8 +27,10 @@ namespace Manager.Robots.Damage
         {
             _animator.SetBool("isMining", false);
             _animator.SetBool("isDead", true);
+
             yield return new WaitForSeconds(1.4f);
-            temp.SetActive(false);
+
+            temp.GetComponent<SpriteRenderer>().DOFade(0, 1.4f).OnComplete(() => temp.SetActive(false));
         }
     }
 }

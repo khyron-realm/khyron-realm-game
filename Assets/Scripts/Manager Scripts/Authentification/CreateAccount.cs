@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Networking.Login;
+using Panels;
 
 
 namespace Authentification
@@ -12,6 +13,7 @@ namespace Authentification
         #region "Input data"
         [SerializeField] private InputField _userNameField;
         [SerializeField] private InputField _passwordField;
+        [SerializeField] private ChangeScreen _screenToChange;
         #endregion
 
         #region "Private members" 
@@ -37,13 +39,13 @@ namespace Authentification
 
         private void SuccessfulAddUser()
         {
-            //...
+            _screenToChange.ScreenChange();
         }
 
 
         private void FailedAddUser(byte errorId)
         {
-            //...
+            print("Incorrect User Added");
         }
 
 
