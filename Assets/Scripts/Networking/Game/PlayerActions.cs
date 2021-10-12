@@ -64,13 +64,15 @@ namespace Networking.Game
 
         public void BuildRobot()
         {
+            byte queueNumber = 0;
             byte robotId = 0;
-            UnlimitedPlayerManager.BuildingRequest(robotId);
+            UnlimitedPlayerManager.BuildingRequest(queueNumber, robotId);
         }
 
         public void CancelBuildRobot()
         {
-            UnlimitedPlayerManager.CancelBuildingRequest();
+            byte robotNumber = 0; // the robot number in queue to delete
+            UnlimitedPlayerManager.CancelBuildingRequest(robotNumber);
         }
 
         #endregion

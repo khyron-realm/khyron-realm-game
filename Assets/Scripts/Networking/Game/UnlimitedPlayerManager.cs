@@ -191,8 +191,8 @@ namespace Networking.Game
                 {
                     Debug.Log("Robot = " + player.Robots[iterator].Name);
                 }
-                DateTime time = DateTime.FromBinary(player.ResourceConversion.EndTime);
-                Debug.Log("Conversion end time: " + time);
+                //DateTime time = DateTime.FromBinary(player.ResourceConversion.EndTime);
+                //Debug.Log("Conversion end time: " + time);
             }
         }
 
@@ -379,14 +379,16 @@ namespace Networking.Game
             
             if(ShowDebug) Debug.Log("Cancelling the upgrading of the robot ...");
         }
-        
+
         /// <summary>
         ///     Request for building a robot
         /// </summary>
+        /// <param name="queueNumber"></param>
         /// <param name="robotId">The robot type</param>
-        public static void BuildingRequest(byte robotId)
+        public static void BuildingRequest(byte queueNumber, byte robotId)
         {
             using var writer = DarkRiftWriter.Create();
+            writer.Write(queueNumber);
             writer.Write(robotId);
             using var msg = Message.Create(GameTags.BuildRobot, writer);
             GameControl.Client.SendMessage(msg, SendMode.Reliable);
@@ -396,9 +398,11 @@ namespace Networking.Game
         /// <summary>
         ///     Request for cancelling the building of the robot
         /// </summary>
-        public static void CancelBuildingRequest()
+        public static void CancelBuildingRequest(byte queueNumber)
         {
-            using var msg = Message.CreateEmpty(GameTags.CancelBuild);
+            using var writer = DarkRiftWriter.Create();
+            writer.Write(queueNumber);
+            using var msg = Message.Create(GameTags.CancelBuild, writer);
             GameControl.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Cancelling the building of the robot ...");
