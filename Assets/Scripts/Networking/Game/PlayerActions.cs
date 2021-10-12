@@ -53,8 +53,7 @@ namespace Networking.Game
         public void UpgradeRobot()
         {
             byte robotId = 0;
-            byte robotPart = 0;
-            UnlimitedPlayerManager.UpgradingRequest(robotId, robotPart);
+            UnlimitedPlayerManager.UpgradingRequest(robotId);
         }
 
         public void CancelUpgradeRobot()

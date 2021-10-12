@@ -191,8 +191,17 @@ namespace Networking.Game
                 {
                     Debug.Log("Robot = " + player.Robots[iterator].Name);
                 }
-                //DateTime time = DateTime.FromBinary(player.ResourceConversion.EndTime);
-                //Debug.Log("Conversion end time: " + time);
+
+                BuildTask[] taskQueue = player.TaskQueue;
+                Debug.Log(taskQueue.Length == 0 ? "No tasks in progress" : "Tasks in progress");
+
+                foreach (BuildTask task in taskQueue)
+                {
+                    Debug.Log(" - task: " + task.Id);
+                    DateTime time = DateTime.FromBinary(task.EndTime);
+                    Debug.Log(" - time: " + time);
+                }
+                
             }
         }
 
@@ -358,11 +367,10 @@ namespace Networking.Game
         /// </summary>
         /// <param name="robotId">The robot type</param>
         /// <param name="robotPart">The robot part</param>
-        public static void UpgradingRequest(byte robotId, byte robotPart)
+        public static void UpgradingRequest(byte robotId)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(robotId);
-            writer.Write(robotPart);
             using var msg = Message.Create(GameTags.UpgradeRobot, writer);
             GameControl.Client.SendMessage(msg, SendMode.Reliable);
             
