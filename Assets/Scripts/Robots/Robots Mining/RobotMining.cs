@@ -115,7 +115,9 @@ namespace Manager.Robots.Mining
                     RevealResourceIfItIs(ref _mined, ref block);
                     StartMiningAnimation(block);
                     ChangeRobotOrientation(block);
+
                     yield return ProcessOfMiningBlocks(block);
+
                     StopMiningAnimation();
 
                     if (_mined)
@@ -209,7 +211,7 @@ namespace Manager.Robots.Mining
         /// <param name="block"></param>
         private void RevealResourceIfItIs(ref bool _mined, ref Vector2Int block)
         {
-            if (StoreAllTiles.Instance.Tiles[block.x][block.y].Resource != null)
+            if (StoreAllTiles.Instance.Tiles[block.x][block.y].Resource != null && StoreAllTiles.Instance.Tiles[block.x][block.y].Discovered > 0)
             {
                 StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), StoreAllTiles.Instance.Tiles[block.x][block.y].Resource.ResourceTile);
 

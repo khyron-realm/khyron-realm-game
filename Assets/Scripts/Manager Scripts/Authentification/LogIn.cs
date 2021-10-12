@@ -21,8 +21,6 @@ namespace Authentification
         #region "Private members" 
         private string _userName = "";
         private string _password = "";
-
-        private bool _whatLogin;
         #endregion
 
         private void Awake()

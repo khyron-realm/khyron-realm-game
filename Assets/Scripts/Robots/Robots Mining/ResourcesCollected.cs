@@ -47,7 +47,7 @@ namespace Manager.Robots.Mining
 
             resource.GetComponent<SpriteRenderer>().sprite = _resource;
             resource.GetComponent<SpriteRenderer>().color = Color.white;
-            resource.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, -1);
+            resource.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, -8);
 
             resource.SetActive(true);
             resource.transform.DOMoveY(position.y + 3f, 1.4f).OnComplete(()=> resource.SetActive(false));
