@@ -185,13 +185,13 @@ namespace Networking.Game
                 Debug.Log("Player level = " + player.Level);
                 Debug.Log("Player experience = " + player.Experience);
                 Debug.Log("Player energy = " + player.Energy);
-                foreach(int iterator in Enumerable.Range(0, player.Robots.Length))
+                foreach(var r in player.Resources)
                 {
-                    Debug.Log("Resource = " + player.Resources[iterator].Name);
+                    Debug.Log("Resource = " + r.Name);
                 }
-                foreach(int iterator in Enumerable.Range(0, player.Robots.Length))
+                foreach(var r in player.Robots)
                 {
-                    Debug.Log("Robot = " + player.Robots[iterator].Name);
+                    Debug.Log("Robot = " + r.Name);
                 }
 
                 BuildTask[] taskQueue = player.TaskQueue;
@@ -369,7 +369,6 @@ namespace Networking.Game
         ///     Request for upgrading a robot
         /// </summary>
         /// <param name="robotId">The robot type</param>
-        /// <param name="robotPart">The robot part</param>
         public static void UpgradingRequest(byte robotId)
         {
             using var writer = DarkRiftWriter.Create();
