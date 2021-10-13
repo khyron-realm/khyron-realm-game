@@ -74,12 +74,12 @@ namespace Mine
                         if(temp_hidden[row, col] == 0)
                         {
                             StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType1);
-                            StoreData(temp_visibles, row, temp, col, _healthOfBlocks[0]);
+                            StoreData(_groundTileType1, temp_visibles, row, temp, col, _healthOfBlocks[0]);
                         }
                         else
                         {
                             StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType2);
-                            StoreData(temp_visibles, row, temp, col, _healthOfBlocks[1]);
+                            StoreData(_groundTileType2, temp_visibles, row, temp, col, _healthOfBlocks[1]);
                         }                            
                     }
                 }
@@ -99,15 +99,15 @@ namespace Mine
         /// <param name="temp">The list with all data about tiles</param>
         /// <param name="col">The current column</param>
         /// <param name="health">The current health of the block</param>
-        private void StoreData(int[,] temp_visible, int row, List<DataOfTile> temp, int col, int health)
+        private void StoreData(RuleTile tile, int[,] temp_visible, int row, List<DataOfTile> temp, int col, int health)
         {
             if (temp_visible[row, col] > 1)
             {
-                temp.Add(new DataOfTile(health, _resources[temp_visible[row, col] - 2]));
+                temp.Add(new DataOfTile(health, tile, _resources[temp_visible[row, col] - 2]));
             }
             else
             {
-                temp.Add(new DataOfTile(health));
+                temp.Add(new DataOfTile(health, tile));
             }
         }
 

@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Panels;
 
 namespace Manager.Robots.Damage
 {
     public class RobotsGetDamage : MonoBehaviour
     {
+        [SerializeField] private ProgressBar _healthBar;
+
         #region "Private memebers"   
         private int _health;
         private GameObject _robotGameObject;
@@ -19,13 +22,19 @@ namespace Manager.Robots.Damage
         /// Method for doing damage to robots
         /// </summary>
         /// <param name="amount"> The amount of damage given </param>
-        public void DoDamage(int amount)
+        public bool DoDamage(int amount)
         {
             _health -= amount;
+            _healthBar.CurrentValue = _health;
 
-            if(_health < 0)
+            if (_health < 0)
             {
                 OnDead?.Invoke(_robotGameObject);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -48,6 +57,9 @@ namespace Manager.Robots.Damage
         {
             int level = RobotsManager.robotsData[currentRobot.nameOfTheRobot].RobotLevel;
             _health =  currentRobot.robotLevel[level].status.health;
+
+            _healthBar.MaxValue = _health;
+            _healthBar.CurrentValue = _health;
         }
 
 

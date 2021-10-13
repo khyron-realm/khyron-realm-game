@@ -9,6 +9,9 @@ namespace Tiles.Tiledata
     public class DataOfTile
     {
         private int _health;
+        private int _discovered = 0;
+
+        private RuleTile _standardBlock;
         private MineResources _resource = null;
 
         // If block is Mined
@@ -16,15 +19,17 @@ namespace Tiles.Tiledata
         private bool once = false; // for safety
 
         // constructor with health
-        public DataOfTile(int _health)
+        public DataOfTile(int _health, RuleTile _standardBlock)
         {
             this._health = _health;
+            this._standardBlock = _standardBlock;
         }
 
         // constructor with health and resources 
-        public DataOfTile(int _health, MineResources _resource)
-        {
+        public DataOfTile(int _health, RuleTile _standardBlock, MineResources _resource)
+        {          
             this._health = _health;
+            this._standardBlock = _standardBlock;
             this._resource = _resource;
         }
 
@@ -46,6 +51,21 @@ namespace Tiles.Tiledata
                 }
             }
         }
+
+
+        public RuleTile StandardBlock
+        {
+            get
+            {
+                return _standardBlock;
+            }
+            set
+            {
+                _standardBlock = value;
+            }
+        }
+
+
         public MineResources Resource
         {
             get
@@ -55,6 +75,22 @@ namespace Tiles.Tiledata
             set
             {
                 _resource = value;
+            }
+        }
+
+        public int Discovered
+        {
+            get
+            {
+                return _discovered;
+            }
+            set
+            {
+                _discovered = value;
+                if(_discovered < 0)
+                {
+                    _discovered = 0;
+                }
             }
         }
         #endregion

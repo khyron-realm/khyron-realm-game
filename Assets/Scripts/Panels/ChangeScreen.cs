@@ -10,6 +10,8 @@ namespace Panels
         #region "Input data"
         [SerializeField] private GameObject _currentScreen;
         [SerializeField] private GameObject _screenToGo;
+
+        [SerializeField] private bool _activateOnPointerClick;
         #endregion
 
         public void ScreenChange()
@@ -18,9 +20,13 @@ namespace Panels
             _screenToGo.SetActive(true);
         }
 
+
         public void OnPointerClick(PointerEventData eventData)
         {
-            ScreenChange();
+            if(_activateOnPointerClick)
+            {
+                ScreenChange();
+            }               
         }
     }
 }

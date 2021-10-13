@@ -42,7 +42,10 @@ namespace Bidding
         /// </summary>
         public void Restart()
         {
-            StopCoroutine(_coroute);
+            if(_coroute != null)
+            {
+                StopCoroutine(_coroute);
+            }
             _coroute = StartCoroutine(AuctionInProgress(_totalTime));
         }
 
