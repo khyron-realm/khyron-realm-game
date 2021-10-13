@@ -18,6 +18,7 @@ namespace Networking.Game
 
         #region Handlers
 
+        public delegate void PlayerDataReceivedEventHandler();
         public delegate void PlayerDataUnavailableEventHandler();
         public delegate void CancelConversionAcceptedEventHandler();
         public delegate void ConversionAcceptedEventHandler(long time);
@@ -28,6 +29,7 @@ namespace Networking.Game
         public delegate void CancelBuildAcceptedEventHandler();
         public delegate void BuildingAcceptedEventHandler(long time);
         public delegate void BuildingRejectedEventHandler(byte errorId);
+        public static event PlayerDataReceivedEventHandler OnPlayerDataReceived;
         public static event PlayerDataUnavailableEventHandler OnPlayerDataUnavailable;
         public static event CancelConversionAcceptedEventHandler OnCancelConversionAccepted;
         public static event ConversionAcceptedEventHandler OnConversionAccepted;
@@ -201,8 +203,9 @@ namespace Networking.Game
                     DateTime time = DateTime.FromBinary(task.EndTime);
                     Debug.Log(" - time: " + time);
                 }
-                
             }
+            
+            OnPlayerDataReceived?.Invoke();
         }
 
         /// <summary>

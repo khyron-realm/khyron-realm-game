@@ -7,6 +7,7 @@ namespace Networking.Game
     {
         private void Awake()
         {
+            UnlimitedPlayerManager.OnPlayerDataReceived += PlayerDataReceived;
             UnlimitedPlayerManager.OnPlayerDataUnavailable += PlayerDataUnavailable;
             UnlimitedPlayerManager.OnCancelConversionAccepted += CancelConversionAccepted;
             UnlimitedPlayerManager.OnConversionAccepted += ConversionAccepted;
@@ -21,6 +22,7 @@ namespace Networking.Game
 
         private void OnDestroy()
         {
+            UnlimitedPlayerManager.OnPlayerDataReceived -= PlayerDataReceived;
             UnlimitedPlayerManager.OnPlayerDataUnavailable -= PlayerDataUnavailable;
             UnlimitedPlayerManager.OnCancelConversionAccepted -= CancelConversionAccepted;
             UnlimitedPlayerManager.OnConversionAccepted -= ConversionAccepted;
@@ -78,6 +80,11 @@ namespace Networking.Game
 
         #region ProcessServerResponse
 
+        private void PlayerDataReceived()
+        {
+            Debug.Log("Player data received");
+        }
+        
         private void PlayerDataUnavailable()
         {
             Debug.Log("Player data unavailable");
