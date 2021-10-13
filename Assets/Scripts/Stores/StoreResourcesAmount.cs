@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Networking.Game;
 
 namespace Manager.Store
 {
@@ -35,18 +36,18 @@ namespace Manager.Store
         
         private static void InitValuesOfStoredData()
         {
-            energy.currentValue = 400;
-            lithium.currentValue = 400;
-            titanium.currentValue = 400;
-            silicon.currentValue = 400;
+            energy.currentValue = (int)UnlimitedPlayerManager.player.Energy;
+            silicon.currentValue = (int)UnlimitedPlayerManager.player.Resources[0].Count;
+            lithium.currentValue = (int)UnlimitedPlayerManager.player.Resources[1].Count;
+            titanium.currentValue = (int)UnlimitedPlayerManager.player.Resources[2].Count;
         }
         
         private static void InitValuesMax()
         {
-            energy.maxValue = 400;
-            lithium.maxValue = 400;
-            titanium.maxValue = 400;
-            silicon.maxValue = 400;
+            energy.maxValue = maximumLevel;
+            silicon.maxValue = maximumLevel;
+            lithium.maxValue = maximumLevel;
+            titanium.maxValue = maximumLevel;
         }
         
         public static void ChangeMaximumAmountOfResource(GameResources resource, int amount)

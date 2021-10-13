@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Manager.PayOperation;
 using Manager.Robots;
+using Networking.Game;
 
 
 namespace Manager.Train
@@ -22,59 +23,87 @@ namespace Manager.Train
         public static event Action OnMaximumCapacityAchieved;
         #endregion
 
+        private static Robot s_robot;
+        private static GameObject s_robotIcon;
+
+
         private void Awake()
         {
-            _managerUI.OnButtonPressed += AddRobotsToBuild;
+            _managerUI.OnButtonPressed += BuildRobot;
+
+            UnlimitedPlayerManager.OnBuildingAccepted += BuildingAccepted;
+            UnlimitedPlayerManager.OnBuildingRejected += BuildingRejected;
+
+            UnlimitedPlayerManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
         }
 
 
-        // Add and remove robots from build order
-        public static void AddRobotsToBuild(Robot robot)
+        public void BuildRobot(Robot robot)
+        {            
+            s_robot = robot;
+            UnlimitedPlayerManager.BuildingRequest((byte)StoreRobots.RobotsInTraining.Count, robot._robotId);
+        }
+        public static void CancelBuildRobot(Robot robot, GameObject robotIcon)
         {
-            if (StoreRobots.RobotsTrained.Count + StoreRobots.RobotsInTraining.Count < StoreRobots.RobotsLimit)
-            {               
-                if(PayRobots.StartPaymenetProcedure(robot))
-                {               
-                    StoreRobots.RobotsInTraining.Add(robot);
-                    RobotsInBuildingOperations.CreateIconInTheRightForRobotInBuilding(robot);
 
-                    OnRobotAdded?.Invoke(robot);
+            s_robot = robot;
+            s_robotIcon = robotIcon;
+            UnlimitedPlayerManager.CancelBuildingRequest((byte)StoreRobots.RobotsInTraining.IndexOf(robot));
+        }
+
+
+        private void BuildingAccepted(long time)
+        {
+            print("Building robot");
+            if (StoreRobots.RobotsTrained.Count + StoreRobots.RobotsInTraining.Count < StoreRobots.RobotsLimit)
+            {
+                if (PayRobots.StartPaymenetProcedure(s_robot))
+                {
+                    StoreRobots.RobotsInTraining.Add(s_robot);
+                    RobotsInBuildingOperations.CreateIconInTheRightForRobotInBuilding(s_robot);
+
+                    OnRobotAdded?.Invoke(s_robot);
 
                     if (StoreRobots.RobotsInTraining.Count > 0)
                     {
                         OnStartOperation?.Invoke();
-                    }                                    
-                }         
+                    }
+                }
             }
             else
             {
                 OnMaximumCapacityAchieved?.Invoke();
             }
-        }
-        public static void RemoveRobotsToBuild(Robot robot, GameObject robotIcon)
+        }        
+        private void BuildingRejected(byte errorId)
         {
-            if (robotIcon == RobotsInBuilding.robotsInBuildingIcons[0])
+
+        }
+            
+
+        private void CancelBuildingAccepted()
+        {
+            print("Canceled");
+            if (s_robotIcon == RobotsInBuilding.robotsInBuildingIcons[0])
             {
                 OnStopOperation?.Invoke();
-                Remove(robot, robotIcon);
+                Remove(s_robot, s_robotIcon);
                 OnStartOperation?.Invoke();
             }
             else
             {
-                Remove(robot, robotIcon);
+                Remove(s_robot, s_robotIcon);
             }
 
 
             BuildRobots.RecalculateTime();
-            RobotsInBuildingOperations.DezactivateIcon(robotIcon);
+            RobotsInBuildingOperations.DezactivateIcon(s_robotIcon);
 
             if (StoreRobots.RobotsInTraining.Count < 1)
             {
                 OnStopOperation?.Invoke();
             }
         }
-
-
         private static void Remove(Robot robot, GameObject robotIcon)
         {
             OnRobotRemoved?.Invoke(robot);
@@ -83,9 +112,15 @@ namespace Manager.Train
             RobotsInBuilding.robotsInBuildingIcons.Remove(robotIcon);
         }
 
+
         private void OnDestroy()
         {
-            _managerUI.OnButtonPressed -= AddRobotsToBuild;
+            _managerUI.OnButtonPressed -= BuildRobot;
+
+            UnlimitedPlayerManager.OnBuildingAccepted -= BuildingAccepted;
+            UnlimitedPlayerManager.OnBuildingRejected -= BuildingRejected;
+
+            UnlimitedPlayerManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
         }
     }
 }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b0e4fce530eaa4dab92fab5796a516, type: 3}
   m_Name: Crusher
   m_EditorClassIdentifier: 
+  _robotId: 2
   nameOfTheRobot: Crusher
   description: Beat the ass out of you
   buildTime: 1
