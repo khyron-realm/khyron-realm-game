@@ -37,10 +37,27 @@ namespace Manager.Upgrade
 
             UnlimitedPlayerManager.OnUpgradingAccepted += UpgradingAccepted;
             UnlimitedPlayerManager.OnUpgradingRejected += UpgradingRejected;
+
+            ManageTasks.OnUpgradingWorking += UpgradeInProgress;
         }
         private void Start()
         {
             DisplayRobotToUpgrade(RobotsManager.robots[0]);
+        }
+
+
+        private void UpgradeInProgress(BuildTask task, Robot robot)
+        {
+            _selectedRobot = robot;      
+            UpgradingAccepted(TimeTillFinish(task.EndTime));
+        }
+        private static long TimeTillFinish(long time)
+        {
+            DateTime finalTime = DateTime.FromBinary(time);
+            DateTime now = DateTime.Now;
+
+            long timeTillEnd = Mathf.Abs(finalTime.Second - now.Second);
+            return timeTillEnd;
         }
 
 
@@ -60,7 +77,16 @@ namespace Manager.Upgrade
         private void UpgradingAccepted(long time)
         {
             print("Upgrading working");
+            UpgradingMethod(TimeTillFinish(time));
+        }
+        private void UpgradingRejected(byte errorId)
+        {
+            print("upgrading rejected");
+        }
 
+
+        private void UpgradingMethod(long time)
+        {
             int temp = GetInfoLevel();
             _curentLevelOfTheRobot = _selectedRobot.robotLevel[temp];
 
@@ -70,16 +96,10 @@ namespace Manager.Upgrade
 
                 _robotManager.MakeAllButtonsInactive();
 
-                _timer.AddTime(_curentLevelOfTheRobot.timeToUpgrade);
+                _timer.AddTime((int)time);
                 _timer.TimeTextState(true);
                 StartCoroutine(Upgrading());
             }
-        }
-
-
-        private void UpgradingRejected(byte errorId)
-        {
-            print("upgrading rejected");
         }
 
 
