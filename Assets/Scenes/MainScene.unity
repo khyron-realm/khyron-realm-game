@@ -5830,7 +5830,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timer: {fileID: 704730518}
   _button: {fileID: 1796726803}
-  _timeToConvert: 100
 --- !u!1 &730720630
 GameObject:
   m_ObjectHideFlags: 0
@@ -7930,7 +7929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9684a29fdea1f5418fc0d11c609ee8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maximumLevel: 400
+  _maximumLevel: 2000
   _energy: {fileID: 11400000, guid: 5581bf6738fc59b41af4033258702900, type: 2}
   _lithium: {fileID: 11400000, guid: 8ad937937c971ff43a3cb5fc572731e8, type: 2}
   _titanium: {fileID: 11400000, guid: 7615b2de8d2d92644852251d720ed021, type: 2}
@@ -16086,6 +16085,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2110047461}
   - component: {fileID: 2110047460}
+  - component: {fileID: 2110047462}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -16120,6 +16120,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2110047462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110047459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5540be1dc1738e94aaac68808f54657d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2110287867
 GameObject:
   m_ObjectHideFlags: 0

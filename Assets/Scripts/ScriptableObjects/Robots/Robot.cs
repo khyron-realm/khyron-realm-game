@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "Robots/Robot", order = 1)]
 public class Robot: ScriptableObject
 {
+    public byte _robotId;
     public string nameOfTheRobot;
     public string description;
     public int buildTime;

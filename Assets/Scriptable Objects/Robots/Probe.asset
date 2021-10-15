@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b0e4fce530eaa4dab92fab5796a516, type: 3}
   m_Name: Probe
   m_EditorClassIdentifier: 
+  _robotId: 1
   nameOfTheRobot: Probe
   description: collector  of the gods
   buildTime: 30
