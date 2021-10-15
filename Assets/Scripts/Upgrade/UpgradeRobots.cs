@@ -50,7 +50,7 @@ namespace Manager.Upgrade
         private void UpgradeInProgress(BuildTask task, Robot robot)
         {
             _selectedRobot = robot;      
-            UpgradingAccepted(TimeTillFinish(task.EndTime));
+            UpgradingAccepted();
         }
         private static long TimeTillFinish(long time)
         {
@@ -67,15 +67,16 @@ namespace Manager.Upgrade
         /// </summary>
         public void UpgradeRobot()
         {
-            UnlimitedPlayerManager.UpgradingRequest(_selectedRobot._robotId);
+            DateTime time = DateTime.Now;
+            UnlimitedPlayerManager.UpgradingRequest(_selectedRobot._robotId, time);
         }
 
 
         /// <summary>
-        /// If Upgrading is good proced
+        /// If Upgrading is good proceed
         /// </summary>
         /// <param name="time"></param>
-        private void UpgradingAccepted(long time)
+        private void UpgradingAccepted()
         {
             print("---- Upgrading working ----");
             //UpgradingMethod(TimeTillFinish(time));

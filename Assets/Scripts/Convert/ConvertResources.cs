@@ -29,18 +29,15 @@ namespace Manager.Convert
 
         public void Convert()
         {
-            UnlimitedPlayerManager.ConversionRequest();
+            UnlimitedPlayerManager.ConversionRequest(DateTime.Now);
         }
 
 
-        private void ConversionAccepted(long time)
+        private void ConversionAccepted()
         {
             print("Converting accepted");
-
-            DateTime finalTime = DateTime.FromBinary(time);
-            DateTime now = DateTime.Now;
-
-            int timeRemained = Mathf.Abs(now.Second - finalTime.Second);
+            
+            int timeRemained = 0;                           // Get task time
 
             timeRemained += 3600;
 

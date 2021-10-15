@@ -9,6 +9,8 @@ namespace Networking.Game
         {
             UnlimitedPlayerManager.OnPlayerDataReceived += PlayerDataReceived;
             UnlimitedPlayerManager.OnPlayerDataUnavailable += PlayerDataUnavailable;
+            UnlimitedPlayerManager.OnGameDataReceived += GameDataReceived;
+            UnlimitedPlayerManager.OnGameDataUnavailable += GameDataUnavailable;
             UnlimitedPlayerManager.OnCancelConversionAccepted += CancelConversionAccepted;
             UnlimitedPlayerManager.OnConversionAccepted += ConversionAccepted;
             UnlimitedPlayerManager.OnConversionRejected += ConversionRejected;
@@ -24,6 +26,8 @@ namespace Networking.Game
         {
             UnlimitedPlayerManager.OnPlayerDataReceived -= PlayerDataReceived;
             UnlimitedPlayerManager.OnPlayerDataUnavailable -= PlayerDataUnavailable;
+            UnlimitedPlayerManager.OnGameDataReceived -= GameDataReceived;
+            UnlimitedPlayerManager.OnGameDataUnavailable -= GameDataUnavailable;
             UnlimitedPlayerManager.OnCancelConversionAccepted -= CancelConversionAccepted;
             UnlimitedPlayerManager.OnConversionAccepted -= ConversionAccepted;
             UnlimitedPlayerManager.OnConversionRejected -= ConversionRejected;
@@ -41,39 +45,47 @@ namespace Networking.Game
         {
             UnlimitedPlayerManager.PlayerDataRequest();
         }
+
+        public void GetGameData()
+        {
+            UnlimitedPlayerManager.GetGameParameters();
+        }
         
         public void ConvertResources()
         {
-            UnlimitedPlayerManager.ConversionRequest();
+            DateTime startTime = DateTime.Now;
+            UnlimitedPlayerManager.ConversionRequest(startTime);
         }
 
         public void CancelConvertResources()
         {
-            UnlimitedPlayerManager.CancelConversionRequest();
+            UnlimitedPlayerManager.FinishConversionRequest();
         }
         
         public void UpgradeRobot()
         {
             byte robotId = 0;
-            UnlimitedPlayerManager.UpgradingRequest(robotId);
+            DateTime startTime = DateTime.Now;
+            UnlimitedPlayerManager.UpgradingRequest(robotId, startTime);
         }
 
         public void CancelUpgradeRobot()
         {
-            UnlimitedPlayerManager.CancelUpgradingRequest();
+            UnlimitedPlayerManager.FinishUpgradingRequest();
         }
 
         public void BuildRobot()
         {
             byte queueNumber = 0;
             byte robotId = 0;
-            UnlimitedPlayerManager.BuildingRequest(queueNumber, robotId);
+            DateTime startTime = DateTime.Now;
+            UnlimitedPlayerManager.BuildingRequest(queueNumber, robotId, startTime);
         }
 
         public void CancelBuildRobot()
         {
-            byte robotNumber = 0; // the robot number in queue to delete
-            UnlimitedPlayerManager.CancelBuildingRequest(robotNumber);
+            byte robotNumber = 0;
+            UnlimitedPlayerManager.FinishBuildingRequest(robotNumber);
         }
 
         #endregion
@@ -89,13 +101,23 @@ namespace Networking.Game
         {
             Debug.Log("Player data unavailable");
         }
+        
+        private void GameDataReceived()
+        {
+            Debug.Log("Game data received");
+        }
+        
+        private void GameDataUnavailable()
+        {
+            Debug.Log("Game data unavailable");
+        }
 
         private void CancelConversionAccepted()
         {
             Debug.Log("Cancel conversion accepted");
         }
         
-        private void ConversionAccepted(long time)
+        private void ConversionAccepted()
         {
             Debug.Log("Conversion accepted");
         }
@@ -110,7 +132,7 @@ namespace Networking.Game
             Debug.Log("Cancel upgrading accepted");
         }
 
-        private void UpgradingAccepted(long time)
+        private void UpgradingAccepted()
         {
             Debug.Log("Upgrading accepted");
         }
@@ -125,7 +147,7 @@ namespace Networking.Game
             Debug.Log("Cancel building accepted");
         }
         
-        private void BuildingAccepted(long time)
+        private void BuildingAccepted()
         {
             Debug.Log("Building accepted");
         }
