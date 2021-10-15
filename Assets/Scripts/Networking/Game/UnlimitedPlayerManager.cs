@@ -333,7 +333,7 @@ namespace Networking.Game
         #region NetworkCalls
         
         /// <summary>
-        ///     Request for getting the player data 
+        ///     Request for getting the player data
         /// </summary>
         public static void PlayerDataRequest()
         {

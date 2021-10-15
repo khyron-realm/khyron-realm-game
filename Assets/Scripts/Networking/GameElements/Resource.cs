@@ -9,16 +9,14 @@ namespace Networking.GameElements
     {
         public byte Id { get; set; }
         public string Name { get; set; }
-        public ushort ConversionRate { get; set; }
         public uint Count { get; set; }
 
         public Resource() {}
         
-        public Resource(byte id, string name, ushort conversionRate, uint count)
+        public Resource(byte id, string name, uint count)
         {
             Id = id;
             Name = name;
-            ConversionRate = conversionRate;
             Count = count;
         }
 
@@ -30,7 +28,6 @@ namespace Networking.GameElements
         {
             Id = e.Reader.ReadByte();
             Name = e.Reader.ReadString();
-            ConversionRate = e.Reader.ReadUInt16();
             Count = e.Reader.ReadUInt32();
         }
 
@@ -42,7 +39,6 @@ namespace Networking.GameElements
         {
             e.Writer.Write(Id);
             e.Writer.Write(Name);
-            e.Writer.Write(ConversionRate);
             e.Writer.Write(Count);
         }
     }
