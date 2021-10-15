@@ -142,16 +142,17 @@ namespace Manager.Robots
 
         private void RobotMine(List<Robot> list, Text text)
         {
-            _list = new List<Robot>(list);
+            _list = list;
             _robotSelected = _list[0];
             _infoText = text;
+
 
             switch (_robotSelected._robotId)
             {
                 case 0:
                     robotToDeploy = _robotMiner;
                     break;
-                case 1:
+                case 2:
                     robotToDeploy = _robotVision;
                     break;
             }
