@@ -58,7 +58,7 @@ namespace Manager.Store
 
 
         // Add and remove operation for all 3 resources
-        public static void PayResources(int lithiumAmount, int titaniumAmount, int siliconAmount)
+        public static bool PayResources(int lithiumAmount, int titaniumAmount, int siliconAmount)
         {
             bool lithium = ValidateOperation(StoreResourcesAmount.lithium, lithiumAmount, false);
             bool titanium = ValidateOperation(StoreResourcesAmount.titanium, titaniumAmount, false);
@@ -69,10 +69,14 @@ namespace Manager.Store
                 Remove(StoreResourcesAmount.lithium, lithiumAmount);
                 Remove(StoreResourcesAmount.titanium, titaniumAmount);
                 Remove(StoreResourcesAmount.silicon, siliconAmount);
+
+                return true;
             }
             else
             {
                 OnNotEnoughResources?.Invoke();
+
+                return false;
             }
         }
         public static void RefundPayment(int lithiumAmount, int titaniumAmount, int siliconAmount)

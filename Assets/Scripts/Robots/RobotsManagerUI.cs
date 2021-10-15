@@ -71,17 +71,13 @@ namespace Manager.Robots
         }
 
 
-        private void AddListenerToButton(Robot item, Button newButton)
+        private void AddListenerToButton(Robot robot, Button newButton)
         {
             newButton.onClick.AddListener(
             delegate
             {
-                AddListenerRobotToEachButton(item);
+                OnButtonPressed?.Invoke(robot);
             });
-        }
-        private void AddListenerRobotToEachButton(Robot robot)
-        {
-            OnButtonPressed?.Invoke(robot);
         }
 
 

@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 5420643316999168158}
   - component: {fileID: -5918325272723755513}
   m_Layer: 0
-  m_Name: Robot-Worker
+  m_Name: Robot-Crusher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

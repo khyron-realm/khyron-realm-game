@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,6 @@ namespace Authentification
         #region "Input data"
         [SerializeField] private InputField _userNameField;
         [SerializeField] private InputField _passwordField;
-        [SerializeField] private ChangeScene _scene;
         [SerializeField] private PlayerValues _playerData;
         #endregion
 
@@ -22,6 +22,8 @@ namespace Authentification
         private string _userName = "";
         private string _password = "";
         #endregion
+
+        public event Action OnCredentialsAreGood;
 
         private void Awake()
         {
@@ -63,7 +65,7 @@ namespace Authentification
 
         private void SuccessfulLogin()
         {
-            _scene.GoToScene();
+            OnCredentialsAreGood?.Invoke();
         }
 
 

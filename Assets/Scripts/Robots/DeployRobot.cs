@@ -37,6 +37,9 @@ namespace Manager.Robots
 
         private static Robot _robotSelected;
         private static GameObject robotToDeploy;
+        private List<Robot> _list;
+
+        private Text _infoText;
 
         private static float s_zPosition = 0;
 
@@ -118,26 +121,37 @@ namespace Manager.Robots
 
                 _mining = robot.GetComponent<IMineOperations>();
                 _mining.StartMineOperation(_robotSelected, robot);
-              
-                _button.onClick.RemoveAllListeners();
 
-                check = false;
-                _button.transform.DOLocalMoveX(-1, 0.4f).OnComplete(() => _button.transform.gameObject.SetActive(false));
-                _button.image.DOColor(new Color(0,0,0,0), 0.4f);
+                _list.RemoveAt(_list.Count - 1);
+
+                if (_list.Count < 1)
+                {
+                    _button.onClick.RemoveAllListeners();
+
+                    check = false;
+                    _button.transform.DOLocalMoveX(-1, 0.4f).OnComplete(() => _button.transform.gameObject.SetActive(false));
+                    _button.image.DOColor(new Color(0, 0, 0, 0), 0.4f);
+                }
+                else
+                {
+                    _infoText.text = _list.Count.ToString();
+                }
             }           
         }
 
 
-        private void RobotMine(Robot robot)
+        private void RobotMine(List<Robot> list, Text text)
         {
-            _robotSelected = robot;
+            _list = new List<Robot>(list);
+            _robotSelected = _list[0];
+            _infoText = text;
 
-            switch(_robotSelected.nameOfTheRobot)
+            switch (_robotSelected._robotId)
             {
-                case "Worker":
+                case 0:
                     robotToDeploy = _robotMiner;
                     break;
-                default:
+                case 1:
                     robotToDeploy = _robotVision;
                     break;
             }

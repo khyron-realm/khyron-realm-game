@@ -33,7 +33,7 @@ namespace Manager.Train
                 newRobotToCreate.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(
                     delegate
                     {
-                        BuildRobotsOperations.RemoveRobotsToBuild(robot, newRobotToCreate);
+                        BuildRobotsOperations.CancelBuildRobot(robot, newRobotToCreate);
                     });
             }
         }
