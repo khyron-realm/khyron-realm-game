@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1952878564488695114}
   - component: {fileID: 5138102713402781478}
   - component: {fileID: 1640129833159862494}
+  - component: {fileID: -4267285898629834899}
   m_Layer: 0
   m_Name: ButtonRobotsInTraining
   m_TagString: Untagged
@@ -104,7 +105,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -235,6 +236,18 @@ MonoBehaviour:
   _button: {fileID: 1952878564488695114}
   _source: {fileID: 5138102713402781478}
   _audioClip: {fileID: 8300000, guid: 97050be1e4ce2034ab94023ba2b44873, type: 3}
+--- !u!114 &-4267285898629834899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949917240406608656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3b643f3494dfd14eac9c3522c3e28e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8171819712518119286
 GameObject:
   m_ObjectHideFlags: 0

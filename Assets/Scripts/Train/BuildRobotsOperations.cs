@@ -37,6 +37,12 @@ namespace Manager.Train
             UnlimitedPlayerManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
         }
 
+        //public void TemporaryBuild(Robot robot)
+        //{
+        //    s_robot = robot;
+        //    BuildingAccepted(2);
+        //}
+
 
         public void BuildRobot(Robot robot)
         {            
@@ -77,7 +83,7 @@ namespace Manager.Train
         }        
         private void BuildingRejected(byte errorId)
         {
-
+            print("---- Building Robots Rejected ----");
         }
             
 

@@ -38,7 +38,7 @@ namespace Manager.Upgrade
             UnlimitedPlayerManager.OnUpgradingAccepted += UpgradingAccepted;
             UnlimitedPlayerManager.OnUpgradingRejected += UpgradingRejected;
 
-            ManageTasks.OnUpgradingWorking += UpgradeInProgress;
+           // ManageTasks.OnUpgradingWorking += UpgradeInProgress;
         }
         private void Start()
         {
@@ -76,12 +76,12 @@ namespace Manager.Upgrade
         /// <param name="time"></param>
         private void UpgradingAccepted(long time)
         {
-            print("Upgrading working");
-            UpgradingMethod(TimeTillFinish(time));
+            print("---- Upgrading working ----");
+            //UpgradingMethod(TimeTillFinish(time));
         }
         private void UpgradingRejected(byte errorId)
         {
-            print("upgrading rejected");
+            print("---- upgrading rejected ----");
         }
 
 

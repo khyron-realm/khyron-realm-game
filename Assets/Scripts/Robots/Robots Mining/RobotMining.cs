@@ -58,7 +58,6 @@ namespace Manager.Robots.Mining
 
             _particlesForMining = Instantiate(_particles);
         }
-
         private void Start()
         {
             _keepInitZposition = gameObject.transform.position.z;
