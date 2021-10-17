@@ -55,7 +55,9 @@ namespace Manager.Train
 
             s_robot = robot;
             s_robotIcon = robotIcon;
-            UnlimitedPlayerManager.FinishBuildingRequest((byte)StoreRobots.RobotsInTraining.IndexOf(robot));
+            byte robotId = 0;
+            DateTime startTime = DateTime.Now;
+            UnlimitedPlayerManager.FinishBuildingRequest(robotId, (byte)StoreRobots.RobotsInTraining.IndexOf(robot), startTime, true, false);
         }
 
 

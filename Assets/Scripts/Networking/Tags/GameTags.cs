@@ -29,9 +29,15 @@ namespace Networking.Tags
         public const ushort BuildRobot = 17 + Shift;
         public const ushort FinishBuild = 18 + Shift;
         public const ushort FinishBuildAccepted = 19 + Shift;
-        public const ushort CancelBuild = 20 + Shift;
-        public const ushort CancelBuildAccepted = 21 + Shift;
+        public const ushort CancelInProgressBuild = 20 + Shift;
+        public const ushort CancelOnHoldBuild = 21 + Shift;
         public const ushort BuildRobotAccepted = 22 + Shift;
         public const ushort BuildRobotRejected = 23 + Shift;
+        
+        public const ushort LevelUpdate = 24 + Shift;
+        public const ushort ExperienceUpdate = 25 + Shift;
+        public const ushort EnergyUpdate = 26 + Shift;
+        public const ushort ResourcesUpdate = 27 + Shift;
+        public const ushort RobotsUpdate = 28 + Shift;
     }
 }

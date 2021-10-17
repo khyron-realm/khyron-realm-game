@@ -1,10 +1,12 @@
+using System;
 using Networking.Login;
 using Networking.Game;
 using UnityEngine;
 
 public class LoginHandler : MonoBehaviour
 {
-    private int x = 0;
+    private static ushort x = 0;
+    private static long time = DateTime.Now.ToBinary();
     public void onClickLogin()
     {
         Debug.Log("Starting action ..................... ");
@@ -12,12 +14,15 @@ public class LoginHandler : MonoBehaviour
         //UnlimitedPlayerManager.PlayerDataRequest();
         
         //UnlimitedPlayerManager.ConversionRequest();
-        //UnlimitedPlayerManager.CancelConversionRequest();
+        //UnlimitedPlayerManager.FinishConversionRequest();
         
         //UnlimitedPlayerManager.UpgradingRequest(1);
-        //UnlimitedPlayerManager.CancelUpgradingRequest();
+        //UnlimitedPlayerManager.FinishUpgradingRequest();
         
-        //UnlimitedPlayerManager.BuildingRequest(2, 2);
-        UnlimitedPlayerManager.FinishBuildingRequest(1);
+        Debug.Log("Task 3");
+        //UnlimitedPlayerManager.BuildingRequest(x, 2, DateTime.FromBinary(time));
+        time = 0;
+        x++;
+        UnlimitedPlayerManager.FinishBuildingRequest(0, 0, DateTime.Now, false, false);
     }
 }

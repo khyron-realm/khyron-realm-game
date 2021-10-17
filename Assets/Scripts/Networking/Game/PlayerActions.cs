@@ -1,4 +1,5 @@
 using System;
+using Networking.GameElements;
 using UnityEngine;
 
 namespace Networking.Game
@@ -20,6 +21,11 @@ namespace Networking.Game
             UnlimitedPlayerManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
             UnlimitedPlayerManager.OnBuildingAccepted += BuildingAccepted;
             UnlimitedPlayerManager.OnBuildingRejected += BuildingRejected;
+            UnlimitedPlayerManager.OnLevelUpdate += LevelUpdate;
+            UnlimitedPlayerManager.OnExperienceUpdate += ExperienceUpdate;
+            UnlimitedPlayerManager.OnEnergyUpdate += EnergyUpdate;
+            UnlimitedPlayerManager.OnResourcesUpdate += ResourcesUpdate;
+            UnlimitedPlayerManager.OnRobotsUpdate += RobotsUpdate;
         }
 
         private void OnDestroy()
@@ -37,6 +43,11 @@ namespace Networking.Game
             UnlimitedPlayerManager.OnCancelBuildingAccepted -= CancelBuildingAccepted;
             UnlimitedPlayerManager.OnBuildingAccepted -= BuildingAccepted;
             UnlimitedPlayerManager.OnBuildingRejected -= BuildingRejected;
+            UnlimitedPlayerManager.OnLevelUpdate -= LevelUpdate;
+            UnlimitedPlayerManager.OnExperienceUpdate -= ExperienceUpdate;
+            UnlimitedPlayerManager.OnEnergyUpdate -= EnergyUpdate;
+            UnlimitedPlayerManager.OnResourcesUpdate -= ResourcesUpdate;
+            UnlimitedPlayerManager.OnRobotsUpdate -= RobotsUpdate;
         }
         
         #region ServerRequests
@@ -48,7 +59,7 @@ namespace Networking.Game
 
         public void GetGameData()
         {
-            UnlimitedPlayerManager.GetGameParameters();
+            UnlimitedPlayerManager.GameDataRequest();
         }
         
         public void ConvertResources()
@@ -71,7 +82,8 @@ namespace Networking.Game
 
         public void CancelUpgradeRobot()
         {
-            UnlimitedPlayerManager.FinishUpgradingRequest();
+            byte robotId = 0;
+            UnlimitedPlayerManager.FinishUpgradingRequest(robotId);
         }
 
         public void BuildRobot()
@@ -82,10 +94,28 @@ namespace Networking.Game
             UnlimitedPlayerManager.BuildingRequest(queueNumber, robotId, startTime);
         }
 
-        public void CancelBuildRobot()
+        public void FinishBuildRobot()
         {
-            byte robotNumber = 0;
-            UnlimitedPlayerManager.FinishBuildingRequest(robotNumber);
+            byte robotId = 0;
+            byte queueNumber = 0;
+            DateTime startTime = DateTime.Now;
+            UnlimitedPlayerManager.FinishBuildingRequest(robotId, queueNumber, startTime, true);
+        }
+        
+        public void CancelInProgressBuildRobot()
+        {
+            byte robotId = 0;
+            byte queueNumber = 0;
+            DateTime startTime = DateTime.Now;
+            UnlimitedPlayerManager.FinishBuildingRequest(robotId, queueNumber, startTime, false, true);
+        }
+        
+        public void CancelOnHoldBuildRobot()
+        {
+            byte robotId = 0;
+            byte queueNumber = 0;
+            DateTime startTime = DateTime.Now;
+            UnlimitedPlayerManager.FinishBuildingRequest(robotId, queueNumber, startTime, false, false);
         }
 
         #endregion
@@ -155,6 +185,31 @@ namespace Networking.Game
         private void BuildingRejected(byte errorId)
         {
             Debug.Log("Building rejected");
+        }
+        
+        private void LevelUpdate(byte level)
+        {
+            Debug.Log("Level updated");
+        }
+        
+        private void ExperienceUpdate(ushort experience)
+        {
+            Debug.Log("Experience updated");
+        }
+        
+        private void EnergyUpdate(uint energy)
+        {
+            Debug.Log("Energy updated");
+        }
+        
+        private void ResourcesUpdate(Resource[] resources)
+        {
+            Debug.Log("Resources updated");
+        }
+        
+        private void RobotsUpdate(GameElements.Robot[] robots)
+        {
+            Debug.Log("Robots updated");
         }
         
         #endregion
