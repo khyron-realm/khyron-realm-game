@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using CameraActions;
 
 
 namespace Panels
 {
-    public class OpenPanel : MonoBehaviour, IPointerClickHandler
+    public class OpenPanel : MonoBehaviour
     {
         #region "Input Fields"
 
@@ -40,6 +41,7 @@ namespace Panels
         private Image _bgImage;
         private Sequence _mySequence;
 
+        private static bool s_openPanel = false;
         #endregion
 
         private void Awake()
@@ -53,9 +55,14 @@ namespace Panels
             SetFalse();
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+
+        private void OnMouseUpAsButton()
         {
-            SetActive();
+            if (s_openPanel == false && PanPinchCameraMovement.MovingCamera == false)
+            {
+                SetActive();
+                s_openPanel = true;
+            }                    
         }
 
 
@@ -68,6 +75,8 @@ namespace Panels
         }
         public void SetFalse()
         {
+            s_openPanel = false;
+
             _panel.SetActive(false);
             _panel.transform.localScale = new Vector3(1, 1, 0);
 
@@ -84,6 +93,7 @@ namespace Panels
             _mySequence.Append(_bgImage.DOColor(new Color(0, 0, 0, 0.5f), 0.3f));
             _mySequence.SetAutoKill(false);
         }
+
 
         private void OnDestroy()
         {

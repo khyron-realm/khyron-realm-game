@@ -7,16 +7,16 @@ using UnityEngine.EventSystems;
 
 namespace Mine
 {
-    public class MineTouched : MonoBehaviour, IPointerClickHandler
+    public class MineTouched : MonoBehaviour
     {
         [SerializeField] private bool _isMineAquired;
         [SerializeField] private GameObject _mineManager;
 
         public event Action<GameObject, bool, GameObject> OnGameObjectTouched;
 
-        public void OnPointerClick(PointerEventData eventData)
+        private void OnMouseUpAsButton()
         {
-            OnGameObjectTouched?.Invoke(gameObject, _isMineAquired, _mineManager);  
+            OnGameObjectTouched?.Invoke(gameObject, _isMineAquired, _mineManager);
         }
     }
 }

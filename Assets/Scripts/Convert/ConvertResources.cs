@@ -33,11 +33,6 @@ namespace Manager.Convert
 
         public void CheckForUpgradesInProgress(BuildTask task)
         {
-            DateTime finalTime = DateTime.FromBinary(task.EndTime);
-            DateTime now = DateTime.Now;
-
-            int timeRemained = (int)finalTime.Subtract(now).TotalSeconds;
-
             ConversionAccepted(task.EndTime);    
         }
 

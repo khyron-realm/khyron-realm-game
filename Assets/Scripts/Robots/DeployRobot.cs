@@ -41,7 +41,7 @@ namespace Manager.Robots
 
         private Text _infoText;
 
-        private static float s_zPosition = 0;
+        public static float ZPosition = 0;
 
         #endregion
 
@@ -115,9 +115,9 @@ namespace Manager.Robots
                 StoreAllTiles.Instance.Tiles[temp.x][temp.y].Health = -1;
 
                 robot = Instantiate(robotToDeploy);
-                s_zPosition -= 0.1f;
+                ZPosition -= 0.1f;
 
-                robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f, s_zPosition);
+                robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f + robotToDeploy.transform.position.y, ZPosition);
 
                 _mining = robot.GetComponent<IMineOperations>();
                 _mining.StartMineOperation(_robotSelected, robot);
