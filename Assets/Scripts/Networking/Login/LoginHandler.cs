@@ -12,17 +12,17 @@ public class LoginHandler : MonoBehaviour
         Debug.Log("Starting action ..................... ");
         
         //UnlimitedPlayerManager.PlayerDataRequest();
-        
-        //UnlimitedPlayerManager.ConversionRequest();
+        UnlimitedPlayerManager.GameDataRequest();
+        //UnlimitedPlayerManager.ConversionRequest(DateTime.Now);
         //UnlimitedPlayerManager.FinishConversionRequest();
         
         //UnlimitedPlayerManager.UpgradingRequest(1);
         //UnlimitedPlayerManager.FinishUpgradingRequest();
         
-        Debug.Log("Task 3");
+        //Debug.Log("Task 3");
         //UnlimitedPlayerManager.BuildingRequest(x, 2, DateTime.FromBinary(time));
         time = 0;
         x++;
-        UnlimitedPlayerManager.FinishBuildingRequest(0, 0, DateTime.Now, false, false);
+        //UnlimitedPlayerManager.FinishBuildingRequest(0, 0, DateTime.Now, false, false);
     }
 }

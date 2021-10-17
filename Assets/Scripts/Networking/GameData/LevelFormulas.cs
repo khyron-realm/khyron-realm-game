@@ -1,12 +1,16 @@
+using DarkRift;
+
 namespace Networking.GameData
 {
-    public class LevelFormulas
+    public class LevelFormulas : IDarkRiftSerializable
     {
         public byte Id;
-        public float A;
-        public float B;
-        public float C;
+        public double A;
+        public double B;
+        public double C;
 
+        public LevelFormulas() {}
+        
         public LevelFormulas(byte id, float a, float b, float c)
         {
             Id = id;
@@ -101,6 +105,22 @@ namespace Networking.GameData
         public ushort ResourceConversionRate(ushort initialValue, byte level)
         {
             return 0;
+        }
+
+        public void Deserialize(DeserializeEvent e)
+        {
+            Id = e.Reader.ReadByte();
+            A = e.Reader.ReadDouble();
+            B = e.Reader.ReadDouble();
+            C = e.Reader.ReadDouble();
+        }
+
+        public void Serialize(SerializeEvent e)
+        {
+            e.Writer.Write(Id);
+            e.Writer.Write(A);
+            e.Writer.Write(B);
+            e.Writer.Write(C);
         }
     }
 }

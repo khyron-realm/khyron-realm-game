@@ -2,9 +2,9 @@ using DarkRift;
 
 namespace Networking.GameData
 {
-    public class GameParameters : IDarkRiftSerializable
+    public class GameData : IDarkRiftSerializable
     {
-        public GameParameters(ushort version, byte maxPlayerLevel, byte maxRobotLevel, uint maxEnergy,
+        public GameData(ushort version, byte maxPlayerLevel, byte maxRobotLevel, uint maxEnergy,
             ushort maxExperience, uint maxHousingSpace, ushort conversionTime, ResourceDetails[] resources,
             RobotDetails[] robots, LevelFormulas[] levels)
         {
@@ -20,7 +20,7 @@ namespace Networking.GameData
             Levels = levels;
         }
 
-        public GameParameters() { }
+        public GameData() { }
 
         public ushort Version { get; set; }
         public byte MaxPlayerLevel { get; set; }
@@ -37,12 +37,30 @@ namespace Networking.GameData
 
         public void Deserialize(DeserializeEvent e)
         {
-            throw new System.NotImplementedException();
+            Version = e.Reader.ReadUInt16();
+            MaxPlayerLevel = e.Reader.ReadByte();
+            MaxRobotLevel = e.Reader.ReadByte();
+            MaxEnergy = e.Reader.ReadUInt32();
+            MaxExperience = e.Reader.ReadUInt16();
+            MaxHousingSpace = e.Reader.ReadUInt32();
+            ConversionTime = e.Reader.ReadUInt16();
+            Resources = e.Reader.ReadSerializables<ResourceDetails>();
+            Robots = e.Reader.ReadSerializables<RobotDetails>();
+            Levels = e.Reader.ReadSerializables<LevelFormulas>();
         }
 
         public void Serialize(SerializeEvent e)
         {
-            throw new System.NotImplementedException();
+            e.Writer.Write(Version);
+            e.Writer.Write(MaxPlayerLevel);
+            e.Writer.Write(MaxRobotLevel);
+            e.Writer.Write(MaxEnergy);
+            e.Writer.Write(MaxExperience);
+            e.Writer.Write(MaxHousingSpace);
+            e.Writer.Write(ConversionTime);
+            e.Writer.Write(Resources);
+            e.Writer.Write(Robots);
+            e.Writer.Write(Levels);
         }
 
         #endregion

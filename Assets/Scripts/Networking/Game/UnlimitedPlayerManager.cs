@@ -1,7 +1,6 @@
 using System;
 using DarkRift;
 using DarkRift.Client;
-using Networking.GameData;
 using Networking.GameElements;
 using Networking.Tags;
 using UnityEngine;
@@ -15,7 +14,7 @@ namespace Networking.Game
     {
         public static bool ShowDebug = true;
         public static PlayerData player;
-        public static GameParameters game;
+        public static GameData.GameData game;
 
         #region Handlers
 
@@ -100,6 +99,18 @@ namespace Networking.Game
                 case GameTags.PlayerDataUnavailable:
                 {
                     PlayerDataUnavailable(message);
+                    break;
+                }
+                
+                case GameTags.GameData:
+                {
+                    GetGameData(message);
+                    break;
+                }
+
+                case GameTags.GameDataUnavailable:
+                {
+                    GameDataUnavailable(message);
                     break;
                 }
 
@@ -258,7 +269,7 @@ namespace Networking.Game
             if (ShowDebug) Debug.Log("Received game data");
             
             using var reader = message.GetReader();
-            game = reader.ReadSerializable<GameParameters>();
+            game = reader.ReadSerializable<GameData.GameData>();
 
             if (ShowDebug)
             {
@@ -522,7 +533,7 @@ namespace Networking.Game
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(startTime.ToBinary());
-            using var msg = Message.CreateEmpty(GameTags.ConvertResources);
+            using var msg = Message.Create(GameTags.ConvertResources, writer);
             GameControl.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Trying to convert resources ...");

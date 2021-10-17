@@ -7,6 +7,8 @@ namespace Networking.GameData
     /// </summary>
     public class RobotDetails : IDarkRiftSerializable
     {
+        public RobotDetails() { }
+        
         public RobotDetails(byte id, string name, ushort health, byte movementSpeed, byte miningDamage,
             ushort buildTime, ushort upgradeTime, ushort buildPrice, ushort upgradePrice, byte housingSpace)
         {
