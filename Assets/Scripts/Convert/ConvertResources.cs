@@ -33,7 +33,7 @@ namespace Manager.Convert
 
         public void CheckForUpgradesInProgress(BuildTask task)
         {
-            ConversionAccepted(task.EndTime);    
+            ConversionAccepted();    
         }
 
 
@@ -46,13 +46,9 @@ namespace Manager.Convert
         {
             print("Converting accepted");
             
-            int timeRemained = 0;                           // Get task time
-
-            timeRemained += 3600;
-            
             DateTime now = DateTime.Now;
 
-            int timeRemained = (int)finalTime.Subtract(now).TotalSeconds;
+            int timeRemained = 0;
 
             if (ResourcesOperations.PayResources(10, 10, 10))
             {
@@ -80,7 +76,7 @@ namespace Manager.Convert
                 yield return _timer.ActivateTimer();
             }
 
-            UnlimitedPlayerManager.CancelConversionRequest();
+            UnlimitedPlayerManager.FinishConversionRequest();
         }
 
 

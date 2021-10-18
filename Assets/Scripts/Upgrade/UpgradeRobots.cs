@@ -80,6 +80,7 @@ namespace Manager.Upgrade
         private void UpgradingAccepted()
         {
             print("---- Upgrading working ----");
+            long time = DateTime.Now.ToBinary();
             UpgradingMethod(TimeTillFinish(time));
         }
         private void UpgradingRejected(byte errorId)
@@ -136,7 +137,8 @@ namespace Manager.Upgrade
                 yield return _timer.ActivateTimer();
             }
 
-            UnlimitedPlayerManager.CancelUpgradingRequest();        
+            byte robotId = 0;
+            UnlimitedPlayerManager.FinishUpgradingRequest(robotId);
         }
 
 

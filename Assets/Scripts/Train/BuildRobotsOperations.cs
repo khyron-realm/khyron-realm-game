@@ -40,7 +40,7 @@ namespace Manager.Train
         public void TemporaryBuild(Robot robot)
         {
             s_robot = robot;
-            BuildingAccepted(2);
+            BuildingAccepted();
         }
 
 
