@@ -46,19 +46,22 @@ namespace Manager.Train
 
         public void BuildRobot(Robot robot)
         {            
+            DateTime time = DateTime.Now;
             s_robot = robot;
-            UnlimitedPlayerManager.BuildingRequest((byte)StoreRobots.RobotsInTraining.Count, robot._robotId);
+            UnlimitedPlayerManager.BuildingRequest((byte)StoreRobots.RobotsInTraining.Count, robot._robotId, time);
         }
         public static void CancelBuildRobot(Robot robot, GameObject robotIcon)
         {
 
             s_robot = robot;
             s_robotIcon = robotIcon;
-            UnlimitedPlayerManager.CancelBuildingRequest((byte)StoreRobots.RobotsInTraining.IndexOf(robot));
+            byte robotId = 0;
+            DateTime startTime = DateTime.Now;
+            UnlimitedPlayerManager.FinishBuildingRequest(robotId, (byte)StoreRobots.RobotsInTraining.IndexOf(robot), startTime, true, false);
         }
 
 
-        private void BuildingAccepted(long time)
+        private void BuildingAccepted()
         {
             print("Building robot");
             if (StoreRobots.RobotsTrained.Count + StoreRobots.RobotsInTraining.Count < StoreRobots.RobotsLimit)

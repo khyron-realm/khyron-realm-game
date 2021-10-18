@@ -39,14 +39,17 @@ namespace Manager.Convert
 
         public void Convert()
         {
-            UnlimitedPlayerManager.ConversionRequest();
+            UnlimitedPlayerManager.ConversionRequest(DateTime.Now);
         }
 
-        private void ConversionAccepted(long time)
+        private void ConversionAccepted()
         {
             print("Converting accepted");
+            
+            int timeRemained = 0;                           // Get task time
 
-            DateTime finalTime = DateTime.FromBinary(time);
+            timeRemained += 3600;
+            
             DateTime now = DateTime.Now;
 
             int timeRemained = (int)finalTime.Subtract(now).TotalSeconds;

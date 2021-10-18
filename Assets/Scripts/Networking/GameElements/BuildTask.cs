@@ -7,19 +7,19 @@ namespace Networking.GameElements
     /// </summary>
     public class BuildTask : IDarkRiftSerializable
     {
-        public byte Id { get; set; }
+        public ushort Id { get; set; }
         public byte Type { get; set; }
         public byte Element { get; set; }
-        public long EndTime { get; set; }
+        public long StartTime { get; set; }
 
         public BuildTask() { }
         
-        public BuildTask(byte id, byte type, byte element, long endTime)
+        public BuildTask(ushort id, byte type, byte element, long startTime)
         {
             Id = id;
             Type = type;
             Element = element;
-            EndTime = endTime;
+            StartTime = startTime;
         }
 
         /// <summary>
@@ -28,10 +28,10 @@ namespace Networking.GameElements
         /// <param name="e">Deserialize event</param>
         public void Deserialize(DeserializeEvent e)
         {
-            Id = e.Reader.ReadByte();
+            Id = e.Reader.ReadUInt16();
             Type = e.Reader.ReadByte();
             Element = e.Reader.ReadByte();
-            EndTime = e.Reader.ReadInt64();
+            StartTime = e.Reader.ReadInt64();
         }
         
         /// <summary>
@@ -43,7 +43,7 @@ namespace Networking.GameElements
             e.Writer.Write(Id);
             e.Writer.Write(Type);
             e.Writer.Write(Element);
-            e.Writer.Write(EndTime);
+            e.Writer.Write(StartTime);
         }
     }
 }
