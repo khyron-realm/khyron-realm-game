@@ -199,27 +199,27 @@ namespace Networking.Game
             Debug.Log("Building rejected");
         }
         
-        private void LevelUpdate(byte level)
+        private void LevelUpdate()
         {
             Debug.Log("Level updated");
         }
         
-        private void ExperienceUpdate(ushort experience)
+        private void ExperienceUpdate()
         {
             Debug.Log("Experience updated");
         }
         
-        private void EnergyUpdate(uint energy)
+        private void EnergyUpdate()
         {
             Debug.Log("Energy updated");
         }
         
-        private void ResourcesUpdate(Resource[] resources)
+        private void ResourcesUpdate()
         {
             Debug.Log("Resources updated");
         }
         
-        private void RobotsUpdate(GameElements.Robot[] robots)
+        private void RobotsUpdate()
         {
             Debug.Log("Robots updated");
         }

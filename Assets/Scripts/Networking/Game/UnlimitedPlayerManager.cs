@@ -31,11 +31,11 @@ namespace Networking.Game
         public delegate void FinishBuildAcceptedEventHandler();
         public delegate void BuildingAcceptedEventHandler();
         public delegate void BuildingRejectedEventHandler(byte errorId);
-        public delegate void LevelUpdateEventHandler(byte level);
-        public delegate void ExperienceUpdateEventHandler(ushort experience);
-        public delegate void EnergyUpdateEventHandler(uint energy);
-        public delegate void ResourcesUpdateEventHandler(Resource[] resources);
-        public delegate void RobotsUpdateEventHandler(GameElements.Robot[] robots);
+        public delegate void LevelUpdateEventHandler();
+        public delegate void ExperienceUpdateEventHandler();
+        public delegate void EnergyUpdateEventHandler();
+        public delegate void ResourcesUpdateEventHandler();
+        public delegate void RobotsUpdateEventHandler();
         public static event PlayerDataReceivedEventHandler OnPlayerDataReceived;
         public static event PlayerDataUnavailableEventHandler OnPlayerDataUnavailable;
         public static event GameDataReceivedEventHandler OnGameDataReceived;
@@ -170,27 +170,31 @@ namespace Networking.Game
 
                 case GameTags.LevelUpdate:
                 {
-                    
+                    LevelUpdate(message);
                     break;
                 }
                 
                 case GameTags.ExperienceUpdate:
                 {
+                    ExperienceUpdate(message);
                     break;
                 }
                 
                 case GameTags.EnergyUpdate:
                 {
+                    EnergyUpdate(message);
                     break;
                 }
                 
                 case GameTags.ResourcesUpdate:
                 {
+                    ResourcesUpdate(message);
                     break;
                 }
                 
                 case GameTags.RobotsUpdate:
                 {
+                    RobotsUpdate(message);
                     break;
                 }
             }
@@ -418,9 +422,9 @@ namespace Networking.Game
                 return;
             }
 
-            byte level = reader.ReadByte();
+            player.Level = reader.ReadByte();
             
-            OnLevelUpdate?.Invoke(level);
+            OnLevelUpdate?.Invoke();
         }
         
         /// <summary>
@@ -436,9 +440,10 @@ namespace Networking.Game
                 return;
             }
 
-            ushort experience = reader.ReadUInt16();
+            player.Experience = reader.ReadUInt16();
             
-            OnExperienceUpdate?.Invoke(experience);
+            
+            OnExperienceUpdate?.Invoke();
         }
         
         /// <summary>
@@ -454,9 +459,9 @@ namespace Networking.Game
                 return;
             }
 
-            uint energy = reader.ReadUInt16();
+            player.Energy = reader.ReadUInt32();
             
-            OnEnergyUpdate?.Invoke(energy);
+            OnEnergyUpdate?.Invoke();
         }
         
         /// <summary>
@@ -474,9 +479,9 @@ namespace Networking.Game
             }
             */
 
-            var resources = reader.ReadSerializables<Resource>();
+            player.Resources = reader.ReadSerializables<Resource>();
             
-            OnResourcesUpdate?.Invoke(resources);
+            OnResourcesUpdate?.Invoke();
         }
         
         /// <summary>
@@ -494,9 +499,9 @@ namespace Networking.Game
             }
             */
 
-            var robots = reader.ReadSerializables<GameElements.Robot>();
+            player.Robots = reader.ReadSerializables<GameElements.Robot>();
             
-            OnRobotsUpdate?.Invoke(robots);
+            OnRobotsUpdate?.Invoke();
         }
 
         #endregion
