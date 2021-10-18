@@ -12,6 +12,7 @@ namespace Manager.Robots.Mining
         #region "Input data"
         [SerializeField] private int _radius;
         [SerializeField] private GameObject _circle;
+        [SerializeField] private GameObject _healthStatus;
         [SerializeField] private Ease _fadingStyle;
         #endregion
 
@@ -169,10 +170,10 @@ namespace Manager.Robots.Mining
 
         private IEnumerator Timer()
         {
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(20f);
             StartCoroutine(StopRevealingZone());
             gameObject.GetComponent<SpriteRenderer>().DOFade(0, 2f).OnComplete(() => gameObject.SetActive(false));
-
+            _healthStatus.GetComponent<SpriteRenderer>().DOFade(0, 2f);
         }
     }
 }

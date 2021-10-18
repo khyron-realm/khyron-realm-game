@@ -30,6 +30,8 @@ namespace Manager.Robots
 
         private void Awake()
         {
+            DeployRobot.ZPosition = 0;
+
             _workers = new List<Robot>();
             _crushers = new List<Robot>();
             _probes = new List<Robot>();

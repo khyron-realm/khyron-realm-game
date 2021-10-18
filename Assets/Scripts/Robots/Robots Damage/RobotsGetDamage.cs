@@ -8,8 +8,6 @@ namespace Manager.Robots.Damage
 {
     public class RobotsGetDamage : MonoBehaviour
     {
-        [SerializeField] private ProgressBar _healthBar;
-
         #region "Private memebers"   
         private int _health;
         private GameObject _robotGameObject;
@@ -25,7 +23,6 @@ namespace Manager.Robots.Damage
         public bool DoDamage(int amount)
         {
             _health -= amount;
-            _healthBar.CurrentValue = _health;
 
             if (_health < 0)
             {
@@ -57,9 +54,6 @@ namespace Manager.Robots.Damage
         {
             int level = RobotsManager.robotsData[currentRobot.nameOfTheRobot].RobotLevel;
             _health =  currentRobot.robotLevel[level].status.health;
-
-            _healthBar.MaxValue = _health;
-            _healthBar.CurrentValue = _health;
         }
 
 
