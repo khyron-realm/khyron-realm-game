@@ -22,13 +22,13 @@ namespace Networking.Game
         public delegate void PlayerDataUnavailableEventHandler();
         public delegate void GameDataReceivedEventHandler();
         public delegate void GameDataUnavailableEventHandler();
-        public delegate void CancelConversionAcceptedEventHandler();
+        public delegate void FinishConversionAcceptedEventHandler();
         public delegate void ConversionAcceptedEventHandler();
         public delegate void ConversionRejectedEventHandler(byte errorId);
-        public delegate void CancelUpgradeAcceptedEventHandler();
+        public delegate void FinishUpgradeAcceptedEventHandler();
         public delegate void UpgradingAcceptedEventHandler();
         public delegate void UpgradingRejectedEventHandler(byte errorId);
-        public delegate void CancelBuildAcceptedEventHandler();
+        public delegate void FinishBuildAcceptedEventHandler();
         public delegate void BuildingAcceptedEventHandler();
         public delegate void BuildingRejectedEventHandler(byte errorId);
         public delegate void LevelUpdateEventHandler(byte level);
@@ -40,13 +40,13 @@ namespace Networking.Game
         public static event PlayerDataUnavailableEventHandler OnPlayerDataUnavailable;
         public static event GameDataReceivedEventHandler OnGameDataReceived;
         public static event GameDataUnavailableEventHandler OnGameDataUnavailable;
-        public static event CancelConversionAcceptedEventHandler OnCancelConversionAccepted;
+        public static event FinishConversionAcceptedEventHandler OnFinishConversionAccepted;
         public static event ConversionAcceptedEventHandler OnConversionAccepted;
         public static event ConversionRejectedEventHandler OnConversionRejected;
-        public static event CancelUpgradeAcceptedEventHandler OnCancelUpgradingAccepted;
+        public static event FinishUpgradeAcceptedEventHandler OnFinishUpgradingAccepted;
         public static event UpgradingAcceptedEventHandler OnUpgradingAccepted;
         public static event UpgradingRejectedEventHandler OnUpgradingRejected;
-        public static event CancelBuildAcceptedEventHandler OnCancelBuildingAccepted;
+        public static event FinishBuildAcceptedEventHandler OnFinishBuildingAccepted;
         public static event BuildingAcceptedEventHandler OnBuildingAccepted;
         public static event BuildingRejectedEventHandler OnBuildingRejected;
         public static event LevelUpdateEventHandler OnLevelUpdate;
@@ -303,7 +303,7 @@ namespace Networking.Game
         /// <param name="message">The message received</param>
         private static void FinishConversionAccepted(Message message)
         {
-            OnCancelConversionAccepted?.Invoke();
+            OnFinishConversionAccepted?.Invoke();
         }
         
         /// <summary>
@@ -339,7 +339,7 @@ namespace Networking.Game
         /// <param name="message">The message received</param>
         private static void FinishUpgradeAccepted(Message message)
         {
-            OnCancelUpgradingAccepted?.Invoke();
+            OnFinishUpgradingAccepted?.Invoke();
         }
         
         /// <summary>
@@ -375,7 +375,7 @@ namespace Networking.Game
         /// <param name="message">The message received</param>
         private static void FinishBuildAccepted(Message message)
         {
-            OnCancelBuildingAccepted?.Invoke();
+            OnFinishBuildingAccepted?.Invoke();
         }
         
         /// <summary>
@@ -604,11 +604,11 @@ namespace Networking.Game
         /// <param name="startTime">The starting task time</param>
         /// <param name="isFinished">True if the task is finished or false otherwise</param>
         /// <param name="inProgress">True if the task is in progress or false otherwise</param>
-        public static void FinishBuildingRequest(byte robotId, ushort queueNumber, DateTime startTime, bool isFinished, bool inProgress = true)
+        public static void FinishBuildingRequest(ushort queueNumber, byte robotId, DateTime startTime, bool isFinished, bool inProgress = true)
         {
             using var writer = DarkRiftWriter.Create();
-            writer.Write(robotId);
             writer.Write(queueNumber);
+            writer.Write(robotId);
             writer.Write(startTime.ToBinary());
             using var msg =
                 Message.Create(

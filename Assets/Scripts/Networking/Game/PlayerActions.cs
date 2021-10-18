@@ -12,13 +12,13 @@ namespace Networking.Game
             UnlimitedPlayerManager.OnPlayerDataUnavailable += PlayerDataUnavailable;
             UnlimitedPlayerManager.OnGameDataReceived += GameDataReceived;
             UnlimitedPlayerManager.OnGameDataUnavailable += GameDataUnavailable;
-            UnlimitedPlayerManager.OnCancelConversionAccepted += CancelConversionAccepted;
+            UnlimitedPlayerManager.OnFinishConversionAccepted += FinishConversionAccepted;
             UnlimitedPlayerManager.OnConversionAccepted += ConversionAccepted;
             UnlimitedPlayerManager.OnConversionRejected += ConversionRejected;
-            UnlimitedPlayerManager.OnCancelUpgradingAccepted += CancelUpgradingAccepted;
+            UnlimitedPlayerManager.OnFinishUpgradingAccepted += FinishUpgradingAccepted;
             UnlimitedPlayerManager.OnUpgradingAccepted += UpgradingAccepted;
             UnlimitedPlayerManager.OnUpgradingRejected += UpgradingRejected;
-            UnlimitedPlayerManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
+            UnlimitedPlayerManager.OnFinishBuildingAccepted += FinishBuildingAccepted;
             UnlimitedPlayerManager.OnBuildingAccepted += BuildingAccepted;
             UnlimitedPlayerManager.OnBuildingRejected += BuildingRejected;
             UnlimitedPlayerManager.OnLevelUpdate += LevelUpdate;
@@ -34,13 +34,13 @@ namespace Networking.Game
             UnlimitedPlayerManager.OnPlayerDataUnavailable -= PlayerDataUnavailable;
             UnlimitedPlayerManager.OnGameDataReceived -= GameDataReceived;
             UnlimitedPlayerManager.OnGameDataUnavailable -= GameDataUnavailable;
-            UnlimitedPlayerManager.OnCancelConversionAccepted -= CancelConversionAccepted;
+            UnlimitedPlayerManager.OnFinishConversionAccepted -= FinishConversionAccepted;
             UnlimitedPlayerManager.OnConversionAccepted -= ConversionAccepted;
             UnlimitedPlayerManager.OnConversionRejected -= ConversionRejected;
-            UnlimitedPlayerManager.OnCancelUpgradingAccepted -= CancelUpgradingAccepted;
+            UnlimitedPlayerManager.OnFinishUpgradingAccepted -= FinishUpgradingAccepted;
             UnlimitedPlayerManager.OnUpgradingAccepted -= UpgradingAccepted;
             UnlimitedPlayerManager.OnUpgradingRejected -= UpgradingRejected;
-            UnlimitedPlayerManager.OnCancelBuildingAccepted -= CancelBuildingAccepted;
+            UnlimitedPlayerManager.OnFinishBuildingAccepted -= FinishBuildingAccepted;
             UnlimitedPlayerManager.OnBuildingAccepted -= BuildingAccepted;
             UnlimitedPlayerManager.OnBuildingRejected -= BuildingRejected;
             UnlimitedPlayerManager.OnLevelUpdate -= LevelUpdate;
@@ -68,7 +68,7 @@ namespace Networking.Game
             UnlimitedPlayerManager.ConversionRequest(startTime);
         }
 
-        public void CancelConvertResources()
+        public void FinishConvertResources()
         {
             UnlimitedPlayerManager.FinishConversionRequest();
         }
@@ -80,7 +80,7 @@ namespace Networking.Game
             UnlimitedPlayerManager.UpgradingRequest(robotId, startTime);
         }
 
-        public void CancelUpgradeRobot()
+        public void FinishUpgradeRobot()
         {
             byte robotId = 0;
             UnlimitedPlayerManager.FinishUpgradingRequest(robotId);
@@ -88,34 +88,40 @@ namespace Networking.Game
 
         public void BuildRobot()
         {
+            // Generate queueNumber
+            // if no build tasks in progress -> queue number = 0
+            // else -> the highest task number + 1
             byte queueNumber = 0;
             byte robotId = 0;
-            DateTime startTime = DateTime.Now;
+            // Generate startTime
+            // if build task in progress -> starting time of the task
+            // else -> 0
+            DateTime startTime = DateTime.UtcNow;
             UnlimitedPlayerManager.BuildingRequest(queueNumber, robotId, startTime);
         }
 
         public void FinishBuildRobot()
         {
-            byte robotId = 0;
             byte queueNumber = 0;
+            byte robotId = 0;
             DateTime startTime = DateTime.Now;
-            UnlimitedPlayerManager.FinishBuildingRequest(robotId, queueNumber, startTime, true);
+            UnlimitedPlayerManager.FinishBuildingRequest(queueNumber, robotId, startTime, true);
         }
         
-        public void CancelInProgressBuildRobot()
+        public void CancelInProgressBuildRobot() 
         {
-            byte robotId = 0;
             byte queueNumber = 0;
+            byte robotId = 0;
             DateTime startTime = DateTime.Now;
-            UnlimitedPlayerManager.FinishBuildingRequest(robotId, queueNumber, startTime, false, true);
+            UnlimitedPlayerManager.FinishBuildingRequest(queueNumber, robotId, startTime, false);
         }
         
         public void CancelOnHoldBuildRobot()
         {
-            byte robotId = 0;
             byte queueNumber = 0;
+            byte robotId = 0;
             DateTime startTime = DateTime.Now;
-            UnlimitedPlayerManager.FinishBuildingRequest(robotId, queueNumber, startTime, false, false);
+            UnlimitedPlayerManager.FinishBuildingRequest(queueNumber, robotId, startTime, false, false);
         }
 
         #endregion
@@ -142,7 +148,7 @@ namespace Networking.Game
             Debug.Log("Game data unavailable");
         }
 
-        private void CancelConversionAccepted()
+        private void FinishConversionAccepted()
         {
             Debug.Log("Cancel conversion accepted");
         }
@@ -151,13 +157,15 @@ namespace Networking.Game
         {
             Debug.Log("Conversion accepted");
         }
-
+        
         private void ConversionRejected(byte errorId)
         {
+            // 1 - task already exists (conversion already in progress)
+            // 2 - not enough resources
             Debug.Log("Conversion rejected");
         }
 
-        private void CancelUpgradingAccepted()
+        private void FinishUpgradingAccepted()
         {
             Debug.Log("Cancel upgrading accepted");
         }
@@ -169,10 +177,12 @@ namespace Networking.Game
 
         private void UpgradingRejected(byte errorId)
         {
+            // 1 - task already exists (upgrade already in progress)
+            // 2 - not enough energy
             Debug.Log("Upgrading rejected");
         }
 
-        private void CancelBuildingAccepted()
+        private void FinishBuildingAccepted()
         {
             Debug.Log("Cancel building accepted");
         }
@@ -184,6 +194,8 @@ namespace Networking.Game
 
         private void BuildingRejected(byte errorId)
         {
+            // 1 - task already exists (build of robotId and queueNumber already in progress)
+            // 2 - not enough energy
             Debug.Log("Building rejected");
         }
         

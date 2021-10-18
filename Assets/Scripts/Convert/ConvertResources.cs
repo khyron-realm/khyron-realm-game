@@ -20,7 +20,7 @@ namespace Manager.Convert
 
         private void Awake()
         {
-            UnlimitedPlayerManager.OnCancelConversionAccepted += CancelConversionAccepted;
+            UnlimitedPlayerManager.OnFinishConversionAccepted += FinishConversionAccepted;
 
             UnlimitedPlayerManager.OnConversionAccepted += ConversionAccepted;
             UnlimitedPlayerManager.OnConversionRejected += ConversionRejected;
@@ -80,7 +80,7 @@ namespace Manager.Convert
         }
 
 
-        private void CancelConversionAccepted()
+        private void FinishConversionAccepted()
         {
             print("Conversion ended");
             _button.enabled = true;
@@ -92,7 +92,7 @@ namespace Manager.Convert
 
         private void OnDestroy()
         {
-            UnlimitedPlayerManager.OnCancelConversionAccepted -= CancelConversionAccepted;
+            UnlimitedPlayerManager.OnFinishConversionAccepted -= FinishConversionAccepted;
             UnlimitedPlayerManager.OnConversionAccepted -= ConversionAccepted;
 
             UnlimitedPlayerManager.OnConversionRejected -= ConversionRejected;

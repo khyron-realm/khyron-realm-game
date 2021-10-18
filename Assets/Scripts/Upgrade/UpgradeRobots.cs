@@ -38,7 +38,7 @@ namespace Manager.Upgrade
 
             UnlimitedPlayerManager.OnUpgradingAccepted += UpgradingAccepted;
             UnlimitedPlayerManager.OnUpgradingRejected += UpgradingRejected;
-            UnlimitedPlayerManager.OnCancelUpgradingAccepted += FinishedUpgrading;
+            UnlimitedPlayerManager.OnFinishUpgradingAccepted += FinishedUpgrading;
 
             ManageTasks.OnUpgradingWorking += UpgradeInProgress;
         }

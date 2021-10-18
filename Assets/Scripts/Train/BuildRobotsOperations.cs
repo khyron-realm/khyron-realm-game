@@ -34,7 +34,7 @@ namespace Manager.Train
             UnlimitedPlayerManager.OnBuildingAccepted += BuildingAccepted;
             UnlimitedPlayerManager.OnBuildingRejected += BuildingRejected;
 
-            UnlimitedPlayerManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
+            UnlimitedPlayerManager.OnFinishBuildingAccepted += FinishBuildingAccepted;
         }
 
         public void TemporaryBuild(Robot robot)
@@ -90,7 +90,7 @@ namespace Manager.Train
         }
             
 
-        private void CancelBuildingAccepted()
+        private void FinishBuildingAccepted()
         {
             print("Canceled");
             if (s_robotIcon == RobotsInBuilding.robotsInBuildingIcons[0])
@@ -129,7 +129,7 @@ namespace Manager.Train
             UnlimitedPlayerManager.OnBuildingAccepted -= BuildingAccepted;
             UnlimitedPlayerManager.OnBuildingRejected -= BuildingRejected;
 
-            UnlimitedPlayerManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
+            UnlimitedPlayerManager.OnFinishBuildingAccepted += FinishBuildingAccepted;
         }
     }
 }
