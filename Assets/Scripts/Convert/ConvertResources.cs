@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Manager.Store;
 using CountDown;
 using Networking.Game;
+using Networking.GameElements;
 
 
 namespace Manager.Convert
@@ -24,14 +25,22 @@ namespace Manager.Convert
             UnlimitedPlayerManager.OnConversionAccepted += ConversionAccepted;
             UnlimitedPlayerManager.OnConversionRejected += ConversionRejected;
 
+            ManageTasks.OnConvertingWorking += CheckForUpgradesInProgress;
+
             _timer.TimeTextState(false);
         }
+
+
+        public void CheckForUpgradesInProgress(BuildTask task)
+        {
+            ConversionAccepted(task.EndTime);    
+        }
+
 
         public void Convert()
         {
             UnlimitedPlayerManager.ConversionRequest(DateTime.Now);
         }
-
 
         private void ConversionAccepted()
         {
@@ -40,6 +49,10 @@ namespace Manager.Convert
             int timeRemained = 0;                           // Get task time
 
             timeRemained += 3600;
+            
+            DateTime now = DateTime.Now;
+
+            int timeRemained = (int)finalTime.Subtract(now).TotalSeconds;
 
             if (ResourcesOperations.PayResources(10, 10, 10))
             {
@@ -49,12 +62,6 @@ namespace Manager.Convert
 
                 StartCoroutine(RunConversion());
             }
-        }
-
-
-        private void CancelConversionAccepted()
-        {
-
         }
 
 
@@ -73,12 +80,18 @@ namespace Manager.Convert
                 yield return _timer.ActivateTimer();
             }
 
-            _button.enabled = true;
-            _timer.TimeTextState(false);
-            ResourcesOperations.Add(StoreResourcesAmount.energy, 100);
+            UnlimitedPlayerManager.CancelConversionRequest();
         }
 
 
+        private void CancelConversionAccepted()
+        {
+            print("Conversion ended");
+            _button.enabled = true;
+            _timer.TimeTextState(false);
+            ResourcesOperations.Add(StoreResourcesAmount.energy, 100);
+
+        }
 
 
         private void OnDestroy()

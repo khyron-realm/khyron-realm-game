@@ -13,18 +13,19 @@ public class ManageTasks : MonoBehaviour
     public static event Action<BuildTask> OnConvertingWorking;
     public static event Action<BuildTask, Robot> OnBuildingRobotsWorking;
 
+
     private void Start()
     {
         for (int i = 0; i < UnlimitedPlayerManager.player.TaskQueue.Length; i++)
         {
-            if(UnlimitedPlayerManager.player.TaskQueue[i].Type == 0)
-            {
-                OnUpgradingWorking?.Invoke(UnlimitedPlayerManager.player.TaskQueue[i], CheckWhatRobotItIs(UnlimitedPlayerManager.player.TaskQueue[i].Element));
-            }
-            if(UnlimitedPlayerManager.player.TaskQueue[i].Type == 1)
+            if (UnlimitedPlayerManager.player.TaskQueue[i].Type == 0)
             {
                 OnConvertingWorking?.Invoke(UnlimitedPlayerManager.player.TaskQueue[i]);
             }
+            if (UnlimitedPlayerManager.player.TaskQueue[i].Type == 1)
+            {
+                OnUpgradingWorking?.Invoke(UnlimitedPlayerManager.player.TaskQueue[i], CheckWhatRobotItIs(UnlimitedPlayerManager.player.TaskQueue[i].Element));
+            }         
             if (UnlimitedPlayerManager.player.TaskQueue[i].Type == 2)
             {
                 OnBuildingRobotsWorking?.Invoke(UnlimitedPlayerManager.player.TaskQueue[i], CheckWhatRobotItIs(UnlimitedPlayerManager.player.TaskQueue[i].Element));

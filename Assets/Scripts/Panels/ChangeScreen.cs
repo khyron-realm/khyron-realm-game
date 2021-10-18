@@ -5,13 +5,11 @@ using UnityEngine.EventSystems;
 
 namespace Panels
 {
-    public class ChangeScreen : MonoBehaviour, IPointerClickHandler
+    public class ChangeScreen : MonoBehaviour
     {
         #region "Input data"
         [SerializeField] private GameObject _currentScreen;
         [SerializeField] private GameObject _screenToGo;
-
-        [SerializeField] private bool _activateOnPointerClick;
         #endregion
 
         public void ScreenChange()
@@ -20,13 +18,9 @@ namespace Panels
             _screenToGo.SetActive(true);
         }
 
-
-        public void OnPointerClick(PointerEventData eventData)
+        public void OnMouseUpAsButton()
         {
-            if(_activateOnPointerClick)
-            {
-                ScreenChange();
-            }               
+            ScreenChange();             
         }
     }
 }

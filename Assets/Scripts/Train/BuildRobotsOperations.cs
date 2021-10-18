@@ -29,7 +29,7 @@ namespace Manager.Train
 
         private void Awake()
         {
-            _managerUI.OnButtonPressed += BuildRobot;
+            _managerUI.OnButtonPressed += TemporaryBuild;
 
             UnlimitedPlayerManager.OnBuildingAccepted += BuildingAccepted;
             UnlimitedPlayerManager.OnBuildingRejected += BuildingRejected;
@@ -37,11 +37,11 @@ namespace Manager.Train
             UnlimitedPlayerManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
         }
 
-        //public void TemporaryBuild(Robot robot)
-        //{
-        //    s_robot = robot;
-        //    BuildingAccepted(2);
-        //}
+        public void TemporaryBuild(Robot robot)
+        {
+            s_robot = robot;
+            BuildingAccepted(2);
+        }
 
 
         public void BuildRobot(Robot robot)
