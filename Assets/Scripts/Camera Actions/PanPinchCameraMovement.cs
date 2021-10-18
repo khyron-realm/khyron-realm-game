@@ -107,22 +107,15 @@ namespace CameraActions
                 }   
             }
 
-
             if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
             {
                 _initTouch = true;
             }
 
-
             if (Input.touchCount > 0 && Input.touchCount < 2 && Input.GetTouch(0).phase == TouchPhase.Moved && _initTouch == false)
             {
                 Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-                PanningFunction(touchDeltaPosition);
-
-                if (Input.GetTouch(0).deltaPosition.x > 1.6f || Input.GetTouch(0).deltaPosition.y > 1.6f)
-                {                    
-                    MovingCamera = true;
-                }                
+                PanningFunction(touchDeltaPosition);            
             }
         }
 
@@ -146,9 +139,7 @@ namespace CameraActions
                 }
 
                 if(touchZero.phase == TouchPhase.Moved || touchOne.phase == TouchPhase.Moved)
-                {
-                    Vector2 screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-                    
+                {                  
                     float prevDist =  Vector2.Distance ( touchZero.position - touchZero.deltaPosition , touchOne.position - touchOne.deltaPosition);
                     float dist = Vector2.Distance (touchZero.position, touchOne.position);
 
@@ -166,6 +157,7 @@ namespace CameraActions
                         t = Mathf.Clamp(a * x + b, 0f, 1f);
 
                         _cameraToMove.transform.position = Vector3.Lerp(initPos, new Vector3(zoomTarget.x, zoomTarget.y, _cameraToMove.transform.position.z), t);
+                        
                         LimitCameraMovement();
                     }
                 }
@@ -186,7 +178,11 @@ namespace CameraActions
         
         private void PanningFunction(Vector2 touchDeltaPosition)
         {
-                
+            if (touchDeltaPosition.x > 1.6f || touchDeltaPosition.y > 1.6f)
+            {
+                MovingCamera = true;
+            }
+
             Vector3 screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 1f);
             Vector3 screenTouch = screenCenter + new Vector3(touchDeltaPosition.x, touchDeltaPosition.y, 0f);
 
