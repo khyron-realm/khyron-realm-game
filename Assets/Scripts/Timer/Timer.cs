@@ -92,6 +92,10 @@ namespace CountDown
         public void DecreaseTime(int time)
         {
             _totalTime -= time;
+            if(_totalTime < 0)
+            {
+                _totalTime = 0;
+            }
 
             if (_hasTimeText)
             {

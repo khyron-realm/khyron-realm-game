@@ -32,7 +32,7 @@ namespace Manager.Train
         public static Timer Time;
         #endregion
 
-        #region "Awake & Start"
+        #region "Awake"
         private void Awake()
         {
             GetRobotsTrained.RobotsBuilt = new List<RobotSO>();
@@ -48,6 +48,7 @@ namespace Manager.Train
 
             BuildRobotsOperations.OnRobotAdded += Time.AddTime;
 
+            UnlimitedPlayerManager.OnRobotsUpdate += DisplayNumberOfRobots;
             UnlimitedPlayerManager.OnPlayerDataReceived += DisplayNumberOfRobots;
         }
         #endregion
@@ -81,6 +82,7 @@ namespace Manager.Train
 
             foreach (Networking.GameElements.Robot item in UnlimitedPlayerManager.player.Robots)
             {
+                print(item.Count);
                 count += item.Count;
             }
 

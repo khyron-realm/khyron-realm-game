@@ -47,17 +47,15 @@ namespace Manager.Convert
 
             int timeRemained = (int)now.Subtract(startTime).TotalSeconds;
 
-            ExecuteConversion(timeRemained);    
+            ExecuteConversion((GameDataValues.ConversionTime * 60) - timeRemained);    
         }
 
 
         #region "Conversion handlers"
         private void ConversionAccepted()
         {
-            ExecuteConversion(GameDataValues.ConversionTime);
+            ExecuteConversion(GameDataValues.ConversionTime * 60);
         }
-
-
         private void ConversionRejected(byte errorId)
         {
             print("Conversion rejected");

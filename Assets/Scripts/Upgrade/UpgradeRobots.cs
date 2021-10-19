@@ -51,7 +51,8 @@ namespace Manager.Upgrade
         private void UpgradeInProgress(BuildTask task, RobotSO robot)
         {
             _selectedRobot = robot;
-            UpgradingMethod(TimeTillFinish(task.StartTime));
+            print(robot._robotId);
+            UpgradingMethod((GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime * 60) - TimeTillFinish(task.StartTime));
         }       
         public void UpgradeRobot()
         {
@@ -62,7 +63,7 @@ namespace Manager.Upgrade
         #region "Upgrading handlers"
         private void UpgradingAccepted()
         {
-            UpgradingMethod(GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime);
+            UpgradingMethod(GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime * 60);
         }
         private void UpgradingRejected(byte errorId)
         {
@@ -125,7 +126,7 @@ namespace Manager.Upgrade
         private static int TimeTillFinish(long time)
         {
             DateTime startTime = DateTime.FromBinary(time);
-            DateTime now = DateTime.Now;
+            DateTime now = DateTime.UtcNow;
 
             int timeRemained = (int)now.Subtract(startTime).TotalSeconds;
             return timeRemained;

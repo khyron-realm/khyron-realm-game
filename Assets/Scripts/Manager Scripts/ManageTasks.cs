@@ -45,17 +45,15 @@ namespace Manager
 
         private RobotSO CheckWhatRobotItIs(byte id)
         {
-            switch (id)
+            foreach (RobotSO item in RobotsManager.robots)
             {
-                case 0:
-                    return RobotsManager.robots[0];
-                case 1:
-                    return RobotsManager.robots[1];
-                case 2:
-                    return RobotsManager.robots[2];
-                default:
-                    return null;
+                if(item._robotId == id)
+                {
+                    return item;
+                }
             }
+
+            return null;
         }
 
 
