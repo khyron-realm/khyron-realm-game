@@ -11,7 +11,7 @@ namespace Mine.Ending
         [SerializeField] private GameObject _infoPanel;
 
 
-        private List<Robot> _robots;
+        private List<RobotSO> _robots;
 
         private int _lithiumAmount;
         private int _siliconAmount;

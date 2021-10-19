@@ -21,20 +21,20 @@ namespace Manager.Robots
         #region "Private members"
         public static List<Button> Buttons;
 
-        private List<Robot> _workers;
-        private List<Robot> _crushers;
-        private List<Robot> _probes; 
+        private List<RobotSO> _workers;
+        private List<RobotSO> _crushers;
+        private List<RobotSO> _probes; 
         #endregion
 
-        public static event Action<List<Robot>, Text> OnButtonPressed;
+        public static event Action<List<RobotSO>, Text> OnButtonPressed;
 
         private void Awake()
         {
             DeployRobot.ZPosition = 0;
 
-            _workers = new List<Robot>();
-            _crushers = new List<Robot>();
-            _probes = new List<Robot>();
+            _workers = new List<RobotSO>();
+            _crushers = new List<RobotSO>();
+            _probes = new List<RobotSO>();
 
             Buttons = new List<Button>();
             SeparateRobotsInCategories();
@@ -46,7 +46,7 @@ namespace Manager.Robots
         /// </summary>
         private void SeparateRobotsInCategories()
         {
-            foreach(Robot item in GetRobotsTrained.RobotsBuilt)
+            foreach(RobotSO item in GetRobotsTrained.RobotsBuilt)
             {
                 if(item._robotId == 0)
                 {
@@ -83,7 +83,7 @@ namespace Manager.Robots
         /// Creates button for each robot to build
         /// </summary>
         /// <param name="list"></param>
-        private void CreateButton(List<Robot> list)
+        private void CreateButton(List<RobotSO> list)
         {
             Button newButton = Instantiate(_buttonToInstantiate);
             newButton.transform.SetParent(_canvas.transform, false);
@@ -101,7 +101,7 @@ namespace Manager.Robots
         /// </summary>
         /// <param name="item"> The robot allocated for the button </param>
         /// <param name="newButton"> The button created </param>
-        private void AddListenerToButton(Button newButton, List<Robot> list, Text text)
+        private void AddListenerToButton(Button newButton, List<RobotSO> list, Text text)
         {
             newButton.onClick.AddListener(
             delegate
@@ -116,7 +116,7 @@ namespace Manager.Robots
         /// Method that is invoked when the button of the robot is pressed and send the robot as parameter for further use
         /// </summary>
         /// <param name="robot"> The robot </param>
-        private void AddListenerRobotToEachButton(List<Robot> list, Text text)
+        private void AddListenerRobotToEachButton(List<RobotSO> list, Text text)
         {
             OnButtonPressed?.Invoke(list, text);
         }

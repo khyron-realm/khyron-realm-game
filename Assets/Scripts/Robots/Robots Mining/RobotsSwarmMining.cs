@@ -26,7 +26,7 @@ namespace Manager.Robots.Mining
         }
 
 
-        public void StartMineOperation(Robot robot, GameObject robotGameObject)
+        public void StartMineOperation(RobotSO robot, GameObject robotGameObject)
         {
             StartCoroutine(MineBlocks());        
         }

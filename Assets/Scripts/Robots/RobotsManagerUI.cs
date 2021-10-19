@@ -30,7 +30,7 @@ namespace Manager.Robots
         #endregion
 
         private List<Button> _buttons;
-        public event Action<Robot> OnButtonPressed;
+        public event Action<RobotSO> OnButtonPressed;
 
 
         private void Awake()
@@ -42,7 +42,7 @@ namespace Manager.Robots
 
         private void CreateButtons()
         {
-            foreach (Robot item in RobotsManager.robots)
+            foreach (RobotSO item in RobotsManager.robots)
             {
                 Button newButton = Instantiate(_buttonToInstantiate);
                 newButton.transform.SetParent(_canvas.transform, false);
@@ -57,12 +57,12 @@ namespace Manager.Robots
                 _buttons.Add(newButton);
             }
         }
-        private static void ShowPrice(Robot item, Button newButton)
+        private static void ShowPrice(RobotSO item, Button newButton)
         {
             int temp = RobotsManager.robotsData[item.nameOfTheRobot.ToString()].RobotLevel;
             newButton.transform.GetChild(0).GetComponent<Text>().text = item.robotLevel[temp].priceToBuild.energy.ToString();
         }
-        private static void MakeButtonsAvailable(Robot item, Button newButton)
+        private static void MakeButtonsAvailable(RobotSO item, Button newButton)
         {
             if (RobotsManager.robotsData[item.nameOfTheRobot].AvailableRobot == false)
             {
@@ -71,7 +71,7 @@ namespace Manager.Robots
         }
 
 
-        private void AddListenerToButton(Robot robot, Button newButton)
+        private void AddListenerToButton(RobotSO robot, Button newButton)
         {
             newButton.onClick.AddListener(
             delegate

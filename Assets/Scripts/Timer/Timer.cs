@@ -89,11 +89,6 @@ namespace CountDown
             _totalTime += time;
             DataActualization();
         }
-        public void AddTime(Robot robot)
-        {
-            _totalTime += robot.buildTime;
-            DataActualization();
-        }
         public void DecreaseTime(int time)
         {
             _totalTime -= time;

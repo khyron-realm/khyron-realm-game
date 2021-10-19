@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Manager.Robots;
 using Networking.Game;
+using Save;
 
 
 namespace Manager.Train
@@ -21,33 +22,33 @@ namespace Manager.Train
         #endregion
 
         #region "Private members"
-        private static Robot s_robot;
+        private static RobotSO s_robot;
         private static GameObject s_robotIcon;
 
         private static ushort s_indexRobot = 0;
 
-        public static Dictionary<ushort, Robot> RobotsInTraining;
+        public static Dictionary<ushort, RobotSO> RobotsInTraining;
         #endregion
 
         private void Awake()
         {
-            RobotsInTraining = new Dictionary<ushort, Robot>();
+            RobotsInTraining = new Dictionary<ushort, RobotSO>();
 
             _managerUI.OnButtonPressed += BuildRobot;
 
             UnlimitedPlayerManager.OnBuildingAccepted += BuildingAccepted;
             UnlimitedPlayerManager.OnBuildingRejected += BuildingRejected;
 
-            //UnlimitedPlayerManager.OnFinishBuildingAccepted += FinishBuildingAccepted;
+            UnlimitedPlayerManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
         }
 
 
-        public void BuildRobot(Robot robot)
+        public void BuildRobot(RobotSO robot)
         {            
             s_robot = robot;
             UnlimitedPlayerManager.BuildingRequest(s_indexRobot, robot._robotId, DateTime.UtcNow);
         }
-        public static void CancelBuildRobot(Robot robot, GameObject robotIcon)
+        public static void CancelBuildRobot(RobotSO robot, GameObject robotIcon)
         {
             s_robot = robot;
             s_robotIcon = robotIcon;
@@ -59,7 +60,7 @@ namespace Manager.Train
         private void BuildingAccepted()
         {
             RobotsInTraining.Add(s_indexRobot, s_robot);
-            OnRobotAdded.Invoke(s_robot.buildTime);
+            OnRobotAdded.Invoke(GameDataValues.Robots[s_robot._robotId].BuildTime);
 
             s_indexRobot++;
             s_robotIcon = RobotsInBuildingOperations.CreateIconInTheRightForRobotInBuilding(s_robot);
@@ -68,28 +69,28 @@ namespace Manager.Train
             {
                 OnStartOperation?.Invoke();
             }               
-        }     
-        
+        }          
         private void BuildingRejected(byte errorId)
         {
-            print("---- Building Robots Rejected ----");
+            print("!!!---- Building Robots Rejected ----!!!");
         }
         #endregion
 
         
-        private void FinishBuildingAccepted()
+        private void CancelBuildingAccepted(byte taskType)
         {
-            if (s_robotIcon == RobotsInBuilding.robotsInBuildingIcons[0])
+            switch (taskType)
             {
-                OnStopOperation?.Invoke();
-                Remove(s_robot, s_robotIcon);
-                OnStartOperation?.Invoke();
-            }
-            else
-            {
-                Remove(s_robot, s_robotIcon);
-            }
+                case 0:
+                    OnStopOperation?.Invoke();
+                    Remove(s_robot, s_robotIcon);
+                    OnStartOperation?.Invoke();
+                    break;
 
+                case 1:
+                    Remove(s_robot, s_robotIcon);
+                    break;
+            }
 
             BuildRobots.RecalculateTime();
             RobotsInBuildingOperations.DezactivateIcon(s_robotIcon);
@@ -99,7 +100,7 @@ namespace Manager.Train
                 OnStopOperation?.Invoke();
             }
         }
-        private static void Remove(Robot robot, GameObject robotIcon)
+        private static void Remove(RobotSO robot, GameObject robotIcon)
         {
             RobotsInTraining.Remove(robot._robotId);
             RobotsInBuilding.robotsInBuildingIcons.Remove(robotIcon);
@@ -113,7 +114,7 @@ namespace Manager.Train
             UnlimitedPlayerManager.OnBuildingAccepted -= BuildingAccepted;
             UnlimitedPlayerManager.OnBuildingRejected -= BuildingRejected;
 
-            UnlimitedPlayerManager.OnFinishBuildingAccepted += FinishBuildingAccepted;
+            UnlimitedPlayerManager.OnCancelBuildingAccepted -= CancelBuildingAccepted;
         }
     }
 }

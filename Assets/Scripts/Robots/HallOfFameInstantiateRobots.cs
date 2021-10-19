@@ -15,7 +15,7 @@ namespace Manager.Robots
 
         private void Start()
         {
-            foreach(Robot item in RobotsManager.robots)
+            foreach(RobotSO item in RobotsManager.robots)
             {
                 GameObject newPanel = Instantiate(_templateToInstantiate);
                 newPanel.transform.SetParent(_canvas.transform, false);

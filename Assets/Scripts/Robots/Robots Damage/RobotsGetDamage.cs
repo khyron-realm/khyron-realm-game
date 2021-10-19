@@ -50,7 +50,7 @@ namespace Manager.Robots.Damage
         /// Used to get health of the robot from its stats based on level
         /// </summary>
         /// <param name="currentRobot"></param>
-        public void GetHealthFromRobot(Robot currentRobot)
+        public void GetHealthFromRobot(RobotSO currentRobot)
         {
             int level = RobotsManager.robotsData[currentRobot.nameOfTheRobot].RobotLevel;
             _health =  currentRobot.robotLevel[level].status.health;

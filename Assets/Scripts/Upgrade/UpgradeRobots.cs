@@ -24,7 +24,7 @@ namespace Manager.Upgrade
         #endregion
 
         #region "Private members"
-        private Robot _selectedRobot;
+        private RobotSO _selectedRobot;
         #endregion
 
         #region "Awake & Start"
@@ -48,7 +48,7 @@ namespace Manager.Upgrade
         #endregion
 
 
-        private void UpgradeInProgress(BuildTask task, Robot robot)
+        private void UpgradeInProgress(BuildTask task, RobotSO robot)
         {
             _selectedRobot = robot;
             UpgradingMethod(TimeTillFinish(task.StartTime));
@@ -87,7 +87,7 @@ namespace Manager.Upgrade
         /// Show the robot to upgrade in the right [image + text]
         /// </summary>
         /// <param name="robot"></param>
-        private void DisplayRobotToUpgrade(Robot robot)
+        private void DisplayRobotToUpgrade(RobotSO robot)
         {
             _selectedRobot = robot;
 

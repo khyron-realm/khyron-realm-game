@@ -28,7 +28,7 @@ namespace Manager.Robots.Mining
         }
 
 
-        public void StartMineOperation(Robot robot, GameObject robotGameObject)
+        public void StartMineOperation(RobotSO robot, GameObject robotGameObject)
         {
             _centerPosition = new Vector2Int((int)gameObject.transform.position.x, (int)gameObject.transform.position.y);
             _radiusToScan = 8;

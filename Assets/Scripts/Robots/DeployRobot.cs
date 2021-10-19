@@ -35,9 +35,9 @@ namespace Manager.Robots
 
         private IMineOperations _mining;
 
-        private static Robot _robotSelected;
+        private static RobotSO _robotSelected;
         private static GameObject robotToDeploy;
-        private List<Robot> _list;
+        private List<RobotSO> _list;
 
         private Text _infoText;
 
@@ -140,7 +140,7 @@ namespace Manager.Robots
         }
 
 
-        private void RobotMine(List<Robot> list, Text text)
+        private void RobotMine(List<RobotSO> list, Text text)
         {
             _list = list;
             _robotSelected = _list[0];

@@ -19,7 +19,7 @@ namespace Manager.Train
         }
 
         #region "Icons Operations"
-        public static GameObject CreateIconInTheRightForRobotInBuilding(Robot robot)
+        public static GameObject CreateIconInTheRightForRobotInBuilding(RobotSO robot)
         {
             GameObject newRobotToCreate = s_objectPooling.GetPooledObjects();
 

@@ -24,11 +24,11 @@ namespace AuxiliaryClasses
 
 
         // create in dictionary the robots
-        public static Dictionary<string, RobotsPlayerProgress> CreateDictionary(List<Robot> robots)
+        public static Dictionary<string, RobotsPlayerProgress> CreateDictionary(List<RobotSO> robots)
         {
             Dictionary<string, RobotsPlayerProgress> tempDictionary = new Dictionary<string, RobotsPlayerProgress>();
 
-            foreach (Robot item in robots)
+            foreach (RobotSO item in robots)
             {
                 RobotsPlayerProgress temp;
 

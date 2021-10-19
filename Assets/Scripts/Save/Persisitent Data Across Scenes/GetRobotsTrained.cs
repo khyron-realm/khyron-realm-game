@@ -10,6 +10,6 @@ namespace Manager.Robots
     // Used for comunication between scenes
     public static class GetRobotsTrained
     {
-        public static List<Robot> RobotsBuilt;
+        public static List<RobotSO> RobotsBuilt;
     }
 }

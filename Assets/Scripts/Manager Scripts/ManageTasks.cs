@@ -12,9 +12,9 @@ namespace Manager
     public class ManageTasks : MonoBehaviour
     {
 
-        public static event Action<BuildTask, Robot> OnUpgradingWorking;
+        public static event Action<BuildTask, RobotSO> OnUpgradingWorking;
         public static event Action<BuildTask> OnConvertingWorking;
-        public static event Action<BuildTask, Robot> OnBuildingRobotsWorking;
+        public static event Action<BuildTask, RobotSO> OnBuildingRobotsWorking;
 
 
         private void Awake()
@@ -43,7 +43,7 @@ namespace Manager
         }
 
 
-        private Robot CheckWhatRobotItIs(byte id)
+        private RobotSO CheckWhatRobotItIs(byte id)
         {
             switch (id)
             {

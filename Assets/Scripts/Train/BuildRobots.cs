@@ -8,6 +8,7 @@ using Panels;
 using CountDown;
 using Manager.Robots;
 using Networking.Game;
+using Save;
 
 
 namespace Manager.Train
@@ -34,7 +35,7 @@ namespace Manager.Train
         #region "Awake & Start"
         private void Awake()
         {
-            GetRobotsTrained.RobotsBuilt = new List<Robot>();
+            GetRobotsTrained.RobotsBuilt = new List<RobotSO>();
 
             _timeRemained.text = "";
             _tempLoadingBar.MaxValue = 1;
@@ -44,13 +45,10 @@ namespace Manager.Train
 
             BuildRobotsOperations.OnStartOperation += StartBuildingRobots;
             BuildRobotsOperations.OnStopOperation += StopBuildingRobots;
-            BuildRobotsOperations.OnRobotAdded += Time.AddTime;
-            UnlimitedPlayerManager.OnPlayerDataReceived += DisplayNumberOfRobots;
-        }
 
-        private void Start()
-        {
-            DisplayNumberOfRobots();
+            BuildRobotsOperations.OnRobotAdded += Time.AddTime;
+
+            UnlimitedPlayerManager.OnPlayerDataReceived += DisplayNumberOfRobots;
         }
         #endregion
 
@@ -81,31 +79,26 @@ namespace Manager.Train
         {
             int count = 0;
 
-            if(UnlimitedPlayerManager.player != null)
+            foreach (Networking.GameElements.Robot item in UnlimitedPlayerManager.player.Robots)
             {
-                foreach (Networking.GameElements.Robot item in UnlimitedPlayerManager.player.Robots)
-                {
-                    count += item.Count;
-                }
+                count += item.Count;
+            }
 
-                _numberOfRobots.text = string.Format("{0}/30", count);
-            }            
+            _numberOfRobots.text = string.Format("{0}/30", count);                      
         }
-
 
 
         public static void RecalculateTime()
         {
             Time.TotalTime = 0;
 
-            foreach (KeyValuePair<ushort, Robot> item in BuildRobotsOperations.RobotsInTraining)
+            foreach (KeyValuePair<ushort, RobotSO> item in BuildRobotsOperations.RobotsInTraining)
             {
-                Time.AddTime(item.Value.buildTime);
+                Time.AddTime(GameDataValues.Robots[item.Value._robotId].BuildTime);
             }
 
             Time.DecreaseTime((int)s_tempTime);
         }
-
 
 
         private IEnumerator BuildingRobots()
@@ -114,22 +107,22 @@ namespace Manager.Train
 
             for (int i = 0; i < BuildRobotsOperations.RobotsInTraining.Count; i++)
             {
-                Robot robot = BuildRobotsOperations.RobotsInTraining.ElementAt(i).Value;
+                RobotSO robot = BuildRobotsOperations.RobotsInTraining.ElementAt(i).Value;
                 ushort queueNumber = BuildRobotsOperations.RobotsInTraining.ElementAt(i).Key;
 
                 if (RobotsInBuilding.robotsInBuildingIcons.Count > 0)
                 {
-                    _tempLoadingBar.MaxValue = robot.buildTime;
+                    _tempLoadingBar.MaxValue = GameDataValues.Robots[robot._robotId].BuildTime;
                 }
 
                 s_tempTime = 0;
 
-                while (robot != null && s_tempTime < robot.buildTime)
+                while (robot != null && s_tempTime < GameDataValues.Robots[robot._robotId].BuildTime)
                 {
                     s_tempTime += 1;
 
                     _tempLoadingBar.CurrentValue = (int)s_tempTime;
-                    Time.DisplayTime(_timeRemained, (int)(robot.buildTime - s_tempTime));
+                    Time.DisplayTime(_timeRemained, (int)(GameDataValues.Robots[robot._robotId].BuildTime - s_tempTime));
                     
                     yield return _time.ActivateTimer();
                 }
@@ -149,7 +142,6 @@ namespace Manager.Train
             _timeRemained.enabled = false;
             _tempLoadingBar.MaxValue = 1;
         }
-
 
 
         private void OnDestroy()

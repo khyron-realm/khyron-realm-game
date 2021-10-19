@@ -89,7 +89,7 @@ namespace Manager.Robots.Mining
         /// </summary>
         /// <param name="robot"></param>
         /// <param name="robotGameObject"></param>
-        public void StartMineOperation(Robot robot, GameObject robotGameObject)
+        public void StartMineOperation(RobotSO robot, GameObject robotGameObject)
         {
             _damage.GetHealthFromRobot(robot);
             _damage.GetRobotGameObject(robotGameObject);
