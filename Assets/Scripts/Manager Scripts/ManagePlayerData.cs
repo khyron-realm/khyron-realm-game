@@ -6,44 +6,26 @@ using Authentification;
 using Scenes;
 
 
-public class ManagePlayerData : MonoBehaviour
+namespace Manager
 {
-    #region "Input data"
-    [SerializeField] private LogIn _login;
-    [SerializeField] private ChangeScene _scene;
-    #endregion
-
-    private void Awake()
+    public class ManagePlayerData : MonoBehaviour
     {
-        UnlimitedPlayerManager.OnPlayerDataReceived += PlayerDataReceived;
-        UnlimitedPlayerManager.OnPlayerDataUnavailable += PlayerDataUnavailable;
-        _login.OnCredentialsAreGood += GetPlayerData;
-    }
+        private void Awake()
+        {
+            UnlimitedPlayerManager.OnPlayerDataUnavailable += PlayerDataUnavailable;
+            UnlimitedPlayerManager.PlayerDataRequest();
+        }
+
+        private void PlayerDataUnavailable()
+        {
+            Debug.Log("----> Player data unavailable <----");
+            // Native Erorrs
+        }
 
 
-    public void GetPlayerData()
-    {
-        UnlimitedPlayerManager.PlayerDataRequest();
-    }
-
-
-    private void PlayerDataReceived()
-    {
-        Debug.Log("Player data received");
-        _scene.GoToScene();
-    }
-
-
-    private void PlayerDataUnavailable()
-    {
-        Debug.Log("Player data unavailable");
-    }
-
-
-    private void OnDestroy()
-    {
-        UnlimitedPlayerManager.OnPlayerDataReceived -= PlayerDataReceived;
-        UnlimitedPlayerManager.OnPlayerDataUnavailable -= PlayerDataUnavailable;
-        _login.OnCredentialsAreGood -= GetPlayerData;
+        private void OnDestroy()
+        {
+            UnlimitedPlayerManager.OnPlayerDataUnavailable -= PlayerDataUnavailable;
+        }
     }
 }

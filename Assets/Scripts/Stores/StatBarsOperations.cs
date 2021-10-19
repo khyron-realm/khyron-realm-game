@@ -2,109 +2,104 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Panels;
+using Save;
+using Networking.Game;
+
 
 namespace Manager.Store
 {
     public class StatBarsOperations : MonoBehaviour
     {
+        #region "Input Data"
         [SerializeField] private ProgressBar _xpBar;
         [SerializeField] private ProgressBar _energyBar;
         [SerializeField] private ProgressBar _lithiumBar;
         [SerializeField] private ProgressBar _titaniumBar;
         [SerializeField] private ProgressBar _silliconBar;
+        #endregion
 
-        
+        #region "Coroutines"
         private Coroutine energy;
         private Coroutine lithium;
         private Coroutine titanium;
         private Coroutine silicon;
-
-        public float temp;
-
+        #endregion
 
         private void Awake()
         {
-            InitMaximumLevels();
-            InitCurrentLevels();
+            UnlimitedPlayerManager.OnPlayerDataReceived += InitAll;
+
+            UnlimitedPlayerManager.OnEnergyUpdate += EnergyUpdate;
+            UnlimitedPlayerManager.OnResourcesUpdate += ResourcesUpdate;
+            UnlimitedPlayerManager.OnExperienceUpdate += ExperienceUpdate;
+            UnlimitedPlayerManager.OnLevelUpdate += LevelUpdate;
+
+
 
             _xpBar.MaxValue = StorePlayerStats.levelsThresholds.levelsThresholds[0];
             _xpBar.CurrentValue = StorePlayerStats.currentXp;
-
-            StatsOperations.OnXpAdded += HandleBarAnimationForXpBar;
-            StatsOperations.OnLevelUp += HandleBarAnimationForLevelUp;
-            ResourcesOperations.OnResourcesModified += HandleBarAnimationForResources;
         }
 
 
+        #region "Initialisation"
+        private void InitAll()
+        {
+            InitMaximumLevels();
+            InitCurrentLevels();
+        }
         private void InitCurrentLevels()
         {
-            _energyBar.CurrentValue = StoreResourcesAmount.energy.currentValue;
-            _lithiumBar.CurrentValue = StoreResourcesAmount.lithium.currentValue;
-            _titaniumBar.CurrentValue = StoreResourcesAmount.titanium.currentValue;
-            _silliconBar.CurrentValue = StoreResourcesAmount.silicon.currentValue;
+            _energyBar.CurrentValue = (int)UnlimitedPlayerManager.player.Energy;
+            _silliconBar.CurrentValue = (int)UnlimitedPlayerManager.player.Resources[0].Count;
+            _lithiumBar.CurrentValue = (int)UnlimitedPlayerManager.player.Resources[1].Count;
+            _titaniumBar.CurrentValue = (int)UnlimitedPlayerManager.player.Resources[2].Count;
         }
         private void InitMaximumLevels()
         {
-            _energyBar.MaxValue = StoreResourcesAmount.maximumLevel;
-            _lithiumBar.MaxValue = StoreResourcesAmount.maximumLevel;
-            _titaniumBar.MaxValue = StoreResourcesAmount.maximumLevel;
-            _silliconBar.MaxValue = StoreResourcesAmount.maximumLevel;
+            _energyBar.MaxValue = (int)GameDataValues.MaxEnergy;
+            _silliconBar.MaxValue = (int)GameDataValues.Resources[0].MaxCount;
+            _lithiumBar.MaxValue = (int)GameDataValues.Resources[1].MaxCount;
+            _titaniumBar.MaxValue = (int)GameDataValues.Resources[2].MaxCount;           
         }
-        
+        #endregion
 
-        private void HandleBarAnimationForResources(string resource)
+
+        #region "Resources Update"
+        private void EnergyUpdate()
         {
-            switch (resource)
-            {
-                case "energy":
-                    if (energy != null)
-                        StopCoroutine(energy);
-                    energy = StartCoroutine(BarAnimation(_energyBar, StoreResourcesAmount.energy.currentValue));
-                    break;
-                case "lithium":
-                    if (lithium != null)
-                        StopCoroutine(lithium);
-                    lithium = StartCoroutine(BarAnimation(_lithiumBar, StoreResourcesAmount.lithium.currentValue));
-                    break;
-                case "titanium":
-                    if (titanium != null)
-                        StopCoroutine(titanium);
-                    titanium = StartCoroutine(BarAnimation(_titaniumBar, StoreResourcesAmount.titanium.currentValue));
-                    break;
-                case "silicon":
-                    if (silicon != null)
-                        StopCoroutine(silicon);
-                    silicon = StartCoroutine(BarAnimation(_silliconBar, StoreResourcesAmount.silicon.currentValue));
-                    break;
-            }
+            if (energy != null)
+                StopCoroutine(energy);
+            energy = StartCoroutine(BarAnimation(_energyBar, (int)UnlimitedPlayerManager.player.Energy));
         }
-        private void HandleBarAnimationForXpBar()
+        private void ResourcesUpdate()
         {
-            StartCoroutine(BarAnimation(_xpBar, StorePlayerStats.currentXp));
+            if (lithium != null)
+                StopCoroutine(lithium);
+            lithium = StartCoroutine(BarAnimation(_lithiumBar, (int)UnlimitedPlayerManager.player.Resources[1].Count));
+
+            if (titanium != null)
+                StopCoroutine(titanium);
+            titanium = StartCoroutine(BarAnimation(_titaniumBar, (int)UnlimitedPlayerManager.player.Resources[2].Count));
+
+            if (silicon != null)
+                StopCoroutine(silicon);
+            silicon = StartCoroutine(BarAnimation(_silliconBar, (int)UnlimitedPlayerManager.player.Resources[0].Count));
         }
-        private void HandleBarAnimationForLevelUp(int level)
+        #endregion
+
+
+        #region "Level update"
+        private void ExperienceUpdate()
         {
-            StartCoroutine(BarAnimation(_xpBar, StorePlayerStats.currentXp));          
+            StartCoroutine(BarAnimation(_xpBar, (int)UnlimitedPlayerManager.player.Experience));
+        }
+        private void LevelUpdate()
+        {
+            StartCoroutine(BarAnimation(_xpBar, (int)UnlimitedPlayerManager.player.Experience));
             _xpBar.MaxValue = StorePlayerStats.levelsThresholds.levelsThresholds[StorePlayerStats.currentLevel];
         }
+        #endregion
 
-
-        public ProgressBar WhatBarToUpdate(string resource)
-        {
-            switch (resource)
-            {
-                case "energy":
-                    return _energyBar;
-                case "lithium":
-                    return _lithiumBar;
-                case "titanium":
-                    return _titaniumBar;
-                case "silicon":
-                    return _silliconBar;
-                default:
-                    return null;
-            }
-        }
         public static IEnumerator BarAnimation(ProgressBar bar, int endGoal)
         {
             float temp = 0f;
@@ -119,9 +114,13 @@ namespace Manager.Store
 
         private void OnDestroy()
         {
-            StatsOperations.OnXpAdded -= HandleBarAnimationForXpBar;
-            StatsOperations.OnLevelUp -= HandleBarAnimationForLevelUp;
-            ResourcesOperations.OnResourcesModified -= HandleBarAnimationForResources;
+            UnlimitedPlayerManager.OnPlayerDataReceived -= InitCurrentLevels;
+            UnlimitedPlayerManager.OnPlayerDataReceived -= InitMaximumLevels;
+
+            UnlimitedPlayerManager.OnEnergyUpdate -= EnergyUpdate;
+            UnlimitedPlayerManager.OnResourcesUpdate -= ResourcesUpdate;
+            UnlimitedPlayerManager.OnExperienceUpdate -= ExperienceUpdate;
+            UnlimitedPlayerManager.OnLevelUpdate -= LevelUpdate;
         }
     }
 }

@@ -91,7 +91,7 @@ namespace Networking.Game
             // Generate queueNumber
             // if no build tasks in progress -> queue number = 0
             // else -> the highest task number + 1
-            byte queueNumber = 0;
+            ushort queueNumber = 0;
             byte robotId = 0;
             // Generate startTime
             // if build task in progress -> starting time of the task

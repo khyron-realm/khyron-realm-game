@@ -11,16 +11,17 @@ namespace Manager.Train
     {
         [SerializeField] private ObjectPooling _object;
 
-        private static ObjectPooling ObjectPooling;
+        private static ObjectPooling s_objectPooling;
 
         private void Awake()
         {
-            ObjectPooling = _object;
+            s_objectPooling = _object;
         }
 
-        public static void CreateIconInTheRightForRobotInBuilding(Robot robot)
+        #region "Icons Operations"
+        public static GameObject CreateIconInTheRightForRobotInBuilding(Robot robot)
         {
-            GameObject newRobotToCreate = ObjectPooling.GetPooledObjects();
+            GameObject newRobotToCreate = s_objectPooling.GetPooledObjects();
 
             if (newRobotToCreate != null)
             {
@@ -36,6 +37,8 @@ namespace Manager.Train
                         BuildRobotsOperations.CancelBuildRobot(robot, newRobotToCreate);
                     });
             }
+
+            return newRobotToCreate;
         }
         public static void DezactivateIcon(GameObject robotIcon)
         {
@@ -43,5 +46,6 @@ namespace Manager.Train
             robotIcon.transform.SetSiblingIndex(RobotsInBuilding.robotsInBuildingIcons.Count);
             robotIcon.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
         }
+        #endregion
     }
 }

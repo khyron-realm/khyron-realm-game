@@ -28,10 +28,10 @@ namespace GameErrors
         {
             _text.enabled = false;
 
-            ResourcesOperations.OnNotEnoughResources += NotEnoughResources;
-            ResourcesOperations.OnNotEnoughEnergy += NotEnoughEnergy;
-            ResourcesOperations.OnToMuchResources += TooManyResources;
-            BuildRobotsOperations.OnMaximumCapacityAchieved += MaxCapacityAchieved;
+            //ResourcesOperations.OnNotEnoughResources += NotEnoughResources;
+            //ResourcesOperations.OnNotEnoughEnergy += NotEnoughEnergy;
+            //ResourcesOperations.OnToMuchResources += TooManyResources;
+            //BuildRobotsOperations.OnMaximumCapacityAchieved += MaxCapacityAchieved;
         }
 
 
@@ -110,10 +110,10 @@ namespace GameErrors
 
         private void OnDestroy()
         {
-            ResourcesOperations.OnNotEnoughResources -= NotEnoughResources;
-            ResourcesOperations.OnNotEnoughEnergy -= NotEnoughEnergy;
-            ResourcesOperations.OnToMuchResources -= TooManyResources;
-            BuildRobotsOperations.OnMaximumCapacityAchieved -= MaxCapacityAchieved;
+            //ResourcesOperations.OnNotEnoughResources -= NotEnoughResources;
+            //ResourcesOperations.OnNotEnoughEnergy -= NotEnoughEnergy;
+            //ResourcesOperations.OnToMuchResources -= TooManyResources;
+            //BuildRobotsOperations.OnMaximumCapacityAchieved -= MaxCapacityAchieved;
         }
     }
 

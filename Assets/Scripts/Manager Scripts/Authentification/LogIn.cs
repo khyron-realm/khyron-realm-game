@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using Networking.Login;
 using Scenes;
 using Save;
+using Networking.Game;
+using AuxiliaryClasses;
 
 
 namespace Authentification
@@ -16,33 +18,44 @@ namespace Authentification
         [SerializeField] private InputField _userNameField;
         [SerializeField] private InputField _passwordField;
         [SerializeField] private PlayerValues _playerData;
+
+        [SerializeField] private ChangeScene _scene;
+        [SerializeField] private Text _errorsText;
         #endregion
 
         #region "Private members" 
-        private string _userName = "";
-        private string _password = "";
+        private string _userName;
+        private string _password;
         #endregion
 
-        public event Action OnCredentialsAreGood;
-
+        #region "Awake and Start"
         private void Awake()
         {
             LoginManager.OnSuccessfulLogin += SuccessfulLogin;
-            LoginManager.OnFailedLogin += FailedLogin;        
+            LoginManager.OnFailedLogin += FailedLogin;
+
+            UnlimitedPlayerManager.OnGameDataReceived += GameDataReceived;
+            UnlimitedPlayerManager.OnGameDataUnavailable += GameDataUnavailable;
         }
 
         private void Start()
         {
             AutomaticLogIn();
         }
-
+        #endregion
 
         /// <summary>
         /// LogIn automatic with the saved credentials
         /// </summary>
         private void AutomaticLogIn()
         {
-            LoginManager.Login(_playerData.Username, _playerData.Password);
+            int uLen = _playerData.Username.ToCharArray().Length;
+            int pLen = _playerData.Username.ToCharArray().Length;
+
+            if (_playerData != null && uLen > 5 && pLen > 5)
+            {
+                LoginManager.Login(_playerData.Username, _playerData.Password);
+            }           
         }
 
 
@@ -57,28 +70,67 @@ namespace Authentification
             _playerData.Username = _userName;
             _playerData.Password = _password;
 
-            _playerData.SaveData();
+            int uLen = _userName.ToCharArray().Length;
+            int pLen = _password.ToCharArray().Length;
 
-            LoginManager.Login(_userName, _password);
+            if (uLen > 5 && pLen > 5)
+            {
+                _playerData.SaveData();
+                LoginManager.Login(_userName, _password);
+            }            
         }
 
 
+        #region "LogIn response handlers"
+        /// <summary>
+        /// Called if login is succesful
+        /// </summary>
         private void SuccessfulLogin()
         {
-            OnCredentialsAreGood?.Invoke();
+            UnlimitedPlayerManager.GameDataRequest();            
         }
-
-
         private void FailedLogin(byte errorId)
         {
-            print("Try Again");
+            switch (errorId)
+            {
+                case 0:
+                    Animations.MesageErrorAnimation(_errorsText, "Server error [Code 0]");
+                    break;
+
+                case 1:
+                    Animations.MesageErrorAnimation(_errorsText, "Login failed. Try again");
+                    break;
+
+                case 2:
+                    Animations.MesageErrorAnimation(_errorsText, "Server error [Code 2]");
+                    break;
+            }            
+        }      
+        #endregion
+
+        #region "GameData response handlers"
+        /// <summary>
+        /// Called if game data is succesfully received
+        /// </summary>
+        private void GameDataReceived()
+        {
+            GameDataValues.SaveDuringGamePlayPlayerData(UnlimitedPlayerManager.game);
+            _scene.GoToScene();
         }
+        private void GameDataUnavailable()
+        {
+            Animations.MesageErrorAnimation(_errorsText, "GameData Unavailable");
+        }
+        #endregion
 
-
+        
         private void OnDestroy()
         {
             LoginManager.OnSuccessfulLogin -= SuccessfulLogin;
             LoginManager.OnFailedLogin -= FailedLogin;
+
+            UnlimitedPlayerManager.OnGameDataReceived -= GameDataReceived;
+            UnlimitedPlayerManager.OnGameDataUnavailable -= GameDataUnavailable;
         }
     }
 }

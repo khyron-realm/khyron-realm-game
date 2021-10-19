@@ -104,6 +104,7 @@ namespace CountDown
             }
         }
 
+
         private void DataActualization()
         {
             if (_hasProgressBar)

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Manager.Robots;
-using Manager.Store;
+using Save;
 using CountDown;
 using Networking.Game;
 using Networking.GameElements;
@@ -25,10 +25,9 @@ namespace Manager.Upgrade
 
         #region "Private members"
         private Robot _selectedRobot;
-        private RobotLevel _curentLevelOfTheRobot;
         #endregion
 
-
+        #region "Awake & Start"
         private void Awake()
         {
             _robotManager.OnButtonPressed += DisplayRobotToUpgrade;
@@ -46,64 +45,41 @@ namespace Manager.Upgrade
         {
             DisplayRobotToUpgrade(RobotsManager.robots[0]);
         }
+        #endregion
 
 
         private void UpgradeInProgress(BuildTask task, Robot robot)
         {
             _selectedRobot = robot;
-            UpgradingAccepted();
-        }
-        private static int TimeTillFinish(long time)
-        {
-            DateTime finalTime = DateTime.FromBinary(time);
-            DateTime now = DateTime.Now;
-
-            int timeRemained = (int)finalTime.Subtract(now).TotalSeconds;
-            return timeRemained;
-        }
-
-
-        /// <summary>
-        /// Upgrade robot method
-        /// </summary>
+            UpgradingMethod(TimeTillFinish(task.StartTime));
+        }       
         public void UpgradeRobot()
         {
-            DateTime time = DateTime.Now;
-            UnlimitedPlayerManager.UpgradingRequest(_selectedRobot._robotId, time);
+            UnlimitedPlayerManager.UpgradingRequest(_selectedRobot._robotId, DateTime.UtcNow);
         }
 
 
-        /// <summary>
-        /// If Upgrading is good proceed
-        /// </summary>
-        /// <param name="time"></param>
+        #region "Upgrading handlers"
         private void UpgradingAccepted()
         {
-            print("---- Upgrading working ----");
-            long time = DateTime.Now.ToBinary();
-            UpgradingMethod(TimeTillFinish(time));
+            UpgradingMethod(GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime);
         }
         private void UpgradingRejected(byte errorId)
         {
-            print("---- upgrading rejected ----");
+            print("Upgrade rejected");
         }
+        #endregion
 
 
         private void UpgradingMethod(long time)
         {
-            int temp = GetInfoLevel();
-            _curentLevelOfTheRobot = _selectedRobot.robotLevel[temp];
+            _upgradeButton.enabled = false;
 
-            if (ResourcesOperations.Remove(StoreResourcesAmount.energy, _curentLevelOfTheRobot.priceToUpgrade.energy))
-            {
-                _upgradeButton.enabled = false;
+            _robotManager.MakeAllButtonsInactive();
 
-                _robotManager.MakeAllButtonsInactive();
-
-                _timer.AddTime((int)time);
-                _timer.TimeTextState(true);
-                StartCoroutine(Upgrading());
-            }
+            _timer.AddTime((int)time);
+            _timer.TimeTextState(true);
+            StartCoroutine(Upgrading((int)time));           
         }
 
 
@@ -120,32 +96,39 @@ namespace Manager.Upgrade
             _displayStatsImage.sprite = robot.robotLevel[temp].upgradeImage;
             _nameOfTheRobot.text = robot.nameOfTheRobot;
         }
-
-
         private int GetInfoLevel()
         {
             return RobotsManager.robotsData[_selectedRobot.nameOfTheRobot.ToString()].RobotLevel;
         }
 
 
-        private IEnumerator Upgrading()
+
+        private IEnumerator Upgrading(int time)
         {
             int temp = 0;
-            while(temp < _curentLevelOfTheRobot.timeToUpgrade)
+            while(temp < time)
             {
                 temp += 1;
                 yield return _timer.ActivateTimer();
             }
 
-            byte robotId = 0;
-            UnlimitedPlayerManager.FinishUpgradingRequest(robotId);
+            UnlimitedPlayerManager.FinishUpgradingRequest(_selectedRobot._robotId);
+        }
+        private void FinishedUpgrading()
+        {
+            _timer.TimeTextState(false);
+            _upgradeButton.enabled = true;
+            _robotManager.MakeAllButtonsActive();
         }
 
 
-        private void FinishedUpgrading()
+        private static int TimeTillFinish(long time)
         {
-            _upgradeButton.enabled = true;
-            _robotManager.MakeAllButtonsActive();
+            DateTime startTime = DateTime.FromBinary(time);
+            DateTime now = DateTime.Now;
+
+            int timeRemained = (int)now.Subtract(startTime).TotalSeconds;
+            return timeRemained;
         }
 
 
