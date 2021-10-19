@@ -19,6 +19,7 @@ namespace Networking.Game
             UnlimitedPlayerManager.OnUpgradingAccepted += UpgradingAccepted;
             UnlimitedPlayerManager.OnUpgradingRejected += UpgradingRejected;
             UnlimitedPlayerManager.OnFinishBuildingAccepted += FinishBuildingAccepted;
+            UnlimitedPlayerManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
             UnlimitedPlayerManager.OnBuildingAccepted += BuildingAccepted;
             UnlimitedPlayerManager.OnBuildingRejected += BuildingRejected;
             UnlimitedPlayerManager.OnLevelUpdate += LevelUpdate;
@@ -183,6 +184,11 @@ namespace Networking.Game
         }
 
         private void FinishBuildingAccepted()
+        {
+            Debug.Log("Cancel building accepted");
+        }
+        
+        private void CancelBuildingAccepted(byte taskType)
         {
             Debug.Log("Cancel building accepted");
         }

@@ -29,6 +29,7 @@ namespace Networking.Game
         public delegate void UpgradingAcceptedEventHandler();
         public delegate void UpgradingRejectedEventHandler(byte errorId);
         public delegate void FinishBuildAcceptedEventHandler();
+        public delegate void CancelBuildAcceptedEventHandler(byte taskType);
         public delegate void BuildingAcceptedEventHandler();
         public delegate void BuildingRejectedEventHandler(byte errorId);
         public delegate void LevelUpdateEventHandler();
@@ -47,6 +48,7 @@ namespace Networking.Game
         public static event UpgradingAcceptedEventHandler OnUpgradingAccepted;
         public static event UpgradingRejectedEventHandler OnUpgradingRejected;
         public static event FinishBuildAcceptedEventHandler OnFinishBuildingAccepted;
+        public static event CancelBuildAcceptedEventHandler OnCancelBuildingAccepted;
         public static event BuildingAcceptedEventHandler OnBuildingAccepted;
         public static event BuildingRejectedEventHandler OnBuildingRejected;
         public static event LevelUpdateEventHandler OnLevelUpdate;
@@ -153,6 +155,12 @@ namespace Networking.Game
                 case GameTags.FinishBuildAccepted:
                 {
                     FinishBuildAccepted(message);
+                    break;
+                }
+                
+                case GameTags.CancelBuildAccepted:
+                {
+                    CancelBuildAccepted(message);
                     break;
                 }
 
@@ -374,12 +382,28 @@ namespace Networking.Game
         }
         
         /// <summary>
-        ///     Receive the cancel build robot accepted confirmation
+        ///     Receive the finish build robot accepted confirmation
         /// </summary>
         /// <param name="message">The message received</param>
         private static void FinishBuildAccepted(Message message)
         {
             OnFinishBuildingAccepted?.Invoke();
+        }
+        
+        /// <summary>
+        ///     Receive the cancel build robot accepted confirmation
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void CancelBuildAccepted(Message message)
+        {
+            using var reader = message.GetReader();
+            if (reader.Length != 1)
+            {
+                Debug.LogWarning("Building cancelled error data received");
+                return;
+            }
+
+            OnCancelBuildingAccepted?.Invoke(reader.ReadByte());
         }
         
         /// <summary>
