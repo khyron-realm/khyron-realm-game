@@ -59,6 +59,7 @@ namespace Manager.Train
         #region "Building Robots Handlers"
         private void BuildingAccepted()
         {
+            print("Index: " + s_indexRobot);
             RobotsInTraining.Add(s_indexRobot, s_robot);
             OnRobotAdded.Invoke(GameDataValues.Robots[s_robot._robotId].BuildTime);
 
@@ -103,6 +104,7 @@ namespace Manager.Train
 
             if (RobotsInTraining.Count < 1)
             {
+                s_indexRobot = 0;
                 OnStopOperation?.Invoke();
             }
         }
