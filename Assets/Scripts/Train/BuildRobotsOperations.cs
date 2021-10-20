@@ -70,6 +70,12 @@ namespace Manager.Train
                 OnStartOperation?.Invoke();
             }               
         }          
+
+        /// <summary>
+        /// 1 --> already existent
+        /// 2 --> Not enough resources
+        /// </summary>
+        /// <param name="errorId"></param>
         private void BuildingRejected(byte errorId)
         {
             print("!!!---- Building Robots Rejected ----!!!");

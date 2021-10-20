@@ -62,6 +62,8 @@ namespace Manager.Upgrade
 
 
         #region "Upgrading handlers"
+        //1--> in progress
+        //2--> not enough resources
         private void UpgradingAccepted()
         {
             UpgradingMethod(GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime * 60);

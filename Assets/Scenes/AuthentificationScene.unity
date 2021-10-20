@@ -1088,7 +1088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cbc30e046dae8646bf68aa005d6581b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneToLoad: MainScene
+  _sceneToLoad: HQScene
 --- !u!114 &745152026
 MonoBehaviour:
   m_ObjectHideFlags: 0
