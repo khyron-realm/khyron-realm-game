@@ -1,5 +1,6 @@
 using DarkRift.Client.Unity;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Networking.Game
 {
@@ -10,8 +11,6 @@ namespace Networking.Game
     {
         [SerializeField] [Tooltip("The DarkRift client communication object")]
         public UnityClient networkClient;
-
-        private static GameControl s_instance;
 
         protected GameControl()
         {
@@ -24,14 +23,7 @@ namespace Networking.Game
             DontDestroyOnLoad(gameObject);
             networkClient = GetComponent<UnityClient>();
 
-            if (s_instance != null && s_instance != this)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                s_instance = this;
-            }
+            SceneManager.LoadScene(1);
         }
     }
 }

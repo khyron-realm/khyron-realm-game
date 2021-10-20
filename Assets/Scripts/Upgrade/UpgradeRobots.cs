@@ -37,6 +37,7 @@ namespace Manager.Upgrade
 
             UnlimitedPlayerManager.OnUpgradingAccepted += UpgradingAccepted;
             UnlimitedPlayerManager.OnUpgradingRejected += UpgradingRejected;
+
             UnlimitedPlayerManager.OnFinishUpgradingAccepted += FinishedUpgrading;
 
             ManageTasks.OnUpgradingWorking += UpgradeInProgress;
@@ -135,8 +136,14 @@ namespace Manager.Upgrade
 
         private void OnDestroy()
         {
+            _robotManager.OnButtonPressed -= DisplayRobotToUpgrade;
+
             UnlimitedPlayerManager.OnUpgradingAccepted -= UpgradingAccepted;
             UnlimitedPlayerManager.OnUpgradingRejected -= UpgradingRejected;
+
+            UnlimitedPlayerManager.OnFinishUpgradingAccepted -= FinishedUpgrading;
+
+            ManageTasks.OnUpgradingWorking -= UpgradeInProgress;
         }
     }
 }

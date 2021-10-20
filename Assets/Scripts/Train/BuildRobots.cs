@@ -82,7 +82,6 @@ namespace Manager.Train
 
             foreach (Networking.GameElements.Robot item in UnlimitedPlayerManager.player.Robots)
             {
-                print(item.Count);
                 count += item.Count;
             }
 
@@ -150,7 +149,11 @@ namespace Manager.Train
         {
             BuildRobotsOperations.OnStartOperation -= StartBuildingRobots;
             BuildRobotsOperations.OnStopOperation -= StopBuildingRobots;
-            BuildRobotsOperations.OnRobotAdded -= _time.AddTime;
+
+            BuildRobotsOperations.OnRobotAdded -= Time.AddTime;
+
+            UnlimitedPlayerManager.OnRobotsUpdate -= DisplayNumberOfRobots;
+            UnlimitedPlayerManager.OnPlayerDataReceived -= DisplayNumberOfRobots;
         }
     }
 }

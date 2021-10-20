@@ -114,8 +114,7 @@ namespace Manager.Store
 
         private void OnDestroy()
         {
-            UnlimitedPlayerManager.OnPlayerDataReceived -= InitCurrentLevels;
-            UnlimitedPlayerManager.OnPlayerDataReceived -= InitMaximumLevels;
+            UnlimitedPlayerManager.OnPlayerDataReceived -= InitAll;
 
             UnlimitedPlayerManager.OnEnergyUpdate -= EnergyUpdate;
             UnlimitedPlayerManager.OnResourcesUpdate -= ResourcesUpdate;
