@@ -4,87 +4,87 @@ using UnityEngine;
 
 namespace Networking.Game
 {
-    public class PlayerActions : MonoBehaviour
+    public class HeadquartersActions : MonoBehaviour
     {
         private void Awake()
         {
-            UnlimitedPlayerManager.OnPlayerDataReceived += PlayerDataReceived;
-            UnlimitedPlayerManager.OnPlayerDataUnavailable += PlayerDataUnavailable;
-            UnlimitedPlayerManager.OnGameDataReceived += GameDataReceived;
-            UnlimitedPlayerManager.OnGameDataUnavailable += GameDataUnavailable;
-            UnlimitedPlayerManager.OnFinishConversionAccepted += FinishConversionAccepted;
-            UnlimitedPlayerManager.OnConversionAccepted += ConversionAccepted;
-            UnlimitedPlayerManager.OnConversionRejected += ConversionRejected;
-            UnlimitedPlayerManager.OnFinishUpgradingAccepted += FinishUpgradingAccepted;
-            UnlimitedPlayerManager.OnUpgradingAccepted += UpgradingAccepted;
-            UnlimitedPlayerManager.OnUpgradingRejected += UpgradingRejected;
-            UnlimitedPlayerManager.OnFinishBuildingAccepted += FinishBuildingAccepted;
-            UnlimitedPlayerManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
-            UnlimitedPlayerManager.OnBuildingAccepted += BuildingAccepted;
-            UnlimitedPlayerManager.OnBuildingRejected += BuildingRejected;
-            UnlimitedPlayerManager.OnLevelUpdate += LevelUpdate;
-            UnlimitedPlayerManager.OnExperienceUpdate += ExperienceUpdate;
-            UnlimitedPlayerManager.OnEnergyUpdate += EnergyUpdate;
-            UnlimitedPlayerManager.OnResourcesUpdate += ResourcesUpdate;
-            UnlimitedPlayerManager.OnRobotsUpdate += RobotsUpdate;
+            HeadquartersManager.OnPlayerDataReceived += PlayerDataReceived;
+            HeadquartersManager.OnPlayerDataUnavailable += PlayerDataUnavailable;
+            HeadquartersManager.OnGameDataReceived += GameDataReceived;
+            HeadquartersManager.OnGameDataUnavailable += GameDataUnavailable;
+            HeadquartersManager.OnFinishConversionAccepted += FinishConversionAccepted;
+            HeadquartersManager.OnConversionAccepted += ConversionAccepted;
+            HeadquartersManager.OnConversionRejected += ConversionRejected;
+            HeadquartersManager.OnFinishUpgradingAccepted += FinishUpgradingAccepted;
+            HeadquartersManager.OnUpgradingAccepted += UpgradingAccepted;
+            HeadquartersManager.OnUpgradingRejected += UpgradingRejected;
+            HeadquartersManager.OnFinishBuildingAccepted += FinishBuildingAccepted;
+            HeadquartersManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
+            HeadquartersManager.OnBuildingAccepted += BuildingAccepted;
+            HeadquartersManager.OnBuildingRejected += BuildingRejected;
+            HeadquartersManager.OnLevelUpdate += LevelUpdate;
+            HeadquartersManager.OnExperienceUpdate += ExperienceUpdate;
+            HeadquartersManager.OnEnergyUpdate += EnergyUpdate;
+            HeadquartersManager.OnResourcesUpdate += ResourcesUpdate;
+            HeadquartersManager.OnRobotsUpdate += RobotsUpdate;
         }
 
         private void OnDestroy()
         {
-            UnlimitedPlayerManager.OnPlayerDataReceived -= PlayerDataReceived;
-            UnlimitedPlayerManager.OnPlayerDataUnavailable -= PlayerDataUnavailable;
-            UnlimitedPlayerManager.OnGameDataReceived -= GameDataReceived;
-            UnlimitedPlayerManager.OnGameDataUnavailable -= GameDataUnavailable;
-            UnlimitedPlayerManager.OnFinishConversionAccepted -= FinishConversionAccepted;
-            UnlimitedPlayerManager.OnConversionAccepted -= ConversionAccepted;
-            UnlimitedPlayerManager.OnConversionRejected -= ConversionRejected;
-            UnlimitedPlayerManager.OnFinishUpgradingAccepted -= FinishUpgradingAccepted;
-            UnlimitedPlayerManager.OnUpgradingAccepted -= UpgradingAccepted;
-            UnlimitedPlayerManager.OnUpgradingRejected -= UpgradingRejected;
-            UnlimitedPlayerManager.OnFinishBuildingAccepted -= FinishBuildingAccepted;
-            UnlimitedPlayerManager.OnBuildingAccepted -= BuildingAccepted;
-            UnlimitedPlayerManager.OnBuildingRejected -= BuildingRejected;
-            UnlimitedPlayerManager.OnLevelUpdate -= LevelUpdate;
-            UnlimitedPlayerManager.OnExperienceUpdate -= ExperienceUpdate;
-            UnlimitedPlayerManager.OnEnergyUpdate -= EnergyUpdate;
-            UnlimitedPlayerManager.OnResourcesUpdate -= ResourcesUpdate;
-            UnlimitedPlayerManager.OnRobotsUpdate -= RobotsUpdate;
+            HeadquartersManager.OnPlayerDataReceived -= PlayerDataReceived;
+            HeadquartersManager.OnPlayerDataUnavailable -= PlayerDataUnavailable;
+            HeadquartersManager.OnGameDataReceived -= GameDataReceived;
+            HeadquartersManager.OnGameDataUnavailable -= GameDataUnavailable;
+            HeadquartersManager.OnFinishConversionAccepted -= FinishConversionAccepted;
+            HeadquartersManager.OnConversionAccepted -= ConversionAccepted;
+            HeadquartersManager.OnConversionRejected -= ConversionRejected;
+            HeadquartersManager.OnFinishUpgradingAccepted -= FinishUpgradingAccepted;
+            HeadquartersManager.OnUpgradingAccepted -= UpgradingAccepted;
+            HeadquartersManager.OnUpgradingRejected -= UpgradingRejected;
+            HeadquartersManager.OnFinishBuildingAccepted -= FinishBuildingAccepted;
+            HeadquartersManager.OnBuildingAccepted -= BuildingAccepted;
+            HeadquartersManager.OnBuildingRejected -= BuildingRejected;
+            HeadquartersManager.OnLevelUpdate -= LevelUpdate;
+            HeadquartersManager.OnExperienceUpdate -= ExperienceUpdate;
+            HeadquartersManager.OnEnergyUpdate -= EnergyUpdate;
+            HeadquartersManager.OnResourcesUpdate -= ResourcesUpdate;
+            HeadquartersManager.OnRobotsUpdate -= RobotsUpdate;
         }
         
         #region ServerRequests
 
         public void GetPlayerData()
         {
-            UnlimitedPlayerManager.PlayerDataRequest();
+            HeadquartersManager.PlayerDataRequest();
         }
 
         public void GetGameData()
         {
-            UnlimitedPlayerManager.GameDataRequest();
+            HeadquartersManager.GameDataRequest();
         }
         
         public void ConvertResources()
         {
             DateTime startTime = DateTime.Now;
-            UnlimitedPlayerManager.ConversionRequest(startTime);
+            HeadquartersManager.ConversionRequest(startTime);
         }
 
         public void FinishConvertResources()
         {
-            UnlimitedPlayerManager.FinishConversionRequest();
+            HeadquartersManager.FinishConversionRequest();
         }
         
         public void UpgradeRobot()
         {
             byte robotId = 0;
             DateTime startTime = DateTime.Now;
-            UnlimitedPlayerManager.UpgradingRequest(robotId, startTime);
+            HeadquartersManager.UpgradingRequest(robotId, startTime);
         }
 
         public void FinishUpgradeRobot()
         {
             byte robotId = 0;
-            UnlimitedPlayerManager.FinishUpgradingRequest(robotId);
+            HeadquartersManager.FinishUpgradingRequest(robotId);
         }
 
         public void BuildRobot()
@@ -98,7 +98,7 @@ namespace Networking.Game
             // if build task in progress -> starting time of the task
             // else -> 0
             DateTime startTime = DateTime.UtcNow;
-            UnlimitedPlayerManager.BuildingRequest(queueNumber, robotId, startTime);
+            HeadquartersManager.BuildingRequest(queueNumber, robotId, startTime);
         }
 
         public void FinishBuildRobot()
@@ -106,7 +106,7 @@ namespace Networking.Game
             byte queueNumber = 0;
             byte robotId = 0;
             DateTime startTime = DateTime.Now;
-            UnlimitedPlayerManager.FinishBuildingRequest(queueNumber, robotId, startTime, true);
+            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, startTime, true);
         }
         
         public void CancelInProgressBuildRobot() 
@@ -114,7 +114,7 @@ namespace Networking.Game
             byte queueNumber = 0;
             byte robotId = 0;
             DateTime startTime = DateTime.Now;
-            UnlimitedPlayerManager.FinishBuildingRequest(queueNumber, robotId, startTime, false);
+            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, startTime, false);
         }
         
         public void CancelOnHoldBuildRobot()
@@ -122,7 +122,7 @@ namespace Networking.Game
             byte queueNumber = 0;
             byte robotId = 0;
             DateTime startTime = DateTime.Now;
-            UnlimitedPlayerManager.FinishBuildingRequest(queueNumber, robotId, startTime, false, false);
+            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, startTime, false, false);
         }
 
         #endregion

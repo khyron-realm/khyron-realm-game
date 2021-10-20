@@ -35,10 +35,10 @@ namespace Manager.Upgrade
 
             _timer.TimeTextState(false);
 
-            UnlimitedPlayerManager.OnUpgradingAccepted += UpgradingAccepted;
-            UnlimitedPlayerManager.OnUpgradingRejected += UpgradingRejected;
+            HeadquartersManager.OnUpgradingAccepted += UpgradingAccepted;
+            HeadquartersManager.OnUpgradingRejected += UpgradingRejected;
 
-            UnlimitedPlayerManager.OnFinishUpgradingAccepted += FinishedUpgrading;
+            HeadquartersManager.OnFinishUpgradingAccepted += FinishedUpgrading;
 
             ManageTasks.OnUpgradingWorking += UpgradeInProgress;
         }
@@ -57,7 +57,7 @@ namespace Manager.Upgrade
         }       
         public void UpgradeRobot()
         {
-            UnlimitedPlayerManager.UpgradingRequest(_selectedRobot._robotId, DateTime.UtcNow);
+            HeadquartersManager.UpgradingRequest(_selectedRobot._robotId, DateTime.UtcNow);
         }
 
 
@@ -116,7 +116,7 @@ namespace Manager.Upgrade
                 yield return _timer.ActivateTimer();
             }
 
-            UnlimitedPlayerManager.FinishUpgradingRequest(_selectedRobot._robotId);
+            HeadquartersManager.FinishUpgradingRequest(_selectedRobot._robotId);
         }
         private void FinishedUpgrading()
         {
@@ -140,10 +140,10 @@ namespace Manager.Upgrade
         {
             _robotManager.OnButtonPressed -= DisplayRobotToUpgrade;
 
-            UnlimitedPlayerManager.OnUpgradingAccepted -= UpgradingAccepted;
-            UnlimitedPlayerManager.OnUpgradingRejected -= UpgradingRejected;
+            HeadquartersManager.OnUpgradingAccepted -= UpgradingAccepted;
+            HeadquartersManager.OnUpgradingRejected -= UpgradingRejected;
 
-            UnlimitedPlayerManager.OnFinishUpgradingAccepted -= FinishedUpgrading;
+            HeadquartersManager.OnFinishUpgradingAccepted -= FinishedUpgrading;
 
             ManageTasks.OnUpgradingWorking -= UpgradeInProgress;
         }

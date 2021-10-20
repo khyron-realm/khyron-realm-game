@@ -34,8 +34,8 @@ namespace Authentification
             LoginManager.OnSuccessfulLogin += SuccessfulLogin;
             LoginManager.OnFailedLogin += FailedLogin;
 
-            UnlimitedPlayerManager.OnGameDataReceived += GameDataReceived;
-            UnlimitedPlayerManager.OnGameDataUnavailable += GameDataUnavailable;
+            HeadquartersManager.OnGameDataReceived += GameDataReceived;
+            HeadquartersManager.OnGameDataUnavailable += GameDataUnavailable;
         }
 
         private void Start()
@@ -87,7 +87,7 @@ namespace Authentification
         /// </summary>
         private void SuccessfulLogin()
         {
-            UnlimitedPlayerManager.GameDataRequest();            
+            HeadquartersManager.GameDataRequest();            
         }
         private void FailedLogin(byte errorId)
         {
@@ -114,7 +114,7 @@ namespace Authentification
         /// </summary>
         private void GameDataReceived()
         {
-            GameDataValues.SaveDuringGamePlayPlayerData(UnlimitedPlayerManager.game);
+            GameDataValues.SaveDuringGamePlayPlayerData(HeadquartersManager.game);
             _scene.GoToScene();
         }
         private void GameDataUnavailable()
@@ -129,8 +129,8 @@ namespace Authentification
             LoginManager.OnSuccessfulLogin -= SuccessfulLogin;
             LoginManager.OnFailedLogin -= FailedLogin;
 
-            UnlimitedPlayerManager.OnGameDataReceived -= GameDataReceived;
-            UnlimitedPlayerManager.OnGameDataUnavailable -= GameDataUnavailable;
+            HeadquartersManager.OnGameDataReceived -= GameDataReceived;
+            HeadquartersManager.OnGameDataUnavailable -= GameDataUnavailable;
         }
     }
 }

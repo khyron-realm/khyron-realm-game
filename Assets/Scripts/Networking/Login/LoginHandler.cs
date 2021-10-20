@@ -12,7 +12,7 @@ public class LoginHandler : MonoBehaviour
         Debug.Log("Starting action ..................... ");
         
         //UnlimitedPlayerManager.PlayerDataRequest();
-        UnlimitedPlayerManager.GameDataRequest();
+        HeadquartersManager.GameDataRequest();
         //UnlimitedPlayerManager.ConversionRequest(DateTime.Now);
         //UnlimitedPlayerManager.FinishConversionRequest();
         

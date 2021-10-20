@@ -36,23 +36,23 @@ namespace Manager.Train
 
             _managerUI.OnButtonPressed += BuildRobot;
 
-            UnlimitedPlayerManager.OnBuildingAccepted += BuildingAccepted;
-            UnlimitedPlayerManager.OnBuildingRejected += BuildingRejected;
+            HeadquartersManager.OnBuildingAccepted += BuildingAccepted;
+            HeadquartersManager.OnBuildingRejected += BuildingRejected;
 
-            UnlimitedPlayerManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
+            HeadquartersManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
         }
 
 
         public void BuildRobot(RobotSO robot)
         {            
             s_robot = robot;
-            UnlimitedPlayerManager.BuildingRequest(s_indexRobot, robot._robotId, DateTime.UtcNow);
+            HeadquartersManager.BuildingRequest(s_indexRobot, robot._robotId, DateTime.UtcNow);
         }
         public static void CancelBuildRobot(RobotSO robot, GameObject robotIcon)
         {
             s_robot = robot;
             s_robotIcon = robotIcon;
-            UnlimitedPlayerManager.FinishBuildingRequest(s_indexRobot, robot._robotId, DateTime.UtcNow, false);
+            HeadquartersManager.FinishBuildingRequest(s_indexRobot, robot._robotId, DateTime.UtcNow, false);
         }
 
 
@@ -119,10 +119,10 @@ namespace Manager.Train
         {
             _managerUI.OnButtonPressed -= BuildRobot;
 
-            UnlimitedPlayerManager.OnBuildingAccepted -= BuildingAccepted;
-            UnlimitedPlayerManager.OnBuildingRejected -= BuildingRejected;
+            HeadquartersManager.OnBuildingAccepted -= BuildingAccepted;
+            HeadquartersManager.OnBuildingRejected -= BuildingRejected;
 
-            UnlimitedPlayerManager.OnCancelBuildingAccepted -= CancelBuildingAccepted;
+            HeadquartersManager.OnCancelBuildingAccepted -= CancelBuildingAccepted;
         }
     }
 }

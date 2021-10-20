@@ -12,8 +12,8 @@ namespace Manager
     {
         private void Awake()
         {
-            UnlimitedPlayerManager.OnPlayerDataUnavailable += PlayerDataUnavailable;
-            UnlimitedPlayerManager.PlayerDataRequest();
+            HeadquartersManager.OnPlayerDataUnavailable += PlayerDataUnavailable;
+            HeadquartersManager.PlayerDataRequest();
         }
 
         private void PlayerDataUnavailable()
@@ -25,7 +25,7 @@ namespace Manager
 
         private void OnDestroy()
         {
-            UnlimitedPlayerManager.OnPlayerDataUnavailable -= PlayerDataUnavailable;
+            HeadquartersManager.OnPlayerDataUnavailable -= PlayerDataUnavailable;
         }
     }
 }

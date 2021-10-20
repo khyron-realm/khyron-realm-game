@@ -20,10 +20,10 @@ namespace Manager.Convert
 
         private void Awake()
         {
-            UnlimitedPlayerManager.OnConversionAccepted += ConversionAccepted;
-            UnlimitedPlayerManager.OnConversionRejected += ConversionRejected;
+            HeadquartersManager.OnConversionAccepted += ConversionAccepted;
+            HeadquartersManager.OnConversionRejected += ConversionRejected;
 
-            UnlimitedPlayerManager.OnFinishConversionAccepted += FinishConversionAccepted;
+            HeadquartersManager.OnFinishConversionAccepted += FinishConversionAccepted;
 
             ManageTasks.OnConvertingWorking += CheckForConversionInProgress;
 
@@ -32,7 +32,7 @@ namespace Manager.Convert
 
         public void Convert()
         {
-            UnlimitedPlayerManager.ConversionRequest(DateTime.UtcNow);
+            HeadquartersManager.ConversionRequest(DateTime.UtcNow);
         }
 
 
@@ -80,7 +80,7 @@ namespace Manager.Convert
                 yield return _timer.ActivateTimer();
             }
 
-            UnlimitedPlayerManager.FinishConversionRequest();
+            HeadquartersManager.FinishConversionRequest();
         }
 
 
@@ -93,10 +93,10 @@ namespace Manager.Convert
 
         private void OnDestroy()
         {
-            UnlimitedPlayerManager.OnFinishConversionAccepted -= FinishConversionAccepted;
-            UnlimitedPlayerManager.OnConversionAccepted -= ConversionAccepted;
+            HeadquartersManager.OnFinishConversionAccepted -= FinishConversionAccepted;
+            HeadquartersManager.OnConversionAccepted -= ConversionAccepted;
 
-            UnlimitedPlayerManager.OnConversionRejected -= ConversionRejected;
+            HeadquartersManager.OnConversionRejected -= ConversionRejected;
 
             ManageTasks.OnConvertingWorking -= CheckForConversionInProgress;
         }

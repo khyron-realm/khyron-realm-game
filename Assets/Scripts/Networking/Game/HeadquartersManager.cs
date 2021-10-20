@@ -10,7 +10,7 @@ namespace Networking.Game
     /// <summary>
     ///     Player manager that handles the game messages
     /// </summary>
-    public class UnlimitedPlayerManager : MonoBehaviour
+    public class HeadquartersManager : MonoBehaviour
     {
         public static bool ShowDebug = true;
         public static PlayerData player;

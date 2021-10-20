@@ -19,25 +19,25 @@ namespace Manager
 
         private void Awake()
         {
-            UnlimitedPlayerManager.OnPlayerDataReceived += GetTasks;
+            HeadquartersManager.OnPlayerDataReceived += GetTasks;
         }
 
 
         private void GetTasks()
         {
-            for (int i = 0; i < UnlimitedPlayerManager.player.TaskQueue.Length; i++)
+            for (int i = 0; i < HeadquartersManager.player.TaskQueue.Length; i++)
             {
-                if (UnlimitedPlayerManager.player.TaskQueue[i].Type == 0)
+                if (HeadquartersManager.player.TaskQueue[i].Type == 0)
                 {
-                    OnConvertingWorking?.Invoke(UnlimitedPlayerManager.player.TaskQueue[i]);
+                    OnConvertingWorking?.Invoke(HeadquartersManager.player.TaskQueue[i]);
                 }
-                if (UnlimitedPlayerManager.player.TaskQueue[i].Type == 1)
+                if (HeadquartersManager.player.TaskQueue[i].Type == 1)
                 {
-                    OnUpgradingWorking?.Invoke(UnlimitedPlayerManager.player.TaskQueue[i], CheckWhatRobotItIs(UnlimitedPlayerManager.player.TaskQueue[i].Element));
+                    OnUpgradingWorking?.Invoke(HeadquartersManager.player.TaskQueue[i], CheckWhatRobotItIs(HeadquartersManager.player.TaskQueue[i].Element));
                 }
-                if (UnlimitedPlayerManager.player.TaskQueue[i].Type == 2)
+                if (HeadquartersManager.player.TaskQueue[i].Type == 2)
                 {
-                    OnBuildingRobotsWorking?.Invoke(UnlimitedPlayerManager.player.TaskQueue[i], CheckWhatRobotItIs(UnlimitedPlayerManager.player.TaskQueue[i].Element));
+                    OnBuildingRobotsWorking?.Invoke(HeadquartersManager.player.TaskQueue[i], CheckWhatRobotItIs(HeadquartersManager.player.TaskQueue[i].Element));
                 }
             }
         }
@@ -59,7 +59,7 @@ namespace Manager
 
         private void OnDestroy()
         {
-            UnlimitedPlayerManager.OnPlayerDataReceived -= GetTasks;
+            HeadquartersManager.OnPlayerDataReceived -= GetTasks;
         }
     }
 }

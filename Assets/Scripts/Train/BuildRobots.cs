@@ -48,8 +48,8 @@ namespace Manager.Train
 
             BuildRobotsOperations.OnRobotAdded += Time.AddTime;
 
-            UnlimitedPlayerManager.OnRobotsUpdate += DisplayNumberOfRobots;
-            UnlimitedPlayerManager.OnPlayerDataReceived += DisplayNumberOfRobots;
+            HeadquartersManager.OnRobotsUpdate += DisplayNumberOfRobots;
+            HeadquartersManager.OnPlayerDataReceived += DisplayNumberOfRobots;
         }
         #endregion
 
@@ -80,7 +80,7 @@ namespace Manager.Train
         {
             int count = 0;
 
-            foreach (Networking.GameElements.Robot item in UnlimitedPlayerManager.player.Robots)
+            foreach (Networking.GameElements.Robot item in HeadquartersManager.player.Robots)
             {
                 count += item.Count;
             }
@@ -128,7 +128,7 @@ namespace Manager.Train
                     yield return _time.ActivateTimer();
                 }
 
-                UnlimitedPlayerManager.FinishBuildingRequest(queueNumber, robot._robotId, DateTime.UtcNow, true);
+                HeadquartersManager.FinishBuildingRequest(queueNumber, robot._robotId, DateTime.UtcNow, true);
 
                 BuildRobotsOperations.RobotsInTraining.Remove(queueNumber);
                 RobotsInBuildingOperations.DezactivateIcon(RobotsInBuilding.robotsInBuildingIcons[i]);
@@ -152,8 +152,8 @@ namespace Manager.Train
 
             BuildRobotsOperations.OnRobotAdded -= Time.AddTime;
 
-            UnlimitedPlayerManager.OnRobotsUpdate -= DisplayNumberOfRobots;
-            UnlimitedPlayerManager.OnPlayerDataReceived -= DisplayNumberOfRobots;
+            HeadquartersManager.OnRobotsUpdate -= DisplayNumberOfRobots;
+            HeadquartersManager.OnPlayerDataReceived -= DisplayNumberOfRobots;
         }
     }
 }
