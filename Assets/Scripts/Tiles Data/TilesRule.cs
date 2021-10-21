@@ -11,25 +11,24 @@ namespace Tiles
     public class TilesRule : RuleTile<TilesRule.Neighbor>
     {
         public bool customField;
-        public RuleTile checkTile;
 
         public class Neighbor : RuleTile.TilingRule.Neighbor
         {
             public const int Null = 3;
-            public const int TileType = 4;
+            public const int Tile = 4;
         }
 
         public override bool RuleMatch(int neighbor, TileBase tile)
         {
             switch (neighbor)
             {
-                case Neighbor.Null: return CheckIfThereIsTile(tile);
-                case Neighbor.TileType: return CheckIfThereIsTileOfType(tile);
+                case Neighbor.Null: return CheckIfThereIsNoTile(tile);
+                case Neighbor.Tile: return CheckIfThereIsTile(tile);
             }
             return base.RuleMatch(neighbor, tile);
         }
 
-        private bool CheckIfThereIsTile(TileBase tile)
+        private bool CheckIfThereIsNoTile(TileBase tile)
         {
             if (tile == null)
             {
@@ -41,15 +40,15 @@ namespace Tiles
             }
         }
 
-        private bool CheckIfThereIsTileOfType(TileBase tile)
+        private bool CheckIfThereIsTile(TileBase tile)
         {
-            if (tile == checkTile)
+            if (tile == null)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
     }
