@@ -11,8 +11,13 @@ namespace Mine
     public class MineGenerator : MonoBehaviour
     {
         #region "Input fields" 
-        [SerializeField] private RuleTile _groundTileType1;  
-        [SerializeField] private RuleTile _groundTileType2;
+        [SerializeField] private RuleTile _groundTileType11;
+        [SerializeField] private RuleTile _groundTileType12;
+        [SerializeField] private RuleTile _groundTileType13;
+
+        [SerializeField] private RuleTile _groundTileType21;
+        [SerializeField] private RuleTile _groundTileType22;
+        [SerializeField] private RuleTile _groundTileType23;
         [Space(20f)]
         
 
@@ -73,13 +78,39 @@ namespace Mine
                     {
                         if(temp_hidden[row, col] == 0)
                         {
-                            StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType1);
-                            StoreData(_groundTileType1, temp_visibles, row, temp, col, _healthOfBlocks[0]);
+                            if(((row % 3) + (col % 3)) % 3 == 0)
+                            {
+                                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType11);
+                                StoreData(_groundTileType11, temp_visibles, row, temp, col, _healthOfBlocks[0], 0, 0);
+                            }
+                            if(((row % 3) + (col % 3)) % 3 == 1)
+                            {
+                                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType12);
+                                StoreData(_groundTileType12, temp_visibles, row, temp, col, _healthOfBlocks[0], 1, 0);
+                            }
+                            if (((row % 3) + (col % 3)) % 3 == 2)
+                            {
+                                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType13);
+                                StoreData(_groundTileType13, temp_visibles, row, temp, col, _healthOfBlocks[0], 2, 0);
+                            }
                         }
                         else
                         {
-                            StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType2);
-                            StoreData(_groundTileType2, temp_visibles, row, temp, col, _healthOfBlocks[1]);
+                            if (((row % 3) + (col % 3)) % 3 == 0)
+                            {
+                                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType21);
+                                StoreData(_groundTileType21, temp_visibles, row, temp, col, _healthOfBlocks[1], 3, 1);
+                            }
+                            if(((row % 3) + (col % 3)) % 3 == 1)
+                            {
+                                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType22);
+                                StoreData(_groundTileType22, temp_visibles, row, temp, col, _healthOfBlocks[1], 4, 1);
+                            }
+                            if(((row % 3) + (col % 3)) % 3 == 2)
+                            {
+                                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(row, col, 0), _groundTileType23);
+                                StoreData(_groundTileType23, temp_visibles, row, temp, col, _healthOfBlocks[1], 5, 1);
+                            }
                         }                            
                     }
                 }
@@ -87,7 +118,7 @@ namespace Mine
             }
         }
 
-            
+
         /// <summary>
         /// 
         /// Saves the block data 
@@ -99,15 +130,40 @@ namespace Mine
         /// <param name="temp">The list with all data about tiles</param>
         /// <param name="col">The current column</param>
         /// <param name="health">The current health of the block</param>
-        private void StoreData(RuleTile tile, int[,] temp_visible, int row, List<DataOfTile> temp, int col, int health)
+        private void StoreData(RuleTile tile, int[,] temp_visible, int row, List<DataOfTile> temp, int col, int health, int coeficient, byte type)
         {
             if (temp_visible[row, col] > 1)
             {
-                temp.Add(new DataOfTile(health, tile, _resources[temp_visible[row, col] - 2]));
+                switch (coeficient)
+                {
+                    case 0:
+                        temp.Add(new DataOfTile(health, tile, _resources[temp_visible[row, col] - 2].Soft1, _resources[temp_visible[row, col] - 2], type));
+                        break;
+
+                    case 1:
+                        temp.Add(new DataOfTile(health, tile, _resources[temp_visible[row, col] - 2].Soft2, _resources[temp_visible[row, col] - 2], type));
+                        break;
+
+                    case 2:
+                        temp.Add(new DataOfTile(health, tile, _resources[temp_visible[row, col] - 2].Soft3, _resources[temp_visible[row, col] - 2], type));
+                        break;
+
+                    case 3:
+                        temp.Add(new DataOfTile(health, tile, _resources[temp_visible[row, col] - 2].Hard1, _resources[temp_visible[row, col] - 2], type));
+                        break;
+
+                    case 4:
+                        temp.Add(new DataOfTile(health, tile, _resources[temp_visible[row, col] - 2].Hard2, _resources[temp_visible[row, col] - 2], type));
+                        break;
+
+                    case 5:
+                        temp.Add(new DataOfTile(health, tile, _resources[temp_visible[row, col] - 2].Hard3, _resources[temp_visible[row, col] - 2], type));
+                        break;
+                }              
             }
             else
             {
-                temp.Add(new DataOfTile(health, tile));
+                temp.Add(new DataOfTile(health, tile, type));
             }
         }
 

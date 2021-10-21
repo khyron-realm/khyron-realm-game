@@ -33,5 +33,10 @@ namespace Bidding
             _panelBackground.DOFade(0.5f, 0.4f);
             _aquired.transform.DOScale(1f, 0.8f);
         }
+
+        private void OnDestroy()
+        {
+            BiddingTime.OnAuctionFinished -= Animation;
+        }
     }
 }

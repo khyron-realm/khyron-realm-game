@@ -57,6 +57,7 @@ namespace Manager.Train
         {
             if(CheckIfRobotIsFinished(task, robot))
             {
+                print("----- ROBOT IN BUILDING -----");
                 s_indexRobot = task.Id;
                 s_robot = robot;
 
@@ -82,7 +83,6 @@ namespace Manager.Train
 
             if(timeDiff > timeOfExecution)
             {
-                print("---------FINISH--------");
                 HeadquartersManager.FinishBuildingRequest(task.Id, robot._robotId, DateTime.UtcNow, true);
                 return false;
             }
