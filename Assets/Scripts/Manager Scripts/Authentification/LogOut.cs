@@ -28,7 +28,6 @@ namespace Authentification
             _scene.GoToScene();
         }
 
-
         private void Delete()
         {
             try

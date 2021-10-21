@@ -77,131 +77,131 @@ namespace Networking.Headquarters
             using var message = e.GetMessage();
             
             // Check if message is for this plugin
-            if (message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Headquarters + 1)) return;
+            if (message.Tag < Tags.Tags.TagsPerPlugin * Tags.Tags.Headquarters || message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Headquarters + 1)) return;
 
             switch (message.Tag)
             {
-                case GameTags.PlayerConnected:
+                case HeadquartersTags.PlayerConnected:
                 {
                     PlayerConnected(message);
                     break;
                 }
                     
-                case GameTags.PlayerDisconnected:
+                case HeadquartersTags.PlayerDisconnected:
                 {
                     PlayerDisconnected(message);
                     break;
                 }
                     
-                case GameTags.PlayerData:
+                case HeadquartersTags.PlayerData:
                 {
                     GetPlayerData(message);
                     break;
                 }
 
-                case GameTags.PlayerDataUnavailable:
+                case HeadquartersTags.PlayerDataUnavailable:
                 {
                     PlayerDataUnavailable(message);
                     break;
                 }
                 
-                case GameTags.GameData:
+                case HeadquartersTags.GameData:
                 {
                     GetGameData(message);
                     break;
                 }
 
-                case GameTags.GameDataUnavailable:
+                case HeadquartersTags.GameDataUnavailable:
                 {
                     GameDataUnavailable(message);
                     break;
                 }
 
-                case GameTags.FinishConversionAccepted:
+                case HeadquartersTags.FinishConversionAccepted:
                 {
                     FinishConversionAccepted(message);
                     break;
                 }
 
-                case GameTags.ConversionAccepted:
+                case HeadquartersTags.ConversionAccepted:
                 {
                     ConversionAccepted(message);
                     break;
                 }
                     
-                case GameTags.ConversionRejected:
+                case HeadquartersTags.ConversionRejected:
                 {
                     ConversionRejected(message);
                     break;
                 }
 
-                case GameTags.FinishUpgradeAccepted:
+                case HeadquartersTags.FinishUpgradeAccepted:
                 {
                     FinishUpgradeAccepted(message);
                     break;
                 }
                     
-                case GameTags.UpgradeRobotAccepted:
+                case HeadquartersTags.UpgradeRobotAccepted:
                 {
                     UpgradeRobotAccepted(message);
                     break;
                 }
                     
-                case GameTags.UpgradeRobotRejected:
+                case HeadquartersTags.UpgradeRobotRejected:
                 {
                     UpgradeRobotRejected(message);
                     break;
                 }
 
-                case GameTags.FinishBuildAccepted:
+                case HeadquartersTags.FinishBuildAccepted:
                 {
                     FinishBuildAccepted(message);
                     break;
                 }
                 
-                case GameTags.CancelBuildAccepted:
+                case HeadquartersTags.CancelBuildAccepted:
                 {
                     CancelBuildAccepted(message);
                     break;
                 }
 
-                case GameTags.BuildRobotAccepted:
+                case HeadquartersTags.BuildRobotAccepted:
                 {
                     BuildRobotAccepted(message);
                     break;
                 }
                     
-                case GameTags.BuildRobotRejected:
+                case HeadquartersTags.BuildRobotRejected:
                 {
                     BuildRobotRejected(message);
                     break;
                 }
 
-                case GameTags.LevelUpdate:
+                case HeadquartersTags.LevelUpdate:
                 {
                     LevelUpdate(message);
                     break;
                 }
                 
-                case GameTags.ExperienceUpdate:
+                case HeadquartersTags.ExperienceUpdate:
                 {
                     ExperienceUpdate(message);
                     break;
                 }
                 
-                case GameTags.EnergyUpdate:
+                case HeadquartersTags.EnergyUpdate:
                 {
                     EnergyUpdate(message);
                     break;
                 }
                 
-                case GameTags.ResourcesUpdate:
+                case HeadquartersTags.ResourcesUpdate:
                 {
                     ResourcesUpdate(message);
                     break;
                 }
                 
-                case GameTags.RobotsUpdate:
+                case HeadquartersTags.RobotsUpdate:
                 {
                     RobotsUpdate(message);
                     break;
@@ -538,7 +538,7 @@ namespace Networking.Headquarters
         /// </summary>
         public static void PlayerDataRequest()
         {
-            using var msg = Message.CreateEmpty(GameTags.PlayerData);
+            using var msg = Message.CreateEmpty(HeadquartersTags.PlayerData);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Requesting player data ...");
@@ -549,7 +549,7 @@ namespace Networking.Headquarters
         /// </summary>
         public static void GameDataRequest()
         {
-            using var msg = Message.CreateEmpty(GameTags.GameData);
+            using var msg = Message.CreateEmpty(HeadquartersTags.GameData);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Requesting game data ...");
@@ -563,7 +563,7 @@ namespace Networking.Headquarters
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(startTime.ToBinary());
-            using var msg = Message.Create(GameTags.ConvertResources, writer);
+            using var msg = Message.Create(HeadquartersTags.ConvertResources, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Trying to convert resources ...");
@@ -574,7 +574,7 @@ namespace Networking.Headquarters
         /// </summary>
         public static void FinishConversionRequest()
         {
-            using var msg = Message.CreateEmpty(GameTags.FinishConversion);
+            using var msg = Message.CreateEmpty(HeadquartersTags.FinishConversion);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Finishing the conversion of resources ...");
@@ -590,7 +590,7 @@ namespace Networking.Headquarters
             using var writer = DarkRiftWriter.Create();
             writer.Write(robotId);
             writer.Write(startTime.ToBinary());
-            using var msg = Message.Create(GameTags.UpgradeRobot, writer);
+            using var msg = Message.Create(HeadquartersTags.UpgradeRobot, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Trying to upgrade robot ...");
@@ -603,7 +603,7 @@ namespace Networking.Headquarters
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(robotId);
-            using var msg = Message.Create(GameTags.FinishUpgrade, writer);
+            using var msg = Message.Create(HeadquartersTags.FinishUpgrade, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Finishing the upgrading of the robot ...");
@@ -621,7 +621,7 @@ namespace Networking.Headquarters
             writer.Write(queueNumber);
             writer.Write(robotId);
             writer.Write(startTime.ToBinary());
-            using var msg = Message.Create(GameTags.BuildRobot, writer);
+            using var msg = Message.Create(HeadquartersTags.BuildRobot, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             if(ShowDebug) Debug.Log("Trying to build robot ...");
         }
@@ -643,8 +643,8 @@ namespace Networking.Headquarters
             using var msg =
                 Message.Create(
                     isFinished
-                        ? GameTags.FinishBuild
-                        : inProgress ? GameTags.CancelInProgressBuild : GameTags.CancelOnHoldBuild, writer);
+                        ? HeadquartersTags.FinishBuild
+                        : inProgress ? HeadquartersTags.CancelInProgressBuild : HeadquartersTags.CancelOnHoldBuild, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Finishing the building of the robot ...");
