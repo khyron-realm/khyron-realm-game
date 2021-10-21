@@ -109,7 +109,7 @@ namespace Networking.Game
             HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, startTime, true);
         }
         
-        public void CancelInProgressBuildRobot() 
+        public void CancelInProgressBuildRobot()
         {
             byte queueNumber = 0;
             byte robotId = 0;
