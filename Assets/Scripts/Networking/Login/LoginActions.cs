@@ -1,4 +1,5 @@
 using System;
+using Networking.Tags;
 using UnityEngine;
 
 namespace Networking.Login
@@ -9,6 +10,7 @@ namespace Networking.Login
         {
             LoginManager.OnSuccessfulLogin += SuccessfulLogin;
             LoginManager.OnFailedLogin += FailedLogin;
+            LoginManager.OnSuccessfulLogout += SuccessfulLogout;
             LoginManager.OnSuccessfulAddUser += SuccessfulAddUser;
             LoginManager.OnFailedAddUser += FailedAddUser;
         }
@@ -17,6 +19,7 @@ namespace Networking.Login
         {
             LoginManager.OnSuccessfulLogin -= SuccessfulLogin;
             LoginManager.OnFailedLogin -= FailedLogin;
+            LoginManager.OnSuccessfulLogout -= SuccessfulLogout;
             LoginManager.OnSuccessfulAddUser -= SuccessfulAddUser;
             LoginManager.OnFailedAddUser -= FailedAddUser;
         }
@@ -24,7 +27,7 @@ namespace Networking.Login
         #region ServerRequests
 
         /// <summary>
-        /// Sends a login request to the server
+        ///     Sends a login request to the server
         /// </summary>
         public void LoginUser()
         {
@@ -34,15 +37,15 @@ namespace Networking.Login
         }
         
         /// <summary>
-        /// Sends a logout request to the server
+        ///     Sends a logout request to the server
         /// </summary>
         public void LogoutUser()
         {
             LoginManager.Logout();
         }
-        
+
         /// <summary>
-        /// Send a register request to the server
+        ///     Send a register request to the server
         /// </summary>
         public void AddUser()
         {
@@ -56,7 +59,7 @@ namespace Networking.Login
         #region ProcessServerResponse
 
         /// <summary>
-        /// Process the server response for a successful login
+        ///     Process the server response for a successful login
         /// </summary>
         private void SuccessfulLogin()
         {
@@ -64,7 +67,7 @@ namespace Networking.Login
         }
 
         /// <summary>
-        /// Process the server response for a failed login
+        ///     Process the server response for a failed login
         /// </summary>
         /// <param name="errorId"></param>
         private void FailedLogin(byte errorId)
@@ -73,7 +76,15 @@ namespace Networking.Login
         }
         
         /// <summary>
-        /// Process the server response for a successful register
+        ///     Process the server response for a successful logout
+        /// </summary>
+        private void SuccessfulLogout()
+        {
+            
+        }
+        
+        /// <summary>
+        ///     Process the server response for a successful register
         /// </summary>
         private void SuccessfulAddUser()
         {
@@ -81,7 +92,7 @@ namespace Networking.Login
         }
         
         /// <summary>
-        /// Process the server response for a failed register
+        ///     Process the server response for a failed register
         /// </summary>
         /// <param name="errorId"></param>
         private void FailedAddUser(byte errorId)

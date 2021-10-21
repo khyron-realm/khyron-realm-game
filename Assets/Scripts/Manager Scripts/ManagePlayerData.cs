@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Networking.Game;
 using Authentification;
+using Networking.Headquarters;
 using Scenes;
 
 

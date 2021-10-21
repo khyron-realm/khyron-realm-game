@@ -1,11 +1,12 @@
 using System;
 using DarkRift;
 using DarkRift.Client;
-using Networking.GameElements;
+using Networking.Game;
+using Networking.Launcher;
 using Networking.Tags;
 using UnityEngine;
 
-namespace Networking.Game
+namespace Networking.Headquarters
 {
     /// <summary>
     ///     Player manager that handles the game messages
@@ -14,7 +15,7 @@ namespace Networking.Game
     {
         public static bool ShowDebug = true;
         public static PlayerData player;
-        public static GameData.GameData game;
+        public static GameData game;
 
         #region Handlers
 
@@ -63,7 +64,7 @@ namespace Networking.Game
         {
             player = null;
             game = null;
-            GameControl.Client.MessageReceived += OnDataHandler;
+            NetworkManager.Client.MessageReceived += OnDataHandler;
         }
 
         /// <summary>
@@ -76,7 +77,7 @@ namespace Networking.Game
             using var message = e.GetMessage();
             
             // Check if message is for this plugin
-            if (message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Game + 1)) return;
+            if (message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Headquarters + 1)) return;
 
             switch (message.Tag)
             {
@@ -281,7 +282,7 @@ namespace Networking.Game
             if (ShowDebug) Debug.Log("Received game data");
             
             using var reader = message.GetReader();
-            game = reader.ReadSerializable<GameData.GameData>();
+            game = reader.ReadSerializable<Game.GameData>();
 
             if (ShowDebug)
             {
@@ -523,7 +524,7 @@ namespace Networking.Game
             }
             */
 
-            player.Robots = reader.ReadSerializables<GameElements.Robot>();
+            player.Robots = reader.ReadSerializables<Robot>();
             
             OnRobotsUpdate?.Invoke();
         }
@@ -538,7 +539,7 @@ namespace Networking.Game
         public static void PlayerDataRequest()
         {
             using var msg = Message.CreateEmpty(GameTags.PlayerData);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Requesting player data ...");
         }
@@ -549,7 +550,7 @@ namespace Networking.Game
         public static void GameDataRequest()
         {
             using var msg = Message.CreateEmpty(GameTags.GameData);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Requesting game data ...");
         }
@@ -563,7 +564,7 @@ namespace Networking.Game
             using var writer = DarkRiftWriter.Create();
             writer.Write(startTime.ToBinary());
             using var msg = Message.Create(GameTags.ConvertResources, writer);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Trying to convert resources ...");
         }
@@ -574,7 +575,7 @@ namespace Networking.Game
         public static void FinishConversionRequest()
         {
             using var msg = Message.CreateEmpty(GameTags.FinishConversion);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Finishing the conversion of resources ...");
         }
@@ -590,7 +591,7 @@ namespace Networking.Game
             writer.Write(robotId);
             writer.Write(startTime.ToBinary());
             using var msg = Message.Create(GameTags.UpgradeRobot, writer);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Trying to upgrade robot ...");
         }
@@ -603,7 +604,7 @@ namespace Networking.Game
             using var writer = DarkRiftWriter.Create();
             writer.Write(robotId);
             using var msg = Message.Create(GameTags.FinishUpgrade, writer);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Finishing the upgrading of the robot ...");
         }
@@ -621,7 +622,7 @@ namespace Networking.Game
             writer.Write(robotId);
             writer.Write(startTime.ToBinary());
             using var msg = Message.Create(GameTags.BuildRobot, writer);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             if(ShowDebug) Debug.Log("Trying to build robot ...");
         }
 
@@ -644,7 +645,7 @@ namespace Networking.Game
                     isFinished
                         ? GameTags.FinishBuild
                         : inProgress ? GameTags.CancelInProgressBuild : GameTags.CancelOnHoldBuild, writer);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Finishing the building of the robot ...");
         }

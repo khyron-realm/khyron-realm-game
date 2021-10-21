@@ -1,49 +1,49 @@
 using DarkRift;
 
-namespace Networking.GameElements
+namespace Networking.Game
 {
     /// <summary>
     ///     Stores the resource data
     /// </summary>
-    public class Robot : IDarkRiftSerializable
+    public class ResourceDetails : IDarkRiftSerializable
     {
         public byte Id { get; set; }
         public string Name { get; set; }
-        public byte Level { get; set; }
-        public byte Count { get; set; }
+        public ushort ConversionRate { get; set; }
+        public uint MaxCount { get; set; }
 
-        public Robot() { }
+        public ResourceDetails() {}
         
-        public Robot(byte id, string name, byte level, byte count)
+        public ResourceDetails(byte id, string name, ushort conversionRate, uint maxCount)
         {
             Id = id;
             Name = name;
-            Level = level;
-            Count = count;
+            ConversionRate = conversionRate;
+            MaxCount = maxCount;
         }
 
         /// <summary>
-        ///     Deserialization method for robot data
+        ///     Deserialization method for resource data
         /// </summary>
         /// <param name="e">Deserialize event</param>
         public void Deserialize(DeserializeEvent e)
         {
             Id = e.Reader.ReadByte();
             Name = e.Reader.ReadString();
-            Level = e.Reader.ReadByte();
-            Count = e.Reader.ReadByte();
+            ConversionRate = e.Reader.ReadUInt16();
+            MaxCount = e.Reader.ReadUInt32();
         }
 
         /// <summary>
-        ///     Serialization method for robot data
+        ///     Serialization method for resource data
         /// </summary>
         /// <param name="e">Serialize event</param>
         public void Serialize(SerializeEvent e)
         {
             e.Writer.Write(Id);
             e.Writer.Write(Name);
-            e.Writer.Write(Level);
-            e.Writer.Write(Count);
+            e.Writer.Write(ConversionRate);
+            e.Writer.Write(MaxCount);
         }
     }
 }

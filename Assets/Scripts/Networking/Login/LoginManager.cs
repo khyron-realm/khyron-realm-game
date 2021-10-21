@@ -1,7 +1,8 @@
 using System.Text;
 using DarkRift;
 using DarkRift.Client;
-using Networking.Game;
+using Networking.Headquarters;
+using Networking.Launcher;
 using Networking.Tags;
 using UnityEngine;
 
@@ -17,24 +18,26 @@ namespace Networking.Login
 
         public delegate void SuccessfulLoginEventHandler();
         public delegate void FailedLoginEventHandler(byte errorId);
+        public delegate void SuccessfulLogoutEventHandler();
         public delegate void SuccessfulAddUserEventHandler();
         public delegate void FailedAddUserEventHandler(byte errorId);
         
         public static event SuccessfulLoginEventHandler OnSuccessfulLogin;
         public static event FailedLoginEventHandler OnFailedLogin;
+        public static event SuccessfulLogoutEventHandler OnSuccessfulLogout;
         public static event SuccessfulAddUserEventHandler OnSuccessfulAddUser;
         public static event FailedAddUserEventHandler OnFailedAddUser;
 
         private void Awake()
         {
-            GameControl.Client.MessageReceived += OnDataHandler;
+            NetworkManager.Client.MessageReceived += OnDataHandler;
         }
 
         private void OnDestroy()
         {
-            if (GameControl.Client == null) return;
+            if (NetworkManager.Client == null) return;
 
-            GameControl.Client.MessageReceived -= OnDataHandler;
+            NetworkManager.Client.MessageReceived -= OnDataHandler;
         }
 
         /// <summary>
@@ -69,6 +72,14 @@ namespace Networking.Login
                         return;
                     }
                     OnFailedLogin?.Invoke(reader.ReadByte());
+                    break;
+                }
+
+                case LoginTags.LogoutSuccess:
+                {
+                    if (ShowDebug) Debug.Log("Successful logout");
+                    IsLoggedIn = false;
+                    OnSuccessfulLogout?.Invoke();
                     break;
                 }
 
@@ -108,7 +119,7 @@ namespace Networking.Login
             writer.Write(Rsa.Encrypt(Encoding.UTF8.GetBytes(password)));
 
             using var msg = Message.Create(LoginTags.LoginUser, writer);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             Debug.Log("Logging in");
         }
 
@@ -125,7 +136,7 @@ namespace Networking.Login
             writer.Write(Rsa.Encrypt(Encoding.UTF8.GetBytes(password)));
 
             using var msg = Message.Create(LoginTags.AddUser, writer);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
 
         /// <summary>
@@ -136,7 +147,7 @@ namespace Networking.Login
             IsLoggedIn = false;
 
             using var msg = Message.CreateEmpty(LoginTags.LogoutUser);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
 
         #endregion

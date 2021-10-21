@@ -2,7 +2,7 @@ namespace Networking.Tags
 {
     public static class AuctionTags
     {
-        private const ushort Shift = Tags.Auction * Tags.TagsPerPlugin;
+        private const ushort Shift = Tags.Auctions * Tags.TagsPerPlugin;
 
         public const ushort Create = 0 + Shift;
         public const ushort Join = 1 + Shift;

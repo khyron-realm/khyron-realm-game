@@ -1,6 +1,6 @@
 using DarkRift;
 
-namespace Networking.GameData
+namespace Networking.Game
 {
     public class LevelFormulas : IDarkRiftSerializable
     {

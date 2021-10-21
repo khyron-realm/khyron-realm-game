@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Networking.Game
+namespace Networking.Launcher
 {
     /// <inheritdoc />
     /// <summary>

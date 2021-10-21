@@ -6,8 +6,7 @@ using UnityEngine.UI;
 using Manager.Robots;
 using Save;
 using CountDown;
-using Networking.Game;
-using Networking.GameElements;
+using Networking.Headquarters;
 
 
 namespace Manager.Upgrade

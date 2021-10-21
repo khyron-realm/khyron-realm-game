@@ -1,8 +1,7 @@
 using System;
-using Networking.GameElements;
 using UnityEngine;
 
-namespace Networking.Game
+namespace Networking.Headquarters
 {
     public class HeadquartersActions : MonoBehaviour
     {

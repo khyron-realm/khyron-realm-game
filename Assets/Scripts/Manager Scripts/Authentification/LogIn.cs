@@ -6,8 +6,8 @@ using UnityEngine.UI;
 using Networking.Login;
 using Scenes;
 using Save;
-using Networking.Game;
 using AuxiliaryClasses;
+using Networking.Headquarters;
 
 
 namespace Authentification

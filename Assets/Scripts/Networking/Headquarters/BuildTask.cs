@@ -1,6 +1,6 @@
 using DarkRift;
 
-namespace Networking.GameElements
+namespace Networking.Headquarters
 {
     /// <summary>
     ///     Build task for player data

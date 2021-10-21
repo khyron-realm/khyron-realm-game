@@ -2,17 +2,17 @@ using DarkRift.Client.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Networking.Game
+namespace Networking.Launcher
 {
     /// <summary>
     ///     Creates a networking client to connect to the DarkRift server
     /// </summary>
-    public class GameControl : Singleton<GameControl>
+    public class NetworkManager : Singleton<NetworkManager>
     {
         [SerializeField] [Tooltip("The DarkRift client communication object")]
         public UnityClient networkClient;
 
-        protected GameControl()
+        protected NetworkManager()
         {
         }
 

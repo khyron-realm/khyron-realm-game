@@ -2,9 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Networking.Game;
 using Manager.Robots;
-using Networking.GameElements;
+using Networking.Headquarters;
 
 
 namespace Manager

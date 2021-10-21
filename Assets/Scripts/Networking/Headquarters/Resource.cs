@@ -1,25 +1,23 @@
 using DarkRift;
 
-namespace Networking.GameData
+namespace Networking.Headquarters
 {
     /// <summary>
     ///     Stores the resource data
     /// </summary>
-    public class ResourceDetails : IDarkRiftSerializable
+    public class Resource : IDarkRiftSerializable
     {
         public byte Id { get; set; }
         public string Name { get; set; }
-        public ushort ConversionRate { get; set; }
-        public uint MaxCount { get; set; }
+        public uint Count { get; set; }
 
-        public ResourceDetails() {}
+        public Resource() {}
         
-        public ResourceDetails(byte id, string name, ushort conversionRate, uint maxCount)
+        public Resource(byte id, string name, uint count)
         {
             Id = id;
             Name = name;
-            ConversionRate = conversionRate;
-            MaxCount = maxCount;
+            Count = count;
         }
 
         /// <summary>
@@ -30,8 +28,7 @@ namespace Networking.GameData
         {
             Id = e.Reader.ReadByte();
             Name = e.Reader.ReadString();
-            ConversionRate = e.Reader.ReadUInt16();
-            MaxCount = e.Reader.ReadUInt32();
+            Count = e.Reader.ReadUInt32();
         }
 
         /// <summary>
@@ -42,8 +39,7 @@ namespace Networking.GameData
         {
             e.Writer.Write(Id);
             e.Writer.Write(Name);
-            e.Writer.Write(ConversionRate);
-            e.Writer.Write(MaxCount);
+            e.Writer.Write(Count);
         }
     }
 }

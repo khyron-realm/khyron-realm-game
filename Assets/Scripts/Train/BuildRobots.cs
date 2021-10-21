@@ -7,9 +7,8 @@ using UnityEngine.UI;
 using Panels;
 using CountDown;
 using Manager.Robots;
-using Networking.Game;
 using Save;
-using Networking.GameElements;
+using Networking.Headquarters;
 
 
 namespace Manager.Train
@@ -89,7 +88,7 @@ namespace Manager.Train
         {
             int count = 0;
 
-            foreach (Networking.GameElements.Robot item in HeadquartersManager.player.Robots)
+            foreach (Robot item in HeadquartersManager.player.Robots)
             {
                 count += item.Count;
             }

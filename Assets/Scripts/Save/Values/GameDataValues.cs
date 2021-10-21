@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Networking.Game;
 using UnityEngine;
-using Networking.GameData;
 
 namespace Save
 {

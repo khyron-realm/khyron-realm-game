@@ -1,6 +1,6 @@
 using System;
 using Networking.Login;
-using Networking.Game;
+using Networking.Headquarters;
 using UnityEngine;
 
 public class LoginHandler : MonoBehaviour

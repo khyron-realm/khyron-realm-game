@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using Networking.Game;
-using Networking.GameElements;
+using Networking.Headquarters;
 
 
 namespace Manager.Robots

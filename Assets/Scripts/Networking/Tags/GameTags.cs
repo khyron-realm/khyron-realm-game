@@ -2,7 +2,7 @@ namespace Networking.Tags
 {
     public static class GameTags
     {
-        private const ushort Shift = Tags.Game * Tags.TagsPerPlugin;
+        private const ushort Shift = Tags.Headquarters * Tags.TagsPerPlugin;
 
         public const ushort PlayerConnected = 0 + Shift;
         public const ushort PlayerDisconnected = 1 + Shift;

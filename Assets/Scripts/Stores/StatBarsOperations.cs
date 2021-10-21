@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Panels;
 using Save;
-using Networking.Game;
+using Networking.Headquarters;
 
 
 namespace Manager.Store

@@ -1,7 +1,6 @@
 using DarkRift;
-using Networking.Game;
 
-namespace Networking.GameElements
+namespace Networking.Headquarters
 {
     /// <summary>
     ///     Stores the player data
