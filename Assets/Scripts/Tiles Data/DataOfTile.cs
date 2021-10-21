@@ -11,7 +11,11 @@ namespace Tiles.Tiledata
         private int _health;
         private int _discovered = 0;
 
+        private byte _type;
+
         private RuleTile _standardBlock;
+        private RuleTile _resourceTile = null;
+
         private MineResources _resource = null;
 
         // If block is Mined
@@ -19,18 +23,21 @@ namespace Tiles.Tiledata
         private bool once = false; // for safety
 
         // constructor with health
-        public DataOfTile(int _health, RuleTile _standardBlock)
+        public DataOfTile(int _health, RuleTile _standardBlock, byte _type)
         {
             this._health = _health;
             this._standardBlock = _standardBlock;
+            this._type = _type;
         }
 
         // constructor with health and resources 
-        public DataOfTile(int _health, RuleTile _standardBlock, MineResources _resource)
+        public DataOfTile(int _health, RuleTile _standardBlock, RuleTile _resourceTile, MineResources _resource, byte _type)
         {          
             this._health = _health;
             this._standardBlock = _standardBlock;
+            this._resourceTile = _resourceTile;
             this._resource = _resource;
+            this._type = _type;
         }
 
         #region "Public getters and setters"
@@ -52,6 +59,13 @@ namespace Tiles.Tiledata
             }
         }
 
+        public byte Type
+        {
+            get
+            {
+                return _type;
+            }
+        }
 
         public RuleTile StandardBlock
         {
@@ -64,7 +78,17 @@ namespace Tiles.Tiledata
                 _standardBlock = value;
             }
         }
-
+        public RuleTile ResourceTile
+        {
+            get
+            {
+                return _resourceTile;
+            }
+            set
+            {
+                _resourceTile = value;
+            }
+        }
 
         public MineResources Resource
         {

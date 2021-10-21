@@ -40,8 +40,8 @@ namespace Bidding
                     {
                         _done = true;
 
-                        if (StoreAllTiles.Instance.Tiles[temp.x + item.x][temp.y + item.y].Resource != null)
-                            StoreAllTiles.Instance.Tilemap.SetTile(temp + item, StoreAllTiles.Instance.Tiles[temp.x + item.x][temp.y + item.y].Resource.ResourceTile);                      
+                        if (StoreAllTiles.Instance.Tiles[temp.x + item.x][temp.y + item.y].ResourceTile != null)
+                            StoreAllTiles.Instance.Tilemap.SetTile(temp + item, StoreAllTiles.Instance.Tiles[temp.x + item.x][temp.y + item.y].ResourceTile);                      
                     }
                 }
             }

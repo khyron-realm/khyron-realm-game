@@ -9,6 +9,7 @@ using CountDown;
 using Manager.Robots;
 using Networking.Game;
 using Save;
+using Networking.GameElements;
 
 
 namespace Manager.Train
@@ -30,6 +31,7 @@ namespace Manager.Train
         private static float s_tempTime = 0;
 
         public static Timer Time;
+        private Coroutine _coroutine;
         #endregion
 
         #region "Awake"
@@ -49,7 +51,7 @@ namespace Manager.Train
             BuildRobotsOperations.OnRobotAdded += Time.AddTime;
 
             HeadquartersManager.OnRobotsUpdate += DisplayNumberOfRobots;
-            HeadquartersManager.OnPlayerDataReceived += DisplayNumberOfRobots;
+            HeadquartersManager.OnPlayerDataReceived += DisplayNumberOfRobots;       
         }
         #endregion
 
@@ -59,14 +61,21 @@ namespace Manager.Train
             if (_once == false)
             {
                 Time.TimeTextState(true);
-                StartCoroutine("BuildingRobots");
+                _coroutine = StartCoroutine(BuildingRobots());
                 _once = true;
             }
         }
         private void StopBuildingRobots()
         {
-            StopCoroutine("BuildingRobots");
+            if(_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+            }
+           
             _once = false;
+
+            _timeRemained.enabled = false;
+            _tempLoadingBar.MaxValue = 1;
 
             Time.TimeTextState(false);
             Time.TotalTime = 0;
@@ -97,7 +106,7 @@ namespace Manager.Train
             {
                 Time.AddTime(GameDataValues.Robots[item.Value._robotId].BuildTime);
             }
-
+           
             Time.DecreaseTime((int)s_tempTime);
         }
 
@@ -125,7 +134,7 @@ namespace Manager.Train
                     _tempLoadingBar.CurrentValue = (int)s_tempTime;
                     Time.DisplayTime(_timeRemained, (int)(GameDataValues.Robots[robot._robotId].BuildTime - s_tempTime));
                     
-                    yield return _time.ActivateTimer();
+                    yield return Time.ActivateTimer();
                 }
 
                 HeadquartersManager.FinishBuildingRequest(queueNumber, robot._robotId, DateTime.UtcNow, true);

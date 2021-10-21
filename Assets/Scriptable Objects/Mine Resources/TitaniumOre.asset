@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d16dada72a7e8f488cc5b29b412fdff, type: 3}
   m_Name: TitaniumOre
   m_EditorClassIdentifier: 
-  ResourceTile: {fileID: 11400000, guid: 77118f0f3d9a16742911bfdbb739f70a, type: 2}
+  Soft1: {fileID: 11400000, guid: d5018684fdcc97845abd9cb04f51ed58, type: 2}
+  Soft2: {fileID: 11400000, guid: 0db08a97511ca0d4bbf93720e42ed035, type: 2}
+  Soft3: {fileID: 11400000, guid: cda3df82d16b0fc44bcef281f208f360, type: 2}
+  Hard1: {fileID: 11400000, guid: f848e4eaf8e6410428123a21469fe008, type: 2}
+  Hard2: {fileID: 11400000, guid: f9d0617e0b91e7343be0cd4cc87e5599, type: 2}
+  Hard3: {fileID: 11400000, guid: 7a2a9be3588b0eb49afa10dac3e73df0, type: 2}
   DropValueMin: 0
   DropValueMax: 0

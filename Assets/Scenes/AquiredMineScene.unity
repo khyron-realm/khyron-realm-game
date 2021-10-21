@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 28766970}
+  - component: {fileID: 28766971}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -155,6 +156,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &28766971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28766969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 698c85ab47e19a24f9902caf307be9d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &40091407
 GameObject:
   m_ObjectHideFlags: 0
@@ -1712,8 +1725,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4b18f1a143d2a459f5c3bc289c4f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groundTileType1: {fileID: 11400000, guid: 5118d2be41218db42bb4c1ad1ac91b45, type: 2}
-  _groundTileType2: {fileID: 11400000, guid: 5fae53a9f05345f48b36ccb480503536, type: 2}
+  _groundTileType11: {fileID: 11400000, guid: 5118d2be41218db42bb4c1ad1ac91b45, type: 2}
+  _groundTileType12: {fileID: 11400000, guid: 583e8bb7ace00204fa045e0b31a15d15, type: 2}
+  _groundTileType13: {fileID: 11400000, guid: 89158f9eaf4257e47b7bae2fdb7e8af2, type: 2}
+  _groundTileType21: {fileID: 11400000, guid: 5fae53a9f05345f48b36ccb480503536, type: 2}
+  _groundTileType22: {fileID: 11400000, guid: 9a7ff9e983d54c84b815590f2bfea84f, type: 2}
+  _groundTileType23: {fileID: 11400000, guid: 5d9ce0c7d64389e4495baf943f47c2a2, type: 2}
   _rows: 45
   _columns: 30
   _diversification: 0.131
