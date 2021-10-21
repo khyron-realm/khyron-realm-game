@@ -140,6 +140,11 @@ namespace Manager.Robots
         }
 
 
+        /// <summary>
+        /// Selects the robot that will be deployed in the mine
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="text"></param>
         private void RobotMine(List<RobotSO> list, Text text)
         {
             _list = list;
@@ -150,6 +155,9 @@ namespace Manager.Robots
             switch (_robotSelected._robotId)
             {
                 case 0:
+                    robotToDeploy = _robotMiner;
+                    break;
+                case 1:
                     robotToDeploy = _robotMiner;
                     break;
                 case 2:

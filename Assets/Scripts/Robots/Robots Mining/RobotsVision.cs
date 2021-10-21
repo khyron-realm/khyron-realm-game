@@ -127,7 +127,7 @@ namespace Manager.Robots.Mining
         {
             if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != null && StoreAllTiles.Instance.Tiles[i][j].Resource != null)
             {
-                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(i), (int)(j), 0), StoreAllTiles.Instance.Tiles[i][j].Resource.ResourceTile);
+                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(i), (int)(j), 0), StoreAllTiles.Instance.Tiles[i][j].ResourceTile);
                 StoreAllTiles.Instance.Tiles[i][j].Discovered += 1;
             }
         }

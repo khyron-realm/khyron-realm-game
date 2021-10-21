@@ -212,7 +212,7 @@ namespace Manager.Robots.Mining
         {
             if (StoreAllTiles.Instance.Tiles[block.x][block.y].Resource != null && StoreAllTiles.Instance.Tiles[block.x][block.y].Discovered > 0)
             {
-                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), StoreAllTiles.Instance.Tiles[block.x][block.y].Resource.ResourceTile);
+                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), StoreAllTiles.Instance.Tiles[block.x][block.y].ResourceTile);
 
                 _resourceMined = StoreAllTiles.Instance.Tiles[block.x][block.y].Resource;
                 _positionOfResource = new Vector3(block.x, block.y, 0);

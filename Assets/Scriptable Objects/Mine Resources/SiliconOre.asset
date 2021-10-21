@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d16dada72a7e8f488cc5b29b412fdff, type: 3}
   m_Name: SiliconOre
   m_EditorClassIdentifier: 
-  ResourceTile: {fileID: 11400000, guid: de7542d07f1053f44b40342d4293b258, type: 2}
+  Soft1: {fileID: 11400000, guid: 9d9fc419741e2a2428467a6f6ae6555a, type: 2}
+  Soft2: {fileID: 11400000, guid: 17b97aae3b3dbb64687eeb500e94a056, type: 2}
+  Soft3: {fileID: 11400000, guid: ae3489001b57dd6488c1754a356772ca, type: 2}
+  Hard1: {fileID: 11400000, guid: e5e8f0147279bcc47ba3d776125df291, type: 2}
+  Hard2: {fileID: 11400000, guid: 9ac437602a373bc4ba9013dd3db1f8e3, type: 2}
+  Hard3: {fileID: 11400000, guid: 3a63a5a48456a534b8e332e2f826640d, type: 2}
   DropValueMin: 0
   DropValueMax: 0

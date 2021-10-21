@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Networking.Game;
+using Networking.GameElements;
 
 
 namespace Manager.Robots
@@ -37,7 +39,8 @@ namespace Manager.Robots
             _probes = new List<RobotSO>();
 
             Buttons = new List<Button>();
-            SeparateRobotsInCategories();
+
+            HeadquartersManager.OnPlayerDataReceived += SeparateRobotsInCategories;
         }
 
 
@@ -46,19 +49,28 @@ namespace Manager.Robots
         /// </summary>
         private void SeparateRobotsInCategories()
         {
-            foreach(RobotSO item in GetRobotsTrained.RobotsBuilt)
+            foreach(Robot item in HeadquartersManager.player.Robots)
             {
-                if(item._robotId == 0)
+                if(item.Id == 0)
                 {
-                    _workers.Add(item);
+                    for (int i = 0; i < item.Count; i++)
+                    {
+                        _workers.Add(RobotsManager.robots[0]);
+                    }                   
                 }
-                if(item._robotId == 1)
+                if(item.Id == 1)
                 {
-                    _crushers.Add(item);
+                    for (int i = 0; i < item.Count; i++)
+                    {
+                        _crushers.Add(RobotsManager.robots[1]);
+                    }                   
                 }
-                if (item._robotId == 2)
+                if (item.Id == 2)
                 {
-                    _probes.Add(item);
+                    for (int i = 0; i < item.Count; i++)
+                    {
+                        _probes.Add(RobotsManager.robots[2]);
+                    }                 
                 }
             }
 
@@ -137,6 +149,12 @@ namespace Manager.Robots
                     item.GetComponent<DeployRobot>().DeselectRobot();
                 }
             }
+        }
+
+
+        private void OnDestroy()
+        {
+            HeadquartersManager.OnPlayerDataReceived -= SeparateRobotsInCategories;
         }
     }
 }
