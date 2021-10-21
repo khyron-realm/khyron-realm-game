@@ -11,12 +11,20 @@ namespace Authentification
     public class LogOut : MonoBehaviour
     {
         [SerializeField] private ChangeScene _scene;
-        
+
+        private void Awake()
+        {
+            LoginManager.OnSuccessfulLogout += SuccessfulLogout;
+        }
+
         public void  Disconnect()
         {
-            LoginManager.Logout();
-            Delete();
+            LoginManager.Logout();          
+        }
 
+        private void SuccessfulLogout()
+        {
+            Delete();
             _scene.GoToScene();
         }
 
@@ -29,6 +37,12 @@ namespace Authentification
             }
             catch
             {}
+        }
+
+
+        private void OnDestroy()
+        {
+            LoginManager.OnSuccessfulLogout -= SuccessfulLogout;
         }
     }
 }
