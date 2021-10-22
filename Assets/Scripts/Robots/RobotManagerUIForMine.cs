@@ -48,7 +48,7 @@ namespace Manager.Robots
         /// </summary>
         private void SeparateRobotsInCategories()
         {
-            foreach(Robot item in HeadquartersManager.player.Robots)
+            foreach(Robot item in HeadquartersManager.Player.Robots)
             {
                 if(item.Id == 0)
                 {

@@ -35,9 +35,9 @@ namespace Manager.Upgrade
             _timer.TimeTextState(false);
 
             HeadquartersManager.OnUpgradingAccepted += UpgradingAccepted;
-            HeadquartersManager.OnUpgradingRejected += UpgradingRejected;
+            HeadquartersManager.OnUpgradingError += UpgradingError;
 
-            HeadquartersManager.OnFinishUpgradingAccepted += FinishedUpgrading;
+            HeadquartersManager.OnFinishUpgradingError += FinishedUpgrading;
 
             ManageTasks.OnUpgradingWorking += UpgradeInProgress;
         }
@@ -67,7 +67,7 @@ namespace Manager.Upgrade
         {
             UpgradingMethod(GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime * 60);
         }
-        private void UpgradingRejected(byte errorId)
+        private void UpgradingError(byte errorId)
         {
             print("Upgrade rejected");
         }
@@ -140,9 +140,9 @@ namespace Manager.Upgrade
             _robotManager.OnButtonPressed -= DisplayRobotToUpgrade;
 
             HeadquartersManager.OnUpgradingAccepted -= UpgradingAccepted;
-            HeadquartersManager.OnUpgradingRejected -= UpgradingRejected;
+            HeadquartersManager.OnUpgradingError -= UpgradingError;
 
-            HeadquartersManager.OnFinishUpgradingAccepted -= FinishedUpgrading;
+            HeadquartersManager.OnFinishUpgradingError -= FinishedUpgrading;
 
             ManageTasks.OnUpgradingWorking -= UpgradeInProgress;
         }

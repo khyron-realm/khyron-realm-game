@@ -20,9 +20,9 @@ namespace Manager.Convert
         private void Awake()
         {
             HeadquartersManager.OnConversionAccepted += ConversionAccepted;
-            HeadquartersManager.OnConversionRejected += ConversionRejected;
+            HeadquartersManager.OnConversionError += ConversionError;
 
-            HeadquartersManager.OnFinishConversionAccepted += FinishConversionAccepted;
+            HeadquartersManager.OnFinishConversionError += FinishConversionError;
 
             ManageTasks.OnConvertingWorking += CheckForConversionInProgress;
 
@@ -55,7 +55,7 @@ namespace Manager.Convert
         {
             ExecuteConversion(GameDataValues.ConversionTime * 60);
         }
-        private void ConversionRejected(byte errorId)
+        private void ConversionError(byte errorId)
         {
             print("Conversion rejected");
         }
@@ -83,7 +83,7 @@ namespace Manager.Convert
         }
 
 
-        private void FinishConversionAccepted()
+        private void FinishConversionError()
         {
             _button.enabled = true;
             _timer.TimeTextState(false);
@@ -92,10 +92,10 @@ namespace Manager.Convert
 
         private void OnDestroy()
         {
-            HeadquartersManager.OnFinishConversionAccepted -= FinishConversionAccepted;
+            HeadquartersManager.OnFinishConversionError -= FinishConversionError;
             HeadquartersManager.OnConversionAccepted -= ConversionAccepted;
 
-            HeadquartersManager.OnConversionRejected -= ConversionRejected;
+            HeadquartersManager.OnConversionError -= ConversionError;
 
             ManageTasks.OnConvertingWorking -= CheckForConversionInProgress;
         }

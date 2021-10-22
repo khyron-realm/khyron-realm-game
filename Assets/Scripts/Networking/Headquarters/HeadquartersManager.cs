@@ -14,8 +14,8 @@ namespace Networking.Headquarters
     public class HeadquartersManager : MonoBehaviour
     {
         public static bool ShowDebug = true;
-        public static PlayerData player;
-        public static GameData game;
+        public static PlayerData Player;
+        public static GameData Game;
 
         #region Handlers
 
@@ -23,37 +23,31 @@ namespace Networking.Headquarters
         public delegate void PlayerDataUnavailableEventHandler();
         public delegate void GameDataReceivedEventHandler();
         public delegate void GameDataUnavailableEventHandler();
-        public delegate void FinishConversionAcceptedEventHandler();
-        public delegate void ConversionAcceptedEventHandler();
-        public delegate void ConversionRejectedEventHandler(byte errorId);
-        public delegate void FinishUpgradeAcceptedEventHandler();
-        public delegate void UpgradingAcceptedEventHandler();
-        public delegate void UpgradingRejectedEventHandler(byte errorId);
-        public delegate void FinishBuildAcceptedEventHandler();
-        public delegate void CancelBuildAcceptedEventHandler(byte taskType);
-        public delegate void BuildingAcceptedEventHandler();
-        public delegate void BuildingRejectedEventHandler(byte errorId);
+        public delegate void ConversionErrorEventHandler(byte errorId);
+        public delegate void FinishConversionErrorEventHandler(byte errorId);
+        public delegate void UpgradingErrorEventHandler(byte errorId);
+        public delegate void FinishUpgradeErrorEventHandler(byte errorId);
+        public delegate void BuildingErrorEventHandler(byte errorId);
+        public delegate void FinishBuildErrorEventHandler(byte errorId);
+        public delegate void CancelBuildErrorEventHandler(byte errorId);
         public static event PlayerDataReceivedEventHandler OnPlayerDataReceived;
         public static event PlayerDataUnavailableEventHandler OnPlayerDataUnavailable;
         public static event GameDataReceivedEventHandler OnGameDataReceived;
         public static event GameDataUnavailableEventHandler OnGameDataUnavailable;
-        public static event FinishConversionAcceptedEventHandler OnFinishConversionAccepted;
-        public static event ConversionAcceptedEventHandler OnConversionAccepted;
-        public static event ConversionRejectedEventHandler OnConversionRejected;
-        public static event FinishUpgradeAcceptedEventHandler OnFinishUpgradingAccepted;
-        public static event UpgradingAcceptedEventHandler OnUpgradingAccepted;
-        public static event UpgradingRejectedEventHandler OnUpgradingRejected;
-        public static event FinishBuildAcceptedEventHandler OnFinishBuildingAccepted;
-        public static event CancelBuildAcceptedEventHandler OnCancelBuildingAccepted;
-        public static event BuildingAcceptedEventHandler OnBuildingAccepted;
-        public static event BuildingRejectedEventHandler OnBuildingRejected;
+        public static event ConversionErrorEventHandler OnConversionError;
+        public static event FinishConversionErrorEventHandler OnFinishConversionError;
+        public static event UpgradingErrorEventHandler OnUpgradingError;
+        public static event FinishUpgradeErrorEventHandler OnFinishUpgradingError;
+        public static event BuildingErrorEventHandler OnBuildingError;
+        public static event FinishBuildErrorEventHandler OnFinishBuildingError;
+        public static event CancelBuildErrorEventHandler OnCancelBuildingError;
 
         #endregion
         
         private void Awake()
         {
-            player = null;
-            game = null;
+            Player = null;
+            Game = null;
             NetworkManager.Client.MessageReceived += OnDataHandler;
         }
 
@@ -76,7 +70,6 @@ namespace Networking.Headquarters
                     PlayerConnected(message);
                     break;
                 }
-                    
                 case HeadquartersTags.PlayerDisconnected:
                 {
                     PlayerDisconnected(message);
@@ -88,7 +81,6 @@ namespace Networking.Headquarters
                     GetPlayerData(message);
                     break;
                 }
-
                 case HeadquartersTags.PlayerDataUnavailable:
                 {
                     PlayerDataUnavailable(message);
@@ -100,70 +92,47 @@ namespace Networking.Headquarters
                     GetGameData(message);
                     break;
                 }
-
                 case HeadquartersTags.GameDataUnavailable:
                 {
                     GameDataUnavailable(message);
                     break;
                 }
 
-                case HeadquartersTags.FinishConversionAccepted:
+                case HeadquartersTags.ConvertResourcesError:
                 {
-                    FinishConversionAccepted(message);
+                    ConversionError(message);
+                    break;
+                }
+                case HeadquartersTags.FinishConversionError:
+                {
+                    FinishConversionError(message);
                     break;
                 }
 
-                case HeadquartersTags.ConversionAccepted:
+                case HeadquartersTags.UpgradeRobotError:
                 {
-                    ConversionAccepted(message);
+                    UpgradeRobotError(message);
                     break;
                 }
-                    
-                case HeadquartersTags.ConversionRejected:
+                case HeadquartersTags.FinishUpgradeError:
                 {
-                    ConversionRejected(message);
-                    break;
-                }
-
-                case HeadquartersTags.FinishUpgradeAccepted:
-                {
-                    FinishUpgradeAccepted(message);
-                    break;
-                }
-                    
-                case HeadquartersTags.UpgradeRobotAccepted:
-                {
-                    UpgradeRobotAccepted(message);
-                    break;
-                }
-                    
-                case HeadquartersTags.UpgradeRobotRejected:
-                {
-                    UpgradeRobotRejected(message);
+                    FinishUpgradeError(message);
                     break;
                 }
 
-                case HeadquartersTags.FinishBuildAccepted:
+                case HeadquartersTags.BuildRobotError:
                 {
-                    FinishBuildAccepted(message);
+                    BuildRobotError(message);
                     break;
                 }
-                
-                case HeadquartersTags.CancelBuildAccepted:
+                case HeadquartersTags.FinishBuildError:
                 {
-                    CancelBuildAccepted(message);
+                    FinishBuildError(message);
                     break;
                 }
-
-                case HeadquartersTags.BuildRobotAccepted:
+                case HeadquartersTags.CancelBuildError:
                 {
-                    BuildRobotAccepted(message);
-                    break;
-                }
-                    
-                case HeadquartersTags.BuildRobotRejected:
-                {
-                    BuildRobotRejected(message);
+                    CancelBuildError(message);
                     break;
                 }
             }
@@ -202,24 +171,24 @@ namespace Networking.Headquarters
             if (ShowDebug) Debug.Log("Received player data");
             
             using var reader = message.GetReader();
-            player = reader.ReadSerializable<PlayerData>();
+            Player = reader.ReadSerializable<PlayerData>();
 
             if (ShowDebug)
             {
-                Debug.Log("Name = " + player.Id);
-                Debug.Log("Level = " + player.Level);
-                Debug.Log("Experience = " + player.Experience);
-                Debug.Log("Energy = " + player.Energy);
-                foreach(var r in player.Resources)
+                Debug.Log("Name = " + Player.Id);
+                Debug.Log("Level = " + Player.Level);
+                Debug.Log("Experience = " + Player.Experience);
+                Debug.Log("Energy = " + Player.Energy);
+                foreach(var r in Player.Resources)
                 {
                     Debug.Log(" - resource = " + r.Name);
                 }
-                foreach(var r in player.Robots)
+                foreach(var r in Player.Robots)
                 {
                     Debug.Log(" - robot = " + r.Name);
                 }
 
-                BuildTask[] taskQueue = player.TaskQueue;
+                BuildTask[] taskQueue = Player.TaskQueue;
                 Debug.Log(taskQueue.Length == 0 ? "No tasks in progress" : "Tasks in progress");
 
                 foreach (BuildTask task in taskQueue)
@@ -232,26 +201,7 @@ namespace Networking.Headquarters
             
             OnPlayerDataReceived?.Invoke();
         }
-
-        /// <summary>
-        ///     Receive game data from the DarkRift server
-        /// </summary>
-        /// <param name="message">The message received</param>
-        private static void GetGameData(Message message)
-        {
-            if (ShowDebug) Debug.Log("Received game data");
-            
-            using var reader = message.GetReader();
-            game = reader.ReadSerializable<Game.GameData>();
-
-            if (ShowDebug)
-            {
-                Debug.Log("Game parameters version " + game.Version);
-            }
-            
-            OnGameDataReceived?.Invoke();
-        }
-
+        
         /// <summary>
         ///     Receive player data unavailable message
         /// </summary>
@@ -262,6 +212,25 @@ namespace Networking.Headquarters
         }
         
         /// <summary>
+        ///     Receive game data from the DarkRift server
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void GetGameData(Message message)
+        {
+            if (ShowDebug) Debug.Log("Received game data");
+            
+            using var reader = message.GetReader();
+            Game = reader.ReadSerializable<Game.GameData>();
+
+            if (ShowDebug)
+            {
+                Debug.Log("Game parameters version " + Game.Version);
+            }
+            
+            OnGameDataReceived?.Invoke();
+        }
+
+        /// <summary>
         ///     Receive game data unavailable message
         /// </summary>
         /// <param name="message">The message received</param>
@@ -271,222 +240,108 @@ namespace Networking.Headquarters
         }
 
         /// <summary>
-        ///     Receive the cancel conversion accepted confirmation
+        ///     Receive the conversion error message
         /// </summary>
         /// <param name="message">The message received</param>
-        private static void FinishConversionAccepted(Message message)
-        {
-            OnFinishConversionAccepted?.Invoke();
-        }
-        
-        /// <summary>
-        ///     Receive the conversion accepted confirmation
-        /// </summary>
-        /// <param name="message">The message received</param>
-        private static void ConversionAccepted(Message message)
-        {
-            using var reader = message.GetReader();
-
-            OnConversionAccepted?.Invoke();
-        }
-
-        /// <summary>
-        ///     Receive the conversion rejected confirmation
-        /// </summary>
-        /// <param name="message">The message received</param>
-        private static void ConversionRejected(Message message)
+        private static void ConversionError(Message message)
         {
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
-                Debug.LogWarning("Conversion rejected error data received");
+                Debug.LogWarning("Conversion error incorrect data received");
                 return;
             }
-
-            OnConversionRejected?.Invoke(reader.ReadByte());
+            OnConversionError?.Invoke(reader.ReadByte());
         }
         
         /// <summary>
-        ///     Receive the cancel upgrade robot accepted confirmation
+        ///     Receive the finish conversion error message
         /// </summary>
         /// <param name="message">The message received</param>
-        private static void FinishUpgradeAccepted(Message message)
-        {
-            OnFinishUpgradingAccepted?.Invoke();
-        }
-        
-        /// <summary>
-        ///     Receive the upgrade robot accepted confirmation
-        /// </summary>
-        /// <param name="message">The message received</param>
-        private static void UpgradeRobotAccepted(Message message)
-        {
-            using var reader = message.GetReader();
-
-            OnUpgradingAccepted?.Invoke();
-        }
-
-        /// <summary>
-        ///     Receive the upgrade robot rejected confirmation
-        /// </summary>
-        /// <param name="message">The message received</param>
-        private static void UpgradeRobotRejected(Message message)
+        private static void FinishConversionError(Message message)
         {
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
-                Debug.LogWarning("Upgrading rejected error data received");
+                Debug.LogWarning("Finish conversion error incorrect data received");
                 return;
             }
-
-            OnUpgradingRejected?.Invoke(reader.ReadByte());
+            OnFinishConversionError?.Invoke(reader.ReadByte());
         }
         
         /// <summary>
-        ///     Receive the finish build robot accepted confirmation
+        ///     Receive the upgrade robot error message
         /// </summary>
         /// <param name="message">The message received</param>
-        private static void FinishBuildAccepted(Message message)
-        {
-            OnFinishBuildingAccepted?.Invoke();
-        }
-        
-        /// <summary>
-        ///     Receive the cancel build robot accepted confirmation
-        /// </summary>
-        /// <param name="message">The message received</param>
-        private static void CancelBuildAccepted(Message message)
+        private static void UpgradeRobotError(Message message)
         {
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
-                Debug.LogWarning("Building cancelled error data received");
+                Debug.LogWarning("Upgrade robot error incorrect data received");
                 return;
             }
-
-            OnCancelBuildingAccepted?.Invoke(reader.ReadByte());
+            OnUpgradingError?.Invoke(reader.ReadByte());
         }
         
         /// <summary>
-        ///     Receive the build robot accepted confirmation
+        ///     Receive the finish upgrade robot error message
         /// </summary>
         /// <param name="message">The message received</param>
-        private static void BuildRobotAccepted(Message message)
-        {
-            using var reader = message.GetReader();
-
-            OnBuildingAccepted?.Invoke();
-        }
-
-        /// <summary>
-        ///     Receive the build robot rejected confirmation
-        /// </summary>
-        /// <param name="message">The message received</param>
-        private static void BuildRobotRejected(Message message)
+        private static void FinishUpgradeError(Message message)
         {
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
-                Debug.LogWarning("Building rejected error data received");
+                Debug.LogWarning("Finish upgrade robot error incorrect data received");
                 return;
             }
-
-            OnBuildingRejected?.Invoke(reader.ReadByte());
+            OnFinishUpgradingError?.Invoke(reader.ReadByte());
         }
-
+        
         /// <summary>
-        ///     Receive a level update with the new value
+        ///     Receive the build robot error message
         /// </summary>
         /// <param name="message">The message received</param>
-        public static void LevelUpdate(Message message)
+        private static void BuildRobotError(Message message)
         {
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
-                Debug.LogWarning("Level update error data received");
+                Debug.LogWarning("Build robot error incorrect data received");
                 return;
             }
-
-            player.Level = reader.ReadByte();
-            
-            OnLevelUpdate?.Invoke();
+            OnBuildingError?.Invoke(reader.ReadByte());
         }
         
         /// <summary>
-        ///     Receive an experience update with the new value
+        ///     Receive the finish upgrade robot error message
         /// </summary>
         /// <param name="message">The message received</param>
-        public static void ExperienceUpdate(Message message)
+        private static void FinishBuildError(Message message)
         {
             using var reader = message.GetReader();
-            if (reader.Length != 2)
-            {
-                Debug.LogWarning("Experience update error data received");
-                return;
-            }
-
-            player.Experience = reader.ReadUInt16();
-            
-            
-            OnExperienceUpdate?.Invoke();
-        }
-        
-        /// <summary>
-        ///     Receive an energy update with the new value
-        /// </summary>
-        /// <param name="message">The message received</param>
-        public static void EnergyUpdate(Message message)
-        {
-            using var reader = message.GetReader();
-            if (reader.Length != 4)
-            {
-                Debug.LogWarning("Energy update error data received");
-                return;
-            }
-
-            player.Energy = reader.ReadUInt32();
-            
-            OnEnergyUpdate?.Invoke();
-        }
-        
-        /// <summary>
-        ///     Receive a resources update with the new value
-        /// </summary>
-        /// <param name="message">The message received</param>
-        public static void ResourcesUpdate(Message message)
-        {
-            using var reader = message.GetReader();
-            /*
             if (reader.Length != 1)
             {
-                Debug.LogWarning("Resources update error data received");
+                Debug.LogWarning("Finish build robot error incorrect data received");
                 return;
             }
-            */
-
-            player.Resources = reader.ReadSerializables<Resource>();
-            
-            OnResourcesUpdate?.Invoke();
+            OnFinishBuildingError?.Invoke(reader.ReadByte());
         }
         
         /// <summary>
-        ///     Receive a robots update with the new value
+        ///     Receive the cancel upgrade robot error message
         /// </summary>
         /// <param name="message">The message received</param>
-        public static void RobotsUpdate(Message message)
+        private static void CancelBuildError(Message message)
         {
             using var reader = message.GetReader();
-            /*
             if (reader.Length != 1)
             {
-                Debug.LogWarning("Level update error data received");
+                Debug.LogWarning("Cancel build robot error incorrect data received");
                 return;
             }
-            */
-
-            player.Robots = reader.ReadSerializables<Robot>();
-            
-            OnRobotsUpdate?.Invoke();
+            OnCancelBuildingError?.Invoke(reader.ReadByte());
         }
 
         #endregion
@@ -514,30 +369,35 @@ namespace Networking.Headquarters
             
             if(ShowDebug) Debug.Log("Requesting game data ...");
         }
-        
+
         /// <summary>
         ///     Request for converting the resources to energy
         /// </summary>
         /// <param name="startTime">The starting time of the task</param>
-        public static void ConversionRequest(DateTime startTime)
+        /// <param name="newResources">The new player resources</param>
+        public static void ConversionRequest(DateTime startTime, Resource[] newResources)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(startTime.ToBinary());
+            writer.Write(newResources);
             using var msg = Message.Create(HeadquartersTags.ConvertResources, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Trying to convert resources ...");
+            if(ShowDebug) Debug.Log("Sending resource conversion to the server");
         }
         
         /// <summary>
         ///     Request for finishing the conversion of the resources to energy
         /// </summary>
-        public static void FinishConversionRequest()
+        /// <param name="newEnergy">The new energy value</param>
+        public static void FinishConversionRequest(uint newEnergy)
         {
-            using var msg = Message.CreateEmpty(HeadquartersTags.FinishConversion);
+            using var writer = DarkRiftWriter.Create();
+            writer.Write(newEnergy);
+            using var msg = Message.Create(HeadquartersTags.FinishConversion, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-            
-            if(ShowDebug) Debug.Log("Finishing the conversion of resources ...");
+
+            if(ShowDebug) Debug.Log("Sending finish resource conversion to the server");
         }
 
         /// <summary>
@@ -545,28 +405,33 @@ namespace Networking.Headquarters
         /// </summary>
         /// <param name="robotId">The robot type</param>
         /// <param name="startTime">The starting time of the task</param>
-        public static void UpgradingRequest(byte robotId, DateTime startTime)
+        /// <param name="newEnergy">The new energy value</param>
+        public static void UpgradingRequest(byte robotId, DateTime startTime, uint newEnergy)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(robotId);
             writer.Write(startTime.ToBinary());
+            writer.Write(newEnergy);
             using var msg = Message.Create(HeadquartersTags.UpgradeRobot, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Trying to upgrade robot ...");
+            if(ShowDebug) Debug.Log("Sending robot upgrade to the server");
         }
-        
+
         /// <summary>
         ///     Request for finishing the upgrading of the robot
         /// </summary>
-        public static void FinishUpgradingRequest(byte robotId)
+        /// <param name="robotId">The robot type</param>
+        /// <param name="newRobots">The new robot values</param>
+        public static void FinishUpgradingRequest(byte robotId, Robot[] newRobots)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(robotId);
+            writer.Write(newRobots);
             using var msg = Message.Create(HeadquartersTags.FinishUpgrade, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Finishing the upgrading of the robot ...");
+            if(ShowDebug) Debug.Log("Sending finish robot upgrade to the server");
         }
 
         /// <summary>
@@ -575,15 +440,18 @@ namespace Networking.Headquarters
         /// <param name="queueNumber">The number of the robot in the queue</param>
         /// <param name="robotId">The robot type</param>
         /// <param name="startTime">The starting time of the task</param>
-        public static void BuildingRequest(ushort queueNumber, byte robotId, DateTime startTime)
+        /// <param name="newEnergy">The new energy value</param>
+        public static void BuildingRequest(ushort queueNumber, byte robotId, DateTime startTime, uint newEnergy)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(queueNumber);
             writer.Write(robotId);
             writer.Write(startTime.ToBinary());
+            writer.Write(newEnergy);
             using var msg = Message.Create(HeadquartersTags.BuildRobot, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-            if(ShowDebug) Debug.Log("Trying to build robot ...");
+            
+            if(ShowDebug) Debug.Log("Sending robot build to the server");
         }
 
         /// <summary>
@@ -591,23 +459,27 @@ namespace Networking.Headquarters
         /// </summary>
         /// <param name="queueNumber">The number of the robot in the queue</param>
         /// <param name="robotId">The type of the robot</param>
+        /// <param name="newRobots">The new robot values</param>
+        /// <param name="newEnergy">The new energy value</param>
         /// <param name="startTime">The starting task time</param>
-        /// <param name="isFinished">True if the task is finished or false otherwise</param>
-        /// <param name="inProgress">True if the task is in progress or false otherwise</param>
-        public static void FinishBuildingRequest(ushort queueNumber, byte robotId, DateTime startTime, bool isFinished, bool inProgress = true)
+        /// <param name="isFinished">True if the task is finished or false if cancelled</param>
+        public static void FinishBuildingRequest(ushort queueNumber, byte robotId, Robot[] newRobots, uint newEnergy, DateTime startTime, bool isFinished)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(queueNumber);
             writer.Write(robotId);
-            writer.Write(startTime.ToBinary());
-            using var msg =
-                Message.Create(
-                    isFinished
-                        ? HeadquartersTags.FinishBuild
-                        : inProgress ? HeadquartersTags.CancelInProgressBuild : HeadquartersTags.CancelOnHoldBuild, writer);
+            if (isFinished)
+            {
+                writer.Write(newRobots);
+            }
+            else
+            {
+                writer.Write(newEnergy);
+            }
+            using var msg = Message.Create(isFinished ? HeadquartersTags.FinishBuild : HeadquartersTags.CancelBuild, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Finishing the building of the robot ...");
+            if(ShowDebug) Debug.Log("Sending " + (isFinished ? "finish" : "cancel") + " robot build to the server");
         }
 
         #endregion

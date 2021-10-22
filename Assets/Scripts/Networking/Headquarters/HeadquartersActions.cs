@@ -11,21 +11,13 @@ namespace Networking.Headquarters
             HeadquartersManager.OnPlayerDataUnavailable += PlayerDataUnavailable;
             HeadquartersManager.OnGameDataReceived += GameDataReceived;
             HeadquartersManager.OnGameDataUnavailable += GameDataUnavailable;
-            HeadquartersManager.OnFinishConversionAccepted += FinishConversionAccepted;
-            HeadquartersManager.OnConversionAccepted += ConversionAccepted;
-            HeadquartersManager.OnConversionRejected += ConversionRejected;
-            HeadquartersManager.OnFinishUpgradingAccepted += FinishUpgradingAccepted;
-            HeadquartersManager.OnUpgradingAccepted += UpgradingAccepted;
-            HeadquartersManager.OnUpgradingRejected += UpgradingRejected;
-            HeadquartersManager.OnFinishBuildingAccepted += FinishBuildingAccepted;
-            HeadquartersManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
-            HeadquartersManager.OnBuildingAccepted += BuildingAccepted;
-            HeadquartersManager.OnBuildingRejected += BuildingRejected;
-            HeadquartersManager.OnLevelUpdate += LevelUpdate;
-            HeadquartersManager.OnExperienceUpdate += ExperienceUpdate;
-            HeadquartersManager.OnEnergyUpdate += EnergyUpdate;
-            HeadquartersManager.OnResourcesUpdate += ResourcesUpdate;
-            HeadquartersManager.OnRobotsUpdate += RobotsUpdate;
+            HeadquartersManager.OnConversionError += ConversionError;
+            HeadquartersManager.OnFinishConversionError += FinishConversionError;
+            HeadquartersManager.OnUpgradingError += UpgradingError;
+            HeadquartersManager.OnFinishUpgradingError += FinishUpgradingError;
+            HeadquartersManager.OnBuildingError += BuildingError;
+            HeadquartersManager.OnFinishBuildingError += FinishBuildingError;
+            HeadquartersManager.OnCancelBuildingError += CancelBuildingError;
         }
 
         private void OnDestroy()
@@ -34,20 +26,13 @@ namespace Networking.Headquarters
             HeadquartersManager.OnPlayerDataUnavailable -= PlayerDataUnavailable;
             HeadquartersManager.OnGameDataReceived -= GameDataReceived;
             HeadquartersManager.OnGameDataUnavailable -= GameDataUnavailable;
-            HeadquartersManager.OnFinishConversionAccepted -= FinishConversionAccepted;
-            HeadquartersManager.OnConversionAccepted -= ConversionAccepted;
-            HeadquartersManager.OnConversionRejected -= ConversionRejected;
-            HeadquartersManager.OnFinishUpgradingAccepted -= FinishUpgradingAccepted;
-            HeadquartersManager.OnUpgradingAccepted -= UpgradingAccepted;
-            HeadquartersManager.OnUpgradingRejected -= UpgradingRejected;
-            HeadquartersManager.OnFinishBuildingAccepted -= FinishBuildingAccepted;
-            HeadquartersManager.OnBuildingAccepted -= BuildingAccepted;
-            HeadquartersManager.OnBuildingRejected -= BuildingRejected;
-            HeadquartersManager.OnLevelUpdate -= LevelUpdate;
-            HeadquartersManager.OnExperienceUpdate -= ExperienceUpdate;
-            HeadquartersManager.OnEnergyUpdate -= EnergyUpdate;
-            HeadquartersManager.OnResourcesUpdate -= ResourcesUpdate;
-            HeadquartersManager.OnRobotsUpdate -= RobotsUpdate;
+            HeadquartersManager.OnConversionError -= ConversionError;
+            HeadquartersManager.OnFinishConversionError -= FinishConversionError;
+            HeadquartersManager.OnUpgradingError -= UpgradingError;
+            HeadquartersManager.OnFinishUpgradingError -= FinishUpgradingError;
+            HeadquartersManager.OnBuildingError -= BuildingError;
+            HeadquartersManager.OnFinishUpgradingError -= FinishUpgradingError;
+            HeadquartersManager.OnFinishBuildingError -= FinishBuildingError;
         }
         
         #region ServerRequests
@@ -65,25 +50,29 @@ namespace Networking.Headquarters
         public void ConvertResources()
         {
             DateTime startTime = DateTime.Now;
-            HeadquartersManager.ConversionRequest(startTime);
+            Resource[] newResources = new Resource[] { };
+            HeadquartersManager.ConversionRequest(startTime, newResources);
         }
 
         public void FinishConvertResources()
         {
-            HeadquartersManager.FinishConversionRequest();
+            uint newEnergy = 0;
+            HeadquartersManager.FinishConversionRequest(newEnergy);
         }
         
         public void UpgradeRobot()
         {
             byte robotId = 0;
             DateTime startTime = DateTime.Now;
-            HeadquartersManager.UpgradingRequest(robotId, startTime);
+            uint newEnergy = 0;
+            HeadquartersManager.UpgradingRequest(robotId, startTime, newEnergy);
         }
 
         public void FinishUpgradeRobot()
         {
             byte robotId = 0;
-            HeadquartersManager.FinishUpgradingRequest(robotId);
+            Robot[] newRobots = new Robot[] { };
+            HeadquartersManager.FinishUpgradingRequest(robotId, newRobots);
         }
 
         public void BuildRobot()
@@ -97,31 +86,26 @@ namespace Networking.Headquarters
             // if build task in progress -> starting time of the task
             // else -> 0
             DateTime startTime = DateTime.UtcNow;
-            HeadquartersManager.BuildingRequest(queueNumber, robotId, startTime);
+            uint newEnergy = 0;
+            HeadquartersManager.BuildingRequest(queueNumber, robotId, startTime, newEnergy);
         }
 
         public void FinishBuildRobot()
         {
             byte queueNumber = 0;
             byte robotId = 0;
-            DateTime startTime = DateTime.Now;
-            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, startTime, true);
+            DateTime startTime = DateTime.UtcNow;
+            Robot[] newRobots = new Robot[] { };
+            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, newRobots, 0, startTime, true);
         }
         
-        public void CancelInProgressBuildRobot()
+        public void CancelBuildRobot()
         {
             byte queueNumber = 0;
             byte robotId = 0;
-            DateTime startTime = DateTime.Now;
-            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, startTime, false);
-        }
-        
-        public void CancelOnHoldBuildRobot()
-        {
-            byte queueNumber = 0;
-            byte robotId = 0;
-            DateTime startTime = DateTime.Now;
-            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, startTime, false, false);
+            DateTime startTime = DateTime.UtcNow;
+            uint newEnergy = 0;
+            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, new Robot[]{}, newEnergy, startTime, false);
         }
 
         #endregion
@@ -148,87 +132,55 @@ namespace Networking.Headquarters
             Debug.Log("Game data unavailable");
         }
 
-        private void FinishConversionAccepted()
+        private void ConversionError(byte errorId)
         {
-            Debug.Log("Cancel conversion accepted");
+            // 0 - add task failed 
+            // 1 - set new data failed
+            Debug.Log("Resource conversion error");
         }
         
-        private void ConversionAccepted()
+        private void FinishConversionError(byte errorId)
         {
-            Debug.Log("Conversion accepted");
-        }
-        
-        private void ConversionRejected(byte errorId)
-        {
-            // 1 - task already exists (conversion already in progress)
-            // 2 - not enough resources
-            Debug.Log("Conversion rejected");
+            // 0 - remove task failed 
+            // 1 - set new data failed
+            Debug.Log("Finish conversion error");
         }
 
-        private void FinishUpgradingAccepted()
+        private void UpgradingError(byte errorId)
         {
-            Debug.Log("Cancel upgrading accepted");
+            // 0 - add task failed 
+            // 1 - set new data failed
+            Debug.Log("Robot upgrade error");
         }
 
-        private void UpgradingAccepted()
+        private void FinishUpgradingError(byte errorId)
         {
-            Debug.Log("Upgrading accepted");
+            // 0 - remove task failed
+            // 1 - set new data failed
+            Debug.Log("Finish robot upgrade error");
+        }
+        
+        private void BuildingError(byte errorId)
+        {
+            // 0 - add task failed 
+            // 1 - set new data failed
+            Debug.Log("Robot build error");
         }
 
-        private void UpgradingRejected(byte errorId)
+        private void FinishBuildingError(byte errorId)
         {
-            // 1 - task already exists (upgrade already in progress)
-            // 2 - not enough energy
-            Debug.Log("Upgrading rejected");
+            // 0 - remove task failed
+            // 1 - set new data failed
+            Debug.Log("Finish robot build error");
+        }
+        
+        private void CancelBuildingError(byte errorId)
+        {
+            // 0 - remove task failed
+            // 1 - set new data failed
+            Debug.Log("Cancel robot build error");
         }
 
-        private void FinishBuildingAccepted()
-        {
-            Debug.Log("Cancel building accepted");
-        }
-        
-        private void CancelBuildingAccepted(byte taskType)
-        {
-            Debug.Log("Cancel building accepted");
-        }
-        
-        private void BuildingAccepted()
-        {
-            Debug.Log("Building accepted");
-        }
-
-        private void BuildingRejected(byte errorId)
-        {
-            // 1 - task already exists (build of robotId and queueNumber already in progress)
-            // 2 - not enough energy
-            Debug.Log("Building rejected");
-        }
-        
-        private void LevelUpdate()
-        {
-            Debug.Log("Level updated");
-        }
-        
-        private void ExperienceUpdate()
-        {
-            Debug.Log("Experience updated");
-        }
-        
-        private void EnergyUpdate()
-        {
-            Debug.Log("Energy updated");
-        }
-        
-        private void ResourcesUpdate()
-        {
-            Debug.Log("Resources updated");
-        }
-        
-        private void RobotsUpdate()
-        {
-            Debug.Log("Robots updated");
-        }
-        
         #endregion
     }
 }

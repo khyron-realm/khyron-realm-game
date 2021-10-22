@@ -114,7 +114,7 @@ namespace Authentification
         /// </summary>
         private void GameDataReceived()
         {
-            GameDataValues.SaveDuringGamePlayPlayerData(HeadquartersManager.game);
+            GameDataValues.SaveDuringGamePlayPlayerData(HeadquartersManager.Game);
             _scene.GoToScene();
         }
         private void GameDataUnavailable()

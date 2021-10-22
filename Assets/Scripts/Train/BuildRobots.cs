@@ -88,7 +88,7 @@ namespace Manager.Train
         {
             int count = 0;
 
-            foreach (Robot item in HeadquartersManager.player.Robots)
+            foreach (Robot item in HeadquartersManager.Player.Robots)
             {
                 count += item.Count;
             }

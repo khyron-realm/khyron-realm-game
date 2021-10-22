@@ -49,10 +49,10 @@ namespace Manager.Store
         }
         private void InitCurrentLevels()
         {
-            _energyBar.CurrentValue = (int)HeadquartersManager.player.Energy;
-            _silliconBar.CurrentValue = (int)HeadquartersManager.player.Resources[0].Count;
-            _lithiumBar.CurrentValue = (int)HeadquartersManager.player.Resources[1].Count;
-            _titaniumBar.CurrentValue = (int)HeadquartersManager.player.Resources[2].Count;
+            _energyBar.CurrentValue = (int)HeadquartersManager.Player.Energy;
+            _silliconBar.CurrentValue = (int)HeadquartersManager.Player.Resources[0].Count;
+            _lithiumBar.CurrentValue = (int)HeadquartersManager.Player.Resources[1].Count;
+            _titaniumBar.CurrentValue = (int)HeadquartersManager.Player.Resources[2].Count;
         }
         private void InitMaximumLevels()
         {
@@ -69,21 +69,21 @@ namespace Manager.Store
         {
             if (energy != null)
                 StopCoroutine(energy);
-            energy = StartCoroutine(BarAnimation(_energyBar, (int)HeadquartersManager.player.Energy));
+            energy = StartCoroutine(BarAnimation(_energyBar, (int)HeadquartersManager.Player.Energy));
         }
         private void ResourcesUpdate()
         {
             if (lithium != null)
                 StopCoroutine(lithium);
-            lithium = StartCoroutine(BarAnimation(_lithiumBar, (int)HeadquartersManager.player.Resources[1].Count));
+            lithium = StartCoroutine(BarAnimation(_lithiumBar, (int)HeadquartersManager.Player.Resources[1].Count));
 
             if (titanium != null)
                 StopCoroutine(titanium);
-            titanium = StartCoroutine(BarAnimation(_titaniumBar, (int)HeadquartersManager.player.Resources[2].Count));
+            titanium = StartCoroutine(BarAnimation(_titaniumBar, (int)HeadquartersManager.Player.Resources[2].Count));
 
             if (silicon != null)
                 StopCoroutine(silicon);
-            silicon = StartCoroutine(BarAnimation(_silliconBar, (int)HeadquartersManager.player.Resources[0].Count));
+            silicon = StartCoroutine(BarAnimation(_silliconBar, (int)HeadquartersManager.Player.Resources[0].Count));
         }
         #endregion
 
@@ -91,11 +91,11 @@ namespace Manager.Store
         #region "Level update"
         private void ExperienceUpdate()
         {
-            StartCoroutine(BarAnimation(_xpBar, (int)HeadquartersManager.player.Experience));
+            StartCoroutine(BarAnimation(_xpBar, (int)HeadquartersManager.Player.Experience));
         }
         private void LevelUpdate()
         {
-            StartCoroutine(BarAnimation(_xpBar, (int)HeadquartersManager.player.Experience));
+            StartCoroutine(BarAnimation(_xpBar, (int)HeadquartersManager.Player.Experience));
             _xpBar.MaxValue = StorePlayerStats.levelsThresholds.levelsThresholds[StorePlayerStats.currentLevel];
         }
         #endregion

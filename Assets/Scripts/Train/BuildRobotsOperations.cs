@@ -39,9 +39,9 @@ namespace Manager.Train
             _managerUI.OnButtonPressed += BuildRobot;
 
             HeadquartersManager.OnBuildingAccepted += BuildingAccepted;
-            HeadquartersManager.OnBuildingRejected += BuildingRejected;
+            HeadquartersManager.OnBuildingError += BuildingError;
 
-            HeadquartersManager.OnCancelBuildingAccepted += CancelBuildingAccepted;
+            HeadquartersManager.OnCancelBuildingError += CancelBuildingError;
 
             ManageTasks.OnBuildingRobotsWorking += RobotsInBuildingProcess;
         }
@@ -133,7 +133,7 @@ namespace Manager.Train
         /// 2 --> Not enough resources
         /// </summary>
         /// <param name="errorId"></param>
-        private void BuildingRejected(byte errorId)
+        private void BuildingError(byte errorId)
         {
             switch(errorId)
             {
@@ -148,7 +148,7 @@ namespace Manager.Train
         #endregion
 
         
-        private void CancelBuildingAccepted(byte taskType)
+        private void CancelBuildingError(byte taskType)
         {
             print("----------------------------------$$$-------------------------------");
             switch (taskType)
@@ -185,9 +185,9 @@ namespace Manager.Train
             _managerUI.OnButtonPressed -= BuildRobot;
 
             HeadquartersManager.OnBuildingAccepted -= BuildingAccepted;
-            HeadquartersManager.OnBuildingRejected -= BuildingRejected;
+            HeadquartersManager.OnBuildingError -= BuildingError;
 
-            HeadquartersManager.OnCancelBuildingAccepted -= CancelBuildingAccepted;
+            HeadquartersManager.OnCancelBuildingError -= CancelBuildingError;
 
             ManageTasks.OnBuildingRobotsWorking -= RobotsInBuildingProcess;
         }

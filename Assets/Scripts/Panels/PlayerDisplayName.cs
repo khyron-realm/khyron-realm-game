@@ -20,7 +20,7 @@ namespace Panels
 
         private void UpdateText()
         {
-            _name.text = HeadquartersManager.player.Id;
+            _name.text = HeadquartersManager.Player.Id;
         }
     }
 }
