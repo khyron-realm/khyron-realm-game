@@ -49,8 +49,6 @@ namespace Networking.Login
         {
             using var message = e.GetMessage();
             
-            Debug.Log("Message tag: " + message.Tag);
-
             // Check if message is for this plugin
             if (message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Login + 1)) return;
 

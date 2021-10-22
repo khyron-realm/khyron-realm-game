@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1021709}
-  - component: {fileID: 1021708}
+  - component: {fileID: 1021705}
   - component: {fileID: 1021707}
   - component: {fileID: 1021706}
   - component: {fileID: 1021704}
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3629fe480b3d64430b590a0ccb1494ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1021706
+--- !u!114 &1021705
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,32 +177,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1021702}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e6e05f7ffdf44dd86c04beb7dbe4c03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  networkClient: {fileID: 1021708}
---- !u!114 &1021707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1021702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c10dc7eadac4e58a96d368d6b8ee4fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1021708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1021702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d2b44c570cb28644b8762e0b13e7c23, type: 3}
+  m_Script: {fileID: 11500000, guid: ffff7897ecac643859b1def42f065027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   host: 127.0.0.1
@@ -230,6 +205,31 @@ MonoBehaviour:
     extraLargeMemoryBlockSize: 4096
     maxExtraLargeMemoryBlocks: 2
     maxMessageReceivedEventArgs: 4
+--- !u!114 &1021706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e6e05f7ffdf44dd86c04beb7dbe4c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkClient: {fileID: 1021705}
+--- !u!114 &1021707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c10dc7eadac4e58a96d368d6b8ee4fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1021709
 Transform:
   m_ObjectHideFlags: 0

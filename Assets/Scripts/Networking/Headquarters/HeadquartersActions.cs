@@ -59,7 +59,9 @@ namespace Networking.Headquarters
 
         public void GetGameData()
         {
-            HeadquartersManager.GameDataRequest();
+            // 0 for the latest version and [version > 0] for checking if the version is up to date
+            ushort version = 0;
+            HeadquartersManager.GameDataRequest(version);
         }
         
         public void ConvertResources()
