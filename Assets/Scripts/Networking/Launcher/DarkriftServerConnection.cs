@@ -357,7 +357,13 @@ namespace Networking.Launcher
             if (invokeFromDispatcher)
             {
                 if (!e.LocalDisconnect)
+                {
                     Debug.Log("Disconnected from server, error: " + e.Error);
+                    
+                    // TO-DO
+                    // open server not available popup
+                    //      - report problem button
+                }
 
                 Dispatcher.InvokeAsync(
                     () =>
@@ -373,7 +379,13 @@ namespace Networking.Launcher
             else
             {
                 if (!e.LocalDisconnect)
+                {
                     Debug.Log("Disconnected from server, error: " + e.Error);
+                    
+                    // TO-DO
+                    // open server not available popup
+                    //      - report problem button
+                }
                 
                 EventHandler<DisconnectedEventArgs> handler = Disconnected;
                 if (handler != null)
