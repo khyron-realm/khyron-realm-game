@@ -6,14 +6,14 @@ namespace Networking.Tags
 
         public const ushort PlayerConnected = 0 + Shift;
         public const ushort PlayerDisconnected = 1 + Shift;
-        
+
         public const ushort RequestFailed = 2 + Shift;
 
         public const ushort PlayerData = 3 + Shift;
         public const ushort PlayerDataUnavailable = 4 + Shift;
         public const ushort GameData = 5 + Shift;
         public const ushort GameDataUnavailable = 6 + Shift;
-        
+
         public const ushort ConvertResources = 7 + Shift;
         public const ushort ConvertResourcesError = 8 + Shift;
         public const ushort FinishConversion = 9 + Shift;

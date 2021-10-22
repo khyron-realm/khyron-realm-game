@@ -7,6 +7,7 @@ using Manager.Robots;
 using Save;
 using CountDown;
 using Networking.Headquarters;
+using PlayerDataUpdate;
 
 
 namespace Manager.Upgrade
@@ -23,7 +24,11 @@ namespace Manager.Upgrade
         #endregion
 
         #region "Private members"
+
         private RobotSO _selectedRobot;
+
+        private static byte Tag = 1;
+
         #endregion
 
         #region "Awake & Start"
@@ -34,10 +39,10 @@ namespace Manager.Upgrade
 
             _timer.TimeTextState(false);
 
-            HeadquartersManager.OnUpgradingAccepted += UpgradingAccepted;
             HeadquartersManager.OnUpgradingError += UpgradingError;
 
-            HeadquartersManager.OnFinishUpgradingError += FinishedUpgrading;
+            PlayerDataOperations.OnEnergyModified += UpgradeCompatible;
+            PlayerDataOperations.OnRobotUpgraded += RobotUpgradeSendFinished;
 
             ManageTasks.OnUpgradingWorking += UpgradeInProgress;
         }
@@ -51,22 +56,23 @@ namespace Manager.Upgrade
         private void UpgradeInProgress(BuildTask task, RobotSO robot)
         {
             _selectedRobot = robot;
-            print(robot._robotId);
             UpgradingMethod((GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime * 60) - TimeTillFinish(task.StartTime));
         }       
         public void UpgradeRobot()
         {
-            HeadquartersManager.UpgradingRequest(_selectedRobot._robotId, DateTime.UtcNow);
+            PlayerDataOperations.PayEnergy(-GameDataValues.Robots[_selectedRobot._robotId].UpgradePrice, Tag);         
+        }
+        private void UpgradeCompatible(byte tag)
+        {
+            if(Tag == tag)
+            {
+                HeadquartersManager.UpgradingRequest(_selectedRobot._robotId, DateTime.UtcNow, HeadquartersManager.Player.Energy);
+                UpgradingMethod(GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime * 60);
+            }
         }
 
 
         #region "Upgrading handlers"
-        //1--> in progress
-        //2--> not enough resources
-        private void UpgradingAccepted()
-        {
-            UpgradingMethod(GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime * 60);
-        }
         private void UpgradingError(byte errorId)
         {
             print("Upgrade rejected");
@@ -105,7 +111,6 @@ namespace Manager.Upgrade
         }
 
 
-
         private IEnumerator Upgrading(int time)
         {
             int temp = 0;
@@ -115,13 +120,20 @@ namespace Manager.Upgrade
                 yield return _timer.ActivateTimer();
             }
 
-            HeadquartersManager.FinishUpgradingRequest(_selectedRobot._robotId);
+            PlayerDataOperations.UpgradeRobot(_selectedRobot._robotId, Tag);     
         }
-        private void FinishedUpgrading()
+
+
+        private void RobotUpgradeSendFinished(byte tag)
         {
-            _timer.TimeTextState(false);
-            _upgradeButton.enabled = true;
-            _robotManager.MakeAllButtonsActive();
+            if(Tag == tag)
+            {
+                HeadquartersManager.FinishUpgradingRequest(_selectedRobot._robotId, HeadquartersManager.Player.Robots[_selectedRobot._robotId]);
+
+                _timer.TimeTextState(false);
+                _upgradeButton.enabled = true;
+                _robotManager.MakeAllButtonsActive();
+            }          
         }
 
 
@@ -139,11 +151,8 @@ namespace Manager.Upgrade
         {
             _robotManager.OnButtonPressed -= DisplayRobotToUpgrade;
 
-            HeadquartersManager.OnUpgradingAccepted -= UpgradingAccepted;
             HeadquartersManager.OnUpgradingError -= UpgradingError;
-
-            HeadquartersManager.OnFinishUpgradingError -= FinishedUpgrading;
-
+            PlayerDataOperations.OnRobotUpgraded += UpgradeCompatible;
             ManageTasks.OnUpgradingWorking -= UpgradeInProgress;
         }
     }

@@ -441,12 +441,13 @@ namespace Networking.Headquarters
         /// <param name="robotId">The robot type</param>
         /// <param name="startTime">The starting time of the task</param>
         /// <param name="newEnergy">The new energy value</param>
-        public static void BuildingRequest(ushort queueNumber, byte robotId, DateTime startTime, uint newEnergy)
+        public static void BuildingRequest(ushort queueNumber, byte robotId, long startTime, uint newEnergy)
         {
             using var writer = DarkRiftWriter.Create();
+
             writer.Write(queueNumber);
             writer.Write(robotId);
-            writer.Write(startTime.ToBinary());
+            writer.Write(startTime);
             writer.Write(newEnergy);
             using var msg = Message.Create(HeadquartersTags.BuildRobot, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);

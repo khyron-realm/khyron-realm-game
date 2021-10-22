@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Save;
 using CountDown;
 using Networking.Headquarters;
+using PlayerDataUpdate;
 
 
 namespace Manager.Convert
@@ -17,21 +18,30 @@ namespace Manager.Convert
         [SerializeField] private Button _button;
         #endregion
 
+        private static byte Tag = 0;
+
         private void Awake()
         {
-            HeadquartersManager.OnConversionAccepted += ConversionAccepted;
             HeadquartersManager.OnConversionError += ConversionError;
-
-            HeadquartersManager.OnFinishConversionError += FinishConversionError;
-
+            PlayerDataOperations.OnResourcesModified += SendConvertRequest;
+            PlayerDataOperations.OnEnergyModified += ConvertEnded;
             ManageTasks.OnConvertingWorking += CheckForConversionInProgress;
 
             _timer.TimeTextState(false);
         }
 
+
         public void Convert()
         {
-            HeadquartersManager.ConversionRequest(DateTime.UtcNow);
+            PlayerDataOperations.PayResources(-GameDataValues.Resources[0].ConversionRate, -GameDataValues.Resources[1].ConversionRate, -GameDataValues.Resources[2].ConversionRate, Tag);          
+        }
+        private void SendConvertRequest(byte tag)
+        {
+            if(Tag == tag)
+            {
+                HeadquartersManager.ConversionRequest(DateTime.UtcNow, HeadquartersManager.Player.Resources);
+                ExecuteConversion(GameDataValues.ConversionTime * 60);
+            }          
         }
 
 
@@ -48,18 +58,6 @@ namespace Manager.Convert
 
             ExecuteConversion((GameDataValues.ConversionTime * 60) - timeRemained);    
         }
-
-
-        #region "Conversion handlers"
-        private void ConversionAccepted()
-        {
-            ExecuteConversion(GameDataValues.ConversionTime * 60);
-        }
-        private void ConversionError(byte errorId)
-        {
-            print("Conversion rejected");
-        }
-        #endregion
 
 
         private void ExecuteConversion(int time)
@@ -79,24 +77,30 @@ namespace Manager.Convert
                 yield return _timer.ActivateTimer();
             }
 
-            HeadquartersManager.FinishConversionRequest();
+            PlayerDataOperations.PayEnergy(10000, Tag);         
         }
 
 
-        private void FinishConversionError()
+        private void ConvertEnded(byte tag)
         {
-            _button.enabled = true;
-            _timer.TimeTextState(false);
+            if(Tag == tag)
+            {
+                HeadquartersManager.FinishConversionRequest(HeadquartersManager.Player.Energy);
+                _button.enabled = true;
+                _timer.TimeTextState(false);
+            }           
         }
 
+
+        private void ConversionError(byte errorId)
+        {
+            print("Conversion rejected");
+        }
 
         private void OnDestroy()
         {
-            HeadquartersManager.OnFinishConversionError -= FinishConversionError;
-            HeadquartersManager.OnConversionAccepted -= ConversionAccepted;
-
             HeadquartersManager.OnConversionError -= ConversionError;
-
+            PlayerDataOperations.OnResourcesModified -= SendConvertRequest;
             ManageTasks.OnConvertingWorking -= CheckForConversionInProgress;
         }
     }

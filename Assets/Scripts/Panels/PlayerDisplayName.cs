@@ -22,5 +22,10 @@ namespace Panels
         {
             _name.text = HeadquartersManager.Player.Id;
         }
+
+        private void OnDestroy()
+        {
+            HeadquartersManager.OnPlayerDataReceived -= UpdateText;
+        }
     }
 }

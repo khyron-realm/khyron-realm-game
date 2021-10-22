@@ -9,6 +9,7 @@ using CountDown;
 using Manager.Robots;
 using Save;
 using Networking.Headquarters;
+using PlayerDataUpdate;
 
 
 namespace Manager.Train
@@ -31,6 +32,11 @@ namespace Manager.Train
 
         public static Timer Time;
         private Coroutine _coroutine;
+
+        private RobotSO _robot;
+        private ushort _queueNumber;
+
+        private static byte Tag = 2;
         #endregion
 
         #region "Awake"
@@ -49,12 +55,17 @@ namespace Manager.Train
 
             BuildRobotsOperations.OnRobotAdded += Time.AddTime;
 
-            HeadquartersManager.OnRobotsUpdate += DisplayNumberOfRobots;
+            PlayerDataOperations.OnRobotAdded += RobotFinishedBuilding;
+            PlayerDataOperations.OnRobotAdded += ShowRobotsNumber;
+
             HeadquartersManager.OnPlayerDataReceived += DisplayNumberOfRobots;       
         }
         #endregion
 
 
+        /// <summary>
+        /// Building process operations
+        /// </summary>
         private void StartBuildingRobots()
         {
             if (_once == false)
@@ -90,13 +101,20 @@ namespace Manager.Train
 
             foreach (Robot item in HeadquartersManager.Player.Robots)
             {
-                count += item.Count;
+                count += item.Count * GameDataValues.Robots[item.Id].HousingSpace;
             }
 
-            _numberOfRobots.text = string.Format("{0}/30", count);                      
+            _numberOfRobots.text = string.Format("{0}/{1}", count, GameDataValues.MaxHousingSpace);                      
+        }
+        private void ShowRobotsNumber(byte tag)
+        {
+            DisplayNumberOfRobots();
         }
 
 
+        /// <summary>
+        /// Recalculate total time for building robots
+        /// </summary>
         public static void RecalculateTime()
         {
             Time.TotalTime = 0;
@@ -110,35 +128,38 @@ namespace Manager.Train
         }
 
 
+        /// <summary>
+        /// Coroutine that keeps the timer and the process of building robots
+        /// </summary>
         private IEnumerator BuildingRobots()
         {
             _timeRemained.enabled = true;
 
             for (int i = 0; i < BuildRobotsOperations.RobotsInTraining.Count; i++)
             {
-                RobotSO robot = BuildRobotsOperations.RobotsInTraining.ElementAt(i).Value;
-                ushort queueNumber = BuildRobotsOperations.RobotsInTraining.ElementAt(i).Key;
+                _robot = BuildRobotsOperations.RobotsInTraining.ElementAt(i).Value;
+                _queueNumber = BuildRobotsOperations.RobotsInTraining.ElementAt(i).Key;
 
                 if (RobotsInBuilding.robotsInBuildingIcons.Count > 0)
                 {
-                    _tempLoadingBar.MaxValue = GameDataValues.Robots[robot._robotId].BuildTime;
+                    _tempLoadingBar.MaxValue = GameDataValues.Robots[_robot._robotId].BuildTime;
                 }
 
                 s_tempTime = 0;
 
-                while (robot != null && s_tempTime < GameDataValues.Robots[robot._robotId].BuildTime)
+                while (_robot != null && s_tempTime < GameDataValues.Robots[_robot._robotId].BuildTime)
                 {
                     s_tempTime += 1;
 
                     _tempLoadingBar.CurrentValue = (int)s_tempTime;
-                    Time.DisplayTime(_timeRemained, (int)(GameDataValues.Robots[robot._robotId].BuildTime - s_tempTime));
+                    Time.DisplayTime(_timeRemained, (int)(GameDataValues.Robots[_robot._robotId].BuildTime - s_tempTime));
                     
                     yield return Time.ActivateTimer();
                 }
 
-                HeadquartersManager.FinishBuildingRequest(queueNumber, robot._robotId, DateTime.UtcNow, true);
+                PlayerDataOperations.AddRobot(_robot._robotId, Tag);
 
-                BuildRobotsOperations.RobotsInTraining.Remove(queueNumber);
+                BuildRobotsOperations.RobotsInTraining.Remove(_queueNumber);
                 RobotsInBuildingOperations.DezactivateIcon(RobotsInBuilding.robotsInBuildingIcons[i]);
                 RobotsInBuilding.robotsInBuildingIcons.RemoveAt(i);
                 i--;
@@ -151,6 +172,14 @@ namespace Manager.Train
             _timeRemained.enabled = false;
             _tempLoadingBar.MaxValue = 1;
         }
+        private void RobotFinishedBuilding(byte tag)
+        {
+            if(Tag == tag)
+            {
+                BuildRobotsOperations.TotalHousingSpaceDuringBuilding -= GameDataValues.Robots[_robot._robotId].HousingSpace;
+                HeadquartersManager.FinishBuildingRequest(_queueNumber, _robot._robotId, DateTime.UtcNow, HeadquartersManager.Player.Robots[_robot._robotId]);
+            }
+        }
 
 
         private void OnDestroy()
@@ -160,7 +189,7 @@ namespace Manager.Train
 
             BuildRobotsOperations.OnRobotAdded -= Time.AddTime;
 
-            HeadquartersManager.OnRobotsUpdate -= DisplayNumberOfRobots;
+            PlayerDataOperations.OnRobotAdded -= RobotFinishedBuilding;
             HeadquartersManager.OnPlayerDataReceived -= DisplayNumberOfRobots;
         }
     }

@@ -87,7 +87,7 @@ namespace Networking.Headquarters
             // else -> 0
             DateTime startTime = DateTime.UtcNow;
             uint newEnergy = 0;
-            HeadquartersManager.BuildingRequest(queueNumber, robotId, startTime, newEnergy);
+            HeadquartersManager.BuildingRequest(queueNumber, robotId, startTime.ToBinary(), newEnergy);
         }
 
         public void FinishBuildRobot()
