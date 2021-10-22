@@ -33,11 +33,6 @@ namespace Networking.Headquarters
         public delegate void CancelBuildAcceptedEventHandler(byte taskType);
         public delegate void BuildingAcceptedEventHandler();
         public delegate void BuildingRejectedEventHandler(byte errorId);
-        public delegate void LevelUpdateEventHandler();
-        public delegate void ExperienceUpdateEventHandler();
-        public delegate void EnergyUpdateEventHandler();
-        public delegate void ResourcesUpdateEventHandler();
-        public delegate void RobotsUpdateEventHandler();
         public static event PlayerDataReceivedEventHandler OnPlayerDataReceived;
         public static event PlayerDataUnavailableEventHandler OnPlayerDataUnavailable;
         public static event GameDataReceivedEventHandler OnGameDataReceived;
@@ -52,11 +47,6 @@ namespace Networking.Headquarters
         public static event CancelBuildAcceptedEventHandler OnCancelBuildingAccepted;
         public static event BuildingAcceptedEventHandler OnBuildingAccepted;
         public static event BuildingRejectedEventHandler OnBuildingRejected;
-        public static event LevelUpdateEventHandler OnLevelUpdate;
-        public static event ExperienceUpdateEventHandler OnExperienceUpdate;
-        public static event EnergyUpdateEventHandler OnEnergyUpdate;
-        public static event ResourcesUpdateEventHandler OnResourcesUpdate;
-        public static event RobotsUpdateEventHandler OnRobotsUpdate;
 
         #endregion
         
@@ -174,36 +164,6 @@ namespace Networking.Headquarters
                 case HeadquartersTags.BuildRobotRejected:
                 {
                     BuildRobotRejected(message);
-                    break;
-                }
-
-                case HeadquartersTags.LevelUpdate:
-                {
-                    LevelUpdate(message);
-                    break;
-                }
-                
-                case HeadquartersTags.ExperienceUpdate:
-                {
-                    ExperienceUpdate(message);
-                    break;
-                }
-                
-                case HeadquartersTags.EnergyUpdate:
-                {
-                    EnergyUpdate(message);
-                    break;
-                }
-                
-                case HeadquartersTags.ResourcesUpdate:
-                {
-                    ResourcesUpdate(message);
-                    break;
-                }
-                
-                case HeadquartersTags.RobotsUpdate:
-                {
-                    RobotsUpdate(message);
                     break;
                 }
             }
