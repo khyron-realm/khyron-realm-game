@@ -71,8 +71,8 @@ namespace Networking.Headquarters
         public void FinishUpgradeRobot()
         {
             byte robotId = 0;
-            Robot[] newRobots = new Robot[] { };
-            HeadquartersManager.FinishUpgradingRequest(robotId, newRobots);
+            Robot newRobot = new Robot();
+            HeadquartersManager.FinishUpgradingRequest(robotId, newRobot);
         }
 
         public void BuildRobot()
@@ -93,12 +93,12 @@ namespace Networking.Headquarters
         public void FinishBuildRobot()
         {
             // if (first time entry or from another screen) -> send only the last finished task
-            // else -> send the current finished task + new robots
+            // else -> send the current finished task
             byte queueNumber = 0;
             byte robotId = 0;
             DateTime startTime = DateTime.UtcNow;
-            Robot[] newRobots = new Robot[] { };
-            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, startTime, newRobots);
+            Robot newRobot = new Robot();
+            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, startTime, newRobot);
         }
         
         public void CancelBuildRobot(bool inProgress)

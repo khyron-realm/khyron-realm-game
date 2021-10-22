@@ -422,12 +422,12 @@ namespace Networking.Headquarters
         ///     Request for finishing the upgrading of the robot
         /// </summary>
         /// <param name="robotId">The robot type</param>
-        /// <param name="newRobots">The new robot values</param>
-        public static void FinishUpgradingRequest(byte robotId, Robot[] newRobots)
+        /// <param name="newRobot">The new robot values</param>
+        public static void FinishUpgradingRequest(byte robotId, Robot newRobot)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(robotId);
-            writer.Write(newRobots);
+            writer.Write(newRobot);
             using var msg = Message.Create(HeadquartersTags.FinishUpgrade, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
@@ -460,14 +460,14 @@ namespace Networking.Headquarters
         /// <param name="queueNumber">The number of the robot in the queue</param>
         /// <param name="robotId">The type of the robot</param>
         /// <param name="startTime">The new starting time</param>
-        /// <param name="newRobots">The new robot values</param>
-        public static void FinishBuildingRequest(ushort queueNumber, byte robotId, DateTime startTime, Robot[] newRobots)
+        /// <param name="newRobot">The new robot values</param>
+        public static void FinishBuildingRequest(ushort queueNumber, byte robotId, DateTime startTime, Robot newRobot)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(queueNumber);
             writer.Write(robotId);
             writer.Write(startTime.ToBinary());
-            writer.Write(newRobots);
+            writer.Write(newRobot);
             using var msg = Message.Create(HeadquartersTags.FinishBuild, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
