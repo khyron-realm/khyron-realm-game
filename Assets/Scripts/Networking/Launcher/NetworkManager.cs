@@ -1,6 +1,6 @@
-using DarkRift.Client.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace Networking.Launcher
 {
@@ -9,19 +9,19 @@ namespace Networking.Launcher
     /// </summary>
     public class NetworkManager : Singleton<NetworkManager>
     {
-        [SerializeField] [Tooltip("The DarkRift client communication object")]
-        public UnityClient networkClient;
+        [FormerlySerializedAs("networkServerConnection")] [SerializeField] [Tooltip("The DarkRift client communication object")]
+        public DarkriftServerConnection networkClient;
 
         protected NetworkManager()
         {
         }
 
-        public static UnityClient Client => Instance?.networkClient;
+        public static DarkriftServerConnection Client => Instance?.networkClient;
 
         public void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            networkClient = GetComponent<UnityClient>();
+            networkClient = GetComponent<DarkriftServerConnection>();
 
             SceneManager.LoadScene(1);
         }
