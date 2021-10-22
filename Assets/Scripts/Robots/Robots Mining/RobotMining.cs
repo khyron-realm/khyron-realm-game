@@ -109,7 +109,7 @@ namespace Manager.Robots.Mining
 
                 Vector2Int block = GenerateAreaOfRobot();
              
-                if(_movementFinished == true && StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(block.x, block.y, 0)) != null)
+                if(_movementFinished == true && StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(block.x, block.y, 0)) != DataOfTile.NullTile)
                 {
                     RevealResourceIfItIs(ref _mined, ref block);
                     StartMiningAnimation(block);
@@ -158,7 +158,7 @@ namespace Manager.Robots.Mining
 
                 if (position >= 0 && position < 1350 && StoreAllTiles.Instance.TilesPositions.Contains(robotPosition))
                 {
-                    if (_blocksToMine[position].Item1 > keepValue && StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(robotPosition.x, robotPosition.y, 0)) != null)
+                    if (_blocksToMine[position].Item1 > keepValue && StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(robotPosition.x, robotPosition.y, 0)) != DataOfTile.NullTile)
                     {
                         keepValue = _blocksToMine[position].Item1;
                         nearBlock = _blocksToMine[position].Item2;
@@ -263,7 +263,7 @@ namespace Manager.Robots.Mining
 
                 if (StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health < 0)
                 {
-                    StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), null);
+                    StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), DataOfTile.NullTile);
                     StoreAllTiles.Instance.TilesPositions.Remove(nearBlock);
                     _check = true;
                 }

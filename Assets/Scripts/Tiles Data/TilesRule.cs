@@ -11,6 +11,7 @@ namespace Tiles
     public class TilesRule : RuleTile<TilesRule.Neighbor>
     {
         public bool customField;
+        public RuleTile emptyTile;
 
         public class Neighbor : RuleTile.TilingRule.Neighbor
         {
@@ -23,32 +24,20 @@ namespace Tiles
             switch (neighbor)
             {
                 case Neighbor.Null: return CheckIfThereIsNoTile(tile);
-                case Neighbor.Tile: return CheckIfThereIsTile(tile);
+                case Neighbor.Tile: return !CheckIfThereIsNoTile(tile);
             }
             return base.RuleMatch(neighbor, tile);
         }
 
         private bool CheckIfThereIsNoTile(TileBase tile)
         {
-            if (tile == null)
+            if (tile == emptyTile || tile == null)
             {
                 return true;
             }
             else
             {
                 return false;
-            }
-        }
-
-        private bool CheckIfThereIsTile(TileBase tile)
-        {
-            if (tile == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
             }
         }
     }

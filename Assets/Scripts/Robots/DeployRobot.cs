@@ -111,7 +111,7 @@ namespace Manager.Robots
             {
                 GameObject robot;
 
-                StoreAllTiles.Instance.Tilemap.SetTile(temp, null);
+                StoreAllTiles.Instance.Tilemap.SetTile(temp, DataOfTile.NullTile);
                 StoreAllTiles.Instance.Tiles[temp.x][temp.y].Health = -1;
 
                 robot = Instantiate(robotToDeploy);
