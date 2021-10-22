@@ -547,14 +547,17 @@ namespace Networking.Headquarters
         /// <summary>
         ///     Request for getting the game data
         /// </summary>
-        public static void GameDataRequest()
+        /// <param name="version">0 for the latest version and [version > 0] for checking if the version is up to date</param>
+        public static void GameDataRequest(ushort version)
         {
+            using var writer = DarkRiftWriter.Create();
+            writer.Write(version);
             using var msg = Message.CreateEmpty(HeadquartersTags.GameData);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Requesting game data ...");
         }
-        
+
         /// <summary>
         ///     Request for converting the resources to energy
         /// </summary>
