@@ -172,14 +172,16 @@ namespace Networking.Headquarters
         private void FinishBuildingError(byte errorId)
         {
             // 0 - remove task failed
-            // 1 - set new data failed
+            // 1 - update next task failed
+            // 2 - set new data failed
             Debug.Log("Finish robot build error");
         }
         
         private void CancelBuildingError(byte errorId)
         {
             // 0 - remove task failed
-            // 1 - set new data failed
+            // 1 - update next task failed
+            // 2 - set new data failed
             Debug.Log("Cancel robot build error");
         }
 
