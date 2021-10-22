@@ -182,18 +182,6 @@ namespace Networking.Launcher
             }
         }
 
-        /// <summary>
-        ///     Returns whether or not this client is connected to the server.
-        /// </summary>
-        [Obsolete("User ConnectionState instead.")]
-        public bool Connected
-        {
-            get
-            {
-                return Client.Connected;
-            }
-        }
-
 
         /// <summary>
         ///     Returns the state of the connection with the server.
@@ -210,7 +198,7 @@ namespace Networking.Launcher
         /// 	The actual client connecting to the server.
         /// </summary>
         /// <value>The client.</value>
-        public DarkRift.Client.DarkRiftClient Client { get; private set; }
+        public DarkRiftClient Client { get; private set; }
 
         /// <summary>
         ///     The dispatcher for moving work to the main thread.
@@ -266,21 +254,20 @@ namespace Networking.Launcher
             //Remove resources
             Close();
         }
-
+        
         /// <summary>
-        ///     Connects to a remote server.
+        ///     Manually connect to the server
         /// </summary>
-        /// <param name="ip">The IP address of the server.</param>
-        /// <param name="port">The port of the server.</param>
-        [Obsolete("Use other Connect overloads that automatically detect the IP version.")]
-        public void Connect(IPAddress ip, int port, IPVersion ipVersion)
+        public void ConnectToServer()
         {
-            Client.Connect(ip, port, ipVersion);
-
-            if (ConnectionState == ConnectionState.Connected)
-                Debug.Log("Connected to " + ip + " on port " + port + " using " + ipVersion + ".");
-            else
-                Debug.Log("Connection failed to " + ip + " on port " + port + " using " + ipVersion + ".");
+            try
+            {
+                Connect(host, port, noDelay);
+            }
+            catch (Exception ex)
+            {
+                Debug.Log("Cannot connect to the server");
+            }
         }
 
         /// <summary>
@@ -308,70 +295,6 @@ namespace Networking.Launcher
         public void Connect(string host, int port, bool noDelay)
         {
             Connect(Dns.GetHostAddresses(host)[0], port, noDelay);
-        }
-
-        /// <summary>
-        ///     Connects to a remote asynchronously.
-        /// </summary>
-        /// <param name="ip">The IP address of the server.</param>
-        /// <param name="port">The port of the server.</param>
-        /// <param name="noDelay">Whether to disable Nagel's algorithm or not.</param>
-        /// <param name="callback">The callback to make when the connection attempt completes.</param>
-        public void ConnectInBackground(IPAddress ip, int port, bool noDelay, DarkRift.Client.DarkRiftClient.ConnectCompleteHandler callback = null)
-        {
-            Client.ConnectInBackground(
-                ip,
-                port,
-                noDelay,
-                delegate (Exception e)
-                {
-                    if (callback != null)
-                    {
-                        if (invokeFromDispatcher)
-                            Dispatcher.InvokeAsync(() => callback(e));
-                        else
-                            callback.Invoke(e);
-                    }
-                    
-                    if (ConnectionState == ConnectionState.Connected)
-                        Debug.Log("Connected to " + ip + " on port " + port + ".");
-                    else
-                        Debug.Log("Connection failed to " + ip + " on port " + port + ".");
-                }
-            );
-        }
-
-        /// <summary>
-        ///     Connects to a remote asynchronously.
-        /// </summary>
-        /// <param name="ip">The IP address of the server.</param>
-        /// <param name="tcpPort">The port the server is listening on for TCP.</param>
-        /// <param name="udpPort">The port the server is listening on for UDP.</param>
-        /// <param name="noDelay">Whether to disable Nagel's algorithm or not.</param>
-        /// <param name="callback">The callback to make when the connection attempt completes.</param>
-        public void ConnectInBackground(IPAddress ip, int tcpPort, int udpPort, bool noDelay, DarkRift.Client.DarkRiftClient.ConnectCompleteHandler callback = null)
-        {
-            Client.ConnectInBackground(
-                ip,
-                tcpPort,
-                udpPort,
-                noDelay,
-                delegate (Exception e)
-                {
-                    if (callback != null)
-                    {
-                        if (invokeFromDispatcher)
-                            Dispatcher.InvokeAsync(() => callback(e));
-                        else
-                            callback.Invoke(e);
-                    }
-                    
-                    if (ConnectionState == ConnectionState.Connected)
-                        Debug.Log("Connected to " + ip + " on port " + tcpPort + "|" + udpPort + ".");
-                    else
-                        Debug.Log("Connection failed to " + ip + " on port " + tcpPort + "|" + udpPort + ".");
-                }
-            );
         }
 
         /// <summary>
