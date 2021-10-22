@@ -459,27 +459,40 @@ namespace Networking.Headquarters
         /// </summary>
         /// <param name="queueNumber">The number of the robot in the queue</param>
         /// <param name="robotId">The type of the robot</param>
+        /// <param name="startTime">The new starting time</param>
         /// <param name="newRobots">The new robot values</param>
-        /// <param name="newEnergy">The new energy value</param>
-        /// <param name="startTime">The starting task time</param>
-        /// <param name="isFinished">True if the task is finished or false if cancelled</param>
-        public static void FinishBuildingRequest(ushort queueNumber, byte robotId, Robot[] newRobots, uint newEnergy, DateTime startTime, bool isFinished)
+        public static void FinishBuildingRequest(ushort queueNumber, byte robotId, DateTime startTime, Robot[] newRobots)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(queueNumber);
             writer.Write(robotId);
-            if (isFinished)
-            {
-                writer.Write(newRobots);
-            }
-            else
-            {
-                writer.Write(newEnergy);
-            }
-            using var msg = Message.Create(isFinished ? HeadquartersTags.FinishBuild : HeadquartersTags.CancelBuild, writer);
+            writer.Write(startTime.ToBinary());
+            writer.Write(newRobots);
+            using var msg = Message.Create(HeadquartersTags.FinishBuild, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Sending " + (isFinished ? "finish" : "cancel") + " robot build to the server");
+            if(ShowDebug) Debug.Log("Sending finish robot build to the server");
+        }
+
+        /// <summary>
+        ///     Request for cancelling the building of the robot
+        /// </summary>
+        /// <param name="queueNumber">The number of the robot in the queue</param>
+        /// <param name="robotId">The type of the robot</param>
+        /// <param name="startTime">The new starting time</param>
+        /// <param name="newEnergy">The new energy value</param>
+        /// <param name="inProgress">True if the task is in progress or false otherwise</param>
+        public static void CancelBuildingRequest(ushort queueNumber, byte robotId, DateTime startTime, uint newEnergy, bool inProgress)
+        {
+            using var writer = DarkRiftWriter.Create();
+            writer.Write(queueNumber);
+            writer.Write(robotId);
+            writer.Write(startTime.ToBinary());
+            writer.Write(newEnergy);
+            using var msg = Message.Create(inProgress ? HeadquartersTags.CancelInProgressBuild : HeadquartersTags.CancelOnHoldBuild, writer);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+            
+            if(ShowDebug) Debug.Log("Sending cancel robot build to the server");
         }
 
         #endregion

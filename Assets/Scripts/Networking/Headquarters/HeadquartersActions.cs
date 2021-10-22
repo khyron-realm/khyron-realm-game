@@ -92,20 +92,22 @@ namespace Networking.Headquarters
 
         public void FinishBuildRobot()
         {
+            // if (first time entry or from another screen) -> send only the last finished task
+            // else -> send the current finished task + new robots
             byte queueNumber = 0;
             byte robotId = 0;
             DateTime startTime = DateTime.UtcNow;
             Robot[] newRobots = new Robot[] { };
-            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, newRobots, 0, startTime, true);
+            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, startTime, newRobots);
         }
         
-        public void CancelBuildRobot()
+        public void CancelBuildRobot(bool inProgress)
         {
             byte queueNumber = 0;
             byte robotId = 0;
             DateTime startTime = DateTime.UtcNow;
             uint newEnergy = 0;
-            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, new Robot[]{}, newEnergy, startTime, false);
+            HeadquartersManager.CancelBuildingRequest(queueNumber, robotId, startTime, newEnergy, inProgress);
         }
 
         #endregion
