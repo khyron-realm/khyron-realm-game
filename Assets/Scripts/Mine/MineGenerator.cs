@@ -11,6 +11,9 @@ namespace Mine
     public class MineGenerator : MonoBehaviour
     {
         #region "Input fields" 
+        [SerializeField] private RuleTile _nullTile;
+        [Space(20f)]
+
         [SerializeField] private RuleTile _groundTileType11;
         [SerializeField] private RuleTile _groundTileType12;
         [SerializeField] private RuleTile _groundTileType13;
@@ -49,6 +52,8 @@ namespace Mine
             Make2DArray();
             Generate();
             StoreAllBlocksPositions();
+
+            DataOfTile.NullTile = _nullTile;
         }
 
 

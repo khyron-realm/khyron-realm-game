@@ -13,6 +13,8 @@ namespace Tiles.Tiledata
 
         private byte _type;
 
+        public static RuleTile NullTile;
+
         private RuleTile _standardBlock;
         private RuleTile _resourceTile = null;
 

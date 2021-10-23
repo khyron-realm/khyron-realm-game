@@ -125,7 +125,7 @@ namespace Manager.Robots.Mining
         /// <param name="j"> y position </param>
         private static void RevealBlock(int i, int j)
         {
-            if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != null && StoreAllTiles.Instance.Tiles[i][j].Resource != null)
+            if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != DataOfTile.NullTile && StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != null && StoreAllTiles.Instance.Tiles[i][j].Resource != null)
             {
                 StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(i), (int)(j), 0), StoreAllTiles.Instance.Tiles[i][j].ResourceTile);
                 StoreAllTiles.Instance.Tiles[i][j].Discovered += 1;
@@ -156,7 +156,7 @@ namespace Manager.Robots.Mining
         /// <param name="j"></param>
         private static void HideBlock(int i, int j)
         {
-            if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != null)
+            if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != DataOfTile.NullTile && StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != null)
             {
                 StoreAllTiles.Instance.Tiles[i][j].Discovered -= 1;
 
