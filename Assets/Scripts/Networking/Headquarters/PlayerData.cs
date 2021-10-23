@@ -13,12 +13,14 @@ namespace Networking.Headquarters
         public uint Energy { get; set; }
         public Resource[] Resources { get; set; }
         public Robot[] Robots { get; set; }
-        public BuildTask[] TaskQueue { get; set; }
+        public BuildTask[] ConversionQueue { get; set; }
+        public BuildTask[] UpgradeQueue { get; set; }
+        public BuildTask[] BuildQueue { get; set; }
 
         public PlayerData() { }
 
         public PlayerData(string id, byte level, ushort experience, uint energy, Resource[] resources, Robot[] robots,
-            BuildTask[] taskQueue)
+            BuildTask[] conversionQueue, BuildTask[] upgradeQueue, BuildTask[] buildQueue)
         {
             Id = id;
             Level = level;
@@ -26,7 +28,9 @@ namespace Networking.Headquarters
             Energy = energy;
             Resources = resources;
             Robots = robots;
-            TaskQueue = taskQueue;
+            ConversionQueue = conversionQueue;
+            UpgradeQueue = upgradeQueue;
+            BuildQueue = buildQueue;
         }
         
         /// <summary>
@@ -41,7 +45,9 @@ namespace Networking.Headquarters
             Energy = e.Reader.ReadUInt32();
             Resources = e.Reader.ReadSerializables<Resource>();
             Robots = e.Reader.ReadSerializables<Robot>();
-            TaskQueue = e.Reader.ReadSerializables<BuildTask>();
+            ConversionQueue = e.Reader.ReadSerializables<BuildTask>();
+            UpgradeQueue = e.Reader.ReadSerializables<BuildTask>();
+            BuildQueue = e.Reader.ReadSerializables<BuildTask>();
         }
         
         /// <summary>
@@ -56,7 +62,9 @@ namespace Networking.Headquarters
             e.Writer.Write(Energy);
             e.Writer.Write(Resources);
             e.Writer.Write(Robots);
-            e.Writer.Write(TaskQueue);
+            e.Writer.Write(ConversionQueue);
+            e.Writer.Write(UpgradeQueue);
+            e.Writer.Write(BuildQueue);
         }
     }
 }
