@@ -367,7 +367,7 @@ namespace Networking.Headquarters
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(version);
-            using var msg = Message.CreateEmpty(HeadquartersTags.GameData);
+            using var msg = Message.Create(HeadquartersTags.GameData, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Requesting game data ...");
