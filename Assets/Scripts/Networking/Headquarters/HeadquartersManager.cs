@@ -188,7 +188,7 @@ namespace Networking.Headquarters
                     Debug.Log(" - robot = " + r.Name);
                 }
 
-                BuildTask[] taskQueue = Player.TaskQueue;
+                BuildTask[] taskQueue = Player.BuildQueue;
                 Debug.Log(taskQueue.Length == 0 ? "No tasks in progress" : "Tasks in progress");
 
                 foreach (BuildTask task in taskQueue)
