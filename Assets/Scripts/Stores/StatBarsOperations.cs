@@ -4,6 +4,7 @@ using UnityEngine;
 using Panels;
 using Save;
 using Networking.Headquarters;
+using PlayerDataUpdate;
 
 
 namespace Manager.Store
@@ -29,11 +30,10 @@ namespace Manager.Store
         {
             HeadquartersManager.OnPlayerDataReceived += InitAll;
 
-            HeadquartersManager.OnEnergyUpdate += EnergyUpdate;
-            HeadquartersManager.OnResourcesUpdate += ResourcesUpdate;
-            HeadquartersManager.OnExperienceUpdate += ExperienceUpdate;
-            HeadquartersManager.OnLevelUpdate += LevelUpdate;
-
+            PlayerDataOperations.OnEnergyModified += EnergyUpdate;
+            PlayerDataOperations.OnResourcesModified += ResourcesUpdate;
+            PlayerDataOperations.OnExperienceUpdated += ExperienceUpdate;
+            PlayerDataOperations.OnLevelUpdated += LevelUpdate;
 
 
             _xpBar.MaxValue = StorePlayerStats.levelsThresholds.levelsThresholds[0];
@@ -49,10 +49,10 @@ namespace Manager.Store
         }
         private void InitCurrentLevels()
         {
-            _energyBar.CurrentValue = (int)HeadquartersManager.player.Energy;
-            _silliconBar.CurrentValue = (int)HeadquartersManager.player.Resources[0].Count;
-            _lithiumBar.CurrentValue = (int)HeadquartersManager.player.Resources[1].Count;
-            _titaniumBar.CurrentValue = (int)HeadquartersManager.player.Resources[2].Count;
+            _energyBar.CurrentValue = (int)HeadquartersManager.Player.Energy;
+            _silliconBar.CurrentValue = (int)HeadquartersManager.Player.Resources[0].Count;
+            _lithiumBar.CurrentValue = (int)HeadquartersManager.Player.Resources[1].Count;
+            _titaniumBar.CurrentValue = (int)HeadquartersManager.Player.Resources[2].Count;
         }
         private void InitMaximumLevels()
         {
@@ -65,40 +65,41 @@ namespace Manager.Store
 
 
         #region "Resources Update"
-        private void EnergyUpdate()
+        private void EnergyUpdate(byte tag)
         {
             if (energy != null)
                 StopCoroutine(energy);
-            energy = StartCoroutine(BarAnimation(_energyBar, (int)HeadquartersManager.player.Energy));
+            energy = StartCoroutine(BarAnimation(_energyBar, (int)HeadquartersManager.Player.Energy));
         }
-        private void ResourcesUpdate()
+        private void ResourcesUpdate(byte tag)
         {
             if (lithium != null)
                 StopCoroutine(lithium);
-            lithium = StartCoroutine(BarAnimation(_lithiumBar, (int)HeadquartersManager.player.Resources[1].Count));
+            lithium = StartCoroutine(BarAnimation(_lithiumBar, (int)HeadquartersManager.Player.Resources[1].Count));
 
             if (titanium != null)
                 StopCoroutine(titanium);
-            titanium = StartCoroutine(BarAnimation(_titaniumBar, (int)HeadquartersManager.player.Resources[2].Count));
+            titanium = StartCoroutine(BarAnimation(_titaniumBar, (int)HeadquartersManager.Player.Resources[2].Count));
 
             if (silicon != null)
                 StopCoroutine(silicon);
-            silicon = StartCoroutine(BarAnimation(_silliconBar, (int)HeadquartersManager.player.Resources[0].Count));
+            silicon = StartCoroutine(BarAnimation(_silliconBar, (int)HeadquartersManager.Player.Resources[0].Count));
         }
         #endregion
 
 
         #region "Level update"
-        private void ExperienceUpdate()
+        private void ExperienceUpdate(byte tag)
         {
-            StartCoroutine(BarAnimation(_xpBar, (int)HeadquartersManager.player.Experience));
+            StartCoroutine(BarAnimation(_xpBar, (int)HeadquartersManager.Player.Experience));
         }
-        private void LevelUpdate()
+        private void LevelUpdate(byte tag)
         {
-            StartCoroutine(BarAnimation(_xpBar, (int)HeadquartersManager.player.Experience));
+            StartCoroutine(BarAnimation(_xpBar, (int)HeadquartersManager.Player.Experience));
             _xpBar.MaxValue = StorePlayerStats.levelsThresholds.levelsThresholds[StorePlayerStats.currentLevel];
         }
         #endregion
+
 
         public static IEnumerator BarAnimation(ProgressBar bar, int endGoal)
         {
@@ -116,10 +117,10 @@ namespace Manager.Store
         {
             HeadquartersManager.OnPlayerDataReceived -= InitAll;
 
-            HeadquartersManager.OnEnergyUpdate -= EnergyUpdate;
-            HeadquartersManager.OnResourcesUpdate -= ResourcesUpdate;
-            HeadquartersManager.OnExperienceUpdate -= ExperienceUpdate;
-            HeadquartersManager.OnLevelUpdate -= LevelUpdate;
+            PlayerDataOperations.OnEnergyModified -= EnergyUpdate;
+            PlayerDataOperations.OnResourcesModified -= ResourcesUpdate;
+            PlayerDataOperations.OnExperienceUpdated -= ExperienceUpdate;
+            PlayerDataOperations.OnLevelUpdated -= LevelUpdate;
         }
     }
 }

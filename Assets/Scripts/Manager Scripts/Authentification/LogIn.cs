@@ -83,11 +83,14 @@ namespace Authentification
 
         #region "LogIn response handlers"
         /// <summary>
-        /// Called if login is succesful
+        /// Called if login is successful
         /// </summary>
         private void SuccessfulLogin()
         {
-            HeadquartersManager.GameDataRequest();            
+            // TO-DO
+            // Send version 0 first time and version number on subsequent checks
+            ushort version = 0;
+            HeadquartersManager.GameDataRequest(version);            
         }
         private void FailedLogin(byte errorId)
         {
@@ -114,7 +117,7 @@ namespace Authentification
         /// </summary>
         private void GameDataReceived()
         {
-            GameDataValues.SaveDuringGamePlayPlayerData(HeadquartersManager.game);
+            GameDataValues.SaveDuringGamePlayPlayerData(HeadquartersManager.Game);
             _scene.GoToScene();
         }
         private void GameDataUnavailable()

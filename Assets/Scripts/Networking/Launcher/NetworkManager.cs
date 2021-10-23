@@ -1,6 +1,7 @@
-using DarkRift.Client.Unity;
+using DarkRift;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace Networking.Launcher
 {
@@ -9,21 +10,41 @@ namespace Networking.Launcher
     /// </summary>
     public class NetworkManager : Singleton<NetworkManager>
     {
-        [SerializeField] [Tooltip("The DarkRift client communication object")]
-        public UnityClient networkClient;
+        [FormerlySerializedAs("networkServerConnection")] [SerializeField] [Tooltip("The DarkRift client communication object")]
+        public DarkriftServerConnection networkClient;
 
         protected NetworkManager()
         {
         }
 
-        public static UnityClient Client => Instance?.networkClient;
+        public static DarkriftServerConnection Client => Instance?.networkClient;
 
         public void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            networkClient = GetComponent<UnityClient>();
+            networkClient = GetComponent<DarkriftServerConnection>();
+        }
+        
+        public void Start()
+        {
+            if (networkClient.ConnectionState == ConnectionState.Connecting)
+            {
+                Debug.Log("Client trying to connect ...");
+            }
 
-            SceneManager.LoadScene(1);
+            if (networkClient.ConnectionState == ConnectionState.Connected)
+            {
+                Debug.Log("Starting Login scene");
+                SceneManager.LoadScene(1);
+            }
+            else 
+            {
+                Debug.Log("Server not available");
+                
+                // TO-DO
+                // open server not available popup
+                //      - report problem button
+            }
         }
     }
 }

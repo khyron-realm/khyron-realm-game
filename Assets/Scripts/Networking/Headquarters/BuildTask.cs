@@ -8,16 +8,19 @@ namespace Networking.Headquarters
     public class BuildTask : IDarkRiftSerializable
     {
         public ushort Id { get; set; }
-        public byte Type { get; set; }
         public byte Element { get; set; }
         public long StartTime { get; set; }
 
-        public BuildTask() { }
-        
-        public BuildTask(ushort id, byte type, byte element, long startTime)
+        public BuildTask()
+        {
+            Id = 0;
+            Element = 0;
+            StartTime = 0;
+        }
+  
+        public BuildTask(ushort id, byte element, long startTime)
         {
             Id = id;
-            Type = type;
             Element = element;
             StartTime = startTime;
         }
@@ -29,7 +32,6 @@ namespace Networking.Headquarters
         public void Deserialize(DeserializeEvent e)
         {
             Id = e.Reader.ReadUInt16();
-            Type = e.Reader.ReadByte();
             Element = e.Reader.ReadByte();
             StartTime = e.Reader.ReadInt64();
         }
@@ -41,7 +43,6 @@ namespace Networking.Headquarters
         public void Serialize(SerializeEvent e)
         {
             e.Writer.Write(Id);
-            e.Writer.Write(Type);
             e.Writer.Write(Element);
             e.Writer.Write(StartTime);
         }
