@@ -32,15 +32,17 @@ namespace Manager.Train
 
         public static Dictionary<ushort, RobotSO> RobotsInTraining;
 
-        private static bool _onceMsg = false;
         private static bool _onceTask = false;
-
+        
         private static int _timeDiff = 0;
 
         private static byte TagBuild = 2;
         private static byte TagCancel = 3;
 
         public static int TotalHousingSpaceDuringBuilding = 0;
+
+        private static BuildTask s_taskLastDone;
+        private static RobotSO s_robotLastBuilt;
         #endregion
 
 
@@ -69,13 +71,7 @@ namespace Manager.Train
         private void RobotsInBuildingProcess(BuildTask task, RobotSO robot)
         {
             if(!CheckIfRobotIsFinished(task, robot))
-            {
-                if(_onceMsg == false)
-                {
-                    HeadquartersManager.FinishBuildingRequest(task.Id, robot._robotId, DateTime.UtcNow, HeadquartersManager.Player.Robots[robot._robotId]);
-                    _onceMsg = true;
-                }
-
+            {              
                 s_indexRobot = task.Id;
                 s_robot = robot;
 
@@ -88,7 +84,12 @@ namespace Manager.Train
                 {
                     OnStartOperation?.Invoke();
                 }
-            }            
+            }
+
+            if(HeadquartersManager.Player.BuildQueue[HeadquartersManager.Player.BuildQueue.Length - 1] == task && s_taskLastDone != null)
+            {
+                HeadquartersManager.FinishBuildingRequest(s_taskLastDone.Id, s_robotLastBuilt._robotId, DateTime.UtcNow, HeadquartersManager.Player.Robots[s_robotLastBuilt._robotId]);
+            }
         }
         private bool CheckIfRobotIsFinished(BuildTask task, RobotSO robot)
         {
@@ -105,12 +106,16 @@ namespace Manager.Train
             }
             
             if(_timeDiff > timeOfExecution)
-            {            
+            {
+                s_taskLastDone = task;
+                s_robotLastBuilt = robot;
+
+                PlayerDataOperations.AddRobot(robot._robotId, 255);
+
                 return true;
             }
             else
             {
-                PlayerDataOperations.AddRobot(robot._robotId, 255);
                 return false;
             }           
         }
@@ -142,11 +147,11 @@ namespace Manager.Train
             {
                 if (RobotsInTraining.Count < 1)
                 {
-                    HeadquartersManager.BuildingRequest(s_indexRobot, s_robot._robotId, DateTime.UtcNow.ToBinary(), GameDataValues.Robots[s_robot._robotId].BuildPrice);
+                    HeadquartersManager.BuildingRequest(s_indexRobot, s_robot._robotId, DateTime.UtcNow.ToBinary(), HeadquartersManager.Player.Energy);
                 }
                 else
                 {
-                    HeadquartersManager.BuildingRequest(s_indexRobot, s_robot._robotId, 0, GameDataValues.Robots[s_robot._robotId].BuildPrice);
+                    HeadquartersManager.BuildingRequest(s_indexRobot, s_robot._robotId, 0, HeadquartersManager.Player.Energy);
                 }
 
                 TotalHousingSpaceDuringBuilding += GameDataValues.Robots[s_robot._robotId].HousingSpace;

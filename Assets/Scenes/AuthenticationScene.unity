@@ -1063,6 +1063,7 @@ MonoBehaviour:
   _playerData: {fileID: 745152027}
   _scene: {fileID: 745152025}
   _errorsText: {fileID: 1247624983}
+  _enableAutomaticLogin: 1
 --- !u!114 &745152027
 MonoBehaviour:
   m_ObjectHideFlags: 0
