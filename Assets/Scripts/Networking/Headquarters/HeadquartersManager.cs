@@ -17,7 +17,7 @@ namespace Networking.Headquarters
         public static PlayerData Player;
         public static GameData Game;
 
-        #region Handlers
+        #region Events
 
         public delegate void PlayerDataReceivedEventHandler();
         public delegate void PlayerDataUnavailableEventHandler();

@@ -16,6 +16,8 @@ namespace Networking.Login
         public static bool ShowDebug = true;
         public static bool IsLoggedIn { get; private set; }
 
+        #region Events
+
         public delegate void SuccessfulLoginEventHandler();
         public delegate void FailedLoginEventHandler(byte errorId);
         public delegate void SuccessfulLogoutEventHandler();
@@ -27,6 +29,8 @@ namespace Networking.Login
         public static event SuccessfulLogoutEventHandler OnSuccessfulLogout;
         public static event SuccessfulAddUserEventHandler OnSuccessfulAddUser;
         public static event FailedAddUserEventHandler OnFailedAddUser;
+
+        #endregion
 
         private void Awake()
         {

@@ -18,6 +18,10 @@ namespace Networking.Auctions
             Name = name;
         }
 
+        public Player()
+        {
+        }
+
         public void SetHost(bool isHost)
         {
             IsHost = isHost;
