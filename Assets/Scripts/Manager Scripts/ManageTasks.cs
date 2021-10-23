@@ -24,19 +24,19 @@ namespace Manager
 
         private void GetTasks()
         {
-            for (int i = 0; i < HeadquartersManager.player.TaskQueue.Length; i++)
+            for (int i = 0; i < HeadquartersManager.Player.TaskQueue.Length; i++)
             {
-                if (HeadquartersManager.player.TaskQueue[i].Type == 0)
+                if (HeadquartersManager.Player.TaskQueue[i].Type == 0)
                 {
-                    OnConvertingWorking?.Invoke(HeadquartersManager.player.TaskQueue[i]);
+                    OnConvertingWorking?.Invoke(HeadquartersManager.Player.TaskQueue[i]);
                 }
-                if (HeadquartersManager.player.TaskQueue[i].Type == 1)
+                if (HeadquartersManager.Player.TaskQueue[i].Type == 1)
                 {
-                    OnUpgradingWorking?.Invoke(HeadquartersManager.player.TaskQueue[i], CheckWhatRobotItIs(HeadquartersManager.player.TaskQueue[i].Element));
+                    OnUpgradingWorking?.Invoke(HeadquartersManager.Player.TaskQueue[i], CheckWhatRobotItIs(HeadquartersManager.Player.TaskQueue[i].Element));
                 }
-                if (HeadquartersManager.player.TaskQueue[i].Type == 2)
+                if (HeadquartersManager.Player.TaskQueue[i].Type == 2)
                 {
-                    OnBuildingRobotsWorking?.Invoke(HeadquartersManager.player.TaskQueue[i], CheckWhatRobotItIs(HeadquartersManager.player.TaskQueue[i].Element));
+                    OnBuildingRobotsWorking?.Invoke(HeadquartersManager.Player.TaskQueue[i], CheckWhatRobotItIs(HeadquartersManager.Player.TaskQueue[i].Element));
                 }
             }
         }

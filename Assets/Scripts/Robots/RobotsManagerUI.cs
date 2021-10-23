@@ -58,7 +58,7 @@ namespace Manager.Robots
         private static void ShowPrice(RobotSO item, Button newButton)
         {
             int temp = RobotsManager.robotsData[item.nameOfTheRobot.ToString()].RobotLevel;
-            newButton.transform.GetChild(0).GetComponent<Text>().text = HeadquartersManager.game.Robots[item._robotId].BuildPrice.ToString();
+            newButton.transform.GetChild(0).GetComponent<Text>().text = HeadquartersManager.Game.Robots[item._robotId].BuildPrice.ToString();
         }
         private static void MakeButtonsAvailable(RobotSO item, Button newButton)
         {
