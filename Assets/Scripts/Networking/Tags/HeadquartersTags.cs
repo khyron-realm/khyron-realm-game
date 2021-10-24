@@ -27,9 +27,10 @@ namespace Networking.Tags
         public const ushort BuildRobot = 15 + Shift;
         public const ushort BuildRobotError = 16 + Shift;
         public const ushort FinishBuild = 17 + Shift;
-        public const ushort FinishBuildError = 18 + Shift;
-        public const ushort CancelInProgressBuild = 19 + Shift;
-        public const ushort CancelOnHoldBuild = 20 + Shift;
-        public const ushort CancelBuildError = 21 + Shift;
+        public const ushort FinishBuildMultiple = 18 + Shift;
+        public const ushort FinishBuildError = 19 + Shift;
+        public const ushort CancelInProgressBuild = 20 + Shift;
+        public const ushort CancelOnHoldBuild = 21 + Shift;
+        public const ushort CancelBuildError = 22 + Shift;
     }
 }
