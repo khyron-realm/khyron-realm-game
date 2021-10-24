@@ -56,7 +56,7 @@ namespace Manager.Upgrade
         private void UpgradeInProgress(BuildTask task, RobotSO robot)
         {
             _selectedRobot = robot;
-            UpgradingMethod((GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime * 60) - TimeTillFinish(task.StartTime));
+            UpgradingMethod((GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime * 60) - TimeTillFinish(task.StartTime), GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime * 60);
         }       
         public void UpgradeRobot()
         {
@@ -80,13 +80,23 @@ namespace Manager.Upgrade
         #endregion
 
 
-        private void UpgradingMethod(long time)
+        private void UpgradingMethod(long time, int maxValue = 0)
         {
             _upgradeButton.enabled = false;
 
             _robotManager.MakeAllButtonsInactive();
 
             _timer.AddTime((int)time);
+
+            if(maxValue == 0)
+            {
+                _timer.SetMaxValueForTime((int)time);
+            }
+            else
+            {
+                _timer.SetMaxValueForTime(maxValue);
+            }
+           
             _timer.TimeTextState(true);
             StartCoroutine(Upgrading((int)time));           
         }

@@ -28,7 +28,7 @@ namespace Manager.Train
 
         #region "Private Members"
         private bool _once = false;
-        private static float s_tempTime = 0;
+        private static int s_tempTime = 0;
 
         public static Timer Time;
         private Coroutine _coroutine;
@@ -126,12 +126,13 @@ namespace Manager.Train
             {
                 Time.AddTime(GameDataValues.Robots[item.Value._robotId].BuildTime);
             }
-           
+
             Time.DecreaseTime((int)s_tempTime);
         }
-        private void FirstRobotTimeRemained(int time)
+        private void FirstRobotTimeRemained(int timePassed, int timeRemained)
         {
-            s_tempTime = time;
+            s_tempTime = timePassed;
+            Time.AddTime(timeRemained);
         }
 
 
@@ -151,7 +152,7 @@ namespace Manager.Train
                 {
                     _tempLoadingBar.MaxValue = GameDataValues.Robots[_robot._robotId].BuildTime;
                 }
-             
+
                 while (_robot != null && s_tempTime < GameDataValues.Robots[_robot._robotId].BuildTime)
                 {
                     s_tempTime += 1;

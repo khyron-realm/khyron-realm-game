@@ -21,31 +21,34 @@ namespace Manager.Train
         public static event Action OnStartOperation;
         public static event Action OnStopOperation;
         public static event Action<int> OnRobotAdded;
-        public static event Action<int> OnFirstRobotAdded;
+        public static event Action<int, int> OnFirstRobotAdded;
         #endregion
 
         #region "Private members"
         private static RobotSO s_robot;
         private static GameObject s_robotIcon;
 
-        private static ushort s_indexRobot = 0;
-        private static int timeOfExecution = 0;
+        private static ushort s_indexRobot = 0;    //uniq index of the robot
+        private static int s_timeOfExecution = 0;
 
-        public static SortedDictionary<ushort, RobotSO> RobotsInTraining;
-
-        private static bool _onceTask = false;
-        
-        private static int _timeDiff = 0;
+        public static SortedDictionary<ushort, RobotSO> RobotsInTraining; // robots in building process
 
         private static byte TagBuild = 2;
         private static byte TagCancel = 3;
 
         public static int TotalHousingSpaceDuringBuilding = 0;
 
+        // ### CheckIfRobotIsFinished ###
+
+        private static bool s_getTimeFromFirstTask = false;
+        private static bool s_firstRobotAdded = true;
+
         private static BuildTask s_taskLastDone;
         private static RobotSO s_robotLastBuilt;
 
-        private static bool _onceTimePassed = true;
+        private static DateTime s_initTimeOfBuilding;
+
+        // ### end ###
         #endregion
 
 
@@ -91,23 +94,20 @@ namespace Manager.Train
 
             if(HeadquartersManager.Player.BuildQueue[HeadquartersManager.Player.BuildQueue.Length - 1] == task && s_taskLastDone != null)
             {
-                HeadquartersManager.FinishBuildingRequest(s_taskLastDone.Id, s_robotLastBuilt._robotId, DateTime.UtcNow, HeadquartersManager.Player.Robots[s_robotLastBuilt._robotId]);
+                HeadquartersManager.FinishBuildingRequest(s_taskLastDone.Id, s_robotLastBuilt._robotId, DateTime.UtcNow, HeadquartersManager.Player.Robots);
             }
         }
         private bool CheckIfRobotIsFinished(BuildTask task, RobotSO robot)
         {
-            timeOfExecution += GameDataValues.Robots[robot._robotId].BuildTime;
+            s_timeOfExecution += GameDataValues.Robots[robot._robotId].BuildTime;
 
-            if (_onceTask == false)
+            if (s_getTimeFromFirstTask == false)
             {
-                DateTime startTime = DateTime.FromBinary(task.StartTime);
-                DateTime now = DateTime.UtcNow;
-
-                _timeDiff = (int)now.Subtract(startTime).TotalSeconds;
-                _onceTask = true;
+                s_initTimeOfBuilding = DateTime.FromBinary(task.StartTime);
+                s_getTimeFromFirstTask = true;
             }
-            
-            if(_timeDiff >= timeOfExecution)
+
+            if(s_initTimeOfBuilding.AddSeconds(s_timeOfExecution) <= DateTime.UtcNow)
             {
                 s_taskLastDone = task;
                 s_robotLastBuilt = robot;
@@ -118,12 +118,10 @@ namespace Manager.Train
             }
             else
             {
-                print("BUILD ROBOT ICON");
-                print(Mathf.Abs(timeOfExecution - _timeDiff));
-                if (_onceTimePassed)
-                {
-                    OnFirstRobotAdded?.Invoke(Mathf.Abs(timeOfExecution - _timeDiff));
-                    _onceTimePassed = false;
+                if (s_firstRobotAdded)
+                {                 
+                    OnFirstRobotAdded?.Invoke(GameDataValues.Robots[robot._robotId].BuildTime - (int)s_initTimeOfBuilding.AddSeconds(s_timeOfExecution).Subtract(DateTime.UtcNow).TotalSeconds, (int)s_initTimeOfBuilding.AddSeconds(s_timeOfExecution).Subtract(DateTime.UtcNow).TotalSeconds);
+                    s_firstRobotAdded = false;
                 }
                 else
                 {

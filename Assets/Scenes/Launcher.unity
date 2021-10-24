@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 1021706}
   - component: {fileID: 1021704}
   - component: {fileID: 1021703}
+  - component: {fileID: 1021708}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -180,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffff7897ecac643859b1def42f065027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  host: 127.0.0.1
+  host: 192.168.1.234
   port: 4296
   noDelay: 0
   autoConnect: 1
@@ -230,6 +231,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c10dc7eadac4e58a96d368d6b8ee4fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1021708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21302da2d0f496647894686c82116e20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _frameRate: 60
 --- !u!4 &1021709
 Transform:
   m_ObjectHideFlags: 0
