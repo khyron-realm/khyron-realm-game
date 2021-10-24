@@ -140,7 +140,7 @@ namespace PlayerDataUpdate
         {
             int robotCurentCap = (HeadquartersManager.Player.Robots[0].Count * GameDataValues.Robots[0].HousingSpace) + (HeadquartersManager.Player.Robots[1].Count * GameDataValues.Robots[1].HousingSpace) + (HeadquartersManager.Player.Robots[2].Count * GameDataValues.Robots[2].HousingSpace) + curentInTraining;
 
-            if(robotCurentCap + GameDataValues.Robots[id].HousingSpace <= GameDataValues.MaxHousingSpace)
+            if(robotCurentCap + GameDataValues.Robots[id].HousingSpace <= GameDataValues.MaxHousingSpace * 10)
             {
                 OnEnoughSpaceForRobots?.Invoke(tag);
             }

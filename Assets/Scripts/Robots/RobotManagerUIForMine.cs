@@ -48,25 +48,25 @@ namespace Manager.Robots
         /// </summary>
         private void SeparateRobotsInCategories()
         {
-            foreach(Robot item in HeadquartersManager.Player.Robots)
+            for (int j = 0; j < HeadquartersManager.Player.Robots.Length; j++)
             {
-                if(item.Id == 0)
+                if(j == 0)
                 {
-                    for (int i = 0; i < item.Count; i++)
+                    for (int i = 0; i < HeadquartersManager.Player.Robots[0].Count; i++)
                     {
                         _workers.Add(RobotsManager.robots[0]);
                     }                   
                 }
-                if(item.Id == 1)
+                if(j == 1)
                 {
-                    for (int i = 0; i < item.Count; i++)
+                    for (int i = 0; i < HeadquartersManager.Player.Robots[1].Count; i++)
                     {
                         _crushers.Add(RobotsManager.robots[1]);
                     }                   
                 }
-                if (item.Id == 2)
+                if (j == 2)
                 {
-                    for (int i = 0; i < item.Count; i++)
+                    for (int i = 0; i < HeadquartersManager.Player.Robots[2].Count; i++)
                     {
                         _probes.Add(RobotsManager.robots[2]);
                     }                 
