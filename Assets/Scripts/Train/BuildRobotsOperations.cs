@@ -21,6 +21,7 @@ namespace Manager.Train
         public static event Action OnStartOperation;
         public static event Action OnStopOperation;
         public static event Action<int> OnRobotAdded;
+        public static event Action<int> OnFirstRobotAdded;
         #endregion
 
         #region "Private members"
@@ -30,7 +31,7 @@ namespace Manager.Train
         private static ushort s_indexRobot = 0;
         private static int timeOfExecution = 0;
 
-        public static Dictionary<ushort, RobotSO> RobotsInTraining;
+        public static SortedDictionary<ushort, RobotSO> RobotsInTraining;
 
         private static bool _onceTask = false;
         
@@ -43,12 +44,14 @@ namespace Manager.Train
 
         private static BuildTask s_taskLastDone;
         private static RobotSO s_robotLastBuilt;
+
+        private static bool _onceTimePassed = true;
         #endregion
 
 
         private void Awake()
         {
-            RobotsInTraining = new Dictionary<ushort, RobotSO>();
+            RobotsInTraining = new SortedDictionary<ushort, RobotSO>();
 
             _managerUI.OnButtonPressed += BuildRobot;
 
@@ -75,9 +78,9 @@ namespace Manager.Train
                 s_indexRobot = task.Id;
                 s_robot = robot;
 
+                TotalHousingSpaceDuringBuilding += GameDataValues.Robots[s_robot._robotId].HousingSpace; 
                 RobotsInTraining.Add(s_indexRobot, s_robot);
-                OnRobotAdded.Invoke(GameDataValues.Robots[s_robot._robotId].BuildTime);
-
+                  
                 s_robotIcon = RobotsInBuildingOperations.CreateIconInTheRightForRobotInBuilding(s_robot);
 
                 if (RobotsInTraining.Count > 0)
@@ -101,11 +104,10 @@ namespace Manager.Train
                 DateTime now = DateTime.UtcNow;
 
                 _timeDiff = (int)now.Subtract(startTime).TotalSeconds;
-
                 _onceTask = true;
             }
             
-            if(_timeDiff > timeOfExecution)
+            if(_timeDiff >= timeOfExecution)
             {
                 s_taskLastDone = task;
                 s_robotLastBuilt = robot;
@@ -116,10 +118,21 @@ namespace Manager.Train
             }
             else
             {
+                print("BUILD ROBOT ICON");
+                print(Mathf.Abs(timeOfExecution - _timeDiff));
+                if (_onceTimePassed)
+                {
+                    OnFirstRobotAdded?.Invoke(Mathf.Abs(timeOfExecution - _timeDiff));
+                    _onceTimePassed = false;
+                }
+                else
+                {
+                    OnRobotAdded?.Invoke(GameDataValues.Robots[robot._robotId].BuildTime);
+                }
+
                 return false;
             }           
         }
-
 
 
         /// <summary>
@@ -127,7 +140,12 @@ namespace Manager.Train
         /// </summary>
         /// <param name="robot"> robot to build </param>
         public void BuildRobot(RobotSO robot)
-        {
+        {           
+            if(RobotsInTraining.Count < 1)
+            {
+                s_indexRobot = 0;
+            }
+
             s_robot = robot;
             s_indexRobot++;
 
@@ -169,7 +187,6 @@ namespace Manager.Train
         }
 
 
-
         /// <summary>
         /// Cancel robot in building process
         /// </summary>
@@ -190,12 +207,12 @@ namespace Manager.Train
 
                 if (RobotsInBuilding.robotsInBuildingIcons[0] == s_robotIcon)
                 {
-                    HeadquartersManager.CancelBuildingRequest((ushort)RobotsInTraining.ElementAt((ushort)RobotsInBuilding.robotsInBuildingIcons.IndexOf(s_robotIcon)).Key, s_robot._robotId, DateTime.UtcNow, 100, true);
+                    HeadquartersManager.CancelBuildingRequest((ushort)RobotsInTraining.ElementAt((ushort)RobotsInBuilding.robotsInBuildingIcons.IndexOf(s_robotIcon)).Key, s_robot._robotId, DateTime.UtcNow, HeadquartersManager.Player.Energy, true);
                     temp = true;
                 }
                 else
                 {
-                    HeadquartersManager.CancelBuildingRequest((ushort)RobotsInTraining.ElementAt((ushort)RobotsInBuilding.robotsInBuildingIcons.IndexOf(s_robotIcon)).Key, s_robot._robotId, DateTime.UtcNow, 100, false);
+                    HeadquartersManager.CancelBuildingRequest((ushort)RobotsInTraining.ElementAt((ushort)RobotsInBuilding.robotsInBuildingIcons.IndexOf(s_robotIcon)).Key, s_robot._robotId, DateTime.UtcNow, HeadquartersManager.Player.Energy, false);
                     temp = false;
                 }
 
@@ -203,31 +220,30 @@ namespace Manager.Train
                 {
                     case true:
                         OnStopOperation?.Invoke();
-                        Remove(s_robot, s_robotIcon);
+                        Remove(s_robotIcon);
                         OnStartOperation?.Invoke();
                         break;
 
                     case false:
-                        Remove(s_robot, s_robotIcon);
+                        Remove(s_robotIcon);
                         break;
                 }
 
                 TotalHousingSpaceDuringBuilding -= GameDataValues.Robots[s_robot._robotId].HousingSpace;
-
                 BuildRobots.RecalculateTime();
-                RobotsInBuildingOperations.DezactivateIcon(s_robotIcon);
 
                 if (RobotsInTraining.Count < 1)
                 {
-                    s_indexRobot = 0;
                     OnStopOperation?.Invoke();
                 }
             }
         }
-        private static void Remove(RobotSO robot, GameObject robotIcon)
-        {
+        private static void Remove(GameObject robotIcon)
+        {           
             RobotsInTraining.Remove(RobotsInTraining.ElementAt((ushort)RobotsInBuilding.robotsInBuildingIcons.IndexOf(robotIcon)).Key);
-            RobotsInBuilding.robotsInBuildingIcons.Remove(robotIcon);
+
+            RobotsInBuildingOperations.DezactivateIcon(robotIcon);
+            RobotsInBuilding.robotsInBuildingIcons.Remove(robotIcon);           
         }
 
 

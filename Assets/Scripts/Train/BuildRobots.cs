@@ -54,6 +54,7 @@ namespace Manager.Train
             BuildRobotsOperations.OnStopOperation += StopBuildingRobots;
 
             BuildRobotsOperations.OnRobotAdded += Time.AddTime;
+            BuildRobotsOperations.OnFirstRobotAdded += FirstRobotTimeRemained;
 
             PlayerDataOperations.OnRobotAdded += RobotFinishedBuilding;
             PlayerDataOperations.OnRobotAdded += ShowRobotsNumber;
@@ -81,7 +82,7 @@ namespace Manager.Train
             {
                 StopCoroutine(_coroutine);
             }
-           
+          
             _once = false;
 
             _timeRemained.enabled = false;
@@ -89,6 +90,8 @@ namespace Manager.Train
 
             Time.TimeTextState(false);
             Time.TotalTime = 0;
+
+            s_tempTime = 0;
         }
 
 
@@ -99,9 +102,9 @@ namespace Manager.Train
         {
             int count = 0;
 
-            foreach (Robot item in HeadquartersManager.Player.Robots)
+            for(int i = 0; i < GameDataValues.Robots.Count; i++)
             {
-                count += item.Count * GameDataValues.Robots[item.Id].HousingSpace;
+                count += HeadquartersManager.Player.Robots[i].Count * GameDataValues.Robots[i].HousingSpace;
             }
 
             _numberOfRobots.text = string.Format("{0}/{1}", count, GameDataValues.MaxHousingSpace);                      
@@ -126,6 +129,10 @@ namespace Manager.Train
            
             Time.DecreaseTime((int)s_tempTime);
         }
+        private void FirstRobotTimeRemained(int time)
+        {
+            s_tempTime = time;
+        }
 
 
         /// <summary>
@@ -144,9 +151,7 @@ namespace Manager.Train
                 {
                     _tempLoadingBar.MaxValue = GameDataValues.Robots[_robot._robotId].BuildTime;
                 }
-
-                s_tempTime = 0;
-
+             
                 while (_robot != null && s_tempTime < GameDataValues.Robots[_robot._robotId].BuildTime)
                 {
                     s_tempTime += 1;
@@ -156,6 +161,8 @@ namespace Manager.Train
                     
                     yield return Time.ActivateTimer();
                 }
+
+                s_tempTime = 0;
 
                 PlayerDataOperations.AddRobot(_robot._robotId, Tag);
 
@@ -188,8 +195,11 @@ namespace Manager.Train
             BuildRobotsOperations.OnStopOperation -= StopBuildingRobots;
 
             BuildRobotsOperations.OnRobotAdded -= Time.AddTime;
+            BuildRobotsOperations.OnFirstRobotAdded += FirstRobotTimeRemained;
 
             PlayerDataOperations.OnRobotAdded -= RobotFinishedBuilding;
+            PlayerDataOperations.OnRobotAdded -= ShowRobotsNumber;
+
             HeadquartersManager.OnPlayerDataReceived -= DisplayNumberOfRobots;
         }
     }
