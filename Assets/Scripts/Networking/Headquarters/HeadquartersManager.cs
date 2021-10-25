@@ -49,7 +49,8 @@ namespace Networking.Headquarters
             Player = null;
             Game = null;
             NetworkManager.Client.MessageReceived += OnDataHandler;
-        }
+        }     
+
 
         /// <summary>
         ///     Message received handler that receives each message and executes the necessary actions

@@ -1,3 +1,4 @@
+using System;
 using DarkRift;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -40,10 +41,6 @@ namespace Networking.Launcher
             else 
             {
                 Debug.Log("Server not available");
-                
-                // TO-DO
-                // open server not available popup
-                //      - report problem button
             }
         }
     }
