@@ -13,17 +13,26 @@ public class ConnectionLost : MonoBehaviour
     private void Awake()
     {
         NetworkManager.Client.Disconnected += ConnectionIsLost;
+        NetworkManager.OnServerNotAvailable += ConnectionIsLost;
+
         _errorGameObject.SetActive(false);      
     }
 
+    // Connection lost methods
     private void ConnectionIsLost(object sender, DisconnectedEventArgs e)
     {
         _errorGameObject.SetActive(true);
     }
+    private void ConnectionIsLost()
+    {
+        _errorGameObject.SetActive(true);
+    }
 
+    // HERE
     public void ReloadApllication()
     {
-        Destroy(gameObject);
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
+        NetworkManager.Client.ConnectToServer();
+        _errorGameObject.SetActive(false);
     }
 }

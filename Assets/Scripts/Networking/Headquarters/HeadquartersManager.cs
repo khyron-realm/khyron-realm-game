@@ -48,6 +48,9 @@ namespace Networking.Headquarters
         {
             Player = null;
             Game = null;
+
+            print(NetworkManager.Client);
+           
             NetworkManager.Client.MessageReceived += OnDataHandler;
         }     
 
