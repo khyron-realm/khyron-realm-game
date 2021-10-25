@@ -29,6 +29,8 @@ namespace Authentification
         #region "Private members" 
         private string _userName;
         private string _password;
+
+        private static bool s_connectionTimeOut = false;
         #endregion
 
         #region "Awake and Start"
@@ -82,8 +84,14 @@ namespace Authentification
             if (uLen > 5 && pLen > 5)
             {
                 _playerData.SaveData();
+                s_connectionTimeOut = false;
                 LoginManager.Login(_userName, _password);
-            }            
+                StartCoroutine(ConnectionTimeOut());
+            }          
+            else
+            {
+                FailedLogin(1);
+            }
         }
 
 
@@ -96,7 +104,9 @@ namespace Authentification
             // TO-DO
             // Send version 0 first time and version number on subsequent checks
             ushort version = 0;
-            HeadquartersManager.GameDataRequest(version);            
+            HeadquartersManager.GameDataRequest(version);
+
+            s_connectionTimeOut = true;
         }
         private void FailedLogin(byte errorId)
         {
@@ -113,7 +123,16 @@ namespace Authentification
                 case 2:
                     Animations.MesageErrorAnimation(_errorsText, "Server error [Code 2]");
                     break;
-            }            
+
+                case 3:
+                    Animations.MesageErrorAnimation(_errorsText, "User already in use");
+                    break;
+                case 10:
+                    Animations.MesageErrorAnimation(_errorsText, "Time out connection");
+                    break;
+            }
+
+            s_connectionTimeOut = true;
         }      
         #endregion
 
@@ -132,7 +151,18 @@ namespace Authentification
         }
         #endregion
 
+
+        private IEnumerator ConnectionTimeOut()
+        {
+            yield return new WaitForSeconds(4f);
+            
+            if(s_connectionTimeOut == false)
+            {
+                FailedLogin(10);
+            }
+        }
         
+
         private void OnDestroy()
         {
             LoginManager.OnSuccessfulLogin -= SuccessfulLogin;
