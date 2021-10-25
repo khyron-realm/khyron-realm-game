@@ -263,6 +263,7 @@ namespace Networking.Launcher
         {
             try
             {
+                Debug.Log("Connecting to server");
                 Connect(host, port, noDelay);
             }
             catch (Exception ex)

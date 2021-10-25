@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DarkRift;
 using UnityEngine;
 using Networking.Launcher;
 using UnityEngine.SceneManagement;
@@ -28,11 +29,22 @@ public class ConnectionLost : MonoBehaviour
         _errorGameObject.SetActive(true);
     }
 
-    // HERE
+    /// <summary>
+    /// 
+    /// </summary>
     public void ReloadApllication()
     {
-        SceneManager.LoadScene(1);
         NetworkManager.Client.ConnectToServer();
+        if (NetworkManager.Client.ConnectionState == ConnectionState.Connected)
+        {
+            Debug.Log("Reconnected to the server");
+            SceneManager.LoadScene(1);
+        }
+        else
+        {
+            Debug.Log("Cannot reconnect");
+        }
+        
         _errorGameObject.SetActive(false);
     }
 }
