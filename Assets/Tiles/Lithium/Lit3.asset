@@ -170,4 +170,4 @@ MonoBehaviour:
     - {x: 0, y: -1, z: 0}
     m_RuleTransform: 0
   customField: 0
-  emptyTile: {fileID: 0}
+  emptyTile: {fileID: 11400000, guid: b71e40c97295d1c4dba8d4c177b771d3, type: 2}

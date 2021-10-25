@@ -171,6 +171,7 @@ namespace Networking.Launcher
         /// </summary>
         public event EventHandler<DisconnectedEventArgs> Disconnected;
 
+
         /// <summary>
         ///     The ID the client has been assigned.
         /// </summary>
@@ -359,10 +360,6 @@ namespace Networking.Launcher
                 if (!e.LocalDisconnect)
                 {
                     Debug.Log("Disconnected from server, error: " + e.Error);
-                    
-                    // TO-DO
-                    // open server not available popup
-                    //      - report problem button
                 }
 
                 Dispatcher.InvokeAsync(
@@ -381,10 +378,6 @@ namespace Networking.Launcher
                 if (!e.LocalDisconnect)
                 {
                     Debug.Log("Disconnected from server, error: " + e.Error);
-                    
-                    // TO-DO
-                    // open server not available popup
-                    //      - report problem button
                 }
                 
                 EventHandler<DisconnectedEventArgs> handler = Disconnected;

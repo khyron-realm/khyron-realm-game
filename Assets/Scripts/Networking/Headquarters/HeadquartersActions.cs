@@ -99,8 +99,14 @@ namespace Networking.Headquarters
             byte queueNumber = 0;
             byte robotId = 0;
             DateTime startTime = DateTime.UtcNow;
+            
+            // single robot
             Robot newRobot = new Robot();
             HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, startTime, newRobot);
+            
+            // multiple robots
+            Robot[] newRobots = new Robot[] { };
+            HeadquartersManager.FinishBuildingRequest(queueNumber, robotId, startTime, newRobots);
         }
         
         public void CancelBuildRobot(bool inProgress)

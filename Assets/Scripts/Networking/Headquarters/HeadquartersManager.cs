@@ -49,7 +49,8 @@ namespace Networking.Headquarters
             Player = null;
             Game = null;
             NetworkManager.Client.MessageReceived += OnDataHandler;
-        }
+        }     
+
 
         /// <summary>
         ///     Message received handler that receives each message and executes the necessary actions
@@ -476,6 +477,26 @@ namespace Networking.Headquarters
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Sending finish robot build to the server");
+        }
+        
+        /// <summary>
+        ///     Request for finishing the building of all the robots
+        /// </summary>
+        /// <param name="queueNumber">The number of the robot in the queue</param>
+        /// <param name="robotId">The type of the robot</param>
+        /// <param name="startTime">The new starting time</param>
+        /// <param name="newRobots">The new values for all robots</param>
+        public static void FinishBuildingRequest(ushort queueNumber, byte robotId, DateTime startTime, Robot[] newRobots)
+        {
+            using var writer = DarkRiftWriter.Create();
+            writer.Write(queueNumber);
+            writer.Write(robotId);
+            writer.Write(startTime.ToBinary());
+            writer.Write(newRobots);
+            using var msg = Message.Create(HeadquartersTags.FinishBuildMultiple, writer);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+            
+            if(ShowDebug) Debug.Log("Sending finish robots build to the server");
         }
 
         /// <summary>

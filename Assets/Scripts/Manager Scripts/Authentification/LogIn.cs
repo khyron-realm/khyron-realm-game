@@ -21,6 +21,9 @@ namespace Authentification
 
         [SerializeField] private ChangeScene _scene;
         [SerializeField] private Text _errorsText;
+
+        [Space(20f)]
+        [SerializeField] private bool _enableAutomaticLogin;
         #endregion
 
         #region "Private members" 
@@ -40,7 +43,10 @@ namespace Authentification
 
         private void Start()
         {
-            AutomaticLogIn();
+            if(_enableAutomaticLogin)
+            {
+                AutomaticLogIn();
+            }         
         }
         #endregion
 

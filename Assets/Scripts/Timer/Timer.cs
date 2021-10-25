@@ -87,7 +87,11 @@ namespace CountDown
         public void AddTime(int time)
         {
             _totalTime += time;
-            DataActualization();
+
+            if (_hasTimeText)
+            {
+                DisplayTime();
+            }
         }
         public void DecreaseTime(int time)
         {
@@ -102,19 +106,14 @@ namespace CountDown
                 DisplayTime();
             }
         }
-
-
-        private void DataActualization()
+        public void SetMaxValueForTime(int max)
         {
-            if (_hasProgressBar)
-            {
-                SetProgressBarMaxValue();
-            }
+            _maxTime = max;
 
-            if (_hasTimeText)
+            if(_hasProgressBar)
             {
-                DisplayTime();
-            }
+                _bar.MaxValue = max;
+            }           
         }
 
 
@@ -178,14 +177,6 @@ namespace CountDown
             if (_hasProgressBar)
             {
                 _bar.CurrentValue = _maxTime - _totalTime;
-            }
-        }
-        private void SetProgressBarMaxValue()
-        {
-            if (_hasProgressBar)
-            {
-                _bar.MaxValue = _totalTime;
-                _maxTime = _totalTime;
             }
         }
 

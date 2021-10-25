@@ -56,14 +56,24 @@ namespace Manager.Convert
 
             int timeRemained = (int)now.Subtract(startTime).TotalSeconds;
 
-            ExecuteConversion((GameDataValues.ConversionTime * 60) - timeRemained);    
+            ExecuteConversion((GameDataValues.ConversionTime * 60) - timeRemained, (GameDataValues.ConversionTime * 60));    
         }
 
 
-        private void ExecuteConversion(int time)
+        private void ExecuteConversion(int time, int maxValue = 0)
         {
             _timer.TimeTextState(true);
             _timer.AddTime(time);
+
+            if(maxValue == 0)
+            {
+                _timer.SetMaxValueForTime(time);
+            }
+            else
+            {
+                _timer.SetMaxValueForTime(maxValue);
+            }
+            
             _button.enabled = false;
 
             StartCoroutine(RunConversion(time));
