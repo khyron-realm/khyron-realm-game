@@ -13,6 +13,13 @@ namespace Networking.Launcher
         [FormerlySerializedAs("networkServerConnection")] [SerializeField] [Tooltip("The DarkRift client communication object")]
         public DarkriftServerConnection networkClient;
 
+        #region Events
+
+        public delegate void ServerNotAvailableErrorEventHandler();
+        public static event ServerNotAvailableErrorEventHandler OnServerNotAvailable;
+
+        #endregion
+        
         protected NetworkManager()
         {
         }
@@ -41,9 +48,7 @@ namespace Networking.Launcher
             {
                 Debug.Log("Server not available");
                 
-                // TO-DO
-                // open server not available popup
-                //      - report problem button
+                OnServerNotAvailable?.Invoke();
             }
         }
     }
