@@ -9,7 +9,7 @@ using CameraActions;
 
 namespace Panels
 {
-    public class OpenPanel : MonoBehaviour
+    public class OpenPanel : MonoBehaviour, IOpen
     {
         #region "Input Fields"
 
@@ -40,8 +40,6 @@ namespace Panels
 
         private Image _bgImage;
         private Sequence _mySequence;
-
-        private static bool s_openPanel = false;
         #endregion
 
         private void Awake()
@@ -56,17 +54,13 @@ namespace Panels
         }
 
 
-        private void OnMouseUpAsButton()
+        public void Open()
         {
-            if (s_openPanel == false && PanPinchCameraMovement.MovingCamera == false)
-            {
-                SetActive();
-                s_openPanel = true;
-            }                    
+            SetActive();
         }
 
 
-        public void SetActive()
+        private void SetActive()
         {
             _panel.SetActive(true);
             _bgPanel.SetActive(true);
@@ -75,8 +69,6 @@ namespace Panels
         }
         public void SetFalse()
         {
-            s_openPanel = false;
-
             _panel.SetActive(false);
             _panel.transform.localScale = new Vector3(1, 1, 0);
 
@@ -105,6 +97,6 @@ namespace Panels
             {
 
             }
-        }
+        } 
     }
 }

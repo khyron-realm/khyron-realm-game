@@ -7,14 +7,14 @@ using UnityEngine.EventSystems;
 
 namespace Mine
 {
-    public class MineTouched : MonoBehaviour
+    public class MineTouched : MonoBehaviour, IOpen
     {
         [SerializeField] private bool _isMineAquired;
         [SerializeField] private GameObject _mineManager;
 
         public event Action<GameObject, bool, GameObject> OnGameObjectTouched;
 
-        private void OnMouseUpAsButton()
+        public void Open()
         {
             OnGameObjectTouched?.Invoke(gameObject, _isMineAquired, _mineManager);
         }

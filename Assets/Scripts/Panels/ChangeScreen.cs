@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace Panels
 {
-    public class ChangeScreen : MonoBehaviour
+    public class ChangeScreen : MonoBehaviour, IOpen
     {
         #region "Input data"
         [SerializeField] private GameObject _currentScreen;
@@ -18,9 +18,9 @@ namespace Panels
             _screenToGo.SetActive(true);
         }
 
-        public void OnMouseUpAsButton()
+        public void Open()
         {
-            ScreenChange();             
+            ScreenChange();
         }
     }
 }

@@ -55,8 +55,6 @@ namespace CameraActions
 
         #endregion
 
-        public static bool MovingCamera = false;
-
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()
@@ -76,8 +74,35 @@ namespace CameraActions
 
         private void Update()
         {
-            Panning();
-            Pinching();
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                bool check = false;
+
+                for (int i = 0; i < Input.touchCount; i++)
+                {
+                    if (EventSystem.current.IsPointerOverGameObject(i))
+                    {
+                        check = true;
+                        break;
+                    }
+                }
+
+                if (check == false)
+                {
+                    _initTouch = false;
+                }
+            }
+
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+            {
+                _initTouch = true;
+            }
+
+            if(_initTouch == false)
+            {
+                Panning();
+                Pinching();
+            }          
         }
 
 
@@ -87,32 +112,8 @@ namespace CameraActions
         private void Panning()
         {
             // One finger on the screen [Pan]
-            if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-            {
-                bool check = false;
-                MovingCamera = false;
 
-                for (int i = 0; i < Input.touchCount; i++)
-                {
-                    if(EventSystem.current.IsPointerOverGameObject(i))
-                    {
-                        check = true;
-                        break;
-                    }
-                }
-
-                if(check == false)
-                {
-                    _initTouch = false;
-                }   
-            }
-
-            if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
-            {
-                _initTouch = true;
-            }
-
-            if (Input.touchCount > 0 && Input.touchCount < 2 && Input.GetTouch(0).phase == TouchPhase.Moved && _initTouch == false)
+            if (Input.touchCount > 0 && Input.touchCount < 2 && Input.GetTouch(0).phase == TouchPhase.Moved)
             {
                 Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
                 PanningFunction(touchDeltaPosition);            
@@ -143,7 +144,7 @@ namespace CameraActions
                     float prevDist =  Vector2.Distance ( touchZero.position - touchZero.deltaPosition , touchOne.position - touchOne.deltaPosition);
                     float dist = Vector2.Distance (touchZero.position, touchOne.position);
 
-                    PanningFunction((touchZero.deltaPosition + touchOne.deltaPosition) / 2);
+                    PanningFunction((touchZero.deltaPosition + touchOne.deltaPosition) / 20);
 
                     _cameraToMove.orthographicSize = Mathf.Clamp (_cameraToMove.orthographicSize* (prevDist/dist), _orthoMin, _orthoMax);
 
@@ -178,11 +179,6 @@ namespace CameraActions
         
         private void PanningFunction(Vector2 touchDeltaPosition)
         {
-            if (touchDeltaPosition.x > 1.6f || touchDeltaPosition.y > 1.6f)
-            {
-                MovingCamera = true;
-            }
-
             Vector3 screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 1f);
             Vector3 screenTouch = screenCenter + new Vector3(touchDeltaPosition.x, touchDeltaPosition.y, 0f);
 
