@@ -20,7 +20,7 @@ namespace Networking.Login
 
         public delegate void SuccessfulLoginEventHandler();
         public delegate void FailedLoginEventHandler(byte errorId);
-        public delegate void SuccessfulLogoutEventHandler();
+        public delegate void SuccessfulLogoutEventHandler(byte logoutType);
         public delegate void SuccessfulAddUserEventHandler();
         public delegate void FailedAddUserEventHandler(byte errorId);
         
@@ -83,7 +83,13 @@ namespace Networking.Login
                 {
                     if (ShowDebug) Debug.Log("Successful logout");
                     IsLoggedIn = false;
-                    OnSuccessfulLogout?.Invoke();
+                    using var reader = message.GetReader();
+                    if (reader.Length != 1)
+                    {
+                        Debug.LogWarning("Invalid LoginFailed error data received");
+                        return;
+                    }
+                    OnSuccessfulLogout?.Invoke(reader.ReadByte());
                     break;
                 }
 

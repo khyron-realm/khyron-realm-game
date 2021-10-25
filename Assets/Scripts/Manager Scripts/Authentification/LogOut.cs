@@ -22,8 +22,9 @@ namespace Authentification
             LoginManager.Logout();          
         }
 
-        private void SuccessfulLogout()
+        private void SuccessfulLogout(byte logoutType)
         {
+            modifica aici
             Delete();
             _scene.GoToScene();
         }

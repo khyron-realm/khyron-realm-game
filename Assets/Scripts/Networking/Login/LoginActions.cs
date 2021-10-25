@@ -78,9 +78,10 @@ namespace Networking.Login
         /// <summary>
         ///     Process the server response for a successful logout
         /// </summary>
-        private void SuccessfulLogout()
+        private void SuccessfulLogout(byte logoutType)
         {
-            
+            // 0 - normal logout
+            // 1 - forced logout (logged in on another device)
         }
         
         /// <summary>
