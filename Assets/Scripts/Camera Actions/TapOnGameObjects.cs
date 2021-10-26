@@ -8,7 +8,9 @@ namespace CameraActions
 {
     public class TapOnGameObjects : MonoBehaviour
     {
+        #region "Input data"
         [SerializeField] private float _sensitivity;
+        #endregion
 
         #region "Private members"
         private static Collider2D s_firstColliderTouched;
@@ -21,7 +23,6 @@ namespace CameraActions
 
         void Update()
         {
-            print(Input.GetTouch(0).deltaPosition);
             if (Input.touchCount > 0 && !EventSystem.current.IsPointerOverGameObject(0))
             {
                 Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);

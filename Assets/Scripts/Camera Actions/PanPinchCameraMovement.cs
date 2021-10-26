@@ -93,7 +93,7 @@ namespace CameraActions
                 }
             }
 
-            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+            if (Input.touchCount > 0 && Input.touchCount < 2 && Input.GetTouch(0).phase == TouchPhase.Ended)
             {
                 _initTouch = true;
             }
@@ -102,7 +102,7 @@ namespace CameraActions
             {
                 Panning();
                 Pinching();
-            }          
+            }
         }
 
 
@@ -111,9 +111,7 @@ namespace CameraActions
         /// </summary>
         private void Panning()
         {
-            // One finger on the screen [Pan]
-
-            if (Input.touchCount > 0 && Input.touchCount < 2 && Input.GetTouch(0).phase == TouchPhase.Moved)
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
             {
                 Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
                 PanningFunction(touchDeltaPosition);            
@@ -144,7 +142,7 @@ namespace CameraActions
                     float prevDist =  Vector2.Distance ( touchZero.position - touchZero.deltaPosition , touchOne.position - touchOne.deltaPosition);
                     float dist = Vector2.Distance (touchZero.position, touchOne.position);
 
-                    PanningFunction((touchZero.deltaPosition + touchOne.deltaPosition) / 20);
+                    PanningFunction((touchZero.deltaPosition + touchOne.deltaPosition) / 40);
 
                     _cameraToMove.orthographicSize = Mathf.Clamp (_cameraToMove.orthographicSize* (prevDist/dist), _orthoMin, _orthoMax);
 
