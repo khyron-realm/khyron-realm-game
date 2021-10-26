@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Manager.Robots;
 using Networking.Headquarters;
+using Unlimited_NetworkingServer_MiningGame.Game;
+
 
 namespace Manager.Robots
 {
@@ -44,7 +47,7 @@ namespace Manager.Robots
             {
                 Button newButton = Instantiate(_buttonToInstantiate);
                 newButton.transform.SetParent(_canvas.transform, false);
-                newButton.GetComponent<Image>().sprite = item.icon;
+                newButton.GetComponent<Image>().sprite = item.Icon;
 
                 if (_hasPriceDisplayed)
                     ShowPrice(item, newButton);
@@ -57,12 +60,12 @@ namespace Manager.Robots
         }
         private static void ShowPrice(RobotSO item, Button newButton)
         {
-            int temp = RobotsManager.robotsData[item.nameOfTheRobot.ToString()].RobotLevel;
-            newButton.transform.GetChild(0).GetComponent<Text>().text = HeadquartersManager.Game.Robots[item._robotId].BuildPrice.ToString();
+            int temp = RobotsManager.robotsData[item.NameOfTheRobot.ToString()].RobotLevel;
+            newButton.transform.GetChild(0).GetComponent<Text>().text = LevelMethods.RobotBuildCost(HeadquartersManager.Player.Robots[item.RobotId].Level, item.RobotId).ToString();
         }
         private static void MakeButtonsAvailable(RobotSO item, Button newButton)
         {
-            if (RobotsManager.robotsData[item.nameOfTheRobot].AvailableRobot == false)
+            if (RobotsManager.robotsData[item.NameOfTheRobot].AvailableRobot == false)
             {
                 newButton.interactable = true;
             }

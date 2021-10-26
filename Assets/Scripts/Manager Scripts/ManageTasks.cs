@@ -49,7 +49,7 @@ namespace Manager
         {
             foreach (RobotSO item in RobotsManager.robots)
             {
-                if(item._robotId == id)
+                if(item.RobotId == id)
                 {
                     return item;
                 }

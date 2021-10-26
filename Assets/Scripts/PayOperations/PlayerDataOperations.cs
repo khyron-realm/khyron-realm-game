@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Networking.Headquarters;
-using Save;
+using Unlimited_NetworkingServer_MiningGame.Game;
+using Manager.Robots;
+
 
 namespace PlayerDataUpdate
 {
@@ -48,7 +50,7 @@ namespace PlayerDataUpdate
 
             if(temp >= 0)
             {
-                if(temp <= GameDataValues.Resources[index].MaxCount)
+                if(temp <= LevelMethods.MaxResourcesAmount(HeadquartersManager.Player.Level)[index])
                 {
                     return true;
                 }
@@ -97,7 +99,7 @@ namespace PlayerDataUpdate
 
             if (temp >= 0)
             {
-                if (temp <= GameDataValues.MaxEnergy)
+                if (temp <= LevelMethods.MaxEnergyCount(HeadquartersManager.Player.Level))
                 {
                     HeadquartersManager.Player.Energy += (uint)amount;
                     OnEnergyModified?.Invoke(tag);
@@ -120,7 +122,7 @@ namespace PlayerDataUpdate
         /// <param name="id"></param>
         public static void UpgradeRobot(byte id, byte tag)
         {
-            if(HeadquartersManager.Player.Robots[id].Level <= GameDataValues.MaxRobotLevel)
+            if(HeadquartersManager.Player.Robots[id].Level <= LevelMethods.MAX_ROBOTS_LEVEL)
             {
                 HeadquartersManager.Player.Robots[id].Level += 1;
                 OnRobotUpgraded?.Invoke(tag);
@@ -138,9 +140,9 @@ namespace PlayerDataUpdate
         /// <param name="robot"></param>
         public static void CheckIfMaxRobotCapNotReached(byte id, int curentInTraining, byte tag)
         {
-            int robotCurentCap = (HeadquartersManager.Player.Robots[0].Count * GameDataValues.Robots[0].HousingSpace) + (HeadquartersManager.Player.Robots[1].Count * GameDataValues.Robots[1].HousingSpace) + (HeadquartersManager.Player.Robots[2].Count * GameDataValues.Robots[2].HousingSpace) + curentInTraining;
+            int robotCurentCap = (HeadquartersManager.Player.Robots[0].Count * RobotsManager.robots[0].HousingSpace) + (HeadquartersManager.Player.Robots[1].Count * RobotsManager.robots[0].HousingSpace) + (HeadquartersManager.Player.Robots[2].Count * RobotsManager.robots[0].HousingSpace) + curentInTraining;
 
-            if(robotCurentCap + GameDataValues.Robots[id].HousingSpace <= GameDataValues.MaxHousingSpace)
+            if(robotCurentCap + RobotsManager.robots[id].HousingSpace <= LevelMethods.HousingSpace(HeadquartersManager.Player.Level))
             {
                 OnEnoughSpaceForRobots?.Invoke(tag);
             }

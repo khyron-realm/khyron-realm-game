@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "Robots/Robot", order = 1)]
 public class RobotSO: ScriptableObject
 {
-    public byte _robotId;
-    public string nameOfTheRobot;
-    public string description;
-    public Sprite icon;
-    public List<RobotLevel> robotLevel;
+    public byte RobotId;
+    public int HousingSpace;
+    public int BuildTime;
+    public string NameOfTheRobot;
+    public string Description;
+    public Sprite Icon;
+    public List<RobotLevel> RobotLevel;
 }

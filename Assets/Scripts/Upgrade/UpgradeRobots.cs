@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Manager.Robots;
-using Save;
+using Unlimited_NetworkingServer_MiningGame.Game;
 using CountDown;
 using Networking.Headquarters;
 using PlayerDataUpdate;
@@ -56,18 +56,18 @@ namespace Manager.Upgrade
         private void UpgradeInProgress(BuildTask task, RobotSO robot)
         {
             _selectedRobot = robot;
-            UpgradingMethod((GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime * 60) - TimeTillFinish(task.StartTime), GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime * 60);
+            UpgradingMethod((LevelMethods.RobotUpgradeTime(robot.RobotId) * 60) - TimeTillFinish(task.StartTime), LevelMethods.RobotUpgradeTime(robot.RobotId) * 60);
         }       
         public void UpgradeRobot()
         {
-            PlayerDataOperations.PayEnergy(-GameDataValues.Robots[_selectedRobot._robotId].UpgradePrice, Tag);         
+            PlayerDataOperations.PayEnergy(-(int)LevelMethods.RobotUpgradeCost(HeadquartersManager.Player.Level, _selectedRobot.RobotId), Tag);         
         }
         private void UpgradeCompatible(byte tag)
         {
             if(Tag == tag)
             {
-                HeadquartersManager.UpgradingRequest(_selectedRobot._robotId, DateTime.UtcNow, HeadquartersManager.Player.Energy);
-                UpgradingMethod(GameDataValues.Robots[_selectedRobot._robotId].UpgradeTime * 60);
+                HeadquartersManager.UpgradingRequest(_selectedRobot.RobotId, DateTime.UtcNow, HeadquartersManager.Player.Energy);
+                UpgradingMethod(LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Level) * 60);
             }
         }
 
@@ -112,12 +112,12 @@ namespace Manager.Upgrade
 
             int temp = GetInfoLevel();
 
-            _displayStatsImage.sprite = robot.robotLevel[temp].upgradeImage;
-            _nameOfTheRobot.text = robot.nameOfTheRobot;
+            _displayStatsImage.sprite = robot.RobotLevel[temp].upgradeImage;
+            _nameOfTheRobot.text = robot.NameOfTheRobot;
         }
         private int GetInfoLevel()
         {
-            return RobotsManager.robotsData[_selectedRobot.nameOfTheRobot.ToString()].RobotLevel;
+            return RobotsManager.robotsData[_selectedRobot.NameOfTheRobot.ToString()].RobotLevel;
         }
 
 
@@ -130,7 +130,7 @@ namespace Manager.Upgrade
                 yield return _timer.ActivateTimer();
             }
 
-            PlayerDataOperations.UpgradeRobot(_selectedRobot._robotId, Tag);     
+            PlayerDataOperations.UpgradeRobot(_selectedRobot.RobotId, Tag);     
         }
 
 
@@ -138,7 +138,7 @@ namespace Manager.Upgrade
         {
             if(Tag == tag)
             {
-                HeadquartersManager.FinishUpgradingRequest(_selectedRobot._robotId, HeadquartersManager.Player.Robots[_selectedRobot._robotId]);
+                HeadquartersManager.FinishUpgradingRequest(_selectedRobot.RobotId, HeadquartersManager.Player.Robots[_selectedRobot.RobotId]);
 
                 _timer.TimeTextState(false);
                 _upgradeButton.enabled = true;

@@ -29,7 +29,7 @@ namespace Manager.Train
 
                 newRobotToCreate.SetActive(true);
                 newRobotToCreate.transform.SetSiblingIndex(RobotsInBuilding.robotsInBuildingIcons.Count - 1);
-                newRobotToCreate.GetComponent<Image>().sprite = robot.icon;
+                newRobotToCreate.GetComponent<Image>().sprite = robot.Icon;
 
                 newRobotToCreate.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(
                     delegate

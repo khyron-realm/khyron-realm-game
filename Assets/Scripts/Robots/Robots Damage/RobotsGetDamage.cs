@@ -52,8 +52,8 @@ namespace Manager.Robots.Damage
         /// <param name="currentRobot"></param>
         public void GetHealthFromRobot(RobotSO currentRobot)
         {
-            int level = RobotsManager.robotsData[currentRobot.nameOfTheRobot].RobotLevel;
-            _health =  currentRobot.robotLevel[level].status.health;
+            int level = RobotsManager.robotsData[currentRobot.NameOfTheRobot].RobotLevel;
+            _health =  currentRobot.RobotLevel[level].status.health;
         }
 
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Panels;
-using Save;
+using Unlimited_NetworkingServer_MiningGame.Game;
 using Networking.Headquarters;
 using PlayerDataUpdate;
 
@@ -56,10 +56,10 @@ namespace Manager.Store
         }
         private void InitMaximumLevels()
         {
-            _energyBar.MaxValue = (int)GameDataValues.MaxEnergy;
-            _silliconBar.MaxValue = (int)GameDataValues.Resources[0].MaxCount;
-            _lithiumBar.MaxValue = (int)GameDataValues.Resources[1].MaxCount;
-            _titaniumBar.MaxValue = (int)GameDataValues.Resources[2].MaxCount;           
+            _energyBar.MaxValue = (int)LevelMethods.MaxEnergyCount(HeadquartersManager.Player.Level);
+            _silliconBar.MaxValue = (int)LevelMethods.MaxResourcesAmount(HeadquartersManager.Player.Level)[0];
+            _lithiumBar.MaxValue = (int)LevelMethods.MaxResourcesAmount(HeadquartersManager.Player.Level)[1];
+            _titaniumBar.MaxValue = (int)LevelMethods.MaxResourcesAmount(HeadquartersManager.Player.Level)[2];
         }
         #endregion
 

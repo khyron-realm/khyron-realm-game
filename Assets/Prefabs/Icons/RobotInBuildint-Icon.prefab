@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 651178914790847900}
   - component: {fileID: 3703803370117855873}
   m_Layer: 5
-  m_Name: TrainingRobot
+  m_Name: RobotInBuildint-Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

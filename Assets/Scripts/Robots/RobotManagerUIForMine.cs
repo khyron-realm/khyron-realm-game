@@ -98,7 +98,7 @@ namespace Manager.Robots
         {
             Button newButton = Instantiate(_buttonToInstantiate);
             newButton.transform.SetParent(_canvas.transform, false);
-            newButton.GetComponent<Image>().sprite = list[0].icon;
+            newButton.GetComponent<Image>().sprite = list[0].Icon;
             newButton.transform.GetChild(0).GetComponent<Text>().text = list.Count.ToString();
 
             AddListenerToButton(newButton, list, newButton.transform.GetChild(0).GetComponent<Text>());

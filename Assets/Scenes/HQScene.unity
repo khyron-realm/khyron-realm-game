@@ -522,7 +522,7 @@ GameObject:
   m_Component:
   - component: {fileID: 155295448}
   m_Layer: 0
-  m_Name: UI
+  m_Name: ---- UI ----
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1989,7 +1989,7 @@ GameObject:
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: ---- Main Camera ----
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2356,7 +2356,7 @@ GameObject:
   m_Component:
   - component: {fileID: 537973328}
   m_Layer: 0
-  m_Name: Map-Screen
+  m_Name: ---- Map-Screen ----
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3051,7 +3051,7 @@ GameObject:
   m_Component:
   - component: {fileID: 790242268}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: ---- Managers ----
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7323,7 +7323,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1854750517}
   m_Layer: 0
-  m_Name: City-Screen
+  m_Name: ---- City-Screen ----
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

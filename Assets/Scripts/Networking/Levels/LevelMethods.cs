@@ -2,7 +2,7 @@ using System;
 
 namespace Unlimited_NetworkingServer_MiningGame.Game
 {
-    public class LevelMethods
+    public static class LevelMethods
     {
         #region Constants
 
@@ -18,7 +18,7 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// </summary>
         /// <param name="level">The current level</param>
         /// <returns>The calculated value for the level</returns>
-        public uint Experience(byte level)
+        public static uint Experience(byte level)
         {
             if (level == 1)
                 return 30;
@@ -39,7 +39,7 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// </summary>
         /// <param name="level">The current level</param>
         /// <returns>The calculated value for the level</returns>
-        public uint[] ResourceConversionCost(byte level)
+        public static uint[] ResourceConversionCost(byte level)
         {
             uint silicon = (uint) (400 * level);
             uint lithium = (uint) (200 * level);
@@ -54,7 +54,7 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// </summary>
         /// <param name="level">The current level</param>
         /// <returns>The calculated value for the level</returns>
-        public uint ResourceConversionGeneration(byte level)
+        public static uint ResourceConversionGeneration(byte level)
         {
             return (uint) (9950 * level + Math.Pow(level, 2) * 50);
         }
@@ -64,7 +64,7 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// </summary>
         /// <param name="level">The current level</param>
         /// <returns>The calculated value for the level</returns>
-        public ushort ResourceConversionTime(byte level)
+        public static ushort ResourceConversionTime(byte level)
         {
             if (level < 5)
                 return 5;
@@ -78,7 +78,7 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// <param name="level">The current level</param>
         /// <param name="robotType">The type of robot</param>
         /// <returns>The calculated value for the level</returns>
-        public uint RobotUpgradeCost(byte level, byte robotType)
+        public static uint RobotUpgradeCost(byte level, byte robotType)
         {
             switch (robotType)
             {
@@ -98,7 +98,7 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// </summary>
         /// <param name="level">The current level</param>
         /// <returns>The calculated value for the level</returns>
-        public ushort RobotUpgradeTime(byte level)
+        public static ushort RobotUpgradeTime(byte level)
         {
             if (level < 5)
                 return 5;
@@ -112,7 +112,7 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// <param name="level">The current level</param>
         /// <param name="robotType">The type of robot</param>
         /// <returns>The calculated value for the level</returns>
-        public uint RobotBuildCost(byte level, byte robotType)
+        public static uint RobotBuildCost(byte level, byte robotType)
         {
             switch (robotType)
             {
@@ -127,26 +127,6 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
             }
         }
 
-        /// <summary>
-        ///     The time necessary to build the robot
-        /// </summary>
-        /// <param name="level">The current level</param>
-        /// <param name="robotType">The type of robot</param>
-        /// <returns>The calculated value for the level</returns>
-        public ushort RobotBuildTime(byte level, byte robotType)
-        {
-            switch (robotType)
-            {
-                case RobotTypes.Worker: 
-                    return 5;
-                case RobotTypes.Probe:
-                    return 10;
-                case RobotTypes.Crusher:
-                    return 30;
-                default:
-                    return 0;
-            }
-        }
 
         /// <summary>
         ///     The health of the robot
@@ -154,7 +134,7 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// <param name="level">The current level</param>
         /// <param name="robotType">The type of robot</param>
         /// <returns>The calculated value for the level</returns>
-        public ushort RobotHealth(byte level, byte robotType)
+        public static ushort RobotHealth(byte level, byte robotType)
         {
             switch (robotType)
             {
@@ -175,7 +155,7 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// <param name="level">The current level</param>
         /// <param name="robotType">The type of robot</param>
         /// <returns>The calculated value for the level</returns>
-        public ushort RobotMovementSpeed(byte level, byte robotType)
+        public static ushort RobotMovementSpeed(byte level, byte robotType)
         {
             switch (robotType)
             {
@@ -196,7 +176,7 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// <param name="level">The current level</param>
         /// <param name="robotType">The type of robot</param>
         /// <returns>The calculated value for the level</returns>
-        public ushort RobotMiningDamage(byte level, byte robotType)
+        public static ushort RobotMiningDamage(byte level, byte robotType)
         {
             switch (robotType)
             {
@@ -217,7 +197,7 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// <param name="level">The current level</param>
         /// <param name="robotType">The type of robot</param>
         /// <returns>The calculated value for the level</returns>
-        public ushort RobotSelfDamage(byte level, byte robotType)
+        public static ushort RobotSelfDamage(byte level, byte robotType)
         {
             switch (robotType)
             {
@@ -237,11 +217,30 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// </summary>
         /// <param name="level">The current level</param>
         /// <returns>The calculated value for the level</returns>
-        public ushort HousingSpace(byte level)
+        public static ushort HousingSpace(byte level)
         {
             return (ushort) (10 + 4 * Math.Sqrt(level));
         }
         
+
+        public static uint MaxEnergyCount(int level)
+        {
+            return 100000;
+        }
+
+        public static uint[] MaxResourcesAmount(int level)
+        {
+            uint[] temp = new uint[3] { 10000, 10000, 10000 };
+
+            //_silliconBar
+            //lithium
+            //titan
+
+            return temp;
+        }
+
+
+
         #endregion
     }
 }

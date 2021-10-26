@@ -152,7 +152,7 @@ namespace Manager.Robots
             _infoText = text;
 
 
-            switch (_robotSelected._robotId)
+            switch (_robotSelected.RobotId)
             {
                 case 0:
                     robotToDeploy = _robotMiner;
