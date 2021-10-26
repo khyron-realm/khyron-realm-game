@@ -13,13 +13,12 @@ namespace Manager
         private void Awake()
         {
             HeadquartersManager.OnPlayerDataUnavailable += PlayerDataUnavailable;
-            HeadquartersManager.PlayerDataRequest();
         }
 
         private void PlayerDataUnavailable()
         {
             Debug.Log("----> Player data unavailable <----");
-            // Native Erorrs
+            // Native Errors
         }
 
 

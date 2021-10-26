@@ -5,16 +5,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using Networking.Headquarters;
 
-
-/// <summary>
-/// ## Checked ##   
-/// 
-/// Instantiate buttons for each robot
-/// Add listers such as OnButtonPressed that send the robot pressed
-/// 
-/// </summary>
 namespace Manager.Robots
 {
+    
+    /// <summary>
+    /// ## Checked ##   
+    /// 
+    /// Instantiate buttons for each robot
+    /// Add listeners such as OnButtonPressed that send the robot pressed
+    /// 
+    /// </summary>A
     public class RobotsManagerUI : MonoBehaviour
     {
         #region "Input data"

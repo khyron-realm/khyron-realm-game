@@ -1,7 +1,6 @@
 using System;
 using DarkRift;
 using DarkRift.Client;
-using Networking.Game;
 using Networking.Launcher;
 using Networking.Tags;
 using UnityEngine;
@@ -15,7 +14,6 @@ namespace Networking.Headquarters
     {
         public static bool ShowDebug = true;
         public static PlayerData Player;
-        public static GameData Game;
 
         #region Events
 
@@ -47,7 +45,6 @@ namespace Networking.Headquarters
         private void Awake()
         {
             Player = null;
-            Game = null;
 
             print(NetworkManager.Client);
            
@@ -216,7 +213,7 @@ namespace Networking.Headquarters
         }
         
         /// <summary>
-        ///     Receive game data from the DarkRift server
+        ///     NOT-FINISHED - Receive game data from the DarkRift server
         /// </summary>
         /// <param name="message">The message received</param>
         private static void GetGameData(Message message)
@@ -224,12 +221,6 @@ namespace Networking.Headquarters
             if (ShowDebug) Debug.Log("Received game data");
             
             using var reader = message.GetReader();
-            Game = reader.ReadSerializable<Game.GameData>();
-
-            if (ShowDebug)
-            {
-                Debug.Log("Game parameters version " + Game.Version);
-            }
             
             OnGameDataReceived?.Invoke();
         }
