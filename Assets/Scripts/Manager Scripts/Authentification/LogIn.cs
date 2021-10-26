@@ -101,13 +101,9 @@ namespace Authentification
         /// </summary>
         private void SuccessfulLogin()
         {
-            // TO-DO
-            // Send version 0 first time and version number on subsequent checks
-            ushort version = 0;
-            HeadquartersManager.GameDataRequest(version);
-
-            s_connectionTimeOut = true;
+            HeadquartersManager.PlayerDataRequest();
         }
+        
         private void FailedLogin(byte errorId)
         {
             switch (errorId)
@@ -127,6 +123,7 @@ namespace Authentification
                 case 3:
                     Animations.MesageErrorAnimation(_errorsText, "User already in use");
                     break;
+                
                 case 10:
                     Animations.MesageErrorAnimation(_errorsText, "Time out connection");
                     break;
@@ -137,18 +134,18 @@ namespace Authentification
         #endregion
 
         #region "GameData response handlers"
+        
         /// <summary>
-        /// Called if game data is succesfully received
+        ///     Called if game data is successfully received
         /// </summary>
         private void GameDataReceived()
         {
-            GameDataValues.SaveDuringGamePlayPlayerData(HeadquartersManager.Game);
-            _scene.GoToScene();
         }
         private void GameDataUnavailable()
         {
             Animations.MesageErrorAnimation(_errorsText, "GameData Unavailable");
         }
+        
         #endregion
 
 
