@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Authentification;
 using Networking.Headquarters;
 using Scenes;
@@ -13,12 +14,13 @@ namespace Manager
         private void Awake()
         {
             HeadquartersManager.OnPlayerDataUnavailable += PlayerDataUnavailable;
+            HeadquartersManager.PlayerDataRequest();
         }
 
         private void PlayerDataUnavailable()
         {
             Debug.Log("----> Player data unavailable <----");
-            // Native Errors
+            SceneManager.LoadScene(5);
         }
 
 

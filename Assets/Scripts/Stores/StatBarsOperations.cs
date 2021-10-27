@@ -40,7 +40,6 @@ namespace Manager.Store
             _xpBar.CurrentValue = StorePlayerStats.currentXp;
         }
 
-
         #region "Initialisation"
         private void InitAll()
         {

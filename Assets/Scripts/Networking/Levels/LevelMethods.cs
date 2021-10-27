@@ -253,8 +253,6 @@ namespace Networking.Levels
             return maxResources;
         }
 
-
-
         #endregion
     }
 }

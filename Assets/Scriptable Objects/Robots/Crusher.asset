@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b0e4fce530eaa4dab92fab5796a516, type: 3}
   m_Name: Crusher
   m_EditorClassIdentifier: 
-  _robotId: 2
-  nameOfTheRobot: Crusher
-  description: Beat the ass out of you
-  buildTime: 10
-  icon: {fileID: 21300000, guid: 883e3b90095659b479f6451576f052fb, type: 3}
-  robotLevel:
+  RobotId: 2
+  HousingSpace: 4
+  BuildTime: 30
+  NameOfTheRobot: Crusher
+  Description: Nothing
+  Icon: {fileID: 21300000, guid: 883e3b90095659b479f6451576f052fb, type: 3}
+  RobotLevel:
   - {fileID: 11400000, guid: 5687c7d64a1f3f142b1f24f4e573e53b, type: 2}

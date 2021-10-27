@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Networking.Login;
 using Scenes;
 using Save;
@@ -38,9 +39,6 @@ namespace Authentification
         {
             LoginManager.OnSuccessfulLogin += SuccessfulLogin;
             LoginManager.OnFailedLogin += FailedLogin;
-
-            HeadquartersManager.OnGameDataReceived += GameDataReceived;
-            HeadquartersManager.OnGameDataUnavailable += GameDataUnavailable;
         }
 
         private void Start()
@@ -101,7 +99,7 @@ namespace Authentification
         /// </summary>
         private void SuccessfulLogin()
         {
-            HeadquartersManager.PlayerDataRequest();
+            SceneManager.LoadScene(2);
         }
         
         private void FailedLogin(byte errorId)
@@ -130,24 +128,8 @@ namespace Authentification
             }
 
             s_connectionTimeOut = true;
-        }      
-        #endregion
-
-        #region "GameData response handlers"
-        
-        /// <summary>
-        ///     Called if game data is successfully received
-        /// </summary>
-        private void GameDataReceived()
-        {
         }
-        private void GameDataUnavailable()
-        {
-            Animations.MesageErrorAnimation(_errorsText, "GameData Unavailable");
-        }
-        
         #endregion
-
 
         private IEnumerator ConnectionTimeOut()
         {
@@ -164,9 +146,6 @@ namespace Authentification
         {
             LoginManager.OnSuccessfulLogin -= SuccessfulLogin;
             LoginManager.OnFailedLogin -= FailedLogin;
-
-            HeadquartersManager.OnGameDataReceived -= GameDataReceived;
-            HeadquartersManager.OnGameDataUnavailable -= GameDataUnavailable;
         }
     }
 }
