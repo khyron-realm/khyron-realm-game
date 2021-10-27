@@ -223,7 +223,7 @@ namespace Networking.Levels
         /// <returns>The calculated value for the level</returns>
         public static ushort HousingSpace(byte level)
         {
-            return (ushort) (10 + 4 * Math.Sqrt(level));
+            return (ushort) (7.7 * Math.Sqrt((double)level) + 23);
         }
         
         /// <summary>
