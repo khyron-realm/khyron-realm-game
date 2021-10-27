@@ -18,7 +18,7 @@ namespace Networking.Login
 
         #region Events
 
-        public delegate void SuccessfulLoginEventHandler();
+        public delegate void SuccessfulLoginEventHandler(byte loginType);
         public delegate void FailedLoginEventHandler(byte errorId);
         public delegate void SuccessfulLogoutEventHandler(byte logoutType);
         public delegate void SuccessfulAddUserEventHandler();
@@ -62,7 +62,13 @@ namespace Networking.Login
                 {
                     if (ShowDebug) Debug.Log("Successfully logged in");
                     IsLoggedIn = true;
-                    OnSuccessfulLogin?.Invoke();
+                    using var reader = message.GetReader();
+                    if (reader.Length != 1)
+                    {
+                        Debug.LogWarning("Invalid LoginSuccess error data received");
+                        return;
+                    }
+                    OnSuccessfulLogin?.Invoke(reader.ReadByte());
                     break;
                 }
 
@@ -122,11 +128,13 @@ namespace Networking.Login
         /// </summary>
         /// <param name="username">The username string</param>
         /// <param name="password">The user password string</param>
-        public static void Login(string username, string password)
+        /// <param name="loginType">The type of the login</param>
+        public static void Login(string username, string password, byte loginType)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(username);
             writer.Write(Rsa.Encrypt(Encoding.UTF8.GetBytes(password)));
+            writer.Write(loginType);
 
             using var msg = Message.Create(LoginTags.LoginUser, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);

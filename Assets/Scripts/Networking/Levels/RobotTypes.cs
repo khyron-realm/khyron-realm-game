@@ -1,6 +1,6 @@
 namespace Networking.Levels
 {
-    public class RobotTypes
+    public static class RobotTypes
     {
         public const byte Worker = 0;
         public const byte Probe = 1;

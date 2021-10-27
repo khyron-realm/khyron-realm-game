@@ -33,7 +33,7 @@ namespace Networking.Login
         {
             string username = "gigel";
             string password = "1gfd";
-            LoginManager.Login(username, password);
+            LoginManager.Login(username, password, LoginTypes.Normal);
         }
         
         /// <summary>
