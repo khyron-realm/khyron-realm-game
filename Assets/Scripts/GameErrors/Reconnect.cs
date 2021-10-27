@@ -21,7 +21,8 @@ public class Reconnect : MonoBehaviour
         if (NetworkManager.Client.ConnectionState == ConnectionState.Connected)
         {
             Debug.Log("Reconnected to the server");
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene((int)ScenesName.HEADQUARTERS_SCENE);
+            SceneManager.LoadSceneAsync((int)ScenesName.HEADQUARTERS_SCENE, LoadSceneMode.Additive);
         }
         else
         {

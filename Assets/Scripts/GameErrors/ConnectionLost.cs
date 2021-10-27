@@ -18,10 +18,12 @@ public class ConnectionLost : MonoBehaviour
     // Connection lost methods
     private void ConnectionIsLost(object sender, DisconnectedEventArgs e)
     {
-        SceneManager.LoadScene(5);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        SceneManager.LoadSceneAsync((int)ScenesName.RECONNECT_SCENE, LoadSceneMode.Additive);
     }
     private void ConnectionIsLost()
     {
-        SceneManager.LoadScene(5);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        SceneManager.LoadSceneAsync((int)ScenesName.RECONNECT_SCENE, LoadSceneMode.Additive);
     }
 }

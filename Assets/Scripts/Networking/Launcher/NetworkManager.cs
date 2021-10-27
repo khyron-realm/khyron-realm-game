@@ -19,8 +19,11 @@ namespace Networking.Launcher
         public delegate void ServerNotAvailableErrorEventHandler();
         public static event ServerNotAvailableErrorEventHandler OnServerNotAvailable;
 
+        public delegate void ServerAvailableEventHandler();
+        public static event ServerAvailableEventHandler OnConnectionEstablished;
+
         #endregion
-        
+
         protected NetworkManager()
         {
         }
@@ -29,7 +32,6 @@ namespace Networking.Launcher
 
         public void Awake()
         {
-            DontDestroyOnLoad(gameObject);
             networkClient = GetComponent<DarkriftServerConnection>();
         }
         
@@ -43,12 +45,11 @@ namespace Networking.Launcher
             if (networkClient.ConnectionState == ConnectionState.Connected)
             {
                 Debug.Log("Starting Login scene");
-                SceneManager.LoadScene(1);
+                OnConnectionEstablished?.Invoke();
             }
             else 
             {
                 Debug.Log("Server not available");
-
                 OnServerNotAvailable?.Invoke();
             }
         }

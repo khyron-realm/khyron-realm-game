@@ -7,6 +7,7 @@ using Tiles.Tiledata;
 using CameraActions;
 using Manager.Robots.Mining;
 using DG.Tweening;
+using AuxiliaryClasses;
 
 
 /// <summary>
@@ -43,10 +44,14 @@ namespace Manager.Robots
 
         public static float ZPosition = 0;
 
+        private GameObject _robotsToInstantiate;
+
         #endregion
 
         private void Awake()
-        {      
+        {
+            _robotsToInstantiate = GameObject.Find("RobotsPool");
+
             _button.onClick.AddListener(StartDeployOperation);
             RobotManagerUIForMine.OnButtonPressed += RobotMine;
         }
@@ -115,6 +120,8 @@ namespace Manager.Robots
                 StoreAllTiles.Instance.Tiles[temp.x][temp.y].Health = -1;
 
                 robot = Instantiate(robotToDeploy);
+                robot.transform.SetParent(_robotsToInstantiate.transform);
+
                 ZPosition -= 0.1f;
 
                 robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f + robotToDeploy.transform.position.y, ZPosition);
@@ -164,6 +171,13 @@ namespace Manager.Robots
                     robotToDeploy = _robotVision;
                     break;
             }
+        }
+
+
+        private void OnDestroy()
+        {
+            _button.onClick.RemoveAllListeners();
+            RobotManagerUIForMine.OnButtonPressed -= RobotMine;
         }
     }
 }

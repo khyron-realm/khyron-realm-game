@@ -45,6 +45,8 @@ namespace Manager.Robots.Mining
 
         private void Awake()
         {
+            GameObject _robotsToInstantiate = GameObject.Find("RobotsPool");
+
             _blocksToMine = new List<Tuple<float, Vector2Int>>();
 
             GenerateValues();
@@ -57,6 +59,7 @@ namespace Manager.Robots.Mining
             _allPositions.Add(Vector3Int.left);
 
             _particlesForMining = Instantiate(_particles);
+            _particlesForMining.transform.SetParent(_robotsToInstantiate.transform);
         }
         private void Start()
         {

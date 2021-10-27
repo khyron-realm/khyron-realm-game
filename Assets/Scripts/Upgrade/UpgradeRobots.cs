@@ -160,9 +160,13 @@ namespace Manager.Upgrade
         private void OnDestroy()
         {
             _robotManager.OnButtonPressed -= DisplayRobotToUpgrade;
+            _upgradeButton.onClick.RemoveAllListeners();
 
             HeadquartersManager.OnUpgradingError -= UpgradingError;
-            PlayerDataOperations.OnRobotUpgraded += UpgradeCompatible;
+
+            PlayerDataOperations.OnEnergyModified -= UpgradeCompatible;
+            PlayerDataOperations.OnRobotUpgraded -= RobotUpgradeSendFinished;
+
             ManageTasks.OnUpgradingWorking -= UpgradeInProgress;
         }
     }

@@ -8,7 +8,6 @@ using Networking.Login;
 using Scenes;
 using Save;
 using AuxiliaryClasses;
-using Networking.Headquarters;
 
 
 namespace Authentification
@@ -22,9 +21,6 @@ namespace Authentification
 
         [SerializeField] private ChangeScene _scene;
         [SerializeField] private Text _errorsText;
-
-        [Space(20f)]
-        [SerializeField] private bool _enableAutomaticLogin;
         #endregion
 
         #region "Private members" 
@@ -32,38 +28,21 @@ namespace Authentification
         private string _password;
 
         private static bool s_connectionTimeOut = false;
+
+        private List<AsyncOperation> _loadingOperation;
         #endregion
 
-        #region "Awake and Start"
+        public static event Action<List<AsyncOperation>> OnLoginAccepted;
+
+        #region "Awake"
         private void Awake()
         {
+            _loadingOperation = new List<AsyncOperation>();
+
             LoginManager.OnSuccessfulLogin += SuccessfulLogin;
             LoginManager.OnFailedLogin += FailedLogin;
         }
-
-        private void Start()
-        {
-            if(_enableAutomaticLogin)
-            {
-                AutomaticLogIn();
-            }         
-        }
         #endregion
-
-        /// <summary>
-        /// LogIn automatic with the saved credentials
-        /// </summary>
-        private void AutomaticLogIn()
-        {
-            int uLen = _playerData.Username.ToCharArray().Length;
-            int pLen = _playerData.Username.ToCharArray().Length;
-
-            if (_playerData != null && uLen > 5 && pLen > 5)
-            {
-                LoginManager.Login(_playerData.Username, _playerData.Password);
-            }           
-        }
-
 
         /// <summary>
         /// Standard logIn operation that is added to buttons
@@ -99,7 +78,12 @@ namespace Authentification
         /// </summary>
         private void SuccessfulLogin()
         {
-            SceneManager.LoadScene(2);
+            _loadingOperation.Clear();
+
+            _loadingOperation.Add(SceneManager.UnloadSceneAsync((int)ScenesName.AUTHENTICATION_SCENE));
+            _loadingOperation.Add(SceneManager.LoadSceneAsync((int)ScenesName.HEADQUARTERS_SCENE, LoadSceneMode.Additive));
+
+            OnLoginAccepted?.Invoke(_loadingOperation);    
         }
         
         private void FailedLogin(byte errorId)
@@ -130,6 +114,7 @@ namespace Authentification
             s_connectionTimeOut = true;
         }
         #endregion
+
 
         private IEnumerator ConnectionTimeOut()
         {
