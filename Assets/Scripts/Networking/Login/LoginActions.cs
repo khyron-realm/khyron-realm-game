@@ -61,7 +61,7 @@ namespace Networking.Login
         /// <summary>
         ///     Process the server response for a successful login
         /// </summary>
-        private void SuccessfulLogin()
+        private void SuccessfulLogin(byte loginType)
         {
             
         }
