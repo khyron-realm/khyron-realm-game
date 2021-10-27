@@ -52,7 +52,7 @@ namespace Authentification
 
             if (_playerData != null && uLen > 5 && pLen > 5)
             {
-                LoginManager.Login(_playerData.Username, _playerData.Password);
+                LoginManager.Login(_playerData.Username, _playerData.Password, 0);
             }
             else
             {
@@ -61,14 +61,12 @@ namespace Authentification
         }
 
         #region "Handlers"
-        private void SuccessfulLogin()
+        private void SuccessfulLogin(byte code)
         {
-            if (once == false)
+            if (code == 0)
             {
                 _loadingOperation = SceneManager.LoadSceneAsync((int)ScenesName.HEADQUARTERS_SCENE, LoadSceneMode.Additive);
                 OnAutomaticLoginAccepted?.Invoke(_loadingOperation, true);
-
-                once = true;
             }
         }
         private void FailedLogin(byte errorId)

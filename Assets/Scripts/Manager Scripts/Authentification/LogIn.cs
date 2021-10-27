@@ -28,15 +28,11 @@ namespace Authentification
         private string _password;
 
         private static bool s_connectionTimeOut = false;
-
-        private List<AsyncOperation> _loadingOperation;
         #endregion
 
         #region "Awake"
         private void Awake()
         {
-            _loadingOperation = new List<AsyncOperation>();
-
             LoginManager.OnSuccessfulLogin += SuccessfulLogin;
             LoginManager.OnFailedLogin += FailedLogin;
         }
@@ -60,7 +56,7 @@ namespace Authentification
             {
                 _playerData.SaveData();
                 s_connectionTimeOut = false;
-                LoginManager.Login(_userName, _password);
+                LoginManager.Login(_userName, _password, 1);
                 StartCoroutine(ConnectionTimeOut());
             }          
             else
@@ -74,9 +70,13 @@ namespace Authentification
         /// <summary>
         /// Called if login is successful
         /// </summary>
-        private void SuccessfulLogin()
+        private void SuccessfulLogin(byte code)
         {
-            _scene.GoToScene();
+            print("------------------------------------------------------------------------------");
+            if(code == 1)
+            {
+                _scene.GoToScene();
+            }          
         }
         
         private void FailedLogin(byte errorId)
