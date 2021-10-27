@@ -1,4 +1,4 @@
-namespace Unlimited_NetworkingServer_MiningGame.Game
+namespace Networking.Levels
 {
     public class RobotTypes
     {

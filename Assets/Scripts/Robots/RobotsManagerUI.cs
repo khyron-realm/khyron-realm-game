@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Manager.Robots;
 using Networking.Headquarters;
-using Unlimited_NetworkingServer_MiningGame.Game;
+using Networking.Levels;
 
 
 namespace Manager.Robots

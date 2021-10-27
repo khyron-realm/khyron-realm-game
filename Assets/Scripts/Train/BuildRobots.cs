@@ -7,8 +7,8 @@ using UnityEngine.UI;
 using Panels;
 using CountDown;
 using Manager.Robots;
-using Unlimited_NetworkingServer_MiningGame.Game;
 using Networking.Headquarters;
+using Networking.Levels;
 using PlayerDataUpdate;
 
 

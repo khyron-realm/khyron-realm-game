@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Panels;
-using Unlimited_NetworkingServer_MiningGame.Game;
 using Networking.Headquarters;
+using Networking.Levels;
 using PlayerDataUpdate;
 
 

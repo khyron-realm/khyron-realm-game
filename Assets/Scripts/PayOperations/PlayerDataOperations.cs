@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Networking.Headquarters;
-using Unlimited_NetworkingServer_MiningGame.Game;
 using Manager.Robots;
+using Networking.Levels;
 
 
 namespace PlayerDataUpdate
@@ -122,7 +122,7 @@ namespace PlayerDataUpdate
         /// <param name="id"></param>
         public static void UpgradeRobot(byte id, byte tag)
         {
-            if(HeadquartersManager.Player.Robots[id].Level <= LevelMethods.MAX_ROBOTS_LEVEL)
+            if(HeadquartersManager.Player.Robots[id].Level <= LevelMethods.MaxRobotsLevel)
             {
                 HeadquartersManager.Player.Robots[id].Level += 1;
                 OnRobotUpgraded?.Invoke(tag);

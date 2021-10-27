@@ -1,13 +1,13 @@
 using System;
 
-namespace Unlimited_NetworkingServer_MiningGame.Game
+namespace Networking.Levels
 {
     public static class LevelMethods
     {
         #region Constants
 
-        public const byte MAX_PLAYER_LEVEL = 100;
-        public const byte MAX_ROBOTS_LEVEL = 10;
+        public const byte MaxPlayerLevel = 100;
+        public const byte MaxRobotsLevel = 10;
 
         #endregion
         
@@ -69,7 +69,7 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
             if (level < 5)
                 return 5;
             else
-                return (ushort) (level/5 * 15);
+                return (ushort) (level/5 * 10);
         }
 
         /// <summary>
@@ -100,10 +100,7 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// <returns>The calculated value for the level</returns>
         public static ushort RobotUpgradeTime(byte level)
         {
-            if (level < 5)
-                return 5;
-            else
-                return (ushort) (level/5 * 15);
+            return (ushort) (5 * Math.Pow(level, 2) - (5 * level) + 5);
         }
         
         /// <summary>
@@ -114,20 +111,23 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// <returns>The calculated value for the level</returns>
         public static uint RobotBuildCost(byte level, byte robotType)
         {
+            uint tempValue = 0;
             switch (robotType)
             {
                 case RobotTypes.Worker: 
-                return (uint) (50 * Math.Pow(level, 2) - (50 * level) + 100);
+                    tempValue = (uint) (200 * Math.Sqrt(level) - 100);
+                    return tempValue - tempValue % 10;
                 case RobotTypes.Probe:
-                return (uint) (75 * Math.Pow(level, 2) - (75 * level) + 150);
+                    tempValue = (uint) (300 * Math.Sqrt(level) - 150);
+                    return tempValue - tempValue % 10;
                 case RobotTypes.Crusher:
-                return (uint) (200 * Math.Pow(level, 2) - (200 * level) + 300);
+                    tempValue = (uint) (600 * Math.Sqrt(level) - 300);
+                    return tempValue - tempValue % 10;
                 default:
-                return 0;
+                    return 0;
             }
         }
-
-
+        
         /// <summary>
         ///     The health of the robot
         /// </summary>
@@ -136,14 +136,18 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
         /// <returns>The calculated value for the level</returns>
         public static ushort RobotHealth(byte level, byte robotType)
         {
+            ushort tempValue = 0;
             switch (robotType)
             {
                 case RobotTypes.Worker: 
-                    return (ushort) (7 * Math.Log(level, 1.1) + 400);
+                    tempValue = (ushort) (8 * Math.Log(level, 1.1) + 1000);
+                    return (ushort) (tempValue - tempValue % 10);
                 case RobotTypes.Probe:
-                    return (ushort) (9 * Math.Log(level, 1.1) + 600);
+                    tempValue = (ushort) (9 * Math.Log(level, 1.1) + 1000);
+                    return (ushort) (tempValue - tempValue % 10);
                 case RobotTypes.Crusher:
-                    return (ushort) (11 * Math.Log(level, 1.1) + 800);
+                    tempValue = (ushort) (11 * Math.Log(level, 1.1) + 2000);
+                    return (ushort) (tempValue - tempValue % 10);
                 default:
                     return 0;
             }
@@ -222,21 +226,31 @@ namespace Unlimited_NetworkingServer_MiningGame.Game
             return (ushort) (10 + 4 * Math.Sqrt(level));
         }
         
-
-        public static uint MaxEnergyCount(int level)
+        /// <summary>
+        ///     The maximum amount of energy available
+        /// </summary>
+        /// <param name="level">The current level</param>
+        /// <returns>The calculated value for the level</returns>
+        public static uint MaxEnergyCount(byte level)
         {
-            return 100000;
+            uint tempValue = (uint) (100000 * Math.Sqrt(level));
+            return tempValue - tempValue % 10000;
         }
 
-        public static uint[] MaxResourcesAmount(int level)
+        /// <summary>
+        ///     The maximum amount of energy
+        /// </summary>
+        /// <param name="level">The current level</param>
+        /// <returns>The calculated value for the level</returns>
+        public static uint[] MaxResourcesAmount(byte level)
         {
-            uint[] temp = new uint[3] { 10000, 10000, 10000 };
+            var tempValue = (uint) (10000 * Math.Sqrt(level));
+            var silicon = tempValue - tempValue % 1000;
+            var lithium = tempValue - tempValue % 1000;
+            var titanium = tempValue - tempValue % 1000;
+            var maxResources = new uint[] { silicon, lithium, titanium };
 
-            //_silliconBar
-            //lithium
-            //titan
-
-            return temp;
+            return maxResources;
         }
 
 
