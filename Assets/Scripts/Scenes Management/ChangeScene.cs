@@ -11,11 +11,13 @@ namespace Scenes
         #region "Input data"
         [SerializeField] private ScenesName _unloadScene;
         [SerializeField] private ScenesName _loadScene;
+
+        [SerializeField] private bool _playerData;
         #endregion
 
         private List<AsyncOperation> _loadingOperation;
 
-        public static event Action<List<AsyncOperation>> OnSceneChanged;
+        public static event Action<List<AsyncOperation>, bool> OnSceneChanged;
 
         private void Awake()
         {
@@ -28,7 +30,7 @@ namespace Scenes
             _loadingOperation.Add(SceneManager.UnloadSceneAsync((int)_unloadScene));
             _loadingOperation.Add(SceneManager.LoadSceneAsync((int)_loadScene, LoadSceneMode.Additive));
 
-            OnSceneChanged?.Invoke(_loadingOperation);
+            OnSceneChanged?.Invoke(_loadingOperation, _playerData);
         }
     }
 }

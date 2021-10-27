@@ -24,7 +24,6 @@ namespace Authentification
 
         private void SuccessfulLogout(byte logoutType)
         {
-            //modifica aici
             Delete();
             _scene.GoToScene();
         }

@@ -2455,6 +2455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _unloadScene: 4
   _loadScene: 2
+  _playerData: 1
 --- !u!114 &1280858909
 MonoBehaviour:
   m_ObjectHideFlags: 0

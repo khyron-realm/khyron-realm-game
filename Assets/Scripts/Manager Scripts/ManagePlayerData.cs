@@ -20,7 +20,7 @@ namespace Manager
         private void PlayerDataUnavailable()
         {
             Debug.Log("----> Player data unavailable <----");
-            SceneManager.LoadScene(5);
+            SceneManager.LoadScene((int)ScenesName.RECONNECT_SCENE);
         }
 
 

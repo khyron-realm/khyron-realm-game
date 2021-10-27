@@ -17,8 +17,11 @@ namespace Authentification
 
         private AsyncOperation _loadingOperation;
 
-        public static event Action<AsyncOperation> OnLoginAccepted;
-        
+        private bool once = false;
+
+        public static event Action<AsyncOperation, bool> OnAutomaticLoginAccepted;
+        public static event Action OnAutomaticLoginFailed;
+
         private void Awake()
         {
             LoginManager.OnSuccessfulLogin += SuccessfulLogin;
@@ -51,17 +54,32 @@ namespace Authentification
             {
                 LoginManager.Login(_playerData.Username, _playerData.Password);
             }
+            else
+            {
+                FailedLogin(0);
+            }
         }
 
         #region "Handlers"
         private void SuccessfulLogin()
         {
-            _loadingOperation = SceneManager.LoadSceneAsync((int)ScenesName.HEADQUARTERS_SCENE, LoadSceneMode.Additive);
-            OnLoginAccepted?.Invoke(_loadingOperation);
+            if (once == false)
+            {
+                _loadingOperation = SceneManager.LoadSceneAsync((int)ScenesName.HEADQUARTERS_SCENE, LoadSceneMode.Additive);
+                OnAutomaticLoginAccepted?.Invoke(_loadingOperation, true);
+
+                once = true;
+            }
         }
         private void FailedLogin(byte errorId)
         {
-            SceneManager.LoadSceneAsync((int)ScenesName.AUTHENTICATION_SCENE, LoadSceneMode.Additive);
+            if(once == false)
+            {
+                SceneManager.LoadSceneAsync((int)ScenesName.AUTHENTICATION_SCENE, LoadSceneMode.Additive);
+
+                once = true;
+            }
+            
         }
         #endregion
 

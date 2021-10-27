@@ -1045,7 +1045,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cbc30e046dae8646bf68aa005d6581b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneToLoad: HQScene
+  _unloadScene: 1
+  _loadScene: 2
+  _playerData: 1
 --- !u!114 &745152026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1063,7 +1065,6 @@ MonoBehaviour:
   _playerData: {fileID: 745152027}
   _scene: {fileID: 745152025}
   _errorsText: {fileID: 1247624983}
-  _enableAutomaticLogin: 1
 --- !u!114 &745152027
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -21,9 +21,7 @@ public class LoadingScene : MonoBehaviour
 
     private void Awake()
     {       
-        AutomaticLogIn.OnLoginAccepted += ActivateLoadingScreen;
-        LogIn.OnLoginAccepted += ActivateLoadingScreen;
-
+        AutomaticLogIn.OnAutomaticLoginAccepted += ActivateLoadingScreen;
         ChangeScene.OnSceneChanged += ActivateLoadingScreen;
 
         HeadquartersManager.OnPlayerDataReceived += PlayerDataReceived;
@@ -32,20 +30,20 @@ public class LoadingScene : MonoBehaviour
     }
 
     #region "Handlers" 
-    public void ActivateLoadingScreen(AsyncOperation operation)
+    public void ActivateLoadingScreen(AsyncOperation operation, bool playerData)
     {
         _loadingScreen.SetActive(true);
-        StartCoroutine(LoadingScenesInProgress(operation));
+        StartCoroutine(LoadingScenesInProgress(operation, playerData));
     }
-    public void ActivateLoadingScreen(List<AsyncOperation> operation)
+    public void ActivateLoadingScreen(List<AsyncOperation> operation, bool playerData)
     {
         _loadingScreen.SetActive(true);
-        StartCoroutine(LoadingScenesInProgress(operation));
+        StartCoroutine(LoadingScenesInProgress(operation, playerData));
     }
     #endregion
 
     #region "Loading Process"
-    private IEnumerator LoadingScenesInProgress(AsyncOperation operation)
+    private IEnumerator LoadingScenesInProgress(AsyncOperation operation, bool playerData)
     {
         _loadingBar.fillAmount = 0;
 
@@ -55,11 +53,14 @@ public class LoadingScene : MonoBehaviour
            yield return null;
         }
 
-        while(_playerDataReceived == false)
+        if(playerData)
         {
-            yield return null;
+            while (_playerDataReceived == false)
+            {
+                yield return null;
+            }
         }
-
+        
         _playerDataReceived = false;
         _loadingBar.fillAmount = 1;
 
@@ -67,7 +68,7 @@ public class LoadingScene : MonoBehaviour
 
         _loadingScreen.SetActive(false);
     }
-    private IEnumerator LoadingScenesInProgress(List<AsyncOperation> operation)  
+    private IEnumerator LoadingScenesInProgress(List<AsyncOperation> operation, bool playerData)  
     {
         _progressSoFar = 0;
         _loadingBar.fillAmount = 0;
@@ -83,11 +84,14 @@ public class LoadingScene : MonoBehaviour
             }
         }
 
-        while (_playerDataReceived == false)
+        if(playerData)
         {
-            yield return null;
+            while (_playerDataReceived == false)
+            {
+                yield return null;
+            }
         }
-
+        
         _playerDataReceived = false;
         _loadingBar.fillAmount = 1;
 
@@ -104,8 +108,7 @@ public class LoadingScene : MonoBehaviour
 
     private void OnDestroy()
     {
-        AutomaticLogIn.OnLoginAccepted -= ActivateLoadingScreen;
-        LogIn.OnLoginAccepted -= ActivateLoadingScreen;
+        AutomaticLogIn.OnAutomaticLoginAccepted -= ActivateLoadingScreen;
         ChangeScene.OnSceneChanged -= ActivateLoadingScreen;
 
         HeadquartersManager.OnPlayerDataReceived -= PlayerDataReceived;

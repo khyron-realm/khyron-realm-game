@@ -1221,6 +1221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _unloadScene: 2
   _loadScene: 3
+  _playerData: 1
 --- !u!114 &300264551 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 890588070222583453, guid: 2c3e1127bdfb96b4d8aa7405d66da3cd, type: 3}
@@ -2370,6 +2371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _unloadScene: 2
   _loadScene: 4
+  _playerData: 1
 --- !u!114 &555087998
 MonoBehaviour:
   m_ObjectHideFlags: 0

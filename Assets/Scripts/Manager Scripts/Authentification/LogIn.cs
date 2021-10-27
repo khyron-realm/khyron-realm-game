@@ -32,8 +32,6 @@ namespace Authentification
         private List<AsyncOperation> _loadingOperation;
         #endregion
 
-        public static event Action<List<AsyncOperation>> OnLoginAccepted;
-
         #region "Awake"
         private void Awake()
         {
@@ -78,12 +76,7 @@ namespace Authentification
         /// </summary>
         private void SuccessfulLogin()
         {
-            _loadingOperation.Clear();
-
-            _loadingOperation.Add(SceneManager.UnloadSceneAsync((int)ScenesName.AUTHENTICATION_SCENE));
-            _loadingOperation.Add(SceneManager.LoadSceneAsync((int)ScenesName.HEADQUARTERS_SCENE, LoadSceneMode.Additive));
-
-            OnLoginAccepted?.Invoke(_loadingOperation);    
+            _scene.GoToScene();
         }
         
         private void FailedLogin(byte errorId)
