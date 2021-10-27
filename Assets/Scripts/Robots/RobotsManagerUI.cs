@@ -9,15 +9,13 @@ using Networking.Levels;
 
 
 namespace Manager.Robots
-{
-    
-    /// <summary>
-    /// ## Checked ##   
+{   
+    /// <summary>  
     /// 
     /// Instantiate buttons for each robot
     /// Add listeners such as OnButtonPressed that send the robot pressed
     /// 
-    /// </summary>A
+    /// </summary>
     public class RobotsManagerUI : MonoBehaviour
     {
         #region "Input data"
@@ -36,7 +34,13 @@ namespace Manager.Robots
 
         private void Awake()
         {
-            _buttons = new List<Button>();
+            HeadquartersManager.OnPlayerDataReceived += PlayerDataReceived;
+
+            _buttons = new List<Button>();            
+        }
+
+        private void PlayerDataReceived()
+        {
             CreateButtons();
         }
 
@@ -106,6 +110,8 @@ namespace Manager.Robots
             {
                 item.onClick.RemoveAllListeners();
             }
+
+            HeadquartersManager.OnPlayerDataReceived -= PlayerDataReceived;
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Manager.Robots.Damage
         public void GetHealthFromRobot(RobotSO currentRobot)
         {
             int level = RobotsManager.robotsData[currentRobot.NameOfTheRobot].RobotLevel;
-            _health =  currentRobot.RobotLevel[level].status.health;
+            _health =  1000; //Health robot
         }
 
 
