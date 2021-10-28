@@ -27,7 +27,8 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                SceneManager.LoadScene(1);
+                SceneManager.UnloadSceneAsync(1);
+                SceneManager.LoadSceneAsync((int)ScenesName.HEADQUARTERS_SCENE);
             }
         }
     }

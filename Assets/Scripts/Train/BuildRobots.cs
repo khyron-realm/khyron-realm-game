@@ -26,6 +26,7 @@ namespace Manager.Train
         [SerializeField] private ProgressBar _tempLoadingBar;
         #endregion
 
+
         #region "Private Members"
         private bool _once = false;
         private static int s_tempTime = 0;
@@ -39,7 +40,7 @@ namespace Manager.Train
         private static byte Tag = 2;
         #endregion
 
-        #region "Awake"
+
         private void Awake()
         {
             GetRobotsTrained.RobotsBuilt = new List<RobotSO>();
@@ -61,9 +62,9 @@ namespace Manager.Train
 
             HeadquartersManager.OnPlayerDataReceived += DisplayNumberOfRobots;       
         }
-        #endregion
 
 
+        #region "Start & Stop Building process"
         /// <summary>
         /// Building process operations
         /// </summary>
@@ -93,8 +94,10 @@ namespace Manager.Train
 
             s_tempTime = 0;
         }
+        #endregion
 
 
+        #region "Show number of robots"
         /// <summary>
         /// Displays the number of robots
         /// </summary>
@@ -113,8 +116,10 @@ namespace Manager.Train
         {
             DisplayNumberOfRobots();
         }
+        #endregion
 
 
+        #region "Show Time"
         /// <summary>
         /// Recalculate total time for building robots
         /// </summary>
@@ -134,15 +139,17 @@ namespace Manager.Train
             s_tempTime = timePassed;
             Time.AddTime(timeRemained);
         }
+        #endregion
 
 
+        #region "Building process"
         /// <summary>
         /// Coroutine that keeps the timer and the process of building robots
         /// </summary>
         private IEnumerator BuildingRobots()
         {
             _timeRemained.enabled = true;
-            Debug.LogWarning("---- BUILDING ROBOTS STARTED ----");
+
             for (var i = 0; i < BuildRobotsOperations.RobotsInTraining.Count; i++)
             {
                 _robot = BuildRobotsOperations.RobotsInTraining.ElementAt(i).Value;
@@ -187,6 +194,7 @@ namespace Manager.Train
             HeadquartersManager.FinishBuildingRequest(_queueNumber, _robot.RobotId, DateTime.UtcNow, HeadquartersManager.Player.Robots[_robot.RobotId]);
             
         }
+        #endregion
 
 
         private void OnDestroy()
