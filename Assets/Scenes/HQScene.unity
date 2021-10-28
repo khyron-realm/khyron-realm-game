@@ -1958,6 +1958,7 @@ MonoBehaviour:
   _limitYMax: 16
   _orthoMin: 2
   _orthoMax: 14
+  _interpolationStep: 0.2
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
