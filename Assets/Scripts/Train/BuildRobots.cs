@@ -142,7 +142,7 @@ namespace Manager.Train
         private IEnumerator BuildingRobots()
         {
             _timeRemained.enabled = true;
-
+            Debug.LogWarning("---- BUILDING ROBOTS STARTED ----");
             for (var i = 0; i < BuildRobotsOperations.RobotsInTraining.Count; i++)
             {
                 _robot = BuildRobotsOperations.RobotsInTraining.ElementAt(i).Value;

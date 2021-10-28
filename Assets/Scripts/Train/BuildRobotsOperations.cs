@@ -101,18 +101,21 @@ namespace Manager.Train
         {
             s_timeOfExecution += RobotsManager.robots[robot.RobotId].BuildTime;
 
+            // Get the time for the first robot
             if (s_getTimeFromFirstTask == false)
             {
                 s_initTimeOfBuilding = DateTime.FromBinary(task.StartTime);
                 s_getTimeFromFirstTask = true;
             }
 
+            // Task is done , robot is built
             if(s_initTimeOfBuilding.AddSeconds(s_timeOfExecution) <= DateTime.UtcNow)
             {
                 s_taskLastDone = task;
                 s_robotLastBuilt = robot;
 
                 PlayerDataOperations.AddRobot(robot.RobotId, 255);
+                Debug.LogWarning("---- ROBOT FINISHED ----");
 
                 return true;
             }
@@ -122,10 +125,12 @@ namespace Manager.Train
                 {                 
                     OnFirstRobotAdded?.Invoke(RobotsManager.robots[robot.RobotId].BuildTime - (int)s_initTimeOfBuilding.AddSeconds(s_timeOfExecution).Subtract(DateTime.UtcNow).TotalSeconds, (int)s_initTimeOfBuilding.AddSeconds(s_timeOfExecution).Subtract(DateTime.UtcNow).TotalSeconds);
                     s_firstRobotAdded = false;
+                    Debug.LogWarning("---- FIRST ROBOT ADDED TO QUEUE ----");
                 }
                 else
                 {
                     OnRobotAdded?.Invoke(RobotsManager.robots[robot.RobotId].BuildTime);
+                    Debug.LogWarning("---- ROBOT ADDED TO QUEUE ----");
                 }
 
                 return false;
