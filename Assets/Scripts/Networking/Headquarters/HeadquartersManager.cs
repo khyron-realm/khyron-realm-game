@@ -21,6 +21,7 @@ namespace Networking.Headquarters
         public delegate void PlayerDataUnavailableEventHandler();
         public delegate void GameDataReceivedEventHandler();
         public delegate void GameDataUnavailableEventHandler();
+        public delegate void UpdateLevelErrorEventHandler();
         public delegate void ConversionErrorEventHandler(byte errorId);
         public delegate void FinishConversionErrorEventHandler(byte errorId);
         public delegate void UpgradingErrorEventHandler(byte errorId);
@@ -32,6 +33,7 @@ namespace Networking.Headquarters
         public static event PlayerDataUnavailableEventHandler OnPlayerDataUnavailable;
         public static event GameDataReceivedEventHandler OnGameDataReceived;
         public static event GameDataUnavailableEventHandler OnGameDataUnavailable;
+        public static event UpdateLevelErrorEventHandler OnUpdateLevelError;
         public static event ConversionErrorEventHandler OnConversionError;
         public static event FinishConversionErrorEventHandler OnFinishConversionError;
         public static event UpgradingErrorEventHandler OnUpgradingError;
@@ -96,6 +98,12 @@ namespace Networking.Headquarters
                 case HeadquartersTags.GameDataUnavailable:
                 {
                     GameDataUnavailable(message);
+                    break;
+                }
+                
+                case HeadquartersTags.UpdateLevelError:
+                {
+                    UpdateLevelError(message);
                     break;
                 }
 
@@ -213,7 +221,7 @@ namespace Networking.Headquarters
         }
         
         /// <summary>
-        ///     NOT-FINISHED - Receive game data from the DarkRift server
+        ///     Receive game data from the DarkRift server
         /// </summary>
         /// <param name="message">The message received</param>
         private static void GetGameData(Message message)
@@ -224,7 +232,7 @@ namespace Networking.Headquarters
             
             OnGameDataReceived?.Invoke();
         }
-
+        
         /// <summary>
         ///     Receive game data unavailable message
         /// </summary>
@@ -233,7 +241,16 @@ namespace Networking.Headquarters
         {
             OnGameDataUnavailable?.Invoke();
         }
-
+        
+        /// <summary>
+        ///     Receive game data unavailable message
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void UpdateLevelError(Message message)
+        {
+            OnUpdateLevelError?.Invoke();
+        }
+        
         /// <summary>
         ///     Receive the conversion error message
         /// </summary>
@@ -366,6 +383,22 @@ namespace Networking.Headquarters
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
             if(ShowDebug) Debug.Log("Requesting game data ...");
+        }
+
+        /// <summary>
+        ///     Request for updating the level
+        /// </summary>
+        /// <param name="level">The new level</param>
+        /// <param name="experience">The new experience value</param>
+        public static void UpdateLevel(byte level, uint experience)
+        {
+            using var writer = DarkRiftWriter.Create();
+            writer.Write(level);
+            writer.Write(experience);
+            using var msg = Message.Create(HeadquartersTags.UpdateLevel, writer);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+            
+            if(ShowDebug) Debug.Log("Updating level");
         }
 
         /// <summary>

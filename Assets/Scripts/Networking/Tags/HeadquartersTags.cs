@@ -32,5 +32,8 @@ namespace Networking.Tags
         public const ushort CancelInProgressBuild = 20 + Shift;
         public const ushort CancelOnHoldBuild = 21 + Shift;
         public const ushort CancelBuildError = 22 + Shift;
+
+        public const ushort UpdateLevel = 23 + Shift;
+        public const ushort UpdateLevelError = 24 + Shift;
     }
 }
