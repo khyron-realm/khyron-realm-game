@@ -9,7 +9,6 @@ using Networking.Headquarters;
 using Networking.Levels;
 using PlayerDataUpdate;
 
-
 namespace Manager.Upgrade
 {
     public class UpgradeRobots : MonoBehaviour
@@ -138,7 +137,8 @@ namespace Manager.Upgrade
         {
             if(Tag == tag)
             {
-                HeadquartersManager.FinishUpgradingRequest(_selectedRobot.RobotId, HeadquartersManager.Player.Robots[_selectedRobot.RobotId]);
+                PlayerDataOperations.ExperienceUpdate(100, 0);
+                HeadquartersManager.FinishUpgradingRequest(_selectedRobot.RobotId, HeadquartersManager.Player.Robots[_selectedRobot.RobotId], HeadquartersManager.Player.Experience);
 
                 _timer.TimeTextState(false);
                 _upgradeButton.enabled = true;

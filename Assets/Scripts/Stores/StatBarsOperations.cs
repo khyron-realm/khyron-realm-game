@@ -19,12 +19,14 @@ namespace Manager.Store
         [SerializeField] private ProgressBar _silliconBar;
         #endregion
 
+
         #region "Coroutines"
         private Coroutine energy;
         private Coroutine lithium;
         private Coroutine titanium;
         private Coroutine silicon;
         #endregion
+
 
         private void Awake()
         {
@@ -34,17 +36,22 @@ namespace Manager.Store
             PlayerDataOperations.OnResourcesModified += ResourcesUpdate;
             PlayerDataOperations.OnExperienceUpdated += ExperienceUpdate;
             PlayerDataOperations.OnLevelUpdated += LevelUpdate;
-
-
-            _xpBar.MaxValue = StorePlayerStats.levelsThresholds.levelsThresholds[0];
-            _xpBar.CurrentValue = StorePlayerStats.currentXp;
         }
+
 
         #region "Initialisation"
         private void InitAll()
         {
+            InitPlayerLevelAndExperience();
+
             InitMaximumLevels();
             InitCurrentLevels();
+        }
+
+        private void InitPlayerLevelAndExperience()
+        {
+            _xpBar.MaxValue = (int)LevelMethods.Experience(HeadquartersManager.Player.Level);
+            _xpBar.CurrentValue = (int)HeadquartersManager.Player.Experience;
         }
         private void InitCurrentLevels()
         {

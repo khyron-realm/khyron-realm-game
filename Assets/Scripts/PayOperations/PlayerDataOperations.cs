@@ -37,7 +37,6 @@ namespace PlayerDataUpdate
         public static event Action<byte> OnRobotRemoved;              // Robots removed
 
         public static event Action<byte> OnExperienceUpdated;         // Experience modified
-        public static event Action<byte> OnExperienceUpdatedFailed;   // Experience modified failed
 
         public static event Action<byte> OnLevelUpdated;              // Level Updated
         public static event Action<byte> OnMaximumLevelAchieved;      // Maximum levle achieved
@@ -180,7 +179,28 @@ namespace PlayerDataUpdate
         /// </summary>
         public static void ExperienceUpdate(int amount, byte tag)
         {
+            uint temp = LevelMethods.Experience(HeadquartersManager.Player.Level);
 
+            if(HeadquartersManager.Player.Level < LevelMethods.MaxPlayerLevel)
+            {
+                if ((HeadquartersManager.Player.Experience + amount) >= temp)
+                {
+                    LevelUpdate(0);
+                    HeadquartersManager.Player.Experience += (uint)amount;
+                    HeadquartersManager.Player.Experience -= temp;
+                }
+                else
+                {
+                    HeadquartersManager.Player.Experience += (uint)amount;
+                }
+
+                OnExperienceUpdated?.Invoke(tag);
+            }
+            else
+            {
+                OnMaximumLevelAchieved?.Invoke(tag);
+            }
+            
         }
 
 
@@ -189,7 +209,8 @@ namespace PlayerDataUpdate
         /// </summary>
         public static void LevelUpdate(byte tag)
         {
-
+            HeadquartersManager.Player.Level += 1;
+            OnLevelUpdated?.Invoke(tag);                  
         }
 
 

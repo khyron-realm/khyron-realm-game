@@ -24,10 +24,25 @@ namespace Manager.Convert
         {
             HeadquartersManager.OnConversionError += ConversionError;
             PlayerDataOperations.OnResourcesModified += SendConvertRequest;
-            PlayerDataOperations.OnEnergyModified += ConvertEnded;
+            PlayerDataOperations.OnEnergyModified += ConversionEnded;
             ManageTasks.OnConvertingWorking += CheckForConversionInProgress;
 
             _timer.TimeTextState(false);
+        }
+
+
+        /// <summary>
+        /// Executes if conversion is in progress 
+        /// </summary>
+        /// <param name="task"> the conversion task</param>
+        private void CheckForConversionInProgress(BuildTask task)
+        {
+            DateTime startTime = DateTime.FromBinary(task.StartTime);
+            DateTime now = DateTime.UtcNow;
+
+            int timeRemained = (int)now.Subtract(startTime).TotalSeconds;
+
+            ExecuteConversion((LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60) - timeRemained, (LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60));
         }
 
 
@@ -43,21 +58,6 @@ namespace Manager.Convert
                 HeadquartersManager.ConversionRequest(DateTime.UtcNow, HeadquartersManager.Player.Resources);
                 ExecuteConversion(LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60);
             }          
-        }
-
-
-        /// <summary>
-        /// Executes if conversion is in progress 
-        /// </summary>
-        /// <param name="task"> the conversion task</param>
-        private void CheckForConversionInProgress(BuildTask task)
-        {          
-            DateTime startTime = DateTime.FromBinary(task.StartTime);
-            DateTime now = DateTime.UtcNow;
-
-            int timeRemained = (int)now.Subtract(startTime).TotalSeconds;
-
-            ExecuteConversion((LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60) - timeRemained, (LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60));    
         }
 
 
@@ -88,15 +88,16 @@ namespace Manager.Convert
                 yield return _timer.ActivateTimer();
             }
 
-            PlayerDataOperations.PayEnergy(10000, Tag);         
+            PlayerDataOperations.PayEnergy((int)LevelMethods.ResourceConversionGeneration(HeadquartersManager.Player.Level), Tag);         
         }
 
 
-        private void ConvertEnded(byte tag)
+        private void ConversionEnded(byte tag)
         {
             if(Tag == tag)
             {
-                HeadquartersManager.FinishConversionRequest(HeadquartersManager.Player.Energy);
+                PlayerDataOperations.ExperienceUpdate(100, 0);
+                HeadquartersManager.FinishConversionRequest(HeadquartersManager.Player.Energy, HeadquartersManager.Player.Experience);
                 _button.enabled = true;
                 _timer.TimeTextState(false);
             }           
@@ -107,6 +108,7 @@ namespace Manager.Convert
         {
             print("Conversion rejected");
         }
+
 
         private void OnDestroy()
         {
