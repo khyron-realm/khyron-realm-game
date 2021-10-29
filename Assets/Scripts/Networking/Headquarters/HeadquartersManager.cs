@@ -48,8 +48,6 @@ namespace Networking.Headquarters
         {
             Player = null;
 
-            print(NetworkManager.Client);
-           
             NetworkManager.Client.MessageReceived += OnDataHandler;
         }     
 

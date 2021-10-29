@@ -1,18 +1,14 @@
-using System;
 using System.Collections.Generic;
 using DarkRift;
 using DarkRift.Client;
-using DG.Tweening.Core;
 using Networking.Launcher;
 using Networking.Tags;
-using UnityEditor;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Networking.Auctions
 {
     /// <summary>
-    ///     
+    ///     Auctions manager that handles the auction and rooms messages
     /// </summary>
     public class AuctionsManager : MonoBehaviour
     {
