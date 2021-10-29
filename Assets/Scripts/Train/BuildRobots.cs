@@ -36,8 +36,6 @@ namespace Manager.Train
 
         private RobotSO _robot;
         private ushort _queueNumber;
-
-        private static byte Tag = 2;
         #endregion
 
 
@@ -171,7 +169,7 @@ namespace Manager.Train
 
                 s_tempTime = 0;
 
-                PlayerDataOperations.AddRobot(_robot.RobotId, Tag);
+                PlayerDataOperations.AddRobot(_robot.RobotId, OperationsTags.BUILDING_ROBOTS);
 
                 BuildRobotsOperations.RobotsInTraining.Remove(_queueNumber);
                 RobotsInBuildingOperations.DezactivateIcon(RobotsInBuilding.robotsInBuildingIcons[i]);
@@ -188,7 +186,7 @@ namespace Manager.Train
         }
         private void RobotFinishedBuilding(byte receivedTag)
         {
-            if (Tag != receivedTag) return;
+            if (OperationsTags.BUILDING_ROBOTS != receivedTag) return;
             
             BuildRobotsOperations.TotalHousingSpaceDuringBuilding -= RobotsManager.robots[_robot.RobotId].HousingSpace;
             HeadquartersManager.FinishBuildingRequest(_queueNumber, _robot.RobotId, DateTime.UtcNow, HeadquartersManager.Player.Robots[_robot.RobotId]);

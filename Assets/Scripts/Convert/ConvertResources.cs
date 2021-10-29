@@ -18,13 +18,13 @@ namespace Manager.Convert
         [SerializeField] private Button _button;
         #endregion
 
-        private static byte Tag = 0;
-
         private void Awake()
         {
             HeadquartersManager.OnConversionError += ConversionError;
+
             PlayerDataOperations.OnResourcesModified += SendConvertRequest;
             PlayerDataOperations.OnEnergyModified += ConversionEnded;
+
             ManageTasks.OnConvertingWorking += CheckForConversionInProgress;
 
             _timer.TimeTextState(false);
@@ -49,11 +49,11 @@ namespace Manager.Convert
         public void Convert()
         {
             uint[] resources = LevelMethods.ResourceConversionCost(HeadquartersManager.Player.Level);
-            PlayerDataOperations.PayResources(-(int)resources[0], -(int)resources[1], -(int)resources[2], Tag);          
+            PlayerDataOperations.PayResources(-(int)resources[0], -(int)resources[1], -(int)resources[2], OperationsTags.CONVERTING_RESOURCES);          
         }
         private void SendConvertRequest(byte tag)
         {
-            if(Tag == tag)
+            if(OperationsTags.CONVERTING_RESOURCES == tag)
             {
                 HeadquartersManager.ConversionRequest(DateTime.UtcNow, HeadquartersManager.Player.Resources);
                 ExecuteConversion(LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60);
@@ -88,16 +88,17 @@ namespace Manager.Convert
                 yield return _timer.ActivateTimer();
             }
 
-            PlayerDataOperations.PayEnergy((int)LevelMethods.ResourceConversionGeneration(HeadquartersManager.Player.Level), Tag);         
+            PlayerDataOperations.PayEnergy((int)LevelMethods.ResourceConversionGeneration(HeadquartersManager.Player.Level), OperationsTags.CONVERTING_RESOURCES);         
         }
 
 
         private void ConversionEnded(byte tag)
         {
-            if(Tag == tag)
+            if(OperationsTags.CONVERTING_RESOURCES == tag)
             {
-                PlayerDataOperations.ExperienceUpdate(100, 0);
+                PlayerDataOperations.ExperienceUpdate(10, 0);
                 HeadquartersManager.FinishConversionRequest(HeadquartersManager.Player.Energy, HeadquartersManager.Player.Experience);
+                
                 _button.enabled = true;
                 _timer.TimeTextState(false);
             }           

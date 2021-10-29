@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Networking.Headquarters;
 using Networking.Levels;
 
-
+  
 namespace Manager.Convert
 {
     public class ConversionInfo : MonoBehaviour

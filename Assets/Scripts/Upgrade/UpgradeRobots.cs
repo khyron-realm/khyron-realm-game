@@ -9,6 +9,7 @@ using Networking.Headquarters;
 using Networking.Levels;
 using PlayerDataUpdate;
 
+
 namespace Manager.Upgrade
 {
     public class UpgradeRobots : MonoBehaviour
@@ -22,13 +23,13 @@ namespace Manager.Upgrade
         [SerializeField] private Timer _timer;
         #endregion
 
+
         #region "Private members"
 
         private RobotSO _selectedRobot;
 
-        private static byte Tag = 1;
-
         #endregion
+
 
         #region "Awake & Start"
         private void Awake()
@@ -52,6 +53,7 @@ namespace Manager.Upgrade
         #endregion
 
 
+        #region "Upgrading"
         private void UpgradeInProgress(BuildTask task, RobotSO robot)
         {
             _selectedRobot = robot;
@@ -59,26 +61,16 @@ namespace Manager.Upgrade
         }       
         public void UpgradeRobot()
         {
-            PlayerDataOperations.PayEnergy(-(int)LevelMethods.RobotUpgradeCost(HeadquartersManager.Player.Level, _selectedRobot.RobotId), Tag);         
+            PlayerDataOperations.PayEnergy(-(int)LevelMethods.RobotUpgradeCost(HeadquartersManager.Player.Level, _selectedRobot.RobotId), OperationsTags.UPGRADING_ROBOTS);         
         }
         private void UpgradeCompatible(byte tag)
         {
-            if(Tag == tag)
+            if(OperationsTags.UPGRADING_ROBOTS == tag)
             {
                 HeadquartersManager.UpgradingRequest(_selectedRobot.RobotId, DateTime.UtcNow, HeadquartersManager.Player.Energy);
                 UpgradingMethod(LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Level) * 60);
             }
         }
-
-
-        #region "Upgrading handlers"
-        private void UpgradingError(byte errorId)
-        {
-            print("Upgrade rejected");
-        }
-        #endregion
-
-
         private void UpgradingMethod(long time, int maxValue = 0)
         {
             _upgradeButton.enabled = false;
@@ -87,7 +79,7 @@ namespace Manager.Upgrade
 
             _timer.AddTime((int)time);
 
-            if(maxValue == 0)
+            if (maxValue == 0)
             {
                 _timer.SetMaxValueForTime((int)time);
             }
@@ -95,11 +87,20 @@ namespace Manager.Upgrade
             {
                 _timer.SetMaxValueForTime(maxValue);
             }
-           
-            _timer.TimeTextState(true);
-            StartCoroutine(Upgrading((int)time));           
-        }
 
+            _timer.TimeTextState(true);
+            StartCoroutine(Upgrading((int)time));
+        }
+        #endregion
+
+
+        #region "Upgrading handlers"
+        private void UpgradingError(byte errorId)
+        {
+            print("Upgrade rejected");
+        }
+        #endregion
+     
 
         /// <summary>
         /// Show the robot to upgrade in the right [image + text]
@@ -129,15 +130,15 @@ namespace Manager.Upgrade
                 yield return _timer.ActivateTimer();
             }
 
-            PlayerDataOperations.UpgradeRobot(_selectedRobot.RobotId, Tag);     
+            PlayerDataOperations.UpgradeRobot(_selectedRobot.RobotId, OperationsTags.UPGRADING_ROBOTS);     
         }
 
 
         private void RobotUpgradeSendFinished(byte tag)
         {
-            if(Tag == tag)
+            if(OperationsTags.UPGRADING_ROBOTS == tag)
             {
-                PlayerDataOperations.ExperienceUpdate(100, 0);
+                PlayerDataOperations.ExperienceUpdate(10, 0);
                 HeadquartersManager.FinishUpgradingRequest(_selectedRobot.RobotId, HeadquartersManager.Player.Robots[_selectedRobot.RobotId], HeadquartersManager.Player.Experience);
 
                 _timer.TimeTextState(false);

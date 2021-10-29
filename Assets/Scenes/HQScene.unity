@@ -3142,7 +3142,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0.6
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -3652,7 +3652,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1005278808}
-  - component: {fileID: 1005278812}
   - component: {fileID: 1005278809}
   m_Layer: 0
   m_Name: StoreDataManager
@@ -3693,19 +3692,6 @@ MonoBehaviour:
   _lithiumBar: {fileID: 431477212}
   _titaniumBar: {fileID: 1130872250}
   _silliconBar: {fileID: 1170113537}
---- !u!114 &1005278812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1005278807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebd4763322f7c9c48804188c4021fb1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _levelsThresholds: {fileID: 11400000, guid: a56664feb1aa96142aeffc3f93bf7429, type: 2}
 --- !u!1 &1009504209
 GameObject:
   m_ObjectHideFlags: 0
@@ -3990,7 +3976,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0.6
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -5999,7 +5985,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0.6
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -6879,8 +6865,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -707, y: 461.69}
-  m_SizeDelta: {x: 325.6514, y: 110.525}
+  m_AnchoredPosition: {x: -660.8508, y: 420.89}
+  m_SizeDelta: {x: 383.2667, y: 110.525}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1642781367
 MonoBehaviour:
@@ -8099,7 +8085,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -1039, y: 434.47}
+  m_AnchoredPosition: {x: -1106, y: 434.47}
   m_SizeDelta: {x: 173.9955, y: 154.9626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2021850056

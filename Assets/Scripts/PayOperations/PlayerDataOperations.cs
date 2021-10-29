@@ -11,9 +11,7 @@ namespace PlayerDataUpdate
 {
     /// <summary>
     /// 
-    /// Tags: 0 -> conversion
-    ///       1 -> upgrading
-    ///       2 -> building
+    /// Tags: OperationsTags.cs
     ///       
     ///      255-> nothing [null equivalent]
     /// 
@@ -42,6 +40,7 @@ namespace PlayerDataUpdate
         public static event Action<byte> OnMaximumLevelAchieved;      // Maximum levle achieved
 
         #endregion
+
 
         private static bool CheckIfEnoughResources(int resource, byte index)
         {
@@ -186,15 +185,17 @@ namespace PlayerDataUpdate
                 if ((HeadquartersManager.Player.Experience + amount) >= temp)
                 {
                     LevelUpdate(0);
+
                     HeadquartersManager.Player.Experience += (uint)amount;
                     HeadquartersManager.Player.Experience -= temp;
+
+                    HeadquartersManager.UpdateLevel(HeadquartersManager.Player.Level, HeadquartersManager.Player.Experience);
                 }
                 else
                 {
                     HeadquartersManager.Player.Experience += (uint)amount;
+                    OnExperienceUpdated?.Invoke(tag);
                 }
-
-                OnExperienceUpdated?.Invoke(tag);
             }
             else
             {
@@ -212,12 +213,5 @@ namespace PlayerDataUpdate
             HeadquartersManager.Player.Level += 1;
             OnLevelUpdated?.Invoke(tag);                  
         }
-
-
-        //######################
-        //
-        // public static void CheckPlayerDataId
-        //
-        //######################
     }
 } 
