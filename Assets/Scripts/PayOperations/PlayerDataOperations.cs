@@ -140,7 +140,7 @@ namespace PlayerDataUpdate
         /// <param name="robot"></param>
         public static void CheckIfMaxRobotCapNotReached(byte id, int curentInTraining, byte tag)
         {
-            int robotCurentCap = (HeadquartersManager.Player.Robots[0].Count * RobotsManager.robots[0].HousingSpace) + (HeadquartersManager.Player.Robots[1].Count * RobotsManager.robots[0].HousingSpace) + (HeadquartersManager.Player.Robots[2].Count * RobotsManager.robots[0].HousingSpace) + curentInTraining;
+            int robotCurentCap = (HeadquartersManager.Player.Robots[0].Count * RobotsManager.robots[0].HousingSpace) + (HeadquartersManager.Player.Robots[1].Count * RobotsManager.robots[1].HousingSpace) + (HeadquartersManager.Player.Robots[2].Count * RobotsManager.robots[2].HousingSpace) + curentInTraining;
 
             if(robotCurentCap + RobotsManager.robots[id].HousingSpace <= LevelMethods.HousingSpace(HeadquartersManager.Player.Level))
             {

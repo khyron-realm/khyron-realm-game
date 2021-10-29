@@ -59,7 +59,8 @@ namespace Networking.Headquarters
         public void FinishConvertResources()
         {
             uint newEnergy = 0;
-            HeadquartersManager.FinishConversionRequest(newEnergy);
+            uint newResources = 0;
+            HeadquartersManager.FinishConversionRequest(newEnergy, newResources);
         }
         
         public void UpgradeRobot()
@@ -74,7 +75,8 @@ namespace Networking.Headquarters
         {
             byte robotId = 0;
             Robot newRobot = new Robot();
-            HeadquartersManager.FinishUpgradingRequest(robotId, newRobot);
+            uint newResources = 0;
+            HeadquartersManager.FinishUpgradingRequest(robotId, newRobot, newResources);
         }
 
         public void BuildRobot()

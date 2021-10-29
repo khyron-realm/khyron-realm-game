@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Manager.Robots;
@@ -69,11 +68,13 @@ namespace Manager.Train
         }
 
 
+        #region "Building Task Management"
         /// <summary>
         /// Displays all robots in progress at the start of the game
         /// </summary>
         /// <param name="task"> the task with the parameters </param>
         /// <param name="robot"> the robot in progress </param>
+
         private void RobotsInBuildingProcess(BuildTask task, RobotSO robot)
         {
             if(!CheckIfRobotIsFinished(task, robot))
@@ -115,29 +116,40 @@ namespace Manager.Train
                 s_robotLastBuilt = robot;
 
                 PlayerDataOperations.AddRobot(robot.RobotId, 255);
-                Debug.LogWarning("---- ROBOT FINISHED ----");
 
                 return true;
             }
             else
             {
                 if (s_firstRobotAdded)
-                {                 
-                    OnFirstRobotAdded?.Invoke(RobotsManager.robots[robot.RobotId].BuildTime - (int)s_initTimeOfBuilding.AddSeconds(s_timeOfExecution).Subtract(DateTime.UtcNow).TotalSeconds, (int)s_initTimeOfBuilding.AddSeconds(s_timeOfExecution).Subtract(DateTime.UtcNow).TotalSeconds);
-                    s_firstRobotAdded = false;
-                    Debug.LogWarning("---- FIRST ROBOT ADDED TO QUEUE ----");
+                {
+                    if((int)s_initTimeOfBuilding.AddSeconds(s_timeOfExecution).Subtract(DateTime.UtcNow).TotalSeconds == 0)
+                    {
+                        s_taskLastDone = task;
+                        s_robotLastBuilt = robot;
+
+                        PlayerDataOperations.AddRobot(robot.RobotId, 255);
+
+                        return true;
+                    }
+                    else
+                    {
+                        OnFirstRobotAdded?.Invoke(RobotsManager.robots[robot.RobotId].BuildTime - (int)s_initTimeOfBuilding.AddSeconds(s_timeOfExecution).Subtract(DateTime.UtcNow).TotalSeconds, (int)s_initTimeOfBuilding.AddSeconds(s_timeOfExecution).Subtract(DateTime.UtcNow).TotalSeconds);
+                        s_firstRobotAdded = false;
+                    }    
                 }
                 else
                 {
                     OnRobotAdded?.Invoke(RobotsManager.robots[robot.RobotId].BuildTime);
-                    Debug.LogWarning("---- ROBOT ADDED TO QUEUE ----");
                 }
 
                 return false;
             }           
         }
+        #endregion
 
 
+        #region "Build Robot"
         /// <summary>
         /// Add robot to building process
         /// </summary>
@@ -188,8 +200,10 @@ namespace Manager.Train
                 }
             }
         }
+        #endregion
 
 
+        #region "Cancel Robot Building"
         /// <summary>
         /// Cancel robot in building process
         /// </summary>
@@ -248,6 +262,7 @@ namespace Manager.Train
             RobotsInBuildingOperations.DezactivateIcon(robotIcon);
             RobotsInBuilding.robotsInBuildingIcons.Remove(robotIcon);           
         }
+        #endregion
 
 
         #region "Errors"

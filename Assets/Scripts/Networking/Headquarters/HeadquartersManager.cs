@@ -383,15 +383,17 @@ namespace Networking.Headquarters
             
             if(ShowDebug) Debug.Log("Sending resource conversion to the server");
         }
-        
+
         /// <summary>
         ///     Request for finishing the conversion of the resources to energy
         /// </summary>
         /// <param name="newEnergy">The new energy value</param>
-        public static void FinishConversionRequest(uint newEnergy)
+        /// <param name="newExperience">The new experience value</param>
+        public static void FinishConversionRequest(uint newEnergy, uint newExperience)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(newEnergy);
+            writer.Write(newExperience);
             using var msg = Message.Create(HeadquartersTags.FinishConversion, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
@@ -421,11 +423,13 @@ namespace Networking.Headquarters
         /// </summary>
         /// <param name="robotId">The robot type</param>
         /// <param name="newRobot">The new robot values</param>
-        public static void FinishUpgradingRequest(byte robotId, Robot newRobot)
+        /// <param name="newExperience">The new experience value</param>
+        public static void FinishUpgradingRequest(byte robotId, Robot newRobot, uint newExperience)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(robotId);
             writer.Write(newRobot);
+            writer.Write(newExperience);
             using var msg = Message.Create(HeadquartersTags.FinishUpgrade, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
