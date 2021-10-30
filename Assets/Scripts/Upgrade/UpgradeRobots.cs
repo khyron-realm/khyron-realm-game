@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Manager.Robots;
@@ -8,6 +7,7 @@ using CountDown;
 using Networking.Headquarters;
 using Networking.Levels;
 using PlayerDataUpdate;
+using AuxiliaryClasses;
 
 
 namespace Manager.Upgrade
@@ -27,6 +27,7 @@ namespace Manager.Upgrade
         #region "Private members"
 
         private RobotSO _selectedRobot;
+        public static event Action<byte> OnRobotSelected;
 
         #endregion
 
@@ -39,6 +40,7 @@ namespace Manager.Upgrade
 
             _timer.TimeTextState(false);
 
+            HeadquartersManager.OnPlayerDataReceived += ShowFirstRobot;
             HeadquartersManager.OnUpgradingError += UpgradingError;
 
             PlayerDataOperations.OnEnergyModified += UpgradeCompatible;
@@ -46,7 +48,9 @@ namespace Manager.Upgrade
 
             ManageTasks.OnUpgradingWorking += UpgradeInProgress;
         }
-        private void Start()
+
+
+        private void ShowFirstRobot()
         {
             DisplayRobotToUpgrade(RobotsManager.robots[0]);
         }
@@ -57,7 +61,7 @@ namespace Manager.Upgrade
         private void UpgradeInProgress(BuildTask task, RobotSO robot)
         {
             _selectedRobot = robot;
-            UpgradingMethod((LevelMethods.RobotUpgradeTime(robot.RobotId) * 60) - TimeTillFinish(task.StartTime), LevelMethods.RobotUpgradeTime(robot.RobotId) * 60);
+            UpgradingMethod((LevelMethods.RobotUpgradeTime(robot.RobotId) * 60) - AuxiliaryMethods.TimeTillFinish(task.StartTime), LevelMethods.RobotUpgradeTime(robot.RobotId) * 60);
         }       
         public void UpgradeRobot()
         {
@@ -100,8 +104,9 @@ namespace Manager.Upgrade
             print("Upgrade rejected");
         }
         #endregion
-     
 
+
+        #region "Show Robot To Upgrade"
         /// <summary>
         /// Show the robot to upgrade in the right [image + text]
         /// </summary>
@@ -114,13 +119,17 @@ namespace Manager.Upgrade
 
             _displayStatsImage.sprite = robot.RobotLevel[temp].upgradeImage;
             _nameOfTheRobot.text = robot.NameOfTheRobot;
+
+            OnRobotSelected?.Invoke(robot.RobotId);
         }
         private int GetInfoLevel()
         {
             return RobotsManager.robotsData[_selectedRobot.NameOfTheRobot.ToString()].RobotLevel;
         }
+        #endregion
 
-
+         
+        #region "Upgrading procedure"
         private IEnumerator Upgrading(int time)
         {
             int temp = 0;
@@ -132,8 +141,6 @@ namespace Manager.Upgrade
 
             PlayerDataOperations.UpgradeRobot(_selectedRobot.RobotId, OperationsTags.UPGRADING_ROBOTS);     
         }
-
-
         private void RobotUpgradeSendFinished(byte tag)
         {
             if(OperationsTags.UPGRADING_ROBOTS == tag)
@@ -146,16 +153,7 @@ namespace Manager.Upgrade
                 _robotManager.MakeAllButtonsActive();
             }          
         }
-
-
-        private static int TimeTillFinish(long time)
-        {
-            DateTime startTime = DateTime.FromBinary(time);
-            DateTime now = DateTime.UtcNow;
-
-            int timeRemained = (int)now.Subtract(startTime).TotalSeconds;
-            return timeRemained;
-        }
+        #endregion
 
 
         private void OnDestroy()
@@ -163,6 +161,7 @@ namespace Manager.Upgrade
             _robotManager.OnButtonPressed -= DisplayRobotToUpgrade;
             _upgradeButton.onClick.RemoveAllListeners();
 
+            HeadquartersManager.OnPlayerDataReceived -= ShowFirstRobot;
             HeadquartersManager.OnUpgradingError -= UpgradingError;
 
             PlayerDataOperations.OnEnergyModified -= UpgradeCompatible;

@@ -1852,6 +1852,7 @@ GameObject:
   m_Component:
   - component: {fileID: 472596852}
   - component: {fileID: 472596853}
+  - component: {fileID: 472596856}
   - component: {fileID: 472596854}
   - component: {fileID: 472596855}
   m_Layer: 0
@@ -1924,6 +1925,20 @@ MonoBehaviour:
   _timeText: {fileID: 1151195730}
   _hasProgressBar: 1
   _bar: {fileID: 1968294322}
+--- !u!114 &472596856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472596851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e34e8fb3a70973246bd7c58e438e55fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upgradePrice: {fileID: 5719321953710415460}
+  _upgradeTime: {fileID: 5719321953710415459}
 --- !u!114 &493402129 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 890588070013584107, guid: 2c3e1127bdfb96b4d8aa7405d66da3cd, type: 3}
@@ -8854,6 +8869,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 633337701}
     m_Modifications:
+    - target: {fileID: 5719321953211322652, guid: bc00aeaf4196c1842acd1384a191559c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5719321954588603777, guid: bc00aeaf4196c1842acd1384a191559c, type: 3}
       propertyPath: m_Name
       value: UpgradingRobots-Floor
@@ -8908,6 +8927,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc00aeaf4196c1842acd1384a191559c, type: 3}
+--- !u!114 &5719321953710415459 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5719321952916822822, guid: bc00aeaf4196c1842acd1384a191559c, type: 3}
+  m_PrefabInstance: {fileID: 5719321953710415458}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5719321953710415460 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5719321953642524248, guid: bc00aeaf4196c1842acd1384a191559c, type: 3}
+  m_PrefabInstance: {fileID: 5719321953710415458}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7818105312031866469
 PrefabInstance:
   m_ObjectHideFlags: 0

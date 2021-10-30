@@ -20,6 +20,7 @@ namespace PlayerDataUpdate
     {
         #region "Event"
         public static event Action<byte> OnResourcesModified;         // Resources modified
+        public static event Action OnToManyResources;           // Too many resources
         public static event Action<byte> OnNotEnoughResources;        // Not enough resources
 
         public static event Action<byte> OnEnergyModified;            // Energy Modified
@@ -54,6 +55,7 @@ namespace PlayerDataUpdate
                 }
                 else
                 {
+                    OnToManyResources?.Invoke();
                     return false;
                 }
             }

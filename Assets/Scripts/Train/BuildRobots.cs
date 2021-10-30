@@ -88,7 +88,7 @@ namespace Manager.Train
             _tempLoadingBar.MaxValue = 1;
 
             Time.TimeTextState(false);
-            Time.TotalTime = 0;
+            Time.CurrentTime = 0;
 
             s_tempTime = 0;
         }
@@ -123,7 +123,7 @@ namespace Manager.Train
         /// </summary>
         public static void RecalculateTime()
         {
-            Time.TotalTime = 0;
+            Time.CurrentTime = 0;
 
             foreach (KeyValuePair<ushort, RobotSO> item in BuildRobotsOperations.RobotsInTraining)
             {

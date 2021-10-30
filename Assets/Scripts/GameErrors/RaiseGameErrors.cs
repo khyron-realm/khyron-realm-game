@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Manager.Store;
-using Manager.Train;
+using PlayerDataUpdate;
 
 
 namespace GameErrors
@@ -28,19 +26,19 @@ namespace GameErrors
         {
             _text.enabled = false;
 
-            //ResourcesOperations.OnNotEnoughResources += NotEnoughResources;
-            //ResourcesOperations.OnNotEnoughEnergy += NotEnoughEnergy;
-            //ResourcesOperations.OnToMuchResources += TooManyResources;
-            //BuildRobotsOperations.OnMaximumCapacityAchieved += MaxCapacityAchieved;
+            PlayerDataOperations.OnNotEnoughEnergy += NotEnoughEnergy;
+            PlayerDataOperations.OnNotEnoughResources += NotEnoughResources;
+            PlayerDataOperations.OnToManyResources += TooManyResources;
+            PlayerDataOperations.OnNotEnoughSpaceForRobots += MaxCapacityAchieved;
         }
 
-
-        private void NotEnoughResources()
+        #region "Handlers for errors"
+        private void NotEnoughResources(byte tag)
         {
             _text.text = _notEnoughResources;
             StartShowingPopUp();
         }
-        private void NotEnoughEnergy()
+        private void NotEnoughEnergy(byte tag)
         {
             _text.text = _notEnoughEnergy;
             StartShowingPopUp();
@@ -50,11 +48,12 @@ namespace GameErrors
             _text.text = _tooManyResources;
             StartShowingPopUp();
         }
-        private void MaxCapacityAchieved()
+        private void MaxCapacityAchieved(byte tag)
         {
             _text.text = _maxCapacity;
             StartShowingPopUp();
         }
+        #endregion
 
 
         private void StartShowingPopUp()
@@ -110,10 +109,10 @@ namespace GameErrors
 
         private void OnDestroy()
         {
-            //ResourcesOperations.OnNotEnoughResources -= NotEnoughResources;
-            //ResourcesOperations.OnNotEnoughEnergy -= NotEnoughEnergy;
-            //ResourcesOperations.OnToMuchResources -= TooManyResources;
-            //BuildRobotsOperations.OnMaximumCapacityAchieved -= MaxCapacityAchieved;
+            PlayerDataOperations.OnNotEnoughEnergy -= NotEnoughEnergy;
+            PlayerDataOperations.OnNotEnoughResources -= NotEnoughResources;
+            PlayerDataOperations.OnToManyResources -= TooManyResources;
+            PlayerDataOperations.OnNotEnoughSpaceForRobots -= MaxCapacityAchieved;
         }
     }
 

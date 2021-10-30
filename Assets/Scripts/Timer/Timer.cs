@@ -11,35 +11,44 @@ namespace CountDown
     public class Timer : MonoBehaviour
     {
         #region "Input data"
+        [Header("Text to display time")]
         [SerializeField] private bool _hasTimeText;
+        [ShowIf(ActionOnConditionFail.DontDraw, ConditionOperator.And, nameof(_hasTimeText))]
         [SerializeField] private Text _timeText;
+       
+        [Space(20f)]
 
+        [Header("Progress Bar for time")]
         [SerializeField] private bool _hasProgressBar;
+        [ShowIf(ActionOnConditionFail.DontDraw, ConditionOperator.And, nameof(_hasProgressBar))]
         [SerializeField] private ProgressBar _bar;
         #endregion
 
+
         #region "Private Variables"
-        private int _totalTime = 0;
+        private int _currentTime = 0;
         private int _maxTime = 0;
+
         private WaitForSeconds _standardTime;
         #endregion
 
+
         #region "Public Variables"
-        public int TotalTime
+        public int CurrentTime
         {
             get
             {
-                return _totalTime;
+                return _currentTime;
             }
             set
             {
-                if (_totalTime > -1)
+                if (_currentTime > -1)
                 {
-                    _totalTime = value;
+                    _currentTime = value;
                 }
                 else
                 {
-                    _totalTime = 0;
+                    _currentTime = 0;
                 }
             }
         }
@@ -67,6 +76,8 @@ namespace CountDown
         }
         #endregion
 
+
+        #region "Awake & Start"
         private void Awake()
         {
             _timeText.text = "";
@@ -81,12 +92,14 @@ namespace CountDown
                 _bar.MaxValue = 1;
             }
         }
+        #endregion
 
 
+        #region "Time Operation"
         // Time Operations
         public void AddTime(int time)
         {
-            _totalTime += time;
+            CurrentTime += time;
 
             if (_hasTimeText)
             {
@@ -95,11 +108,7 @@ namespace CountDown
         }
         public void DecreaseTime(int time)
         {
-            _totalTime -= time;
-            if(_totalTime < 0)
-            {
-                _totalTime = 0;
-            }
+            CurrentTime -= time;
 
             if (_hasTimeText)
             {
@@ -115,68 +124,59 @@ namespace CountDown
                 _bar.MaxValue = max;
             }           
         }
+        #endregion
 
 
+        #region "Show CountDown"
         // Show Time
         public void DisplayTime()
         {
-            float hours = Mathf.FloorToInt(_totalTime / 3600);
-            float minutes = Mathf.FloorToInt((_totalTime % 3600) / 60);
-            float seconds = Mathf.FloorToInt(_totalTime % 60);
-
-            UpdateProgressBar();
-
-            if (hours < 1)
-            {
-                if (minutes < 1)
-                {
-                    _timeText.text = string.Format("{0}s", seconds);
-                }
-                else
-                {
-                    _timeText.text = string.Format("{0}m {1}s", minutes, seconds);
-                }
-            }
-            else
-            {
-                _timeText.text = string.Format("{0}h {1}m {2}s", hours, minutes, seconds);
-            }
+            DisplayTime(_timeText, _currentTime);
         }
         public void DisplayTime(Text text, int time)
         {
-            float hours = Mathf.FloorToInt(time / 3600);
+            float days = Mathf.FloorToInt(time / (86400));
+            float hours = Mathf.FloorToInt((time % 86400) / 3600);
             float minutes = Mathf.FloorToInt((time % 3600) / 60);
             float seconds = Mathf.FloorToInt(time % 60);
 
             UpdateProgressBar();
 
-            if (hours < 1)
+            if (days < 1)
             {
-                if (minutes < 1)
+                if (hours < 1)
                 {
-                    text.text = string.Format("{0}s", seconds);
+                    if (minutes < 1)
+                    {
+                        text.text = string.Format("{0}s", seconds);
+                    }
+                    else
+                    {
+                        text.text = string.Format("{0}m {1}s", minutes, seconds);
+                    }
                 }
                 else
                 {
-                    text.text = string.Format("{0}m {1}s", minutes, seconds);
+                    text.text = string.Format("{0}h {1}m", hours, minutes);
                 }
             }
             else
             {
-                text.text = string.Format("{0}h {1}m {2}s", hours, minutes, seconds);
+                text.text = string.Format("{0}d {1}h", days, hours);
             }
         }
         public void TimeTextState(bool temp)
         {
             _timeText.gameObject.SetActive(temp);
         }
+        #endregion
 
 
         private void UpdateProgressBar()
         {
             if (_hasProgressBar)
             {
-                _bar.CurrentValue = _maxTime - _totalTime;
+                _bar.CurrentValue = _maxTime - _currentTime;
             }
         }
 

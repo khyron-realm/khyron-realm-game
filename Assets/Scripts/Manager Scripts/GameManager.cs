@@ -10,26 +10,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _frameRate;
     #endregion
 
-    private static bool s_once = true;
 
     void Start()
     {
         Application.targetFrameRate = _frameRate;
     }
 
+
     private void OnApplicationPause(bool pause)
     {
-        if(!pause)
+        if(pause) // Users put aplication in background
         {
-            if(s_once)
-            {
-                s_once = false;
-            }
-            else
-            {
-                SceneManager.UnloadSceneAsync(1);
-                SceneManager.LoadSceneAsync((int)ScenesName.HEADQUARTERS_SCENE);
-            }
+            Application.Quit();
         }
     }
 }
