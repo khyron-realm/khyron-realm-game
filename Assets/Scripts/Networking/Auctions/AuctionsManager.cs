@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using DarkRift;
 using DarkRift.Client;
 using Networking.Launcher;
+using Networking.Mine;
 using Networking.Tags;
 using UnityEngine;
 
 namespace Networking.Auctions
 {
     /// <summary>
-    ///     Auctions manager that handles the auction and rooms messages
+    ///     Auctions manager that handles the auction messages
     /// </summary>
     public class AuctionsManager : MonoBehaviour
     {
@@ -22,11 +23,19 @@ namespace Networking.Auctions
         public delegate void PlayerJoinedEventHandler(Player player);
         public delegate void PlayerLeftEventHandler(uint leftId, uint newHostId);
         public delegate void ReceivedOpenRoomsEventHandler(List<AuctionRoom> roomList);
-        public static event SuccessfulJoinRoomEventHandler onSuccessfulJoinRoom;
-        public static event SuccessfulLeaveRoomEventHandler onSuccessfulLeaveRoom;
-        public static event PlayerJoinedEventHandler onPlayerJoined;
-        public static event PlayerLeftEventHandler onPlayerLeft;
-        public static event ReceivedOpenRoomsEventHandler onReceivedOpenRooms;
+        public delegate void GetOpenRoomsFailedEventHandler(byte errorId);
+        public delegate void SuccessfulAddBidEventHandler();
+        public delegate void FailedAddBidEventHandler();
+        public delegate void FailedAddScanEventHandler();
+        public static event SuccessfulJoinRoomEventHandler OnSuccessfulJoinRoom;
+        public static event SuccessfulLeaveRoomEventHandler OnSuccessfulLeaveRoom;
+        public static event PlayerJoinedEventHandler OnPlayerJoined;
+        public static event PlayerLeftEventHandler OnPlayerLeft;
+        public static event ReceivedOpenRoomsEventHandler OnReceivedOpenRooms;
+        public static event GetOpenRoomsFailedEventHandler OnFailedGetOpenRooms;
+        public static event SuccessfulAddBidEventHandler OnSuccessfulAddBid;
+        public static event FailedAddBidEventHandler OnFailedAddBid;
+        public static event FailedAddScanEventHandler OnFailedAddScan;
         
         #endregion
 
@@ -122,15 +131,33 @@ namespace Networking.Auctions
                     StartAuctionFailed(message);
                     break;
                 }
+
+                case AuctionTags.AddBidSuccessful:
+                {
+                    AddBidSuccess(message);
+                    break;
+                }
+
+                case AuctionTags.AddBidFailed:
+                {
+                    AddBidFailed(message);
+                    break;
+                }
+
+                case AuctionTags.AddScanFailed:
+                {
+                    AddScanFailed(message);
+                    break;
+                }
             }
         }
 
         #region ReceivedCalls
 
         /// <summary>
-        /// 
+        ///     Room created successfully actions
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void CreateSuccess(Message message)
         {
             using var reader = message.GetReader();
@@ -140,13 +167,13 @@ namespace Networking.Auctions
             IsHost = player.IsHost;
             CurrentAuctionRoom = room;
             
-            onSuccessfulJoinRoom?.Invoke(new List<Player> {player});
+            OnSuccessfulJoinRoom?.Invoke(new List<Player> {player});
         }
 
         /// <summary>
-        /// 
+        ///     Failed to create room actions
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void CreateFailed(Message message)
         {
             using var reader = message.GetReader();
@@ -179,9 +206,9 @@ namespace Networking.Auctions
         }
 
         /// <summary>
-        /// 
+        ///     Join success actions and receive auction room
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void JoinSuccess(Message message)
         {
             var playerList = new List<Player>();
@@ -197,13 +224,13 @@ namespace Networking.Auctions
 
             IsHost = playerList.Find(p => p.Id == NetworkManager.Client.ID).IsHost;
             
-            onSuccessfulJoinRoom?.Invoke(playerList);
+            OnSuccessfulJoinRoom?.Invoke(playerList);
         }
 
         /// <summary>
-        /// 
+        ///     Join room failed actions
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void JoinFailed(Message message)
         {
             using var reader = message.GetReader();
@@ -245,33 +272,33 @@ namespace Networking.Auctions
         }
 
         /// <summary>
-        /// 
+        ///     Leave auction success actions
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void LeaveSuccess(Message message)
         {
             CurrentAuctionRoom = null;
             
-            onSuccessfulLeaveRoom?.Invoke();
+            OnSuccessfulLeaveRoom?.Invoke();
         }
 
         /// <summary>
-        ///     
+        ///     Player joined in the auction room
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void PlayerJoined(Message message)
         {
             using var reader = message.GetReader();
 
             var player = reader.ReadSerializable<Player>();
             
-            onPlayerJoined?.Invoke(player);
+            OnPlayerJoined?.Invoke(player);
         }
 
         /// <summary>
-        /// 
+        ///     Player left the auction room
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void PlayerLeft(Message message)
         {
             using var reader = message.GetReader();
@@ -284,12 +311,14 @@ namespace Networking.Auctions
             {
                 IsHost = true;
             }
+            
+            OnPlayerLeft?.Invoke(leftId, newHostId);
         }
 
         /// <summary>
-        /// 
+        ///     Get open auction rooms actions and receive rooms
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void GetOpenRooms(Message message)
         {
             var roomList = new List<AuctionRoom>();
@@ -300,31 +329,33 @@ namespace Networking.Auctions
                 roomList.Add(reader.ReadSerializable<AuctionRoom>());
             }
             
-            onReceivedOpenRooms?.Invoke(roomList);
+            OnReceivedOpenRooms?.Invoke(roomList);
         }
 
         /// <summary>
-        /// 
+        ///     Get open rooms failed actions
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void GetOpenRoomsFailed(Message message)
         {
             Debug.Log("Player not logged in");
+            byte errorId = 0;
+            OnFailedGetOpenRooms?.Invoke(errorId);
         }
 
         /// <summary>
-        /// 
+        ///     Successfully start auction actions
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void StartAuctionSuccess(Message message)
         {
-            
+            Debug.Log("Start auction success");
         }
         
         /// <summary>
-        /// 
+        ///     Failed to start the auction
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message received</param>
         private static void StartAuctionFailed(Message message)
         {
             using var reader = message.GetReader();
@@ -357,13 +388,40 @@ namespace Networking.Auctions
                 }
             }
         }
+        
+        /// <summary>
+        ///     Successfully add bid actions
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void AddBidSuccess(Message message)
+        {
+            OnSuccessfulAddBid?.Invoke();
+        }
+        
+        /// <summary>
+        ///     Failed to add a new bid actions
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void AddBidFailed(Message message)
+        {
+            OnFailedAddBid?.Invoke();
+        }
+        
+        /// <summary>
+        ///     Failed to add a new scan actions
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void AddScanFailed(Message message)
+        {
+            OnFailedAddScan?.Invoke();
+        }
 
         #endregion
         
         #region NetworkCalls
 
         /// <summary>
-        /// 
+        ///     Create a new auction room
         /// </summary>
         /// <param name="roomName"></param>
         /// <param name="isVisible"></param>
@@ -377,7 +435,7 @@ namespace Networking.Auctions
         }
 
         /// <summary>
-        /// 
+        ///     Join an auction room
         /// </summary>
         /// <param name="roomId"></param>
         public static void JoinAuctionRoom(ushort roomId)
@@ -389,7 +447,7 @@ namespace Networking.Auctions
         }
 
         /// <summary>
-        /// 
+        ///     Leave an auctio room
         /// </summary>
         public static void LeaveAuctionRoom()
         {
@@ -398,7 +456,7 @@ namespace Networking.Auctions
         }
         
         /// <summary>
-        /// 
+        ///     Get open auction rooms
         /// </summary>
         public static void GetOpenAuctionRooms()
         {
@@ -406,11 +464,40 @@ namespace Networking.Auctions
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
 
+        /// <summary>
+        ///     Start an auction room
+        /// </summary>
         public static void StartAuction()
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(CurrentAuctionRoom.Id);
             using var msg = Message.Create(AuctionTags.StartAuction, writer);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+        }
+
+        /// <summary>
+        ///     Adds a bid to the auction and waits for confirmation
+        /// </summary>
+        /// <param name="bidValue"></param>
+        public static void AddBid(uint bidValue)
+        {
+            using var writer = DarkRiftWriter.Create();
+            writer.Write(CurrentAuctionRoom.Id);
+            writer.Write(bidValue);
+            using var msg = Message.Create(AuctionTags.AddBid, writer);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+        }
+        
+        /// <summary>
+        ///     Adds a scan to the server
+        /// </summary>
+        /// <param name="scanPosition">The position of the scan</param>
+        public static void AddScan(Block scanPosition)
+        {
+            using var writer = DarkRiftWriter.Create();
+            writer.Write(CurrentAuctionRoom.Id);
+            writer.Write(scanPosition);
+            using var msg = Message.Create(AuctionTags.AddScan, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
 
