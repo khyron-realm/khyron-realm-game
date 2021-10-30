@@ -1,6 +1,6 @@
 namespace Networking.Chat
 {
-    public class MessageType
+    public static class MessageType
     {
         public const byte Private = 0;
         public const byte Room = 1;

@@ -4,12 +4,12 @@ namespace Networking.Chat
     {
         public string Sender { get; }
         public string Content { get; }
-        public MessageType MessageType { get; }
+        public byte MessageType { get; }
         public string ChannelName { get; }
         public bool IsSender { get; }
         public bool IsServerMessage { get; }
         
-        public ChatMessage(string sender, string content, MessageType messageType, string channelName, bool isSender, bool isServerMessage)
+        public ChatMessage(string sender, string content, byte messageType, string channelName, bool isSender = false, bool isServerMessage = false)
         {
             Sender = sender;
             Content = content;

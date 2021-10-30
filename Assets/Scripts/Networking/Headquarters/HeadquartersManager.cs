@@ -62,7 +62,8 @@ namespace Networking.Headquarters
             using var message = e.GetMessage();
             
             // Check if message is for this plugin
-            if (message.Tag < Tags.Tags.TagsPerPlugin * Tags.Tags.Headquarters || message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Headquarters + 1)) return;
+            if (message.Tag < Tags.Tags.TagsPerPlugin * Tags.Tags.Headquarters ||
+                message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Headquarters + 1)) return;
 
             switch (message.Tag)
             {

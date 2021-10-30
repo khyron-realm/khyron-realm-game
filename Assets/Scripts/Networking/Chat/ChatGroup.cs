@@ -17,6 +17,9 @@ namespace Networking.Chat
             Name = name;
         }
 
+        public ChatGroup()
+        { }
+
         public void Deserialize(DeserializeEvent e)
         {
             Name = e.Reader.ReadString();
