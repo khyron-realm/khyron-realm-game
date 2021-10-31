@@ -6,6 +6,7 @@ using UnityEngine;
 using DarkRift;
 using DarkRift.Client;
 using Networking.Auctions;
+using Networking.Headquarters;
 using Networking.Login;
 using Networking.Tags;
 
@@ -41,10 +42,24 @@ namespace Networking.Chat
         private void Start()
         {
             // Set chat colors
-            // TO-DO
-            
+            ChatColors[MessageType.ChatGroup] = Color.green;
+            ChatColors[MessageType.Error] = Color.red;
+            ChatColors[MessageType.Info] = Color.blue;
+            ChatColors[MessageType.Room] = new Color(1, 0.4f, 0);
+            ChatColors[MessageType.Private] = Color.magenta;
+            ChatColors[MessageType.All] = Color.black;
+
             // Get all saved chat groups
-            // TO-DO
+            if (PlayerPrefs.GetInt("SetChatGroups") == 0)
+            {
+                SavedChatGroups = new List<string> {"General"};
+                ArrayPrefs.SetStringArray("ChatGroups", SavedChatGroups.ToArray());
+                PlayerPrefs.SetInt("SetChatGroups", 1);
+            }
+            else
+            {
+                SavedChatGroups = ArrayPrefs.GetStringArray("ChatGroups").ToList();
+            }
 
             NetworkManager.Client.MessageReceived += OnDataHandler;
         }
@@ -257,11 +272,12 @@ namespace Networking.Chat
             using var reader = message.GetReader();
             var group = reader.ReadSerializable<ChatGroup>();
             ServerMessage("You joined the channel: " + group.Name, MessageType.ChatGroup);
-
-            // TO-DO
-            // Save chat group
+            
             if (!SavedChatGroups.Contains(group.Name))
-            { }
+            {
+                SavedChatGroups.Add(group.Name);
+                ArrayPrefs.SetStringArray("ChatGroups", SavedChatGroups.ToArray());
+            }
             
             OnSuccessfulJoinGroup?.Invoke(group.Name);
         }
@@ -312,10 +328,10 @@ namespace Networking.Chat
             var groupName = reader.ReadString();
             ServerMessage("You left the channel " + groupName, MessageType.ChatGroup);
 
-            // TO-DO
-            // Remove chat group
             if (SavedChatGroups.Remove(groupName))
-            { }
+            {
+                ArrayPrefs.SetStringArray("ChatGroups", SavedChatGroups.ToArray());
+            }
             
             OnSuccessfulLeaveGroup?.Invoke(groupName);
         }
