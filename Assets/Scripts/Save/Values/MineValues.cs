@@ -13,15 +13,18 @@ namespace Save
         [SerializeField] private RefreshMineValues _refreshValues;
         #endregion
 
+
         #region "Public members"
         [HideInInspector] public int HiddenSeed;
         [HideInInspector] public List<ResourcesData> ResourcesData;
         #endregion
 
+
         private void Awake()
         {
             LoadData();
         }
+
 
         /// <summary>
         /// Refreshes Mine data and saves it

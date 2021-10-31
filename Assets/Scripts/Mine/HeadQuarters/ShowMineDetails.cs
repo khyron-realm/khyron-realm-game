@@ -33,6 +33,7 @@ namespace Mine
         [SerializeField] private Button _aquiredButton;
         #endregion
 
+
         #region "Private Members"
         private GameObject _currentGameObject;
         private Timer _tempTimer;
@@ -50,20 +51,6 @@ namespace Mine
             {
                 item.OnGameObjectTouched += TouchedGameObject;
             }
-
-            //System.Random cv = new System.Random(1230);
-
-            //int[] number = new int[6];
-
-            //for (int i = 0; i < number.Length; i++)
-            //{
-            //    number[i] = cv.Next(1, 1000);
-            //}
-
-            //for (int i = 0; i < number.Length; i++)
-            //{
-            //    print(number[i]);
-            //}
         }
 
 
