@@ -95,6 +95,8 @@ namespace Networking.Login
                         Debug.LogWarning("Invalid LoginFailed error data received");
                         return;
                     }
+                    // 0 - normal logout
+                    // 1 - forced logout (logged in on another device)
                     OnSuccessfulLogout?.Invoke(reader.ReadByte());
                     break;
                 }

@@ -1,7 +1,10 @@
 using System;
 
-namespace Networking.Levels
+namespace Levels
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class LevelMethods
     {
         #region Constants

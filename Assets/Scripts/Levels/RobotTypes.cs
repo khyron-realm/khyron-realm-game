@@ -1,4 +1,4 @@
-namespace Networking.Levels
+namespace Levels
 {
     public static class RobotTypes
     {
