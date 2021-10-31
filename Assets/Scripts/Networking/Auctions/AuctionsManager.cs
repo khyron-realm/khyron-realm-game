@@ -16,6 +16,8 @@ namespace Networking.Auctions
         public static bool IsHost { get; private set; }
         public static AuctionRoom CurrentAuctionRoom { get; set; }
         
+        public static List<Bid> Bids { get; set; } = new List<Bid>();
+        
         #region Events
 
         public delegate void SuccessfulJoinRoomEventHandler(List<Player> playerList);
@@ -24,6 +26,7 @@ namespace Networking.Auctions
         public delegate void PlayerLeftEventHandler(uint leftId, uint newHostId);
         public delegate void ReceivedOpenRoomsEventHandler(List<AuctionRoom> roomList);
         public delegate void GetOpenRoomsFailedEventHandler(byte errorId);
+        public delegate void AddBidEventHandler();
         public delegate void SuccessfulAddBidEventHandler();
         public delegate void FailedAddBidEventHandler();
         public delegate void FailedAddScanEventHandler();
@@ -33,6 +36,7 @@ namespace Networking.Auctions
         public static event PlayerLeftEventHandler OnPlayerLeft;
         public static event ReceivedOpenRoomsEventHandler OnReceivedOpenRooms;
         public static event GetOpenRoomsFailedEventHandler OnFailedGetOpenRooms;
+        public static event AddBidEventHandler OnAddBid;
         public static event SuccessfulAddBidEventHandler OnSuccessfulAddBid;
         public static event FailedAddBidEventHandler OnFailedAddBid;
         public static event FailedAddScanEventHandler OnFailedAddScan;
@@ -129,6 +133,12 @@ namespace Networking.Auctions
                 case AuctionTags.StartAuctionFailed:
                 {
                     StartAuctionFailed(message);
+                    break;
+                }
+                
+                case AuctionTags.AddBid:
+                {
+                    AddBid(message);
                     break;
                 }
 
@@ -393,8 +403,27 @@ namespace Networking.Auctions
         ///     Successfully add bid actions
         /// </summary>
         /// <param name="message">The message received</param>
+        private static void AddBid(Message message)
+        {
+            using var reader = message.GetReader();
+            var bid = reader.ReadSerializable<Bid>();
+            
+            Bids.Add(bid);
+
+            OnAddBid?.Invoke();
+        }
+        
+        /// <summary>
+        ///     Successfully add bid actions
+        /// </summary>
+        /// <param name="message">The message received</param>
         private static void AddBidSuccess(Message message)
         {
+            using var reader = message.GetReader();
+            var bid = reader.ReadSerializable<Bid>();
+            
+            Bids.Add(bid);
+            
             OnSuccessfulAddBid?.Invoke();
         }
         
