@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Networking.Headquarters;
-using Networking.Levels;
-using Manager.Robots;
+using Levels;
 
 
 namespace Manager.Upgrade
