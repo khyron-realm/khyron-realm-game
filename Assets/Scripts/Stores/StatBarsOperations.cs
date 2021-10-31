@@ -102,7 +102,7 @@ namespace Manager.Store
         private void LevelUpdate(byte tag)
         {
             StartCoroutine(BarAnimation(_xpBar, (int)HeadquartersManager.Player.Experience));
-            _xpBar.MaxValue = StorePlayerStats.levelsThresholds.levelsThresholds[StorePlayerStats.currentLevel];
+            _xpBar.MaxValue = (int)LevelMethods.Experience(HeadquartersManager.Player.Level);
         }
         #endregion
 
@@ -112,7 +112,7 @@ namespace Manager.Store
             float temp = 0f;
             while (temp < 1)
             {
-                temp += Time.deltaTime / 3;             
+                temp += Time.deltaTime * 0.3f;             
                 bar.CurrentValue = Mathf.RoundToInt(Mathf.Lerp(bar.CurrentValue, endGoal, temp));
                 yield return null;
             }

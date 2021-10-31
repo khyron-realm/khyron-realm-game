@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,6 +47,21 @@ namespace AuxiliaryClasses
             }
 
             return tempDictionary;
+        }
+
+
+        /// <summary>
+        /// Returns the difference in seconds between curent time and a var "time" time
+        /// </summary>
+        /// <param name="time">the time in binary format</param>
+        /// <returns></returns>
+        public static int TimeTillFinish(long time)
+        {
+            DateTime startTime = DateTime.FromBinary(time);
+            DateTime now = DateTime.UtcNow;
+
+            int timeRemained = (int)now.Subtract(startTime).TotalSeconds;
+            return timeRemained;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace CanvasActions
     [RequireComponent(typeof(Canvas))]
     public class CanvasHelper : MonoBehaviour
     {
+        #region "Private members"
         private static List<CanvasHelper> helpers = new List<CanvasHelper>();
 
         public static UnityEvent OnResolutionOrOrientationChanged = new UnityEvent();
@@ -29,8 +30,12 @@ namespace CanvasActions
         private static Rect lastSafeArea = Rect.zero;
 
         private Canvas canvas;
-        private RectTransform rectTransform;
         private RectTransform safeAreaTransform;
+
+        private Vector2 anchorMin;
+        private Vector2 anchorMax;
+        #endregion
+
 
         void Awake()
         {
@@ -38,7 +43,6 @@ namespace CanvasActions
                 helpers.Add(this);
 
             canvas = GetComponent<Canvas>();
-            rectTransform = GetComponent<RectTransform>();
 
             safeAreaTransform = transform.Find("SafeArea") as RectTransform;
 
@@ -74,11 +78,29 @@ namespace CanvasActions
         {
             if (safeAreaTransform == null)
                 return;
-
+            
             var safeArea = Screen.safeArea;
+            var diff = Mathf.Abs(Screen.safeArea.width - Screen.width);
 
-            var anchorMin = safeArea.position;
-            var anchorMax = safeArea.position + safeArea.size;
+            if (safeArea.x > 0)
+            {
+                anchorMin = safeArea.position;
+
+                if(diff - safeArea.x > 0)
+                {
+                    anchorMax = safeArea.position + safeArea.size;
+                }
+                else
+                {
+                    anchorMax = safeArea.position + safeArea.size - new Vector2(diff, 0);
+                }              
+            }
+            else
+            {
+                anchorMin = safeArea.position + new Vector2(diff, 0);
+                anchorMax = safeArea.position + safeArea.size;
+            }
+
             anchorMin.x /= canvas.pixelRect.width;
             anchorMin.y /= canvas.pixelRect.height;
             anchorMax.x /= canvas.pixelRect.width;
@@ -88,12 +110,8 @@ namespace CanvasActions
             safeAreaTransform.anchorMax = anchorMax;
         }
 
-        void OnDestroy()
-        {
-            if (helpers != null && helpers.Contains(this))
-                helpers.Remove(this);
-        }
 
+        #region "Changed Handlers"
         private static void OrientationChanged()
         {
             lastOrientation = Screen.orientation;
@@ -102,7 +120,6 @@ namespace CanvasActions
 
             OnResolutionOrOrientationChanged.Invoke();
         }
-
         private static void ResolutionChanged()
         {
             lastResolution.x = Screen.width;
@@ -110,7 +127,6 @@ namespace CanvasActions
 
             OnResolutionOrOrientationChanged.Invoke();
         }
-
         private static void SafeAreaChanged()
         {
             lastSafeArea = Screen.safeArea;
@@ -119,6 +135,14 @@ namespace CanvasActions
             {
                 helpers[i].ApplySafeArea();
             }
+        }
+        #endregion
+
+
+        void OnDestroy()
+        {
+            if (helpers != null && helpers.Contains(this))
+                helpers.Remove(this);
         }
     }
 }

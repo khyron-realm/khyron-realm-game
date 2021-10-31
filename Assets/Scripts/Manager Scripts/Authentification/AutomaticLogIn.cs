@@ -15,15 +15,28 @@ namespace Authentification
         [SerializeField] private bool _enableAutomaticLogin;
         #endregion
 
+
+        #region "Private vars"
         private AsyncOperation _loadingOperation;
 
-        private bool once = false;
+        private static PlayerValues s_playerData;
+        private static bool s_enableAutomaticLogin;
 
+        private static bool s_once = false;
+        #endregion
+
+
+        #region "Events"
         public static event Action<AsyncOperation, bool> OnAutomaticLoginAccepted;
         public static event Action OnAutomaticLoginFailed;
+        #endregion
+
 
         private void Awake()
         {
+            s_playerData = _playerData;
+            s_enableAutomaticLogin = _enableAutomaticLogin;
+
             LoginManager.OnSuccessfulLogin += SuccessfulLogin;
             LoginManager.OnFailedLogin += FailedLogin;
 
@@ -33,9 +46,9 @@ namespace Authentification
         /// <summary>
         /// Called when connection has been established
         /// </summary>
-        private void ConnectionEstablished()
+        public static void ConnectionEstablished()
         {
-            if(_enableAutomaticLogin)
+            if(s_enableAutomaticLogin)
             {
                 AutomaticLogInMethod();
             }
@@ -45,14 +58,14 @@ namespace Authentification
             }            
         }
 
-        private void AutomaticLogInMethod()
+        private static void AutomaticLogInMethod()
         {
-            int uLen = _playerData.Username.ToCharArray().Length;
-            int pLen = _playerData.Username.ToCharArray().Length;
+            int uLen = s_playerData.Username.ToCharArray().Length;
+            int pLen = s_playerData.Username.ToCharArray().Length;
 
-            if (_playerData != null && uLen > 5 && pLen > 5)
+            if (s_playerData != null && uLen > 5 && pLen > 5)
             {
-                LoginManager.Login(_playerData.Username, _playerData.Password, 0);
+                LoginManager.Login(s_playerData.Username, s_playerData.Password, 0);
             }
             else
             {
@@ -69,13 +82,14 @@ namespace Authentification
                 OnAutomaticLoginAccepted?.Invoke(_loadingOperation, true);
             }
         }
-        private void FailedLogin(byte errorId)
+        private static void FailedLogin(byte errorId)
         {
-            if(once == false)
+            if(s_once == false)
             {
                 SceneManager.LoadSceneAsync((int)ScenesName.AUTHENTICATION_SCENE, LoadSceneMode.Additive);
+                OnAutomaticLoginFailed?.Invoke();
 
-                once = true;
+                s_once = true;
             }
             
         }

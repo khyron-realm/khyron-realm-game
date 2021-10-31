@@ -18,14 +18,14 @@ namespace Bidding
 
         private void Awake()
         {
-            _timeTillFinished.TotalTime = GetTimeTillAuctionEnds.TimeOfTheMine;
+            _timeTillFinished.CurrentTime = GetTimeTillAuctionEnds.TimeOfTheMine;
             StartCoroutine(AuctionIsWorking());
         }
 
         
         private IEnumerator AuctionIsWorking()
         {
-            while(_timeTillFinished.TotalTime > 0)
+            while(_timeTillFinished.CurrentTime > 0)
             {
                 yield return _timeTillFinished.ActivateTimer();
             }

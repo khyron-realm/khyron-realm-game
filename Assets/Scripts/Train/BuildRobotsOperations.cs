@@ -32,9 +32,6 @@ namespace Manager.Train
 
         public static SortedDictionary<ushort, RobotSO> RobotsInTraining; // robots in building process
 
-        private static byte TagBuild = 2;
-        private static byte TagCancel = 3;
-
         public static int TotalHousingSpaceDuringBuilding = 0;
 
         // ### CheckIfRobotIsFinished ###
@@ -164,19 +161,19 @@ namespace Manager.Train
             s_robot = robot;
             s_indexRobot++;
 
-            PlayerDataOperations.CheckIfMaxRobotCapNotReached(robot.RobotId, TotalHousingSpaceDuringBuilding, TagBuild);
+            PlayerDataOperations.CheckIfMaxRobotCapNotReached(robot.RobotId, TotalHousingSpaceDuringBuilding, OperationsTags.BUILDING_ROBOTS);
                       
         }
         private void HaveSpaceForRobot(byte tag)
         {
-            if(TagBuild == tag)
+            if(OperationsTags.BUILDING_ROBOTS == tag)
             {
-                PlayerDataOperations.PayEnergy(-(int)LevelMethods.RobotBuildCost(HeadquartersManager.Player.Robots[s_robot.RobotId].Level, s_robot.RobotId), TagBuild);
+                PlayerDataOperations.PayEnergy(-(int)LevelMethods.RobotBuildCost(HeadquartersManager.Player.Robots[s_robot.RobotId].Level, s_robot.RobotId), OperationsTags.BUILDING_ROBOTS);
             }           
         }
         private void HaveEnergyForRobot(byte tag)
         {
-            if(TagBuild == tag)
+            if(OperationsTags.BUILDING_ROBOTS == tag)
             {
                 if (RobotsInTraining.Count < 1)
                 {
@@ -214,11 +211,11 @@ namespace Manager.Train
             s_robot = robot;
             s_robotIcon = robotIcon;
 
-            PlayerDataOperations.PayEnergy((int)LevelMethods.RobotBuildCost(HeadquartersManager.Player.Robots[robot.RobotId].Level, robot.RobotId), TagCancel);
+            PlayerDataOperations.PayEnergy((int)LevelMethods.RobotBuildCost(HeadquartersManager.Player.Robots[robot.RobotId].Level, robot.RobotId), OperationsTags.BUILDING_ROBOTS_CANCEL);
         }
         private static void CancelRobotConfirmation(byte tag)
         {
-            if(TagCancel == tag)
+            if(OperationsTags.BUILDING_ROBOTS_CANCEL == tag)
             {
                 bool temp;
 

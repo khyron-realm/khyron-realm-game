@@ -5,6 +5,7 @@ using DarkRift;
 using UnityEngine;
 using Networking.Launcher;
 using UnityEngine.SceneManagement;
+using Authentification;
 
 
 public class Reconnect : MonoBehaviour
@@ -16,13 +17,18 @@ public class Reconnect : MonoBehaviour
     private void Awake()
     {
         _operations = new List<AsyncOperation>();
+
+        AutomaticLogIn.OnAutomaticLoginAccepted += LoadNextScene;
+        AutomaticLogIn.OnAutomaticLoginFailed += LoadNextScene;
     }
+
 
     public void ReloadApllication()
     {
         NetworkManager.Client.ConnectToServer();
-        StartCoroutine("CheckForAcceptance");
+        StartCoroutine(CheckForAcceptance());
     }
+
 
     private IEnumerator CheckForAcceptance()
     {
@@ -31,13 +37,23 @@ public class Reconnect : MonoBehaviour
         if (NetworkManager.Client.ConnectionState == ConnectionState.Connected)
         {
             _operations.Clear();
-            _operations.Add(SceneManager.UnloadSceneAsync((int)ScenesName.RECONNECT_SCENE));
-            _operations.Add(SceneManager.LoadSceneAsync((int)ScenesName.HEADQUARTERS_SCENE, LoadSceneMode.Additive));
-            OnSceneChanged?.Invoke(_operations, true);
+            AutomaticLogIn.ConnectionEstablished();   
         }
         else
         {
             Debug.Log("Cannot reconnect");
         }
+    }
+
+
+    private void LoadNextScene(AsyncOperation temp1, bool temp2)
+    {
+        _operations.Add(SceneManager.UnloadSceneAsync((int)ScenesName.RECONNECT_SCENE));
+        OnSceneChanged?.Invoke(_operations, true);
+    }
+    private void LoadNextScene()
+    {
+        _operations.Add(SceneManager.UnloadSceneAsync((int)ScenesName.RECONNECT_SCENE));
+        OnSceneChanged?.Invoke(_operations, true);
     }
 }

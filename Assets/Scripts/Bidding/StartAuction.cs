@@ -57,11 +57,11 @@ namespace Bidding
         /// <returns></returns>
         private IEnumerator AuctionInProgress(int time)
         {
-            _time.TotalTime = time;
+            _time.CurrentTime = time;
 
-            while (_time.TotalTime > 1)
+            while (_time.CurrentTime > 1)
             {
-                _valuesTime.TimeTillFinished = _time.TotalTime;
+                _valuesTime.TimeTillFinished = _time.CurrentTime;
                 _valuesTime.SaveData();
 
                 yield return _time.ActivateTimer();
