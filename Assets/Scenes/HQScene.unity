@@ -3653,11 +3653,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64b499511e664c84e93c8f232a6923fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &968219897 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 817559900684308717, guid: d1054781f2510224dbcb4aa4e6f9bb9b, type: 3}
-  m_PrefabInstance: {fileID: 817559900557249556}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1005278807
 GameObject:
   m_ObjectHideFlags: 0
@@ -5718,7 +5713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _templateToInstantiate: {fileID: 6059780771002461488, guid: dbf600bb838dee042abd9808716a24fb, type: 3}
-  _canvas: {fileID: 968219897}
+  _canvas: {fileID: 817559900557249557}
 --- !u!1 &1431048186
 GameObject:
   m_ObjectHideFlags: 0
@@ -8695,6 +8690,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 633337701}
     m_Modifications:
+    - target: {fileID: 817559899628895658, guid: d1054781f2510224dbcb4aa4e6f9bb9b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 817559900442305309, guid: d1054781f2510224dbcb4aa4e6f9bb9b, type: 3}
       propertyPath: m_Name
       value: HallOfFame-Floor
@@ -8749,6 +8748,11 @@ PrefabInstance:
       objectReference: {fileID: 930833976}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1054781f2510224dbcb4aa4e6f9bb9b, type: 3}
+--- !u!1 &817559900557249557 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7501313549577266222, guid: d1054781f2510224dbcb4aa4e6f9bb9b, type: 3}
+  m_PrefabInstance: {fileID: 817559900557249556}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &890588069960678138
 PrefabInstance:
   m_ObjectHideFlags: 0

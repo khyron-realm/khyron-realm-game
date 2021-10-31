@@ -149,6 +149,8 @@ namespace Manager.Upgrade
                 HeadquartersManager.FinishUpgradingRequest(_selectedRobot.RobotId, HeadquartersManager.Player.Robots[_selectedRobot.RobotId], HeadquartersManager.Player.Experience);
 
                 _timer.TimeTextState(false);
+                _timer.SetMaxValueForTime(1);
+
                 _upgradeButton.enabled = true;
                 _robotManager.MakeAllButtonsActive();
             }          
