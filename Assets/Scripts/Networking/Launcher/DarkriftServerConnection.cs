@@ -231,7 +231,7 @@ namespace Networking.Launcher
                 {
                     Connect(host, port, noDelay);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Debug.Log("Cannot connect to the server");
                 }
@@ -266,7 +266,7 @@ namespace Networking.Launcher
                 Debug.Log("Connecting to server");
                 Connect(host, port, noDelay);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Debug.Log("Cannot connect to the server");
             }

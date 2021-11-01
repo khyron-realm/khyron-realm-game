@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
 using DarkRift;
-using DarkRift.Server;
 using Networking.Mine;
 
 namespace Networking.Auctions
@@ -18,10 +15,10 @@ namespace Networking.Auctions
         public MineData Mine { get; set; }
         public Bid LastBid { get; set; }
         public long EndTime { get; set; }
+        public MineScan[] Scans { get; set; }
 
         public AuctionRoom()
-        {
-        }
+        { }
 
         public void Deserialize(DeserializeEvent e)
         {

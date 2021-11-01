@@ -31,5 +31,11 @@ namespace Networking.Tags
 
         public const ushort AddScan = 18 + Shift;
         public const ushort AddScanFailed = 19 + Shift;
+
+        public const ushort AddFriendToAuction = 20 + Shift;
+        public const ushort AddFriendToAuctionSuccessful = 21 + Shift;
+        public const ushort AddFriendToAuctionFailed = 22 + Shift;
+        
+        public const ushort RequestFailed = 23 + Shift;
     }
 }

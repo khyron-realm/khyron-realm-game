@@ -15,7 +15,6 @@ namespace Networking.Auctions
     {
         public static bool IsHost { get; private set; }
         public static AuctionRoom CurrentAuctionRoom { get; set; }
-        
         public static List<Bid> Bids { get; set; } = new List<Bid>();
         
         #region Events
@@ -159,6 +158,18 @@ namespace Networking.Auctions
                     AddScanFailed(message);
                     break;
                 }
+
+                case AuctionTags.AddFriendToAuctionSuccessful:
+                {
+                    // TO-DO
+                    break;
+                }
+
+                case AuctionTags.AddFriendToAuctionFailed:
+                {
+                    // TO-DO
+                    break;
+                }
             }
         }
 
@@ -226,6 +237,7 @@ namespace Networking.Auctions
             using var reader = message.GetReader();
             
             CurrentAuctionRoom = reader.ReadSerializable<AuctionRoom>();
+            CurrentAuctionRoom.Scans = reader.ReadSerializables<MineScan>();
             while (reader.Position < reader.Length)
             {
                 var player = reader.ReadSerializable<Player>();
@@ -452,14 +464,28 @@ namespace Networking.Auctions
         /// <summary>
         ///     Create a new auction room
         /// </summary>
-        /// <param name="roomName"></param>
-        /// <param name="isVisible"></param>
+        /// <param name="roomName">The name of the room</param>
+        /// <param name="isVisible">True if is public or false if private</param>
         public static void CreateAuctionRoom(string roomName, bool isVisible)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(roomName);
             writer.Write(isVisible);
             using var msg = Message.Create(AuctionTags.Create, writer);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+        }
+        
+        /// <summary>
+        ///     Invite a friend into the auction room
+        /// </summary>
+        /// <param name="roomId">The id of the room</param>
+        /// <param name="friendName">The name of the friend</param>
+        public static void InviteFriendIntoAuction(ushort roomId, string friendName)
+        {
+            using var writer = DarkRiftWriter.Create();
+            writer.Write(roomId);
+            writer.Write(friendName);
+            using var msg = Message.Create(AuctionTags.AddFriendToAuction, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
 
@@ -516,16 +542,15 @@ namespace Networking.Auctions
             using var msg = Message.Create(AuctionTags.AddBid, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
-        
+
         /// <summary>
         ///     Adds a scan to the server
         /// </summary>
-        /// <param name="scanPosition">The position of the scan</param>
-        public static void AddScan(Block scanPosition)
+        /// <param name="scan">The scan</param>
+        public static void AddScan(MineScan scan)
         {
             using var writer = DarkRiftWriter.Create();
-            writer.Write(CurrentAuctionRoom.Id);
-            writer.Write(scanPosition);
+            writer.Write(scan);
             using var msg = Message.Create(AuctionTags.AddScan, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
