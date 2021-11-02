@@ -411,7 +411,7 @@ namespace Networking.Auctions
         }
         
         /// <summary>
-        ///     Successfully add bid actions
+        ///     Successfully received another bid actions
         /// </summary>
         /// <param name="message">The message received</param>
         private static void AddBid(Message message)
@@ -425,7 +425,7 @@ namespace Networking.Auctions
         }
         
         /// <summary>
-        ///     Successfully add bid actions
+        ///     Successfully add personal bid actions
         /// </summary>
         /// <param name="message">The message received</param>
         private static void AddBidSuccess(Message message)
@@ -439,7 +439,7 @@ namespace Networking.Auctions
         }
         
         /// <summary>
-        ///     Failed to add a new bid actions
+        ///     Failed to add a new personal bid actions
         /// </summary>
         /// <param name="message">The message received</param>
         private static void AddBidFailed(Message message)
