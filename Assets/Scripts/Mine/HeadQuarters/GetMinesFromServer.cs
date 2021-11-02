@@ -22,6 +22,7 @@ public class GetMinesFromServer : MonoBehaviour
     private void GetRoomsForPlayer(List<AuctionRoom> roomList)
     {
         Debug.LogWarning("Received");
-        //Debug.LogWarning("--------" + roomList[0].Name + "--------");
+        Debug.LogWarning("--------" + roomList[0].Name + "--------");
+        Debug.LogWarning("--------" + roomList[1].Name + "--------");
     }
 }
