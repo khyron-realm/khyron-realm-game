@@ -7,14 +7,14 @@ namespace Networking.Auctions
     /// </summary>
     public class Player : IDarkRiftSerializable
     {
-        public ushort Id { get; set; }
+        public uint Id { get; set; }
         public string Name { get; set; }
         public bool IsHost { get; private set; }
         
         public Player()
         { }
 
-        public Player(ushort id, string name, bool isHost)
+        public Player(uint id, string name, bool isHost)
         {
             Id = id;
             IsHost = isHost;
