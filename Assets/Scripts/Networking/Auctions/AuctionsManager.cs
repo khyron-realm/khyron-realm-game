@@ -418,7 +418,6 @@ namespace Networking.Auctions
             }
         }
         
-        
         /// <summary>
         ///     Auction is finished
         /// </summary>
