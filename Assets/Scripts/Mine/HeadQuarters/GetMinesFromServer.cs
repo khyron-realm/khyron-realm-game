@@ -13,8 +13,15 @@ public class GetMinesFromServer : MonoBehaviour
     }
 
 
+    private void Start()
+    {
+        AuctionsManager.GetOpenAuctionRooms();
+    }
+
+
     private void GetRoomsForPlayer(List<AuctionRoom> roomList)
     {
-        
+        Debug.LogWarning("Received");
+        //Debug.LogWarning("--------" + roomList[0].Name + "--------");
     }
 }
