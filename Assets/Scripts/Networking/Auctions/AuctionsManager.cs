@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using DarkRift;
 using DarkRift.Client;
 using Networking.Launcher;
+using Networking.Mine;
 using Networking.Tags;
 using UnityEngine;
 
@@ -66,7 +67,8 @@ namespace Networking.Auctions
             using var message = e.GetMessage();
             
             // Check if message is for this plugin
-            if (message.Tag < Tags.Tags.TagsPerPlugin * Tags.Tags.Auctions || message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Auctions + 1)) return;
+            if (message.Tag < Tags.Tags.TagsPerPlugin * Tags.Tags.Auctions ||
+                message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Auctions + 1)) return;
 
             switch (message.Tag)
             {

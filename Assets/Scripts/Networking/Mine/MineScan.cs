@@ -1,6 +1,6 @@
 ﻿using DarkRift;
 
-namespace Networking.Auctions
+namespace Networking.Mine
 {
     /// <summary>
     ///     Mine block

@@ -8,13 +8,13 @@ namespace Networking.Auctions
     /// </summary>
     public class AuctionRoom : IDarkRiftSerializable
     {
-        public ushort Id { get; set; }
+        public uint Id { get; set; }
         public string Name { get; set; }
-        public byte MaxPlayers { get; set; }
-        public byte PlayerCount { get; set; }
-        public MineData Mine { get; set; }
-        public Bid LastBid { get; set; }
+        public bool HasStarted { get; set; }
         public long EndTime { get; set; }
+        public byte PlayerCount { get; set; }
+        public MineGenerationValues MineValues { get; set; }
+        public Bid LastBid { get; set; }
         public MineScan[] Scans { get; set; }
 
         public AuctionRoom()
@@ -22,13 +22,13 @@ namespace Networking.Auctions
 
         public void Deserialize(DeserializeEvent e)
         {
-            Id = e.Reader.ReadUInt16();
+            Id = e.Reader.ReadUInt32();
             Name = e.Reader.ReadString();
-            MaxPlayers = e.Reader.ReadByte();
-            PlayerCount = e.Reader.ReadByte();
-            Mine = e.Reader.ReadSerializable<MineData>();
-            LastBid = e.Reader.ReadSerializable<Bid>();
+            HasStarted = e.Reader.ReadBoolean();
             EndTime = e.Reader.ReadInt64();
+            PlayerCount = e.Reader.ReadByte();
+            MineValues = e.Reader.ReadSerializable<MineGenerationValues>();
+            LastBid = e.Reader.ReadSerializable<Bid>();
         }
 
         public void Serialize(SerializeEvent e)

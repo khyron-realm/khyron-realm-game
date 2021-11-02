@@ -12,7 +12,7 @@ namespace Networking.Mine
     /// </summary>
     public class MineManager : MonoBehaviour
     {
-        public static MineData mine;
+        public static MineData Mine;
         
         #region Events
         
@@ -50,11 +50,13 @@ namespace Networking.Mine
             {
                 case MineTags.GetMine:
                 {
+                    
                     break;
                 }
                 
                 case MineTags.GetMineFailed:
                 {
+                    
                     break;
                 }
             }
