@@ -24,6 +24,7 @@ namespace Networking.Auctions
         public delegate void PlayerLeftEventHandler(uint leftId, uint newHostId);
         public delegate void ReceivedOpenRoomsEventHandler(List<AuctionRoom> roomList);
         public delegate void GetOpenRoomsFailedEventHandler(byte errorId);
+        public delegate void AuctionFinishedEventHandler(ushort roomId, uint winner);
         public delegate void AddBidEventHandler();
         public delegate void SuccessfulAddBidEventHandler();
         public delegate void FailedAddBidEventHandler();
@@ -34,6 +35,7 @@ namespace Networking.Auctions
         public static event PlayerLeftEventHandler OnPlayerLeft;
         public static event ReceivedOpenRoomsEventHandler OnReceivedOpenRooms;
         public static event GetOpenRoomsFailedEventHandler OnFailedGetOpenRooms;
+        public static event AuctionFinishedEventHandler OnAuctionFinished;
         public static event AddBidEventHandler OnAddBid;
         public static event SuccessfulAddBidEventHandler OnSuccessfulAddBid;
         public static event FailedAddBidEventHandler OnFailedAddBid;
@@ -131,6 +133,12 @@ namespace Networking.Auctions
                 case AuctionTags.StartAuctionFailed:
                 {
                     StartAuctionFailed(message);
+                    break;
+                }
+
+                case AuctionTags.AuctionFinished:
+                {
+                    AuctionFinished(message);
                     break;
                 }
                 
@@ -408,6 +416,25 @@ namespace Networking.Auctions
                     break;
                 }
             }
+        }
+        
+        
+        /// <summary>
+        ///     Auction is finished
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void AuctionFinished(Message message)
+        {
+            using var reader = message.GetReader();
+            if (reader.Length != 6)
+            {
+                Debug.LogWarning("Invalid StartAuction error data received");
+            }
+
+            var roomId = reader.ReadUInt16();
+            var winner = reader.ReadUInt32();
+
+            OnAuctionFinished?.Invoke(roomId, winner);
         }
         
         /// <summary>

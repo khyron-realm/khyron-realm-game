@@ -25,17 +25,19 @@ namespace Networking.Tags
         public const ushort StartAuctionSuccess = 13 + Shift;
         public const ushort StartAuctionFailed = 14 + Shift;
 
-        public const ushort AddBid = 15 + Shift;
-        public const ushort AddBidSuccessful = 16 + Shift;
-        public const ushort AddBidFailed = 17 + Shift;
+        public const ushort AuctionFinished = 15 + Shift;
 
-        public const ushort AddScan = 18 + Shift;
-        public const ushort AddScanFailed = 19 + Shift;
+        public const ushort AddBid = 16 + Shift;
+        public const ushort AddBidSuccessful = 17 + Shift;
+        public const ushort AddBidFailed = 18 + Shift;
 
-        public const ushort AddFriendToAuction = 20 + Shift;
-        public const ushort AddFriendToAuctionSuccessful = 21 + Shift;
-        public const ushort AddFriendToAuctionFailed = 22 + Shift;
+        public const ushort AddScan = 19 + Shift;
+        public const ushort AddScanFailed = 20 + Shift;
+
+        public const ushort AddFriendToAuction = 21 + Shift;
+        public const ushort AddFriendToAuctionSuccessful = 22 + Shift;
+        public const ushort AddFriendToAuctionFailed = 23 + Shift;
         
-        public const ushort RequestFailed = 23 + Shift;
+        public const ushort RequestFailed = 24 + Shift;
     }
 }
