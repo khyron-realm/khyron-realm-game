@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
+using Networking.Auctions;
+using Networking.Mine;
 using Tiles.Tiledata;
 
 
@@ -14,8 +16,12 @@ namespace Bidding
         [SerializeField] private bool _showScannedArea;
         #endregion
 
+
+        #region "Private members"
         private HashSet<Vector3Int> _blocksToDiscover;
         private bool _done = false;
+        #endregion
+
 
         private void Awake()
         {
@@ -43,6 +49,11 @@ namespace Bidding
                         if (StoreAllTiles.Instance.Tiles[temp.x + item.x][temp.y + item.y].ResourceTile != null)
                             StoreAllTiles.Instance.Tilemap.SetTile(temp + item, StoreAllTiles.Instance.Tiles[temp.x + item.x][temp.y + item.y].ResourceTile);                      
                     }
+                }
+
+                if (AuctionsManager.CurrentAuctionRoom.Scans.Length < 3)
+                { 
+                    AuctionsManager.AddScan(new MineScan(1, (ushort)temp.x, (ushort)temp.y));
                 }
             }
 

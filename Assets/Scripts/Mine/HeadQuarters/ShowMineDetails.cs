@@ -18,9 +18,6 @@ namespace Mine
         [Header("Button To Enter In the mine")]
         [SerializeField] private Button _mineButton;
 
-        [Header("Button To Refresh The Mine")]
-        [SerializeField]  private Button _refreshButton;
-
         [Header("All Mines on the minimap")]
         [SerializeField] private List<MineTouched> _mines;
 
@@ -28,9 +25,6 @@ namespace Mine
 
         [Header("Aquired gameObject with the button")]
         [SerializeField] private GameObject _aquiredDetails;
-
-        [Header("All Mines on the minimap")]
-        [SerializeField] private Button _aquiredButton;
         #endregion
 
 
@@ -54,7 +48,7 @@ namespace Mine
         }
 
 
-        private void TouchedGameObject(GameObject temp, bool aquired, GameObject manager)
+        private void TouchedGameObject(GameObject temp, GameObject manager)
         {
             _value = manager.GetComponent<MineValues>();
             _time = manager.GetComponent<TimeValues>();
@@ -71,47 +65,19 @@ namespace Mine
             {
                 _currentGameObject = temp;
             
-                if(aquired)
-                {
-                    _mineDetails.SetActive(false);
-                    _aquiredDetails.SetActive(true);
+                TimeActualisation(manager);
 
-                    _aquiredDetails.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0);
-                    
-                    AnimateMineButton(_aquiredButton);
-                }
-                else
-                {
-                    TimeActualisation(manager);
+                _mineDetails.SetActive(true);
+                _aquiredDetails.SetActive(false);
 
-                    _mineDetails.SetActive(true);
-                    _aquiredDetails.SetActive(false);
+                _mineDetails.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0);
 
-                    _mineDetails.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0);
-
-
-                    // Add listeners to refresh button
-                    AddListenersToRefreshButton();
-
-
-                    // Animate mine button and refresh button
-                    AnimateMineButton(_mineButton);
-                    AnimateRefreshButton();
-                }
+                // Animate mine button 
+                AnimateMineButton(_mineButton);               
             }
         }
 
 
-        private void AddListenersToRefreshButton()
-        {
-            _refreshButton.onClick.RemoveAllListeners();
-            _refreshButton.onClick.AddListener(_value.Refresh);
-            _refreshButton.onClick.AddListener(
-                delegate
-                {
-                    AdjustStaticMembers(_value, _time);
-                });
-        }
         private void TimeActualisation(GameObject temp)
         {
             if (_tempTimer != null)
@@ -135,13 +101,6 @@ namespace Mine
 
             temp.transform.DOLocalMoveY(-2.4f, 0.2f);
             temp.image.DOFade(1, 0.4f);
-        }
-        private void AnimateRefreshButton()
-        {
-            _refreshButton.image.color = new Color(1, 1, 1, 0);
-            _refreshButton.transform.localPosition = new Vector2(-2.4f, 2.2f);
-            _refreshButton.transform.DOLocalMoveX(-2.8f, 0.2f);
-            _refreshButton.image.DOFade(1, 0.4f);
         }
 
 

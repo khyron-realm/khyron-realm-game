@@ -20,7 +20,7 @@ namespace PlayerDataUpdate
     {
         #region "Event"
         public static event Action<byte> OnResourcesModified;         // Resources modified
-        public static event Action OnToManyResources;           // Too many resources
+        public static event Action OnToManyResources;                 // Too many resources
         public static event Action<byte> OnNotEnoughResources;        // Not enough resources
 
         public static event Action<byte> OnEnergyModified;            // Energy Modified
@@ -39,7 +39,6 @@ namespace PlayerDataUpdate
 
         public static event Action<byte> OnLevelUpdated;              // Level Updated
         public static event Action<byte> OnMaximumLevelAchieved;      // Maximum levle achieved
-
         #endregion
 
 
@@ -202,8 +201,7 @@ namespace PlayerDataUpdate
             else
             {
                 OnMaximumLevelAchieved?.Invoke(tag);
-            }
-            
+            }         
         }
 
 

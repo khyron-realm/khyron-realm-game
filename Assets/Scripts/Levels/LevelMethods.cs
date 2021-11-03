@@ -11,11 +11,12 @@ namespace Levels
 
         public const byte MaxPlayerLevel = 100;
         public const byte MaxRobotsLevel = 10;
+        public const byte ScanNumbers = 3;
 
         #endregion
-        
+
         #region Player
-        
+
         /// <summary>
         ///     The experience necessary for increasing the level
         /// </summary>
