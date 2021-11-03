@@ -1,6 +1,7 @@
 ﻿using System;
 using DarkRift;
 using DarkRift.Client;
+using Networking.Headquarters;
 using Networking.Launcher;
 using Networking.Tags;
 using UnityEngine;
@@ -12,11 +13,16 @@ namespace Networking.Mine
     /// </summary>
     public class MineManager : MonoBehaviour
     {
-        public static MineData Mine;
-        
         #region Events
         
-        
+        public delegate void SaveMineEventHandler();
+        public delegate void SaveMineFailedEventHandler(byte errorId);
+        public delegate void FinishMineEventHandler();
+        public delegate void FinishMineFailedEventHandler(byte errorId);
+        public static event SaveMineEventHandler OnSaveMine;
+        public static event SaveMineFailedEventHandler OnSaveMineFailed;
+        public static event FinishMineEventHandler OnFinishMine;
+        public static event FinishMineFailedEventHandler OnFinishMineFailed;
 
         #endregion
 
@@ -50,25 +56,25 @@ namespace Networking.Mine
             {
                 case MineTags.SaveMine:
                 {
-                    
+                    SaveMine(message);
                     break;
                 }
                 
                 case MineTags.SaveMineFailed:
                 {
-                    
+                    SaveMineFailed(message);
                     break;
                 }
 
                 case MineTags.FinishMine:
                 {
-                    
+                    FinishMine(message);
                     break;
                 }
                 
                 case MineTags.FinishMineFailed:
                 {
-                    
+                    FinishMineFailed(message);
                     break;
                 }
             }
@@ -76,41 +82,92 @@ namespace Networking.Mine
 
         #region ReceivedCalls
 
+        /// <summary>
+        ///     Save mine message received
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void SaveMine(Message message)
+        {
+            OnSaveMine?.Invoke();
+        }
         
+        /// <summary>
+        ///     Failed to save mine message received
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void SaveMineFailed(Message message)
+        {
+            using var reader = message.GetReader();
+
+            if (reader.Length != 1)
+            {
+                Debug.LogWarning("Invalid Message Failed Error data received");
+                return;
+            }
+
+            OnSaveMineFailed?.Invoke(reader.ReadByte());
+        }
+        
+        /// <summary>
+        ///     Finish mine message received
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void FinishMine(Message message)
+        {
+            OnFinishMine?.Invoke();
+        }
+        
+        /// <summary>
+        ///     Failed to finish mine message received
+        /// </summary>
+        /// <param name="message"></param>
+        private static void FinishMineFailed(Message message)
+        {
+            using var reader = message.GetReader();
+
+            if (reader.Length != 1)
+            {
+                Debug.LogWarning("Invalid Message Failed Error data received");
+                return;
+            }
+            
+            OnFinishMineFailed?.Invoke(reader.ReadByte());
+        }
 
         #endregion
 
         #region NetworkCalls
 
         /// <summary>
-        ///     Get the mine data
+        ///     Save the state of the mine and update robots and resources
         /// </summary>
-        /// <param name="playerName">The name of the player</param>
-        public static void GetMine(string playerName)
+        /// <param name="mineId">The id of the mine</param>
+        /// <param name="blockValues">The state of the mine blocks</param>
+        /// <param name="robots">The new robot values</param>
+        /// <param name="resources">The new resource values</param>
+        public static void SavePlayerMine(uint mineId, bool[] blockValues, Robot[] robots, Resource[] resources)
         {
             using var writer = DarkRiftWriter.Create();
-            writer.Write(playerName);
-            using var msg = Message.Create(AuctionTags.Create, writer);
-            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-        }
-        
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="mine"></param>
-        public static void SaveMine(MineData mine)
-        {
-            using var writer = DarkRiftWriter.Create();
-            writer.Write(mine);
+            writer.Write(mineId);
+            writer.Write(blockValues);
+            writer.Write(robots);
+            writer.Write(resources);
             using var msg = Message.Create(MineTags.SaveMine, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
         
-        public static void FinishMine(MineData mine)
+        /// <summary>
+        ///     Save the state of the mine and update robots and resources
+        /// </summary>
+        /// <param name="mineId">The mine id</param>
+        /// <param name="robots">The new robot values</param>
+        /// <param name="resources">The new resource values</param>
+        public static void FinishPlayerMine(uint mineId, Robot[] robots, Resource[] resources)
         {
             using var writer = DarkRiftWriter.Create();
-            
+            writer.Write(mineId);
+            writer.Write(robots);
+            writer.Write(resources);
             using var msg = Message.Create(MineTags.FinishMine, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }

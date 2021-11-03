@@ -629,6 +629,7 @@ namespace Networking.Auctions
         /// <param name="scan">The scan</param>
         public static void AddScan(MineScan scan)
         {
+            CurrentAuctionRoom.AddScan(scan);
             using var writer = DarkRiftWriter.Create();
             writer.Write(scan);
             using var msg = Message.Create(AuctionTags.AddScan, writer);

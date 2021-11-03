@@ -1,3 +1,4 @@
+using System;
 using DarkRift;
 using Networking.Mine;
 
@@ -33,5 +34,32 @@ namespace Networking.Auctions
 
         public void Serialize(SerializeEvent e)
         { }
+        
+        /// <summary>
+        ///     Adds a scan to the auction mine
+        /// </summary>
+        /// <param name="scan">The scan made by the players</param>
+        /// <param name="client">The client object</param>
+        /// <returns>True if the bid is added or false otherwise</returns>
+        internal bool AddScan(MineScan scan)
+        {
+            Scans = Scans.Append(scan);
+            return true;
+        }
+    }
+    
+    public static class Extensions
+    {
+        public static T[] Append<T>(this T[] array, T item)
+        {
+            if (array == null || array.Length == 0) 
+            {
+                return new T[] { item };
+            }
+            Array.Resize(ref array, array.Length + 1);
+            array[array.Length - 1] = item;
+ 
+            return array;
+        }
     }
 }
