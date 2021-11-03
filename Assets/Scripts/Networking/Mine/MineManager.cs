@@ -48,13 +48,25 @@ namespace Networking.Mine
 
             switch (message.Tag)
             {
-                case MineTags.GetMine:
+                case MineTags.SaveMine:
                 {
                     
                     break;
                 }
                 
-                case MineTags.GetMineFailed:
+                case MineTags.SaveMineFailed:
+                {
+                    
+                    break;
+                }
+
+                case MineTags.FinishMine:
+                {
+                    
+                    break;
+                }
+                
+                case MineTags.FinishMineFailed:
                 {
                     
                     break;
@@ -81,6 +93,28 @@ namespace Networking.Mine
             using var msg = Message.Create(AuctionTags.Create, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
+        
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mine"></param>
+        public static void SaveMine(MineData mine)
+        {
+            using var writer = DarkRiftWriter.Create();
+            writer.Write(mine);
+            using var msg = Message.Create(MineTags.SaveMine, writer);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+        }
+        
+        public static void FinishMine(MineData mine)
+        {
+            using var writer = DarkRiftWriter.Create();
+            
+            using var msg = Message.Create(MineTags.FinishMine, writer);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+        }
+        
 
         #endregion
     }

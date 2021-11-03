@@ -25,6 +25,8 @@ namespace Networking.Auctions
         public delegate void PlayerLeftEventHandler(uint leftId, uint newHostId);
         public delegate void ReceivedOpenRoomsEventHandler(List<AuctionRoom> roomList);
         public delegate void GetOpenRoomsFailedEventHandler(byte errorId);
+        public delegate void ReceivedMinesEventHandler(List<MineData> mineList);
+        public delegate void GetMinesFailedEventHandler(byte errorId);
         public delegate void AuctionFinishedEventHandler(ushort roomId, uint winner);
         public delegate void AddBidEventHandler();
         public delegate void SuccessfulAddBidEventHandler();
@@ -36,6 +38,8 @@ namespace Networking.Auctions
         public static event PlayerLeftEventHandler OnPlayerLeft;
         public static event ReceivedOpenRoomsEventHandler OnReceivedOpenRooms;
         public static event GetOpenRoomsFailedEventHandler OnFailedGetOpenRooms;
+        public static event ReceivedMinesEventHandler OnReceivedMines;
+        public static event GetMinesFailedEventHandler OnFailedGetMines;
         public static event AuctionFinishedEventHandler OnAuctionFinished;
         public static event AddBidEventHandler OnAddBid;
         public static event SuccessfulAddBidEventHandler OnSuccessfulAddBid;
@@ -123,6 +127,18 @@ namespace Networking.Auctions
                 case AuctionTags.GetOpenRoomsFailed:
                 {
                     GetOpenRoomsFailed(message);
+                    break;
+                }
+                
+                case AuctionTags.GetMines:
+                {
+                    GetMines(message);
+                    break;
+                }
+                
+                case AuctionTags.GetMinesFailed:
+                {
+                    GetMinesFailed(message);
                     break;
                 }
                 
@@ -373,6 +389,34 @@ namespace Networking.Auctions
             byte errorId = 0;
             OnFailedGetOpenRooms?.Invoke(errorId);
         }
+        
+        /// <summary>
+        ///     Get auction room actions and receive room
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void GetMines(Message message)
+        {
+            var mineList = new List<MineData>();
+            
+            using var reader = message.GetReader();
+            while (reader.Position < reader.Length)
+            {
+                mineList.Add(reader.ReadSerializable<MineData>());
+            }
+            
+            OnReceivedMines?.Invoke(mineList);
+        }
+        
+        /// <summary>
+        ///     Get mines failed actions
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void GetMinesFailed(Message message)
+        {
+            Debug.Log("Player not logged in");
+            byte errorId = 0;
+            OnFailedGetMines?.Invoke(errorId);
+        }
 
         /// <summary>
         ///     Successfully start auction actions
@@ -529,7 +573,7 @@ namespace Networking.Auctions
         }
 
         /// <summary>
-        ///     Leave an auctio room
+        ///     Leave an auction room
         /// </summary>
         public static void LeaveAuctionRoom()
         {
@@ -543,6 +587,15 @@ namespace Networking.Auctions
         public static void GetOpenAuctionRooms()
         {
             using var msg = Message.CreateEmpty(AuctionTags.GetOpenRooms);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+        }
+
+        /// <summary>
+        ///     Get open auction rooms
+        /// </summary>
+        public static void GetUserMines()
+        {
+            using var msg = Message.CreateEmpty(AuctionTags.GetMines);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
 

@@ -18,7 +18,7 @@ namespace Networking.Mine
 
         public void Deserialize(DeserializeEvent e)
         {
-            Id = e.Reader.ReadUInt16();
+            Id = e.Reader.ReadUInt32();
             Name = e.Reader.ReadString();
             GenerationValues = e.Reader.ReadSerializable<MineGenerationValues>();
             BlocksValues = e.Reader.ReadBooleans();

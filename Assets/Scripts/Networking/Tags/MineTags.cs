@@ -8,13 +8,11 @@
         private const ushort Shift = Tags.Mine * Tags.TagsPerPlugin;
         
         public const ushort RequestFailed = 0 + Shift;
-        
-        public const ushort GetMine = 1 + Shift;
-        public const ushort GetMineFailed = 2 + Shift;
-        
-        public const ushort SaveMine = 3 + Shift;
-        public const ushort SaveMineFailed = 4 + Shift;
 
-        public const ushort FinishMine = 5 + Shift;
+        public const ushort SaveMine = 1 + Shift;
+        public const ushort SaveMineFailed = 2 + Shift;
+
+        public const ushort FinishMine = 3 + Shift;
+        public const ushort FinishMineFailed = 4 + Shift;
     }
 }
