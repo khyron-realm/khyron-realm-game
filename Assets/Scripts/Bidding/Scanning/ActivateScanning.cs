@@ -17,12 +17,14 @@ namespace Bidding
         [SerializeField] private ObjectPooling _poolOfObjects;
         #endregion
 
+
         #region "Private members"
         private int _scannCounts = 3;
         private bool _once = true;
 
         private Coroutine _coroute;
         #endregion
+
 
         private void Awake()
         {
