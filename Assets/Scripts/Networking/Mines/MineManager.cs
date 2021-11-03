@@ -1,12 +1,11 @@
-﻿using System;
-using DarkRift;
+﻿using DarkRift;
 using DarkRift.Client;
 using Networking.Headquarters;
 using Networking.Launcher;
 using Networking.Tags;
 using UnityEngine;
 
-namespace Networking.Mine
+namespace Networking.Mines
 {
     /// <summary>
     ///     Mine manager that handles the mine messages

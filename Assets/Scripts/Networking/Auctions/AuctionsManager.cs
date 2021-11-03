@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using DarkRift;
 using DarkRift.Client;
 using Networking.Launcher;
-using Networking.Mine;
+using Networking.Mines;
 using Networking.Tags;
 using UnityEngine;
 
@@ -25,7 +25,7 @@ namespace Networking.Auctions
         public delegate void PlayerLeftEventHandler(uint leftId, uint newHostId);
         public delegate void ReceivedOpenRoomsEventHandler(List<AuctionRoom> roomList);
         public delegate void GetOpenRoomsFailedEventHandler(byte errorId);
-        public delegate void ReceivedMinesEventHandler(List<MineData> mineList);
+        public delegate void ReceivedMinesEventHandler(List<Mines.Mine> mineList);
         public delegate void GetMinesFailedEventHandler(byte errorId);
         public delegate void AuctionFinishedEventHandler(ushort roomId, uint winner);
         public delegate void AddBidEventHandler();
@@ -396,12 +396,12 @@ namespace Networking.Auctions
         /// <param name="message">The message received</param>
         private static void GetMines(Message message)
         {
-            var mineList = new List<MineData>();
+            var mineList = new List<Mines.Mine>();
             
             using var reader = message.GetReader();
             while (reader.Position < reader.Length)
             {
-                mineList.Add(reader.ReadSerializable<MineData>());
+                mineList.Add(reader.ReadSerializable<Mines.Mine>());
             }
             
             OnReceivedMines?.Invoke(mineList);

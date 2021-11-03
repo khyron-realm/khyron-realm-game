@@ -1,6 +1,6 @@
 ﻿using DarkRift;
 
-namespace Networking.Mine
+namespace Networking.Mines
 {
     /// <summary>
     ///     Mine block

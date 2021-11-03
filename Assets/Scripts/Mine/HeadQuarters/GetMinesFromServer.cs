@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Networking.Auctions;
-using Networking.Mine;
 
 
 public class GetMinesFromServer : MonoBehaviour
@@ -12,8 +11,7 @@ public class GetMinesFromServer : MonoBehaviour
         AuctionsManager.OnReceivedOpenRooms += GetRoomsForPlayer;
         AuctionsManager.OnReceivedMines += GetMinesForPlayer;
     }
-
-
+    
     private void Start()
     {
         AuctionsManager.GetOpenAuctionRooms();
@@ -28,7 +26,7 @@ public class GetMinesFromServer : MonoBehaviour
         Debug.LogWarning("--------" + roomList[1].Name + "--------");
     }
     
-    private void GetMinesForPlayer(List<MineData> mineList)
+    private void GetMinesForPlayer(List<Networking.Mines.Mine> mineList)
     {
         Debug.LogWarning("Received mines");
         Debug.LogWarning("--------" + mineList.Count + "--------");

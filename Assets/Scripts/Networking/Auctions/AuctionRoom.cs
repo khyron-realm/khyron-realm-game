@@ -1,6 +1,6 @@
 using System;
 using DarkRift;
-using Networking.Mine;
+using Networking.Mines;
 
 namespace Networking.Auctions
 {
@@ -14,7 +14,7 @@ namespace Networking.Auctions
         public bool HasStarted { get; set; }
         public long EndTime { get; set; }
         public byte PlayerCount { get; set; }
-        public MineGenerationValues MineValues { get; set; }
+        public MineGenerator MineValues { get; set; }
         public Bid LastBid { get; set; }
         public MineScan[] Scans { get; set; }
 
@@ -28,7 +28,7 @@ namespace Networking.Auctions
             HasStarted = e.Reader.ReadBoolean();
             EndTime = e.Reader.ReadInt64();
             PlayerCount = e.Reader.ReadByte();
-            MineValues = e.Reader.ReadSerializable<MineGenerationValues>();
+            MineValues = e.Reader.ReadSerializable<MineGenerator>();
             LastBid = e.Reader.ReadSerializable<Bid>();
         }
 

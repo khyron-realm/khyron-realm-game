@@ -1,7 +1,7 @@
 using System;
 using DarkRift;
 
-namespace Networking.Mine
+namespace Networking.Mines
 {
     public class ResourcesData : IDarkRiftSerializable
     {
