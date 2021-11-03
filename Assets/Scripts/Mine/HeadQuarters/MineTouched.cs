@@ -9,13 +9,13 @@ namespace Mine
 {
     public class MineTouched : MonoBehaviour, IOpen
     {
-        [SerializeField] private GameObject _mineManager;
-
-        public event Action<GameObject, GameObject> OnGameObjectTouched;
+        public event Action<GameObject, bool, bool> OnGameObjectTouched;
+        public bool IsMine = false;
+        public bool IsAuction = false;
 
         public void Open()
         {
-            OnGameObjectTouched?.Invoke(gameObject, _mineManager);
+            OnGameObjectTouched?.Invoke(gameObject, IsMine, IsAuction);
         }
     }
 }

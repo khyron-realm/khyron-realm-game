@@ -2,114 +2,90 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 using Save;
-using Mine;
 using CountDown;
+using AuxiliaryClasses;
+
 
 namespace Mine
 {
     public class ShowMineDetails : MonoBehaviour
     {
         #region "Input"
-        [Header("GameObject with all the attributes of a mine displayed on minimap")]
-        [SerializeField] private GameObject _mineDetails;
+        [Header("GameObjects with button and info that are activated when user touches")]
+        [SerializeField] private GameObject _Details;
 
-        [Header("Button To Enter In the mine")]
-        [SerializeField] private Button _mineButton;
+        [Header("Buttons")]
+        [SerializeField] private Button _button; //button enter place
+        [SerializeField] private GameObject _noMinePanel; // panel bg text
 
-        [Header("All Mines on the minimap")]
+        [Header("All Mines on the minimap and Auction island")]
         [SerializeField] private List<MineTouched> _mines;
-
-        [Space(20f)]
-
-        [Header("Aquired gameObject with the button")]
-        [SerializeField] private GameObject _aquiredDetails;
+        [SerializeField] private MineTouched _auction;
         #endregion
 
 
         #region "Private Members"
         private GameObject _currentGameObject;
-        private Timer _tempTimer;
-
-        private MineValues _value;
-        private TimeValues _time;
+        private Text _textButton;
         #endregion
 
 
         private void Awake()
         {
-            _mineDetails.SetActive(false);
+            _Details.SetActive(false);
+
+            _textButton = _button.transform.GetChild(0).GetComponent<Text>();
 
             foreach (MineTouched item in _mines)
             {
                 item.OnGameObjectTouched += TouchedGameObject;
             }
+
+            _auction.OnGameObjectTouched += TouchedGameObject;
         }
 
 
-        private void TouchedGameObject(GameObject temp, GameObject manager)
+        private void TouchedGameObject(GameObject temp, bool isMine, bool isAuction)
         {
-            _value = manager.GetComponent<MineValues>();
-            _time = manager.GetComponent<TimeValues>();
-
-            _mineButton.onClick.AddListener(
-                delegate
-                {
-                    AdjustStaticMembers(_value, _time);
-                });
-
-            AdjustStaticMembers(_value, _time);
-
             if (_currentGameObject != temp)
             {
                 _currentGameObject = temp;
-            
-                TimeActualisation(manager);
 
-                _mineDetails.SetActive(true);
-                _aquiredDetails.SetActive(false);
+                _Details.SetActive(true);
+                _Details.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0);
 
-                _mineDetails.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0);
-
-                // Animate mine button 
-                AnimateMineButton(_mineButton);               
+                IsMineAvailable(isMine);
+                IsAuctionHub(isAuction);
             }
         }
 
 
-        private void TimeActualisation(GameObject temp)
+        private void IsAuctionHub(bool isAuction)
         {
-            if (_tempTimer != null)
+            if (isAuction)
             {
-                _tempTimer.HasTimeText = false;
+                _textButton.text = "Find Auction";
             }
-
-            _tempTimer = temp.GetComponent<Timer>();
-
-            if (_tempTimer != null)
+            else
             {
-                _tempTimer.HasTimeText = true;
+                _textButton.text = "Enter Mine";
             }
         }
-
-
-        private void AnimateMineButton(Button temp)
+        private void IsMineAvailable(bool isMine)
         {
-            temp.image.color = new Color(1, 1, 1, 0);
-            temp.transform.localPosition = new Vector2(0, -2);
-
-            temp.transform.DOLocalMoveY(-2.4f, 0.2f);
-            temp.image.DOFade(1, 0.4f);
-        }
-
-
-        private void AdjustStaticMembers(MineValues value, TimeValues time)
-        {
-            GetMineGenerationData.HiddenSeed = value.HiddenSeed;
-            GetMineGenerationData.ResourcesData = new List<ResourcesData>(value.ResourcesData);
-
-            GetTimeTillAuctionEnds.TimeOfTheMine = time.TimeTillFinished;
+            if (isMine)
+            {
+                _noMinePanel.SetActive(true);
+                _button.gameObject.SetActive(false);
+                Animations.AnimateMineText(_noMinePanel);
+            }
+            else
+            {
+                _noMinePanel.SetActive(false);
+                _button.gameObject.SetActive(true);
+                Animations.AnimateMineButton(_button);
+            }
         }
     }
 }
