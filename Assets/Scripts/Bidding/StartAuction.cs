@@ -16,24 +16,18 @@ namespace Bidding
         #endregion
 
         #region "Private members"
-        private MineValues _valuesMine;
-        private TimeValues _valuesTime;
-
         private Coroutine _coroute;
         #endregion
 
         private void Start()
         {
-            _valuesMine = GetComponent<MineValues>();
-            _valuesTime = GetComponent<TimeValues>();
-
-            if (_valuesTime.TimeTillFinished == 0)
+            if (0 == 0)
             {
                 _coroute = StartCoroutine(AuctionInProgress(_totalTime));
             }
             else
             {
-                _coroute = StartCoroutine(AuctionInProgress(_valuesTime.TimeTillFinished));
+                _coroute = StartCoroutine(AuctionInProgress(1000));
             }
         }
 
@@ -61,13 +55,11 @@ namespace Bidding
 
             while (_time.CurrentTime > 1)
             {
-                _valuesTime.TimeTillFinished = _time.CurrentTime;
-                _valuesTime.SaveData();
+                //_valuesTime.TimeTillFinished = _time.CurrentTime;
 
                 yield return _time.ActivateTimer();
             }
 
-            _valuesMine.Refresh();
             _coroute = StartCoroutine(AuctionInProgress(_totalTime));
         }
     }

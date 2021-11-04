@@ -29,11 +29,6 @@ namespace Mine
         [Space(20f)]
 
 
-        [SerializeField]
-        [Range(0, 1)] private float _diversification;
-        [Space(20f)]
-
-
         [SerializeField] private List<int> _healthOfBlocks;
         [Space(20f)]
 
@@ -65,8 +60,8 @@ namespace Mine
         /// </summary>
         public void Generate()
         {
-            int[,] temp_hidden = GridHiddenValues.GenerateHiddenValues(_rows, _columns, _diversification);
-            int[,] temp_visibles = GridVisibleValues.GenerateVisibleValues(_rows, _columns, _resources, temp_hidden);
+            int[,] temp_hidden = GridHiddenValues.GenerateHiddenValues(_rows, _columns);
+            int[,] temp_visibles = GridVisibleValues.GenerateVisibleValues(_rows, _columns, temp_hidden);
 
             MineEnergyEstimation.NumberOfEachResource(_resources.Count, _rows, _columns, temp_visibles);
 

@@ -762,7 +762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerData: {fileID: 1734333574}
-  _enableAutomaticLogin: 1
+  _enableAutomaticLogin: 0
 --- !u!114 &1734333574
 MonoBehaviour:
   m_ObjectHideFlags: 0
