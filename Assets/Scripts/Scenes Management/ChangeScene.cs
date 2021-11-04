@@ -12,6 +12,7 @@ namespace Scenes
         [SerializeField] private ScenesName _unloadScene;
         [SerializeField] private ScenesName _loadScene;
 
+        [Header("Wait for Player Data to load to the next scene")]
         [SerializeField] private bool _playerData;
         #endregion
 

@@ -28,7 +28,6 @@ namespace Bidding
             _blocksToDiscover = new HashSet<Vector3Int>();
         }
 
-
         /// <summary>
         /// Changes the sprites of the blocks with the ones specific for resources if exists
         /// </summary>
