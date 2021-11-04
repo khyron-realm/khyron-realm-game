@@ -41,8 +41,6 @@ namespace Manager.Train
 
         private void Awake()
         {
-            GetRobotsTrained.RobotsBuilt = new List<RobotSO>();
-
             _timeRemained.text = "";
             _tempLoadingBar.MaxValue = 1;
             _tempLoadingBar.CurrentValue = 1;

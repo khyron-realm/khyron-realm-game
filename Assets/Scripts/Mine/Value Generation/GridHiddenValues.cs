@@ -30,14 +30,14 @@ namespace Mine
         ///     Hidden values for all blocks in the mine 
         ///     
         /// </returns>
-        public static int[,] GenerateHiddenValues(int rows, int columns, float diversification)
+        public static int[,] GenerateHiddenValues(int rows, int columns)
         {
-            s_seedHidden = GetMineGenerationData.HiddenSeed;
+            s_seedHidden = MineDataExtraction.GlobalSeed.Seed;
 
             s_hiddenValues = new int[rows, columns];
 
             GenerateStoneLayer(rows, columns);
-            AddStonePatternsToMine(rows, columns, diversification);
+            AddStonePatternsToMine(rows, columns, MineDataExtraction.GlobalSeed.RarityCoefficient);
 
             return s_hiddenValues;
         }

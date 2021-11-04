@@ -18,7 +18,6 @@ namespace Bidding
 
         private void Awake()
         {
-            _timeTillFinished.CurrentTime = GetTimeTillAuctionEnds.TimeOfTheMine;
             StartCoroutine(AuctionIsWorking());
         }
 

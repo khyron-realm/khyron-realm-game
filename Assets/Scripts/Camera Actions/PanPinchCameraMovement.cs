@@ -58,8 +58,10 @@ namespace CameraActions
         private bool _initTouch = false; // if init touch is on UI element
 
         private Vector2 _panVelocity;  //delta position of the touch [camera position derivative]
+
         #endregion
 
+        public static event Action<float> OnCameraMovement;
 
         /// <summary> 
         /// Draw camera boundaries on editor
@@ -94,6 +96,7 @@ namespace CameraActions
             {
                 Panning();
                 Pinching();
+                OnCameraMovement?.Invoke(transform.position.x);
             }
             else
             {

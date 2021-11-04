@@ -12,40 +12,41 @@ namespace AuxiliaryClasses
         [SerializeField] private float _initPosition;
         [SerializeField] private float _lastPosition;
 
-        [SerializeField] private float _time;
+        [SerializeField] private Ease _easeType;
+        [SerializeField] private float _duration;
         #endregion
 
         #region "Private members"
 
-        private Vector2 _initVector;
-        private Vector2 _lastVector;
-
-        private float _temp;
+        private Sequence _mySequence;
 
         #endregion
 
-        private void Awake()
+        private void OnDrawGizmosSelected()
         {
-            _temp = 0;
-
-            _initVector = new Vector2(_initPosition, gameObject.transform.position.y);
-            _lastVector = new Vector2(_lastPosition, gameObject.transform.position.y);       
+            if(_initPosition < _lastPosition)
+            {
+                Gizmos.color = Color.yellow;
+            }
+            else
+            {
+                Gizmos.color = Color.red;
+            }
+            Gizmos.DrawLine(new Vector2(_initPosition, gameObject.transform.position.y), new Vector2(_lastPosition, gameObject.transform.position.y));
         }
 
 
-        private void Update()
-        {   
-            if (_temp < 1)
-            {
-                _temp += Time.deltaTime / _time;
-                gameObject.transform.position = Vector2.Lerp(_initVector, _lastVector, _temp); ;
-            }
+        private void Awake()
+        {
+            _mySequence = DOTween.Sequence();
+            _mySequence.Append(transform.DOMoveX(_lastPosition, _duration).SetEase(_easeType).OnComplete(Method));
+            
+        }
 
-            if(_temp > 1)
-            {
-                _initVector = new Vector2(_initPosition, gameObject.transform.position.y);
-                _temp = 0;
-            }         
+        private void Method()
+        {
+            transform.position = new Vector3(_initPosition, transform.position.y, transform.position.z);
+            _mySequence.Restart();
         }
     }
 }
