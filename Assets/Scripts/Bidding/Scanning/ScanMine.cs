@@ -52,7 +52,8 @@ namespace Bidding
 
                 if (AuctionsManager.CurrentAuctionRoom.Scans.Length < 3)
                 { 
-                    AuctionsManager.AddScan(new MineScan(1, (ushort)temp.x, (ushort)temp.y));
+                    // TO-DO: Add the scan to the auction room
+                    AuctionsManager.AddScan(new MineScan("", (ushort)temp.x, (ushort)temp.y));
                 }
             }
 

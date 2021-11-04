@@ -1,4 +1,5 @@
-﻿using DarkRift;
+﻿using System.Collections.Generic;
+using DarkRift;
 using DarkRift.Client;
 using Networking.Headquarters;
 using Networking.Launcher;
@@ -12,12 +13,19 @@ namespace Networking.Mines
     /// </summary>
     public class MineManager : MonoBehaviour
     {
+        //public static Mine CurrentAuctionRoom { get; set; }
+        public static List<Mine> MineList { get; set; }
+        
         #region Events
         
+        public delegate void ReceivedMinesEventHandler();
+        public delegate void GetMinesFailedEventHandler(byte errorId);
         public delegate void SaveMineEventHandler();
         public delegate void SaveMineFailedEventHandler(byte errorId);
         public delegate void FinishMineEventHandler();
         public delegate void FinishMineFailedEventHandler(byte errorId);
+        public static event ReceivedMinesEventHandler OnReceivedMines;
+        public static event GetMinesFailedEventHandler OnFailedGetMines;
         public static event SaveMineEventHandler OnSaveMine;
         public static event SaveMineFailedEventHandler OnSaveMineFailed;
         public static event FinishMineEventHandler OnFinishMine;
@@ -46,13 +54,25 @@ namespace Networking.Mines
         private void OnDataHandler(object sender, MessageReceivedEventArgs e)
         {
             using var message = e.GetMessage();
-            
+
             // Check if message is for this plugin
             if (message.Tag < Tags.Tags.TagsPerPlugin * Tags.Tags.Mine ||
                 message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Mine + 1)) return;
 
             switch (message.Tag)
             {
+                case MineTags.GetMines:
+                {
+                    GetMines(message);
+                    break;
+                }
+                
+                case MineTags.GetMinesFailed:
+                {
+                    GetMinesFailed(message);
+                    break;
+                }
+                
                 case MineTags.SaveMine:
                 {
                     SaveMine(message);
@@ -80,6 +100,38 @@ namespace Networking.Mines
         }
 
         #region ReceivedCalls
+        
+        
+        /// <summary>
+        ///     Get auction room actions and receive room
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void GetMines(Message message)
+        {
+            var mineList = new List<Mine>();
+            
+            using var reader = message.GetReader();
+            while (reader.Position < reader.Length)
+            {
+                mineList.Add(reader.ReadSerializable<Mine>());
+            }
+            
+            MineList = mineList;
+            
+            OnReceivedMines?.Invoke();
+        }
+        
+        /// <summary>
+        ///     Get mines failed actions
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void GetMinesFailed(Message message)
+        {
+            Debug.Log("Player not logged in");
+            byte errorId = 0;
+            OnFailedGetMines?.Invoke(errorId);
+        }
+
 
         /// <summary>
         ///     Save mine message received
@@ -136,6 +188,15 @@ namespace Networking.Mines
         #endregion
 
         #region NetworkCalls
+
+        /// <summary>
+        ///     Get open auction rooms
+        /// </summary>
+        public static void GetUserMines()
+        {
+            using var msg = Message.CreateEmpty(MineTags.GetMines);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+        }
 
         /// <summary>
         ///     Save the state of the mine and update robots and resources

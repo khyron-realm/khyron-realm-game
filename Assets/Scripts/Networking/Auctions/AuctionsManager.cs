@@ -15,6 +15,7 @@ namespace Networking.Auctions
     {
         public static bool IsHost { get; private set; }
         public static AuctionRoom CurrentAuctionRoom { get; set; }
+        public static List<AuctionRoom> RoomList { get; set; }
         public static List<Bid> Bids { get; set; } = new List<Bid>();
         
         #region Events
@@ -23,10 +24,8 @@ namespace Networking.Auctions
         public delegate void SuccessfulLeaveRoomEventHandler();
         public delegate void PlayerJoinedEventHandler(Player player);
         public delegate void PlayerLeftEventHandler(uint leftId, uint newHostId);
-        public delegate void ReceivedOpenRoomsEventHandler(List<AuctionRoom> roomList);
+        public delegate void ReceivedOpenRoomsEventHandler();
         public delegate void GetOpenRoomsFailedEventHandler(byte errorId);
-        public delegate void ReceivedMinesEventHandler(List<Mines.Mine> mineList);
-        public delegate void GetMinesFailedEventHandler(byte errorId);
         public delegate void AuctionFinishedEventHandler(ushort roomId, uint winner);
         public delegate void AddBidEventHandler();
         public delegate void SuccessfulAddBidEventHandler();
@@ -38,8 +37,6 @@ namespace Networking.Auctions
         public static event PlayerLeftEventHandler OnPlayerLeft;
         public static event ReceivedOpenRoomsEventHandler OnReceivedOpenRooms;
         public static event GetOpenRoomsFailedEventHandler OnFailedGetOpenRooms;
-        public static event ReceivedMinesEventHandler OnReceivedMines;
-        public static event GetMinesFailedEventHandler OnFailedGetMines;
         public static event AuctionFinishedEventHandler OnAuctionFinished;
         public static event AddBidEventHandler OnAddBid;
         public static event SuccessfulAddBidEventHandler OnSuccessfulAddBid;
@@ -129,19 +126,7 @@ namespace Networking.Auctions
                     GetOpenRoomsFailed(message);
                     break;
                 }
-                
-                case AuctionTags.GetMines:
-                {
-                    GetMines(message);
-                    break;
-                }
-                
-                case AuctionTags.GetMinesFailed:
-                {
-                    GetMinesFailed(message);
-                    break;
-                }
-                
+
                 case AuctionTags.StartAuctionSuccess:
                 {
                     StartAuctionSuccess(message);
@@ -262,13 +247,15 @@ namespace Networking.Auctions
             using var reader = message.GetReader();
             
             CurrentAuctionRoom = reader.ReadSerializable<AuctionRoom>();
+            CurrentAuctionRoom.Scans = reader.ReadSerializables<MineScan>();
             while (reader.Position < reader.Length)
             {
                 var player = reader.ReadSerializable<Player>();
                 playerList.Add(player);
             }
 
-            IsHost = playerList.Find(p => p.Id == NetworkManager.Client.ID).IsHost;
+            // TO-DO
+            //IsHost = playerList.Find(p => p.Name ==).IsHost;
             
             OnSuccessfulJoinRoom?.Invoke(playerList);
         }
@@ -374,8 +361,10 @@ namespace Networking.Auctions
             {
                 roomList.Add(reader.ReadSerializable<AuctionRoom>());
             }
+
+            RoomList = roomList;
             
-            OnReceivedOpenRooms?.Invoke(roomList);
+            OnReceivedOpenRooms?.Invoke();
         }
 
         /// <summary>
@@ -389,34 +378,6 @@ namespace Networking.Auctions
             OnFailedGetOpenRooms?.Invoke(errorId);
         }
         
-        /// <summary>
-        ///     Get auction room actions and receive room
-        /// </summary>
-        /// <param name="message">The message received</param>
-        private static void GetMines(Message message)
-        {
-            var mineList = new List<Mines.Mine>();
-            
-            using var reader = message.GetReader();
-            while (reader.Position < reader.Length)
-            {
-                mineList.Add(reader.ReadSerializable<Mines.Mine>());
-            }
-            
-            OnReceivedMines?.Invoke(mineList);
-        }
-        
-        /// <summary>
-        ///     Get mines failed actions
-        /// </summary>
-        /// <param name="message">The message received</param>
-        private static void GetMinesFailed(Message message)
-        {
-            Debug.Log("Player not logged in");
-            byte errorId = 0;
-            OnFailedGetMines?.Invoke(errorId);
-        }
-
         /// <summary>
         ///     Successfully start auction actions
         /// </summary>
@@ -589,14 +550,6 @@ namespace Networking.Auctions
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
 
-        /// <summary>
-        ///     Get open auction rooms
-        /// </summary>
-        public static void GetUserMines()
-        {
-            using var msg = Message.CreateEmpty(AuctionTags.GetMines);
-            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-        }
 
         /// <summary>
         ///     Start an auction room
@@ -615,6 +568,7 @@ namespace Networking.Auctions
         /// <param name="bidValue"></param>
         public static void AddBid(uint bidValue)
         {
+            Debug.LogWarning("Current Room" + CurrentAuctionRoom.Id);
             using var writer = DarkRiftWriter.Create();
             writer.Write(CurrentAuctionRoom.Id);
             writer.Write(bidValue);
@@ -630,6 +584,7 @@ namespace Networking.Auctions
         {
             CurrentAuctionRoom.AddScan(scan);
             using var writer = DarkRiftWriter.Create();
+            writer.Write(CurrentAuctionRoom.Id);
             writer.Write(scan);
             using var msg = Message.Create(AuctionTags.AddScan, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);

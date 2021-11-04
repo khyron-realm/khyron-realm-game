@@ -7,24 +7,24 @@ namespace Networking.Auctions
     /// </summary>
     public class Bid : IDarkRiftSerializable
     { 
-        public uint Id { get; set; }
-        public uint UserId { get; set; }
+        public ushort Id { get; set; }
+        public string PlayerName { get; set; }
         public uint Amount { get; set; }
 
         public Bid()
         { }
         
-        public Bid(uint id, uint userId, uint amount)
+        public Bid(ushort id, string playerName, uint amount)
         {
             Id = id;
-            UserId = userId;
+            PlayerName = playerName;
             Amount = amount;
         }
 
         public void Deserialize(DeserializeEvent e)
         {
-            Id = e.Reader.ReadUInt32();
-            UserId = e.Reader.ReadUInt32();
+            Id = e.Reader.ReadUInt16();
+            PlayerName = e.Reader.ReadString();
             Amount = e.Reader.ReadUInt32();
         }
 
