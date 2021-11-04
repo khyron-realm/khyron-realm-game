@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Save;
+using Networking.Auctions;
+using Networking.Mines;
+
 
 namespace Mine
 {
@@ -32,7 +35,7 @@ namespace Mine
         /// </returns>
         public static int[,] GenerateVisibleValues(int rows, int columns, List<MineResources> allMineResources, int[,] temp_hidden)
         {
-            List<ResourcesData> seeds = new List<ResourcesData>(GetMineGenerationData.ResourcesData);
+            List<ResourcesData> seeds = new List<ResourcesData>(AuctionsManager.CurrentAuctionRoom.MineValues.Silicon, AuctionsManager.CurrentAuctionRoom.MineValues.Silicon);
 
             s_visibleValues = new int[rows, columns];
 
