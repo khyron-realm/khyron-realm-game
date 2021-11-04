@@ -13,14 +13,18 @@ namespace CountDown
         #region "Input data"
         [Header("Text to display time")]
         [SerializeField] private bool _hasTimeText;
+#if UNITY_EDITOR
         [ShowIf(ActionOnConditionFail.DontDraw, ConditionOperator.And, nameof(_hasTimeText))]
+#endif
         [SerializeField] private Text _timeText;
        
         [Space(20f)]
 
         [Header("Progress Bar for time")]
         [SerializeField] private bool _hasProgressBar;
+#if UNITY_EDITOR
         [ShowIf(ActionOnConditionFail.DontDraw, ConditionOperator.And, nameof(_hasProgressBar))]
+#endif
         [SerializeField] private ProgressBar _bar;
         #endregion
 

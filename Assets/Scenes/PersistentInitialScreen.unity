@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffff7897ecac643859b1def42f065027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  host: 127.0.0.1
+  host: 192.168.1.234
   port: 4296
   noDelay: 0
   autoConnect: 1
@@ -762,7 +762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerData: {fileID: 1734333574}
-  _enableAutomaticLogin: 0
+  _enableAutomaticLogin: 1
 --- !u!114 &1734333574
 MonoBehaviour:
   m_ObjectHideFlags: 0

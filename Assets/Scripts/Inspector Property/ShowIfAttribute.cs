@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-
+#if UNITY_EDITOR 
 /// <summary>
 /// https://stackoverflow.com/questions/58441744/how-to-enable-disable-a-list-in-unity-inspector-using-a-bool
 /// 
@@ -37,3 +37,4 @@ public enum ActionOnConditionFail
     // If condition(s) are false, just set the field as disabled.
     JustDisable,
 }
+#endif
