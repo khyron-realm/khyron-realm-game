@@ -28,6 +28,7 @@ namespace Networking.Auctions
         public delegate void GetOpenRoomsFailedEventHandler(byte errorId);
         public delegate void AuctionFinishedEventHandler(ushort roomId, uint winner);
         public delegate void AddBidEventHandler();
+        public delegate void OverbidEventHandler();
         public delegate void SuccessfulAddBidEventHandler();
         public delegate void FailedAddBidEventHandler();
         public delegate void FailedAddScanEventHandler();
@@ -39,6 +40,7 @@ namespace Networking.Auctions
         public static event GetOpenRoomsFailedEventHandler OnFailedGetOpenRooms;
         public static event AuctionFinishedEventHandler OnAuctionFinished;
         public static event AddBidEventHandler OnAddBid;
+        public static event OverbidEventHandler OnOverbid;
         public static event SuccessfulAddBidEventHandler OnSuccessfulAddBid;
         public static event FailedAddBidEventHandler OnFailedAddBid;
         public static event FailedAddScanEventHandler OnFailedAddScan;
@@ -148,6 +150,12 @@ namespace Networking.Auctions
                 case AuctionTags.AddBid:
                 {
                     AddBid(message);
+                    break;
+                }
+                
+                case AuctionTags.Overbid:
+                {
+                    Overbid(message);
                     break;
                 }
 
@@ -455,7 +463,21 @@ namespace Networking.Auctions
 
             OnAddBid?.Invoke();
         }
-        
+                
+        /// <summary>
+        ///     Successfully received another bid actions
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void Overbid(Message message)
+        {
+            using var reader = message.GetReader();
+            var bid = reader.ReadSerializable<Bid>();
+            
+            Bids.Add(bid);
+
+            OnOverbid?.Invoke();
+        }
+
         /// <summary>
         ///     Successfully add personal bid actions
         /// </summary>
