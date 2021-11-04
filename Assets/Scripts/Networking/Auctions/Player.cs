@@ -23,7 +23,7 @@ namespace Networking.Auctions
         
         public void Deserialize(DeserializeEvent e)
         {
-            Id = e.Reader.ReadUInt16();
+            Id = e.Reader.ReadUInt32();
             Name = e.Reader.ReadString();
             IsHost = e.Reader.ReadBoolean();
         }

@@ -262,7 +262,6 @@ namespace Networking.Auctions
             using var reader = message.GetReader();
             
             CurrentAuctionRoom = reader.ReadSerializable<AuctionRoom>();
-            CurrentAuctionRoom.Scans = reader.ReadSerializables<MineScan>();
             while (reader.Position < reader.Length)
             {
                 var player = reader.ReadSerializable<Player>();

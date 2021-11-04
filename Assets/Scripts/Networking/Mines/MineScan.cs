@@ -7,7 +7,7 @@ namespace Networking.Mines
     /// </summary>
     public class MineScan : IDarkRiftSerializable
     {
-        public ushort Player { get; set; }
+        public uint Player { get; set; }
         public ushort X { get; set; }
         public ushort Y { get; set; }
         

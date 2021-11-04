@@ -39,7 +39,6 @@ namespace Networking.Auctions
         ///     Adds a scan to the auction mine
         /// </summary>
         /// <param name="scan">The scan made by the players</param>
-        /// <param name="client">The client object</param>
         /// <returns>True if the bid is added or false otherwise</returns>
         internal bool AddScan(MineScan scan)
         {
