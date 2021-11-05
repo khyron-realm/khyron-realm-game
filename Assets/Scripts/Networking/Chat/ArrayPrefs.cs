@@ -1,10 +1,10 @@
-using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
-namespace Networking.Headquarters
+namespace Networking.Chat
 {
     public class ArrayPrefs
     {
