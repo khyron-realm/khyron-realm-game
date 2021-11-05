@@ -24,10 +24,17 @@ namespace AuxiliaryClasses
             PanPinchCameraMovement.OnCameraMovement += ChangeCoordonatesForParalax;
         }
 
+
         private void ChangeCoordonatesForParalax(float x)
         {
             float temp = AuxiliaryMethods.Scale(-50, 50, _minXValue, _maxXValue, x);
             transform.position = new Vector3(temp, transform.position.y, transform.position.z);
+        }
+
+
+        private void OnDestroy()
+        {
+            PanPinchCameraMovement.OnCameraMovement -= ChangeCoordonatesForParalax;
         }
     }
 }

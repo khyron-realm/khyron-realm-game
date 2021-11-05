@@ -36,8 +36,7 @@ namespace AuxiliaryClasses
                 Gizmos.color = Color.red;
             }
 
-            Gizmos.DrawLine(new Vector2(_initPosition, gameObject.transform.position.y), new Vector2(_lastPosition, gameObject.transform.position.y));
-                  
+            Gizmos.DrawLine(new Vector2(_initPosition, gameObject.transform.position.y), new Vector2(_lastPosition, gameObject.transform.position.y));                
         }
 
 

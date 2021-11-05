@@ -18,6 +18,9 @@ namespace Manager.Convert
         [SerializeField] private Button _button;
         #endregion
 
+        public static event Action OnConversionStarted;
+        public static event Action OnConversionEnded;
+
         private void Awake()
         {
             HeadquartersManager.OnConversionError += ConversionError;
@@ -81,6 +84,8 @@ namespace Manager.Convert
         }
         private IEnumerator RunConversion(int time)
         {
+            OnConversionStarted?.Invoke();
+
             int temp = 0;
             while (temp < time)
             {
@@ -94,14 +99,18 @@ namespace Manager.Convert
 
         private void ConversionEnded(byte tag)
         {
-            if(OperationsTags.CONVERTING_RESOURCES == tag)
-            {
-                PlayerDataOperations.ExperienceUpdate(10, 0);
-                HeadquartersManager.FinishConversionRequest(HeadquartersManager.Player.Energy, HeadquartersManager.Player.Experience);
+            if (OperationsTags.CONVERTING_RESOURCES != tag) return;
+            
+            PlayerDataOperations.ExperienceUpdate(10, 0);
+            HeadquartersManager.FinishConversionRequest(HeadquartersManager.Player.Energy, HeadquartersManager.Player.Experience);
                 
-                _button.enabled = true;
-                _timer.TimeTextState(false);
-            }           
+            _button.enabled = true;
+
+            _timer.SetMaxValueForTime(1);
+            _timer.CurrentTime = 1;
+            _timer.TimeTextState(false);
+
+            OnConversionEnded?.Invoke();                     
         }
 
 

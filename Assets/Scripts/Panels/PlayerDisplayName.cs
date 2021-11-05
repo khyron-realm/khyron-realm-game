@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 using Networking.Headquarters;
 
 
@@ -10,7 +10,7 @@ namespace Panels
     public class PlayerDisplayName : MonoBehaviour
     {
         #region "Input data"
-        [SerializeField] private Text _name;
+        [SerializeField] private TextMeshProUGUI _name;
         #endregion
 
         private void Awake()
