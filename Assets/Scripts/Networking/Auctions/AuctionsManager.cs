@@ -533,7 +533,7 @@ namespace Networking.Auctions
         /// </summary>
         /// <param name="roomId">The id of the room</param>
         /// <param name="friendName">The name of the friend</param>
-        public static void InviteFriendIntoAuction(ushort roomId, string friendName)
+        public static void InviteFriendIntoAuction(uint roomId, string friendName)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(roomId);
@@ -546,7 +546,7 @@ namespace Networking.Auctions
         ///     Join an auction room
         /// </summary>
         /// <param name="roomId"></param>
-        public static void JoinAuctionRoom(ushort roomId)
+        public static void JoinAuctionRoom(uint roomId)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(roomId);

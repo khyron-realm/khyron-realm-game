@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Networking.Auctions;
+using Networking.Chat;
 using Networking.Mines;
 using Networking.Tags;
 
@@ -15,6 +16,9 @@ public class GetMinesFromServer : MonoBehaviour
         AuctionsManager.OnSuccessfulLeaveRoom += SuccessfulLeaveRoom;
         AuctionsManager.OnSuccessfulAddBid += SuccessfulAddBid;
         AuctionsManager.OnFailedAddBid += FailedAddBid;
+        ChatManager.OnRoomMessage += RoomMessageReceived;
+        ChatManager.OnPrivateMessage += PrivateMessageReceived;
+        ChatManager.OnSuccessfulJoinGroup += SuccessfulJoinGroup;
     }
 
     private void Start()
@@ -23,11 +27,34 @@ public class GetMinesFromServer : MonoBehaviour
         AuctionsManager.GetOpenAuctionRooms();
     }
     
+    private void RoomMessageReceived(ChatMessage message)
+    {
+        PrintListMessages(ChatManager.Messages);
+    }
+    
+    private void PrivateMessageReceived(ChatMessage message)
+    {
+        Debug.Log(message.Sender + ": " + message.Content);
+    }
+    
+    private void PrintListMessages(List<ChatMessage> messages)
+    {
+        foreach (var message in messages)
+        {
+            Debug.Log(message.Sender + ": " + message.Content);
+        }
+    }
+    
     private void GetOpenRooms()
     {
         Debug.Log("Open rooms: " + AuctionsManager.RoomList.Count);
-        
-        AuctionsManager.JoinAuctionRoom(1);
+        // print RoomList ids
+        foreach (var room in AuctionsManager.RoomList)
+        {
+            Debug.Log(room.Id);
+        }
+        Debug.LogWarning("joining room: " + AuctionsManager.RoomList[1].Id);
+        AuctionsManager.JoinAuctionRoom(AuctionsManager.RoomList[1].Id);
     }
 
     private void GetMinesForPlayer()
@@ -40,8 +67,17 @@ public class GetMinesFromServer : MonoBehaviour
         Debug.LogWarning("Successfully joined room with nr players " + players.Count);
         Debug.LogWarning("nr scans = " + AuctionsManager.CurrentAuctionRoom.Scans.Length);
         //AuctionsManager.LeaveAuctionRoom();
-        AuctionsManager.AddBid(1500);
-        AuctionsManager.AddScan(new MineScan("gigel123", 3, 8));
+        //AuctionsManager.AddBid(1500);
+        //AuctionsManager.AddScan(new MineScan("gigel123", 3, 8));
+        //ChatManager.SendRoomMessage("Gigel is here");
+        ChatManager.JoinChatGroup("chat123");
+        ChatManager.SendPrivateMessage("gigel123", "salut gigele");
+    }
+    
+    private void SuccessfulJoinGroup(string groupName)
+    {
+        Debug.LogWarning("Successfully joined group" + groupName);
+        ChatManager.GetActiveGroups();
     }
     
     private void SuccessfulLeaveRoom()

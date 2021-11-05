@@ -234,7 +234,9 @@ namespace Networking.Chat
 
             if (reader.Length != 1)
             {
+                #if UNITY_EDITOR
                 Debug.LogWarning("Invalid Message Failed Error data received");
+                #endif
             }
             else
             {
@@ -384,6 +386,7 @@ namespace Networking.Chat
             foreach (var group in groupList)
             {
                 ServerMessage(group, MessageType.All);
+                Debug.LogWarning("received group: " + group);
             }
         }
       
