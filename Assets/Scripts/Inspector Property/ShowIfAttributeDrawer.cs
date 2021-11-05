@@ -6,11 +6,12 @@ using System.Linq;
 using UnityEngine;
 
 
+#if UNITY_EDITOR 
 [CustomPropertyDrawer(typeof(ShowIfAttribute), true)]
 public class ShowIfAttributeDrawer : PropertyDrawer
 {
 
-    #region Reflection helpers.
+#region Reflection helpers.
     private static MethodInfo GetMethod(object target, string methodName)
     {
         return GetAllMethods(target, m => m.Name.Equals(methodName,
@@ -58,7 +59,7 @@ public class ShowIfAttributeDrawer : PropertyDrawer
 
         return methodInfos;
     }
-    #endregion
+#endregion
 
     private bool MeetsConditions(SerializedProperty property)
     {
@@ -149,3 +150,4 @@ public class ShowIfAttributeDrawer : PropertyDrawer
         }
     }
 }
+#endif

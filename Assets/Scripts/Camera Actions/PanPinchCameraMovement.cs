@@ -243,6 +243,7 @@ namespace CameraActions
 
             if (_panVelocity != Vector2.zero)
             {
+                OnCameraMovement?.Invoke(transform.position.x);
                 _panVelocity = Vector2.Lerp(_panVelocity, Vector2.zero, _interpolationStep);
                 _cameraToMove.transform.localPosition += new Vector3(-_panVelocity.x / (500 * (1 / _cameraToMove.orthographicSize)), -_panVelocity.y / (500 * (1 / _cameraToMove.orthographicSize)), 0);
                 LimitCameraMovement();
