@@ -66,9 +66,12 @@ public class GetMinesFromServer : MonoBehaviour
     {
         Debug.LogWarning("Successfully joined room with nr players " + AuctionsManager.Players.Count);
         Debug.LogWarning("nr scans = " + AuctionsManager.CurrentAuctionRoom.Scans.Length);
+        Debug.LogWarning("global = " + AuctionsManager.CurrentAuctionRoom.MineValues.Global.Seed);
+        Debug.LogWarning("silicon = " + AuctionsManager.CurrentAuctionRoom.MineValues.Global.RarityCoefficient);
+        Debug.LogWarning("Lithium = " + AuctionsManager.CurrentAuctionRoom.MineValues.Global.Frequency);
         //AuctionsManager.LeaveAuctionRoom();
         //AuctionsManager.AddBid(1500);
-        //AuctionsManager.AddScan(new MineScan("gigel123", 3, 8));
+        AuctionsManager.AddScan(new MineScan("gigel123", 3, 8));
         //ChatManager.SendRoomMessage("Gigel is here");
         ChatManager.JoinChatGroup("chat123");
         ChatManager.SendPrivateMessage("gigel123", "salut gigele");
