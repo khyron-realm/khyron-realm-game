@@ -13,7 +13,6 @@ namespace Networking.Mines
     /// </summary>
     public class MineManager : MonoBehaviour
     {
-        //public static Mine CurrentAuctionRoom { get; set; }
         public static List<Mine> MineList { get; set; }
         
         #region Events
@@ -101,7 +100,6 @@ namespace Networking.Mines
 
         #region ReceivedCalls
         
-        
         /// <summary>
         ///     Get auction room actions and receive room
         /// </summary>
@@ -131,7 +129,6 @@ namespace Networking.Mines
             byte errorId = 0;
             OnFailedGetMines?.Invoke(errorId);
         }
-
 
         /// <summary>
         ///     Save mine message received
