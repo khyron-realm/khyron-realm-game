@@ -62,9 +62,9 @@ public class GetMinesFromServer : MonoBehaviour
         Debug.LogWarning("Mines: " + MineManager.MineList.Count);
     }
     
-    private void SuccessfulJoinRoom(List<Player> players)
+    private void SuccessfulJoinRoom()
     {
-        Debug.LogWarning("Successfully joined room with nr players " + players.Count);
+        Debug.LogWarning("Successfully joined room with nr players " + AuctionsManager.Players.Count);
         Debug.LogWarning("nr scans = " + AuctionsManager.CurrentAuctionRoom.Scans.Length);
         //AuctionsManager.LeaveAuctionRoom();
         //AuctionsManager.AddBid(1500);

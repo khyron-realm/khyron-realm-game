@@ -14,7 +14,7 @@ public class EnterAuction : MonoBehaviour
     private void Awake()
     {
         AuctionsManager.OnReceivedOpenRooms += ReceivedOpenRooms;
-        AuctionsManager.OnSuccessfulJoinRoom += SuccesfulyJoinedRoom;
+        AuctionsManager.OnSuccessfulJoinRoom += SuccessfullyJoinedRoom;
     }
 
     public void FindAuction()
@@ -29,7 +29,7 @@ public class EnterAuction : MonoBehaviour
     }
 
 
-    private void SuccesfulyJoinedRoom(List<Player> players)
+    private void SuccessfullyJoinedRoom()
     {
         _changeScene.GoToScene();
     }
