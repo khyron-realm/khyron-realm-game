@@ -13,11 +13,14 @@ namespace Mine
     {
         #region "Input"
         [Header("GameObjects with button and info that are activated when user touches")]
-        [SerializeField] private GameObject _Details;
+        [SerializeField] private GameObject _DetailsMine;
+        [SerializeField] private GameObject _DetailsAuction;
 
         [Header("Buttons")]
-        [SerializeField] private Button _button; //button enter place
+        [SerializeField] private Button _buttonMine; //button enter place
+        [SerializeField] private Button _buttonAuction; //
         [SerializeField] private GameObject _noMinePanel; // panel bg text
+
 
         [Header("All Mines on the minimap and Auction island")]
         [SerializeField] private List<MineTouched> _mines;
@@ -33,9 +36,9 @@ namespace Mine
 
         private void Awake()
         {
-            _Details.SetActive(false);
+            _DetailsMine.SetActive(false);
 
-            _textButton = _button.transform.GetChild(0).GetComponent<Text>();
+            _textButton = _buttonMine.transform.GetChild(0).GetComponent<Text>();
 
             foreach (MineTouched item in _mines)
             {
@@ -48,16 +51,25 @@ namespace Mine
 
         private void TouchedGameObject(GameObject temp, bool isMine, bool isAuction)
         {
-            if (_currentGameObject != temp)
+            if (_currentGameObject == temp) return;
+            
+            _currentGameObject = temp;
+
+            if (!isAuction)
             {
-                _currentGameObject = temp;
-
-                _Details.SetActive(true);
-                _Details.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0);
-
-                IsMineAvailable(isMine);
-                IsAuctionHub(isAuction);
+                _DetailsAuction.SetActive(false);
+                _DetailsMine.SetActive(true);
+                _DetailsMine.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0);
             }
+            else
+            {
+                _DetailsMine.SetActive(false);
+                _DetailsAuction.SetActive(true);
+                _DetailsAuction.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0);
+            }
+            
+            IsMineAvailable(isMine, isAuction);
+            IsAuctionHub(isAuction);            
         }
 
 
@@ -72,20 +84,35 @@ namespace Mine
                 _textButton.text = "Enter Mine";
             }
         }
-        private void IsMineAvailable(bool isMine)
+        private void IsMineAvailable(bool isMine, bool isAuction)
         {
-            if (isMine)
+            _buttonAuction.gameObject.SetActive(false);
+
+            if (!isAuction)
             {
-                _noMinePanel.SetActive(true);
-                _button.gameObject.SetActive(false);
-                Animations.AnimateMineText(_noMinePanel);
+                _buttonAuction.gameObject.SetActive(false);
+
+                if (isMine)
+                {
+                    _noMinePanel.SetActive(true);
+                    _buttonMine.gameObject.SetActive(false);
+                    Animations.AnimateMineText(_noMinePanel);
+                }
+                else
+                {
+                    _noMinePanel.SetActive(false);
+                    _buttonMine.gameObject.SetActive(true);
+                    Animations.AnimateMineButton(_buttonMine);
+                }
             }
             else
             {
                 _noMinePanel.SetActive(false);
-                _button.gameObject.SetActive(true);
-                Animations.AnimateMineButton(_button);
-            }
+                _buttonMine.gameObject.SetActive(false);
+
+                _buttonAuction.gameObject.SetActive(true);
+                Animations.AnimateMineButton(_buttonAuction);
+            }           
         }
     }
 }

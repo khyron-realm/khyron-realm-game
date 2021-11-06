@@ -8,7 +8,7 @@ using Mine;
 
 namespace Bidding
 {
-    public class BiddingTime : MonoBehaviour
+    public class BiddingCountDown : MonoBehaviour
     {
         #region "Input data" 
         [SerializeField] private Timer _timeTillFinished;
@@ -29,7 +29,7 @@ namespace Bidding
                 yield return _timeTillFinished.ActivateTimer();
             }
 
-            OnAuctionFinished?.Invoke();
+            //OnAuctionFinished?.Invoke();
         }
     }
 }

@@ -93,7 +93,7 @@ namespace Mine
                 {
                     for (int j = 0; j < columns; j++)
                     {
-                        GenerateChunks(resource.Frequency, i, j, code, randomNoise, resource.RarityCoefficient);
+                        GenerateChunks(resource.Frequency * 0.00001f, i, j, code, randomNoise, resource.RarityCoefficient * 0.00001f);
                     }
                 }
             }

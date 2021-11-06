@@ -3,6 +3,11 @@ using DarkRift;
 
 namespace Networking.Mines
 {
+    /// <summary>
+    /// 
+    /// Multiply with "0.00001f" for achieving the real values needed for generation
+    /// 
+    /// </summary>
     public class ResourcesData : IDarkRiftSerializable
     {
         public int Seed;

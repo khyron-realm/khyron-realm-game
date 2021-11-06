@@ -5,6 +5,7 @@ using UnityEngine;
 using Networking.Auctions;
 using Networking.Mines;
 using Tiles.Tiledata;
+using Networking.Headquarters;
 
 
 namespace Bidding
@@ -26,6 +27,8 @@ namespace Bidding
         private void Awake()
         {
             _blocksToDiscover = new HashSet<Vector3Int>();
+
+            AuctionsManager.OnFailedAddScan += FailedAddScan;
         }
 
         /// <summary>
@@ -52,8 +55,7 @@ namespace Bidding
 
                 if (AuctionsManager.CurrentAuctionRoom.Scans.Length < 3)
                 { 
-                    // TO-DO: Add the scan to the auction room
-                    AuctionsManager.AddScan(new MineScan("", (ushort)temp.x, (ushort)temp.y));
+                    AuctionsManager.AddScan(new MineScan(HeadquartersManager.Player.Id, (ushort)temp.x, (ushort)temp.y));
                 }
             }
 
@@ -96,6 +98,12 @@ namespace Bidding
                     _blocksToDiscover.Add(i * one + j * two);
                 }
             }
+        }
+
+
+        private void FailedAddScan()
+        {
+            print("Failed Add Scan");
         }
     }
 }

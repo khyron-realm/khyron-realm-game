@@ -37,7 +37,7 @@ namespace Mine
             s_hiddenValues = new int[rows, columns];
 
             GenerateStoneLayer(rows, columns);
-            AddStonePatternsToMine(rows, columns, MineDataExtraction.GlobalSeed.RarityCoefficient);
+            AddStonePatternsToMine(rows, columns, MineDataExtraction.GlobalSeed.RarityCoefficient * 0.00001f);
 
             return s_hiddenValues;
         }

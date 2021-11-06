@@ -1,15 +1,15 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Networking.Auctions;
 using Scenes;
+using Networking.Auctions;
 
 
-public class EnterAuction : MonoBehaviour
+public class GoToAnotherAuction : MonoBehaviour
 {
     [SerializeField] private ChangeScene _changeScene;
+
+    private static byte auctionIndex = 0;
 
     private void Awake()
     {
@@ -17,12 +17,22 @@ public class EnterAuction : MonoBehaviour
         AuctionsManager.OnSuccessfulJoinRoom += SuccessfullyJoinedRoom;
     }
 
-    public void FindAuction()
+
+    public void EnterAnotherAuction()
     {
-        AuctionsManager.GetOpenAuctionRooms();        
+        if (auctionIndex < 5)
+        {
+            auctionIndex++;
+            AuctionsManager.JoinAuctionRoom(AuctionsManager.RoomList[auctionIndex].Id);
+        }
+        else
+        {
+            AuctionsManager.GetOpenAuctionRooms();
+        }
     }
     private void ReceivedOpenRooms()
     {
+        auctionIndex = 0;
         AuctionsManager.JoinAuctionRoom(AuctionsManager.RoomList[0].Id);
     }
 

@@ -19,7 +19,7 @@ namespace Bidding
 
         private void Awake()
         {
-            BiddingTime.OnAuctionFinished += Animation;
+            BiddingCountDown.OnAuctionFinished += Animation;
         }
 
 
@@ -36,7 +36,7 @@ namespace Bidding
 
         private void OnDestroy()
         {
-            BiddingTime.OnAuctionFinished -= Animation;
+            BiddingCountDown.OnAuctionFinished -= Animation;
         }
     }
 }
