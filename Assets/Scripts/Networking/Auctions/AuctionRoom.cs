@@ -34,16 +34,15 @@ namespace Networking.Auctions
 
         public void Serialize(SerializeEvent e)
         { }
-        
+
         /// <summary>
         ///     Adds a scan to the auction mine
         /// </summary>
         /// <param name="scan">The scan made by the players</param>
         /// <returns>True if the bid is added or false otherwise</returns>
-        internal bool AddScan(MineScan scan)
+        internal void AddScan(MineScan scan)
         {
             Scans = Scans.Append(scan);
-            return true;
         }
     }
     
