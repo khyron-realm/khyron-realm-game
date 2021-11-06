@@ -17,16 +17,17 @@ namespace Networking.Auctions
         public static AuctionRoom CurrentAuctionRoom { get; set; }
         public static List<AuctionRoom> RoomList { get; set; }
         public static List<Bid> Bids { get; set; } = new List<Bid>();
+        public static List<Player> Players { get; set; } = new List<Player>();
         
         #region Events
 
-        public delegate void SuccessfulJoinRoomEventHandler(List<Player> playerList);
+        public delegate void SuccessfulJoinRoomEventHandler();
         public delegate void SuccessfulLeaveRoomEventHandler();
         public delegate void PlayerJoinedEventHandler(Player player);
         public delegate void PlayerLeftEventHandler(uint leftId, uint newHostId);
         public delegate void ReceivedOpenRoomsEventHandler();
         public delegate void GetOpenRoomsFailedEventHandler(byte errorId);
-        public delegate void AuctionFinishedEventHandler(ushort roomId, uint winner);
+        public delegate void AuctionFinishedEventHandler(uint roomId, uint winner);
         public delegate void AddBidEventHandler();
         public delegate void OverbidEventHandler();
         public delegate void SuccessfulAddBidEventHandler();
@@ -205,8 +206,9 @@ namespace Networking.Auctions
 
             IsHost = player.IsHost;
             CurrentAuctionRoom = room;
+            Players = new List<Player> {player};
             
-            OnSuccessfulJoinRoom?.Invoke(new List<Player> {player});
+            OnSuccessfulJoinRoom?.Invoke();
         }
 
         /// <summary>
@@ -262,10 +264,9 @@ namespace Networking.Auctions
                 playerList.Add(player);
             }
 
-            // TO-DO
-            //IsHost = playerList.Find(p => p.Name ==).IsHost;
+            Players = playerList;
             
-            OnSuccessfulJoinRoom?.Invoke(playerList);
+            OnSuccessfulJoinRoom?.Invoke();
         }
 
         /// <summary>
@@ -444,7 +445,7 @@ namespace Networking.Auctions
                 Debug.LogWarning("Invalid StartAuction error data received");
             }
 
-            var roomId = reader.ReadUInt16();
+            var roomId = reader.ReadUInt32();
             var winner = reader.ReadUInt32();
 
             OnAuctionFinished?.Invoke(roomId, winner);
@@ -571,7 +572,6 @@ namespace Networking.Auctions
             using var msg = Message.CreateEmpty(AuctionTags.GetOpenRooms);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
-
 
         /// <summary>
         ///     Start an auction room
