@@ -38,7 +38,8 @@ namespace Manager.Train
         private ushort _queueNumber;
         #endregion
 
-
+        public static event Action OnBuildingProcessFinished;
+      
         private void Awake()
         {
             _timeRemained.text = "";
@@ -181,11 +182,13 @@ namespace Manager.Train
             // last robot loading bar
             _timeRemained.enabled = false;
             _tempLoadingBar.MaxValue = 1;
+
+            OnBuildingProcessFinished?.Invoke();
         }
         private void RobotFinishedBuilding(byte receivedTag)
         {
             if (OperationsTags.BUILDING_ROBOTS != receivedTag) return;
-            
+
             BuildRobotsOperations.TotalHousingSpaceDuringBuilding -= RobotsManager.robots[_robot.RobotId].HousingSpace;
             HeadquartersManager.FinishBuildingRequest(_queueNumber, _robot.RobotId, DateTime.UtcNow, HeadquartersManager.Player.Robots[_robot.RobotId]);
             

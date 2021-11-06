@@ -16,12 +16,16 @@ namespace Manager.Train
         [SerializeField] private RobotsManagerUI _managerUI;
         #endregion
 
+
         #region "Events"
         public static event Action OnStartOperation;
         public static event Action OnStopOperation;
         public static event Action<int> OnRobotAdded;
         public static event Action<int, int> OnFirstRobotAdded;
+
+        public static event Action OnBuildingProcessFinished;
         #endregion
+
 
         #region "Private members"
         private static RobotSO s_robot;
@@ -33,6 +37,8 @@ namespace Manager.Train
         public static SortedDictionary<ushort, RobotSO> RobotsInTraining; // robots in building process
 
         public static int TotalHousingSpaceDuringBuilding = 0;
+
+        private bool _executeOnce = false;
 
         // ### CheckIfRobotIsFinished ###
 
@@ -173,29 +179,28 @@ namespace Manager.Train
         }
         private void HaveEnergyForRobot(byte tag)
         {
-            if(OperationsTags.BUILDING_ROBOTS == tag)
+            if (OperationsTags.BUILDING_ROBOTS != tag) return;
+            
+            if (RobotsInTraining.Count < 1)
             {
-                if (RobotsInTraining.Count < 1)
-                {
-                    HeadquartersManager.BuildingRequest(s_indexRobot, s_robot.RobotId, DateTime.UtcNow.ToBinary(), HeadquartersManager.Player.Energy);
-                }
-                else
-                {
-                    HeadquartersManager.BuildingRequest(s_indexRobot, s_robot.RobotId, 0, HeadquartersManager.Player.Energy);
-                }
-
-                TotalHousingSpaceDuringBuilding += RobotsManager.robots[s_robot.RobotId].HousingSpace;
-
-                RobotsInTraining.Add(s_indexRobot, s_robot);
-                OnRobotAdded.Invoke(RobotsManager.robots[s_robot.RobotId].BuildTime);
-
-                s_robotIcon = RobotsInBuildingOperations.CreateIconInTheRightForRobotInBuilding(s_robot);
-
-                if (RobotsInTraining.Count > 0)
-                {
-                    OnStartOperation?.Invoke();
-                }
+                HeadquartersManager.BuildingRequest(s_indexRobot, s_robot.RobotId, DateTime.UtcNow.ToBinary(), HeadquartersManager.Player.Energy);
             }
+            else
+            {
+                HeadquartersManager.BuildingRequest(s_indexRobot, s_robot.RobotId, 0, HeadquartersManager.Player.Energy);
+            }
+
+            TotalHousingSpaceDuringBuilding += RobotsManager.robots[s_robot.RobotId].HousingSpace;
+
+            RobotsInTraining.Add(s_indexRobot, s_robot);
+            OnRobotAdded.Invoke(RobotsManager.robots[s_robot.RobotId].BuildTime);
+
+            s_robotIcon = RobotsInBuildingOperations.CreateIconInTheRightForRobotInBuilding(s_robot);
+
+            if (RobotsInTraining.Count > 0)
+            {
+                OnStartOperation?.Invoke();
+            }           
         }
         #endregion
 
@@ -215,42 +220,42 @@ namespace Manager.Train
         }
         private static void CancelRobotConfirmation(byte tag)
         {
-            if(OperationsTags.BUILDING_ROBOTS_CANCEL == tag)
+            if (OperationsTags.BUILDING_ROBOTS_CANCEL != tag) return;
+            
+            bool temp;
+
+            if (RobotsInBuilding.robotsInBuildingIcons[0] == s_robotIcon)
             {
-                bool temp;
-
-                if (RobotsInBuilding.robotsInBuildingIcons[0] == s_robotIcon)
-                {
-                    HeadquartersManager.CancelBuildingRequest((ushort)RobotsInTraining.ElementAt((ushort)RobotsInBuilding.robotsInBuildingIcons.IndexOf(s_robotIcon)).Key, s_robot.RobotId, DateTime.UtcNow, HeadquartersManager.Player.Energy, true);
-                    temp = true;
-                }
-                else
-                {
-                    HeadquartersManager.CancelBuildingRequest((ushort)RobotsInTraining.ElementAt((ushort)RobotsInBuilding.robotsInBuildingIcons.IndexOf(s_robotIcon)).Key, s_robot.RobotId, DateTime.UtcNow, HeadquartersManager.Player.Energy, false);
-                    temp = false;
-                }
-
-                switch (temp)
-                {
-                    case true:
-                        OnStopOperation?.Invoke();
-                        Remove(s_robotIcon);
-                        OnStartOperation?.Invoke();
-                        break;
-
-                    case false:
-                        Remove(s_robotIcon);
-                        break;
-                }
-
-                TotalHousingSpaceDuringBuilding -= RobotsManager.robots[s_robot.RobotId].HousingSpace;
-                BuildRobots.RecalculateTime();
-
-                if (RobotsInTraining.Count < 1)
-                {
-                    OnStopOperation?.Invoke();
-                }
+                HeadquartersManager.CancelBuildingRequest((ushort)RobotsInTraining.ElementAt((ushort)RobotsInBuilding.robotsInBuildingIcons.IndexOf(s_robotIcon)).Key, s_robot.RobotId, DateTime.UtcNow, HeadquartersManager.Player.Energy, true);
+                temp = true;
             }
+            else
+            {
+                HeadquartersManager.CancelBuildingRequest((ushort)RobotsInTraining.ElementAt((ushort)RobotsInBuilding.robotsInBuildingIcons.IndexOf(s_robotIcon)).Key, s_robot.RobotId, DateTime.UtcNow, HeadquartersManager.Player.Energy, false);
+                temp = false;
+            }
+
+            switch (temp)
+            {
+                case true:
+                    OnStopOperation?.Invoke();
+                    Remove(s_robotIcon);
+                    OnStartOperation?.Invoke();
+                    break;
+
+                case false:
+                    Remove(s_robotIcon);
+                    break;
+            }
+
+            TotalHousingSpaceDuringBuilding -= RobotsManager.robots[s_robot.RobotId].HousingSpace;
+            BuildRobots.RecalculateTime();
+
+            if (RobotsInTraining.Count < 1)
+            {
+                OnStopOperation?.Invoke();
+                OnBuildingProcessFinished?.Invoke();
+            }          
         }
         private static void Remove(GameObject robotIcon)
         {           

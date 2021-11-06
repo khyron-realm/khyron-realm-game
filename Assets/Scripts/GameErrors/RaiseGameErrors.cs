@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using PlayerDataUpdate;
+using TMPro;
 
 
 namespace GameErrors
@@ -9,7 +10,9 @@ namespace GameErrors
     public class RaiseGameErrors : MonoBehaviour
     {
         #region "Input data"
-        [SerializeField] private Text _text;
+        [SerializeField] private TextMeshProUGUI _text;
+        [SerializeField] private int _fontMin;
+        [SerializeField] private int _fontMax;
 
         [Space(20f)]
 
@@ -91,7 +94,7 @@ namespace GameErrors
             while (temp < 1)
             {
                 temp += Time.deltaTime * 12;
-                _text.fontSize = (int)Mathf.Lerp(64, 72, temp);
+                _text.fontSize = (int)Mathf.Lerp(_fontMin, _fontMax, temp);
 
                 yield return null;
             }
@@ -100,7 +103,7 @@ namespace GameErrors
             while (temp < 1)
             {
                 temp += Time.deltaTime * 12;
-                _text.fontSize = (int)Mathf.Lerp(72, 64, temp);
+                _text.fontSize = (int)Mathf.Lerp(_fontMax, _fontMin, temp);
 
                 yield return null;
             }
@@ -115,5 +118,4 @@ namespace GameErrors
             PlayerDataOperations.OnNotEnoughSpaceForRobots -= MaxCapacityAchieved;
         }
     }
-
 }
