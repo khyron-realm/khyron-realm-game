@@ -61,7 +61,7 @@ namespace Manager.Upgrade
         private void UpgradeInProgress(BuildTask task, RobotSO robot)
         {
             _selectedRobot = robot;
-            UpgradingMethod((LevelMethods.RobotUpgradeTime(robot.RobotId) * 60) - AuxiliaryMethods.TimeTillFinish(task.StartTime), LevelMethods.RobotUpgradeTime(robot.RobotId) * 60);
+            UpgradingMethod((LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Robots[robot.RobotId].Level) * 60) - AuxiliaryMethods.TimeTillFinish(task.StartTime), LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Robots[robot.RobotId].Level) * 60);
         }       
         public void UpgradeRobot()
         {
@@ -69,11 +69,10 @@ namespace Manager.Upgrade
         }
         private void UpgradeCompatible(byte tag)
         {
-            if(OperationsTags.UPGRADING_ROBOTS == tag)
-            {
-                HeadquartersManager.UpgradingRequest(_selectedRobot.RobotId, DateTime.UtcNow, HeadquartersManager.Player.Energy);
-                UpgradingMethod(LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Level) * 60);
-            }
+            if (OperationsTags.UPGRADING_ROBOTS != tag) return;
+            
+            HeadquartersManager.UpgradingRequest(_selectedRobot.RobotId, DateTime.UtcNow, HeadquartersManager.Player.Energy);
+            UpgradingMethod(LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Robots[_selectedRobot.RobotId].Level) * 60);           
         }
         private void UpgradingMethod(long time, int maxValue = 0)
         {
@@ -143,17 +142,16 @@ namespace Manager.Upgrade
         }
         private void RobotUpgradeSendFinished(byte tag)
         {
-            if(OperationsTags.UPGRADING_ROBOTS == tag)
-            {
-                PlayerDataOperations.ExperienceUpdate(10, 0);
-                HeadquartersManager.FinishUpgradingRequest(_selectedRobot.RobotId, HeadquartersManager.Player.Robots[_selectedRobot.RobotId], HeadquartersManager.Player.Experience);
+            if (OperationsTags.UPGRADING_ROBOTS != tag) return;
+            
+            PlayerDataOperations.ExperienceUpdate(10, 0);
+            HeadquartersManager.FinishUpgradingRequest(_selectedRobot.RobotId, HeadquartersManager.Player.Robots[_selectedRobot.RobotId], HeadquartersManager.Player.Experience);
 
-                _timer.TimeTextState(false);
-                _timer.SetMaxValueForTime(1);
+            _timer.TimeTextState(false);
+            _timer.SetMaxValueForTime(1);
 
-                _upgradeButton.enabled = true;
-                _robotManager.MakeAllButtonsActive();
-            }          
+            _upgradeButton.enabled = true;
+            _robotManager.MakeAllButtonsActive();                     
         }
         #endregion
 

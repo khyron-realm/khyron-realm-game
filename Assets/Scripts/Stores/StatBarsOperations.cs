@@ -14,9 +14,9 @@ namespace Manager.Store
         #region "Input Data"
         [SerializeField] private ProgressBar _xpBar;
         [SerializeField] private ProgressBar _energyBar;
+        [SerializeField] private ProgressBar _silliconBar;
         [SerializeField] private ProgressBar _lithiumBar;
         [SerializeField] private ProgressBar _titaniumBar;
-        [SerializeField] private ProgressBar _silliconBar;
         #endregion
 
 

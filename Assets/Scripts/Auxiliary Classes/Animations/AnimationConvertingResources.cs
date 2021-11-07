@@ -32,7 +32,7 @@ namespace AnimationsFloors
 
 
         private void StartAnimation()
-        {
+        {            
             _animator.enabled = true;
             _resource1.gameObject.SetActive(true);
             _resource2.gameObject.SetActive(true);
@@ -46,6 +46,13 @@ namespace AnimationsFloors
             _resource1.gameObject.SetActive(false);
             _resource2.gameObject.SetActive(false);
             _resource3.gameObject.SetActive(false);
+        }
+
+
+        private void OnDestroy()
+        {
+            ConvertResources.OnConversionStarted -= StartAnimation;
+            ConvertResources.OnConversionEnded -= StopAnimation;
         }
     }
 }

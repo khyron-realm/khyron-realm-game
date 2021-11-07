@@ -43,9 +43,16 @@ namespace Manager.Convert
             DateTime startTime = DateTime.FromBinary(task.StartTime);
             DateTime now = DateTime.UtcNow;
 
-            int timeRemained = (int)now.Subtract(startTime).TotalSeconds;
+            int timePassed = (int)now.Subtract(startTime).TotalSeconds;
 
-            ExecuteConversion((LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60) - timeRemained, (LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60));
+            if (((LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60) - timePassed) < 1)
+            {
+                ConversionEnded(OperationsTags.CONVERTING_RESOURCES);
+            }
+            else
+            {
+                ExecuteConversion((LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60) - timePassed, (LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60));
+            }           
         }
 
 
@@ -56,11 +63,10 @@ namespace Manager.Convert
         }
         private void SendConvertRequest(byte tag)
         {
-            if(OperationsTags.CONVERTING_RESOURCES == tag)
-            {
-                HeadquartersManager.ConversionRequest(DateTime.UtcNow, HeadquartersManager.Player.Resources);
-                ExecuteConversion(LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60);
-            }          
+            if (OperationsTags.CONVERTING_RESOURCES != tag) return;
+            
+            HeadquartersManager.ConversionRequest(DateTime.UtcNow, HeadquartersManager.Player.Resources);
+            ExecuteConversion(LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60);                      
         }
 
 
@@ -107,7 +113,6 @@ namespace Manager.Convert
             _button.enabled = true;
 
             _timer.SetMaxValueForTime(1);
-            _timer.CurrentTime = 1;
             _timer.TimeTextState(false);
 
             OnConversionEnded?.Invoke();                     
@@ -123,7 +128,10 @@ namespace Manager.Convert
         private void OnDestroy()
         {
             HeadquartersManager.OnConversionError -= ConversionError;
+
             PlayerDataOperations.OnResourcesModified -= SendConvertRequest;
+            PlayerDataOperations.OnEnergyModified -= ConversionEnded;
+
             ManageTasks.OnConvertingWorking -= CheckForConversionInProgress;
         }
     }

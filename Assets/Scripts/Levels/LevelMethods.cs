@@ -41,7 +41,7 @@ namespace Levels
         /// <summary>
         ///     The amount of resources needed to convert resources
         /// </summary>
-        /// <param name="level">The current level</param>
+        /// <param name="level">The current level of the player</param>
         /// <returns>The calculated value for the level</returns>
         public static uint[] ResourceConversionCost(byte level)
         {
@@ -56,7 +56,7 @@ namespace Levels
         /// <summary>
         ///     Amount of energy generated from the resource conversion
         /// </summary>
-        /// <param name="level">The current level</param>
+        /// <param name="level">The current level of the player</param>
         /// <returns>The calculated value for the level</returns>
         public static uint ResourceConversionGeneration(byte level)
         {
@@ -66,7 +66,7 @@ namespace Levels
         /// <summary>
         ///     The time necessary to convert resources
         /// </summary>
-        /// <param name="level">The current level</param>
+        /// <param name="level">The current level of the player</param>
         /// <returns>The calculated value for the level</returns>
         public static ushort ResourceConversionTime(byte level)
         {
@@ -79,7 +79,7 @@ namespace Levels
         /// <summary>
         ///     The energy necessary to upgrade a robot
         /// </summary>
-        /// <param name="level">The current level</param>
+        /// <param name="level">The current level of the robot</param>
         /// <param name="robotType">The type of robot</param>
         /// <returns>The calculated value for the level</returns>
         public static uint RobotUpgradeCost(byte level, byte robotType)
@@ -135,7 +135,7 @@ namespace Levels
         /// <summary>
         ///     The health of the robot
         /// </summary>
-        /// <param name="level">The current level</param>
+        /// <param name="level">The current level of the robot</param>
         /// <param name="robotType">The type of robot</param>
         /// <returns>The calculated value for the level</returns>
         public static ushort RobotHealth(byte level, byte robotType)
@@ -160,7 +160,7 @@ namespace Levels
         /// <summary>
         ///     The movement speed of the robot
         /// </summary>
-        /// <param name="level">The current level</param>
+        /// <param name="level">The current level of the robot</param>
         /// <param name="robotType">The type of robot</param>
         /// <returns>The calculated value for the level</returns>
         public static ushort RobotMovementSpeed(byte level, byte robotType)
@@ -181,7 +181,7 @@ namespace Levels
         /// <summary>
         ///     The mining damage of the robot
         /// </summary>
-        /// <param name="level">The current level</param>
+        /// <param name="level">The current level of the robot</param>
         /// <param name="robotType">The type of robot</param>
         /// <returns>The calculated value for the level</returns>
         public static ushort RobotMiningDamage(byte level, byte robotType)
@@ -202,7 +202,7 @@ namespace Levels
         /// <summary>
         ///     The self damage of the robot
         /// </summary>
-        /// <param name="level">The current level</param>
+        /// <param name="level">The current level of the robot</param>
         /// <param name="robotType">The type of robot</param>
         /// <returns>The calculated value for the level</returns>
         public static ushort RobotSelfDamage(byte level, byte robotType)

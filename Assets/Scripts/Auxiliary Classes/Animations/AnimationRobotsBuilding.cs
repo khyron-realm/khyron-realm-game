@@ -38,5 +38,14 @@ namespace AnimationsFloors
             _animator1.enabled = false;
             _animator2.enabled = false;
         }
+
+
+        private void OnDestroy()
+        {
+            BuildRobotsOperations.OnStartOperation -= StartAnimation;
+
+            BuildRobotsOperations.OnBuildingProcessFinished -= StopAnimation;
+            BuildRobots.OnBuildingProcessFinished -= StopAnimation;
+        }
     }
 }

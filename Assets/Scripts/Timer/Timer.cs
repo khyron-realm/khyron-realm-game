@@ -84,7 +84,11 @@ namespace CountDown
         #region "Awake & Start"
         private void Awake()
         {
-            _timeText.text = "";
+            if(_hasTimeText)
+            {
+                _timeText.text = "";
+            }
+            
             _standardTime = new WaitForSeconds(1f);
         }
 

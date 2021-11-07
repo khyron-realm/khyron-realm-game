@@ -115,6 +115,7 @@ namespace Manager.Train
             // Task is done , robot is built
             if(s_initTimeOfBuilding.AddSeconds(s_timeOfExecution) <= DateTime.UtcNow)
             {
+                Debug.LogWarning("First---Robot");
                 s_taskLastDone = task;
                 s_robotLastBuilt = robot;
 
@@ -124,9 +125,10 @@ namespace Manager.Train
             }
             else
             {
+                Debug.LogWarning("Second---Robot");
                 if (s_firstRobotAdded)
                 {
-                    if((int)s_initTimeOfBuilding.AddSeconds(s_timeOfExecution).Subtract(DateTime.UtcNow).TotalSeconds == 0)
+                    if ((int)s_initTimeOfBuilding.AddSeconds(s_timeOfExecution).Subtract(DateTime.UtcNow).TotalSeconds == 0)
                     {
                         s_taskLastDone = task;
                         s_robotLastBuilt = robot;

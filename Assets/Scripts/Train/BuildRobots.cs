@@ -202,7 +202,7 @@ namespace Manager.Train
             BuildRobotsOperations.OnStopOperation -= StopBuildingRobots;
 
             BuildRobotsOperations.OnRobotAdded -= Time.AddTime;
-            BuildRobotsOperations.OnFirstRobotAdded += FirstRobotTimeRemained;
+            BuildRobotsOperations.OnFirstRobotAdded -= FirstRobotTimeRemained;
 
             PlayerDataOperations.OnRobotAdded -= RobotFinishedBuilding;
             PlayerDataOperations.OnRobotAdded -= ShowRobotsNumber;
