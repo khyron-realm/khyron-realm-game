@@ -24,7 +24,7 @@ namespace Networking.Auctions
         public delegate void SuccessfulJoinRoomEventHandler();
         public delegate void SuccessfulLeaveRoomEventHandler();
         public delegate void PlayerJoinedEventHandler(Player player);
-        public delegate void PlayerLeftEventHandler(uint leftId, uint newHostId);
+        public delegate void PlayerLeftEventHandler(string playerName);
         public delegate void ReceivedOpenRoomsEventHandler();
         public delegate void GetOpenRoomsFailedEventHandler(byte errorId);
         public delegate void AuctionFinishedEventHandler(uint roomId, uint winner);
@@ -345,16 +345,9 @@ namespace Networking.Auctions
         {
             using var reader = message.GetReader();
 
-            var leftId = reader.ReadUInt32();
-            var newHostId = reader.ReadUInt32();
-            var leaverName = reader.ReadString();
-
-            if (newHostId == NetworkManager.Client.ID)
-            {
-                IsHost = true;
-            }
-            
-            OnPlayerLeft?.Invoke(leftId, newHostId);
+            var playerName = reader.ReadString();
+          
+            OnPlayerLeft?.Invoke(playerName);
         }
 
         /// <summary>

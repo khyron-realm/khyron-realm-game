@@ -37,6 +37,10 @@ namespace AuxiliaryClasses
                 {
                     return pooledObjects[i];
                 }
+                if(i == (amountToPool - 1) && pooledObjects[i].activeSelf)
+                {
+                    return pooledObjects[i];
+                }
             }
             return null;
         }

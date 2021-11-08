@@ -441,6 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textInput: {fileID: 1743785114}
   _pooling: {fileID: 773733529}
+  _scrollRectPosition: {fileID: 1021270204}
 --- !u!1 &165786915
 GameObject:
   m_ObjectHideFlags: 0
@@ -2254,10 +2255,10 @@ MonoBehaviour:
   m_Content: {fileID: 1513066068}
   m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 1
-  m_Elasticity: 0.1
+  m_MovementType: 2
+  m_Elasticity: 0.02
   m_Inertia: 1
-  m_DecelerationRate: 0.135
+  m_DecelerationRate: 0.3
   m_ScrollSensitivity: 1
   m_Viewport: {fileID: 1733526322}
   m_HorizontalScrollbar: {fileID: 0}
@@ -2721,6 +2722,7 @@ GameObject:
   - component: {fileID: 1300832041}
   - component: {fileID: 1300832040}
   - component: {fileID: 1300832037}
+  - component: {fileID: 1300832042}
   - component: {fileID: 1300832039}
   m_Layer: 0
   m_Name: BidsManager
@@ -2756,8 +2758,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9bcde13fd4f1c242bc3689cb00191fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hasTimeText: 0
-  _timeText: {fileID: 0}
+  _hasTimeText: 1
+  _timeText: {fileID: 553113594}
   _hasProgressBar: 0
   _bar: {fileID: 0}
 --- !u!114 &1300832039
@@ -2804,6 +2806,19 @@ MonoBehaviour:
   _textDisplayed: {fileID: 675334132}
   _yesButton: {fileID: 431281504}
   _biddingPrice: 100
+--- !u!114 &1300832042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300832034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0811fa5acf38cb409c59362f68d7bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textMeshPro: {fileID: 2049616230}
 --- !u!1 &1315298855
 GameObject:
   m_ObjectHideFlags: 0
@@ -3219,7 +3234,7 @@ MonoBehaviour:
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
