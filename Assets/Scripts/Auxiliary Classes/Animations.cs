@@ -38,11 +38,11 @@ namespace AuxiliaryClasses
         // Animate text[no mine available] 
         public static void AnimateMineText(GameObject temp)
         {
-            temp.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+            temp.GetComponent<Image>().color = new Color(1, 1, 1, 0);
             temp.transform.localPosition = new Vector2(0, 2f);
 
             temp.transform.DOLocalMoveY(3f, 0.2f);
-            temp.GetComponent<Image>().DOFade(0.7f, 0.4f);
+            temp.GetComponent<Image>().DOFade(1f, 0.4f);
         }
     }
 }

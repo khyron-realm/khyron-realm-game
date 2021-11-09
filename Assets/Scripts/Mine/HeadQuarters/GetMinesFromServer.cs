@@ -4,97 +4,40 @@ using Networking.Auctions;
 using Networking.Chat;
 using Networking.Mines;
 using Networking.Tags;
+using Mine;
 
 
 public class GetMinesFromServer : MonoBehaviour
 {
+    [SerializeField] private List<MineTouched> _mines;
+
     private void Awake()
     {
-        MineManager.OnReceivedMines += GetMinesForPlayer;
-        AuctionsManager.OnReceivedOpenRooms += GetOpenRooms;
-        AuctionsManager.OnSuccessfulJoinRoom += SuccessfulJoinRoom;
-        AuctionsManager.OnSuccessfulLeaveRoom += SuccessfulLeaveRoom;
-        AuctionsManager.OnSuccessfulAddBid += SuccessfulAddBid;
-        AuctionsManager.OnFailedAddBid += FailedAddBid;
-        ChatManager.OnRoomMessage += RoomMessageReceived;
-        ChatManager.OnPrivateMessage += PrivateMessageReceived;
-        ChatManager.OnSuccessfulJoinGroup += SuccessfulJoinGroup;
-    }
-
-    private void Start()
-    {
         MineManager.GetUserMines();
-        AuctionsManager.GetOpenAuctionRooms();
-    }
-    
-    private void RoomMessageReceived(ChatMessage message)
-    {
-        PrintListMessages(ChatManager.Messages);
-    }
-    
-    private void PrivateMessageReceived(ChatMessage message)
-    {
-        Debug.Log(message.Sender + ": " + message.Content);
-    }
-    
-    private void PrintListMessages(List<ChatMessage> messages)
-    {
-        foreach (var message in messages)
-        {
-            Debug.Log(message.Sender + ": " + message.Content);
-        }
-    }
-    
-    private void GetOpenRooms()
-    {
-        Debug.Log("Open rooms: " + AuctionsManager.RoomList.Count);
-        // print RoomList ids
-        foreach (var room in AuctionsManager.RoomList)
-        {
-            Debug.Log(room.Id);
-        }
-        Debug.LogWarning("joining room: " + AuctionsManager.RoomList[1].Id);
-        AuctionsManager.JoinAuctionRoom(AuctionsManager.RoomList[1].Id);
+        MineManager.OnReceivedMines += SetForEachMine;
     }
 
-    private void GetMinesForPlayer()
+
+    private void SetForEachMine()
     {
-        Debug.LogWarning("Mines: " + MineManager.MineList.Count);
+        for (byte i = 0; i < MineManager.MineList.Count; i++)
+        {
+            _mines[i].index = i;
+            _mines[i].HasMine = true;
+            _mines[i].IsAuction = false;
+        }
+
+        for (int i = MineManager.MineList.Count; i < _mines.Count; i++)
+        {
+            _mines[i].index = 255;
+            _mines[i].HasMine = false;
+            _mines[i].IsAuction = false;
+        }
     }
-    
-    private void SuccessfulJoinRoom()
+
+
+    private void OnDestroy()
     {
-        Debug.LogWarning("Successfully joined room with nr players " + AuctionsManager.Players.Count);
-        Debug.LogWarning("nr scans = " + AuctionsManager.CurrentAuctionRoom.Scans.Length);
-        Debug.LogWarning("global = " + AuctionsManager.CurrentAuctionRoom.MineValues.Global.Seed);
-        Debug.LogWarning("silicon = " + AuctionsManager.CurrentAuctionRoom.MineValues.Global.RarityCoefficient);
-        Debug.LogWarning("Lithium = " + AuctionsManager.CurrentAuctionRoom.MineValues.Global.Frequency);
-        //AuctionsManager.LeaveAuctionRoom();
-        //AuctionsManager.AddBid(1500);
-        AuctionsManager.AddScan(new MineScan("gigel123", 3, 8));
-        //ChatManager.SendRoomMessage("Gigel is here");
-        ChatManager.JoinChatGroup("chat123");
-        ChatManager.SendPrivateMessage("gigel123", "salut gigele");
-    }
-    
-    private void SuccessfulJoinGroup(string groupName)
-    {
-        Debug.LogWarning("Successfully joined group" + groupName);
-        ChatManager.GetActiveGroups();
-    }
-    
-    private void SuccessfulLeaveRoom()
-    {
-        Debug.LogWarning("Successfully left room");
-    }
-    
-    private void SuccessfulAddBid()
-    {
-        Debug.LogWarning("Successfully added bid");
-    }
-    
-    private void FailedAddBid()
-    {
-        Debug.LogWarning("Failed to add bid");
+        MineManager.OnReceivedMines -= SetForEachMine;
     }
 }
