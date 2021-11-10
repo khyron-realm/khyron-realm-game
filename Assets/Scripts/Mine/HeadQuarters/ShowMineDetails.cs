@@ -30,6 +30,7 @@ namespace Mine
 
         #region "Private Members"
         private GameObject _currentGameObject;
+        public static byte MineIndex;
         #endregion
 
 
@@ -77,7 +78,7 @@ namespace Mine
             {
                 _buttonAuction.gameObject.SetActive(false);
 
-                if (isMine)
+                if (!isMine)
                 {
                     _noMinePanel.SetActive(true);
                     _buttonMine.gameObject.SetActive(false);

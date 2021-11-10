@@ -20,13 +20,15 @@ public class GoToAnotherAuction : MonoBehaviour
 
     public void EnterAnotherAuction()
     {
+        AuctionsManager.LeaveAuctionRoom();
+
         if (auctionIndex < 5)
         {
             auctionIndex++;
             AuctionsManager.JoinAuctionRoom(AuctionsManager.RoomList[auctionIndex].Id);
         }
         else
-        {
+        {           
             AuctionsManager.GetOpenAuctionRooms();
         }
     }

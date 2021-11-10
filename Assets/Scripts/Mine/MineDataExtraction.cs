@@ -35,7 +35,12 @@ public class MineDataExtraction : MonoBehaviour
         }
         else
         {
-            
+            GlobalSeed = MineManager.MineList[MineManager.CurrentMine].Generator.Global;
+
+            ResourcesSeeds = new List<ResourcesData>();
+            ResourcesSeeds.Add(MineManager.MineList[MineManager.CurrentMine].Generator.Silicon);
+            ResourcesSeeds.Add(MineManager.MineList[MineManager.CurrentMine].Generator.Lithium);
+            ResourcesSeeds.Add(MineManager.MineList[MineManager.CurrentMine].Generator.Titanium);
         }
     }
 }

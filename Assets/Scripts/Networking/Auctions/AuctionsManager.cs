@@ -261,6 +261,7 @@ namespace Networking.Auctions
             while (reader.Position < reader.Length)
             {
                 var player = reader.ReadSerializable<Player>();
+                Debug.LogError(player.Name);
                 playerList.Add(player);
             }
 
@@ -333,7 +334,8 @@ namespace Networking.Auctions
             using var reader = message.GetReader();
 
             var player = reader.ReadSerializable<Player>();
-            
+
+            Players.Add(player);
             OnPlayerJoined?.Invoke(player);
         }
 
@@ -346,7 +348,8 @@ namespace Networking.Auctions
             using var reader = message.GetReader();
 
             var playerName = reader.ReadString();
-          
+
+            Players.RemoveAll(p => p.Name == playerName);
             OnPlayerLeft?.Invoke(playerName);
         }
 

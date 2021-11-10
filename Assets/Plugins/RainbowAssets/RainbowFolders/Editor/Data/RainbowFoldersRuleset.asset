@@ -749,7 +749,7 @@ MonoBehaviour:
     Key: Assets/Scripts/Mine/Mine Creation Tools
     Ordinal: 61
     Priority: 0
-    IconType: 80
+    IconType: 50
     SmallIcon: {fileID: 0}
     LargeIcon: {fileID: 0}
     IsIconRecursive: 0
@@ -761,7 +761,7 @@ MonoBehaviour:
     Key: Assets/Scripts/Mine/Auction
     Ordinal: 62
     Priority: 0
-    IconType: 140
+    IconType: 50
     SmallIcon: {fileID: 0}
     LargeIcon: {fileID: 0}
     IsIconRecursive: 0
@@ -773,7 +773,7 @@ MonoBehaviour:
     Key: Assets/Scripts/Mine/Value Generation
     Ordinal: 63
     Priority: 0
-    IconType: 200
+    IconType: 50
     SmallIcon: {fileID: 0}
     LargeIcon: {fileID: 0}
     IsIconRecursive: 0
