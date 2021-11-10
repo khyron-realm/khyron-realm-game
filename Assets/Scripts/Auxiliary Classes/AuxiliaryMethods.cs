@@ -54,13 +54,28 @@ namespace AuxiliaryClasses
         /// Returns the difference in seconds between curent time and a var "time" time
         /// </summary>
         /// <param name="time">the time in binary format</param>
-        /// <returns></returns>
-        public static int TimeTillFinish(long time)
+        /// <returns>time in seconds</returns>
+        public static int TimeTillFinishEnd(long time)
         {
             DateTime startTime = DateTime.FromBinary(time);
             DateTime now = DateTime.UtcNow;
 
             int timeRemained = (int)now.Subtract(startTime).TotalSeconds;
+            return timeRemained;
+        }
+
+
+        /// <summary>
+        /// Returns the difference in seconds between curent time and a var "time" time
+        /// </summary>
+        /// <param name="time">the time in binary format</param>
+        /// <returns>time in seconds</returns>
+        public static int TimeTillFinishStart(long time)
+        {           
+            DateTime endTime = DateTime.FromBinary(time);
+            DateTime now = DateTime.UtcNow;
+
+            int timeRemained = (int)endTime.Subtract(now).TotalSeconds;
             return timeRemained;
         }
     }

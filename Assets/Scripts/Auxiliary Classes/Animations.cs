@@ -28,9 +28,9 @@ namespace AuxiliaryClasses
         public static void AnimateMineButton(Button temp)
         {
             temp.image.color = new Color(1, 1, 1, 0);
-            temp.transform.localPosition = new Vector2(0, -2);
+            temp.transform.localPosition = new Vector2(0, -2.26f);
 
-            temp.transform.DOLocalMoveY(-2.4f, 0.2f);
+            temp.transform.DOLocalMoveY(-2.86f, 0.2f);
             temp.image.DOFade(1, 0.4f);
         }
 

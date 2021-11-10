@@ -61,7 +61,7 @@ namespace Manager.Upgrade
         private void UpgradeInProgress(BuildTask task, RobotSO robot)
         {
             _selectedRobot = robot;
-            UpgradingMethod((LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Robots[robot.RobotId].Level) * 60) - AuxiliaryMethods.TimeTillFinish(task.StartTime), LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Robots[robot.RobotId].Level) * 60);
+            UpgradingMethod((LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Robots[robot.RobotId].Level) * 60) - AuxiliaryMethods.TimeTillFinishEnd(task.StartTime), LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Robots[robot.RobotId].Level) * 60);
         }       
         public void UpgradeRobot()
         {

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using CountDown;
 using AuxiliaryClasses;
 using Networking.Auctions;
-
+using TMPro;
 
 namespace Bidding
 {
@@ -26,13 +26,12 @@ namespace Bidding
 
         private void StartCounter()
         {
-            Debug.LogWarning(AuxiliaryMethods.TimeTillFinish(AuctionsManager.CurrentAuctionRoom.EndTime));
-            StartCoroutine(AuctionIsWorking(600 - AuxiliaryMethods.TimeTillFinish(AuctionsManager.CurrentAuctionRoom.EndTime)));
+            StartCoroutine(AuctionIsWorking(AuxiliaryMethods.TimeTillFinishStart(AuctionsManager.CurrentAuctionRoom.EndTime)));
         }
         
+
         private IEnumerator AuctionIsWorking(int time)
         {
-            _timeTillFinished.SetMaxValueForTime(600);
             _timeTillFinished.AddTime(time);
 
             int temp = 0;
@@ -42,6 +41,7 @@ namespace Bidding
                 yield return _timeTillFinished.ActivateTimer();
             }
         }
+
 
         private void FinishedAuction(uint roomId, uint winner)
         {

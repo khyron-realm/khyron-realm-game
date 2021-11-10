@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Panels;
-
+using TMPro;
 
 namespace CountDown
 {
@@ -16,7 +16,7 @@ namespace CountDown
 #if UNITY_EDITOR
         [ShowIf(ActionOnConditionFail.DontDraw, ConditionOperator.And, nameof(_hasTimeText))]
 #endif
-        [SerializeField] private Text _timeText;
+        [SerializeField] private TextMeshProUGUI _timeText;
        
         [Space(20f)]
 
@@ -141,7 +141,7 @@ namespace CountDown
         {
             DisplayTime(_timeText, _currentTime);
         }
-        public void DisplayTime(Text text, int time)
+        public void DisplayTime(TextMeshProUGUI text, int time)
         {
             float days = Mathf.FloorToInt(time / (86400));
             float hours = Mathf.FloorToInt((time % 86400) / 3600);

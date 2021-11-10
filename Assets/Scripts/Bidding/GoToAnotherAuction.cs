@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Scenes;
 using Networking.Auctions;
+using AuxiliaryClasses;
 
 
 public class GoToAnotherAuction : MonoBehaviour
@@ -25,7 +26,15 @@ public class GoToAnotherAuction : MonoBehaviour
         if (auctionIndex < 5)
         {
             auctionIndex++;
-            AuctionsManager.JoinAuctionRoom(AuctionsManager.RoomList[auctionIndex].Id);
+
+            if(AuxiliaryMethods.TimeTillFinishStart(AuctionsManager.RoomList[auctionIndex].Id) < 1)
+            {
+                AuctionsManager.JoinAuctionRoom(AuctionsManager.RoomList[auctionIndex].Id);
+            }
+            else
+            {
+                AuctionsManager.GetOpenAuctionRooms();
+            }            
         }
         else
         {           

@@ -10,6 +10,7 @@ using Levels;
 using Manager.Robots;
 using Networking.Headquarters;
 using PlayerDataUpdate;
+using TMPro;
 
 
 namespace Manager.Train
@@ -17,12 +18,12 @@ namespace Manager.Train
     public class BuildRobots : MonoBehaviour
     {
         #region "Input data"
-        [SerializeField] private Text _numberOfRobots;
+        [SerializeField] private TextMeshProUGUI _numberOfRobots;
         [SerializeField] private Timer _time;
 
         [Space(20f)]
 
-        [SerializeField] private Text _timeRemained;
+        [SerializeField] private TextMeshProUGUI _timeRemained;
         [SerializeField] private ProgressBar _tempLoadingBar;
         #endregion
 
