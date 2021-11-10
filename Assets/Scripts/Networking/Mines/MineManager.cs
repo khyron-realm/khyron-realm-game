@@ -14,7 +14,8 @@ namespace Networking.Mines
     public class MineManager : MonoBehaviour
     {
         public static List<Mine> MineList { get; set; }
-        
+        public static byte CurrentMine { get; set; }
+
         #region Events
         
         public delegate void ReceivedMinesEventHandler();
@@ -97,7 +98,7 @@ namespace Networking.Mines
                 }
             }
         }
-
+         
         #region ReceivedCalls
         
         /// <summary>
@@ -229,7 +230,6 @@ namespace Networking.Mines
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
         
-
         #endregion
     }
 }

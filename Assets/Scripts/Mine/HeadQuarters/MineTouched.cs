@@ -10,12 +10,17 @@ namespace Mine
     public class MineTouched : MonoBehaviour, IOpen
     {
         public event Action<GameObject, bool, bool> OnGameObjectTouched;
-        public bool IsMine = false;
+        public event Action<byte> OnMineSelected;
+
+        public bool HasMine;
+        public byte index;
+
         public bool IsAuction = false;
 
         public void Open()
         {
-            OnGameObjectTouched?.Invoke(gameObject, IsMine, IsAuction);
+            OnGameObjectTouched?.Invoke(gameObject, HasMine, IsAuction);
+            OnMineSelected?.Invoke(index);
         }
     }
 }

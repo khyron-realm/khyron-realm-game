@@ -30,15 +30,14 @@ namespace Mine
 
         #region "Private Members"
         private GameObject _currentGameObject;
-        private Text _textButton;
+        public static byte MineIndex;
         #endregion
 
 
         private void Awake()
         {
             _DetailsMine.SetActive(false);
-
-            _textButton = _buttonMine.transform.GetChild(0).GetComponent<Text>();
+            _DetailsAuction.SetActive(false);
 
             foreach (MineTouched item in _mines)
             {
@@ -68,22 +67,9 @@ namespace Mine
                 _DetailsAuction.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0);
             }
             
-            IsMineAvailable(isMine, isAuction);
-            IsAuctionHub(isAuction);            
+            IsMineAvailable(isMine, isAuction);           
         }
 
-
-        private void IsAuctionHub(bool isAuction)
-        {
-            if (isAuction)
-            {
-                _textButton.text = "Find Auction";
-            }
-            else
-            {
-                _textButton.text = "Enter Mine";
-            }
-        }
         private void IsMineAvailable(bool isMine, bool isAuction)
         {
             _buttonAuction.gameObject.SetActive(false);
@@ -92,7 +78,7 @@ namespace Mine
             {
                 _buttonAuction.gameObject.SetActive(false);
 
-                if (isMine)
+                if (!isMine)
                 {
                     _noMinePanel.SetActive(true);
                     _buttonMine.gameObject.SetActive(false);

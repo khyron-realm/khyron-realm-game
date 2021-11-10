@@ -75,11 +75,6 @@ public class AuctionChatting : MonoBehaviour
         _scrollRectPosition.verticalNormalizedPosition = 0;      
     }
 
-    private void Update()
-    {
-        print(_scrollRectPosition.verticalNormalizedPosition);
-    }
-
     private void OnDestroy()
     {
         _textInput.onSubmit.RemoveAllListeners();

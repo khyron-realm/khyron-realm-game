@@ -5,6 +5,7 @@ using UnityEngine;
 using Panels;
 using Networking.Headquarters;
 using PlayerDataUpdate;
+using TMPro;
 
 
 namespace Manager.Store
@@ -12,6 +13,7 @@ namespace Manager.Store
     public class StatBarsOperations : MonoBehaviour
     {
         #region "Input Data"
+        [SerializeField] private TextMeshProUGUI _level;
         [SerializeField] private ProgressBar _xpBar;
         [SerializeField] private ProgressBar _energyBar;
         [SerializeField] private ProgressBar _silliconBar;
@@ -50,6 +52,7 @@ namespace Manager.Store
 
         private void InitPlayerLevelAndExperience()
         {
+            _level.text = HeadquartersManager.Player.Level.ToString();
             _xpBar.MaxValue = (int)LevelMethods.Experience(HeadquartersManager.Player.Level);
             _xpBar.CurrentValue = (int)HeadquartersManager.Player.Experience;
         }
@@ -101,6 +104,7 @@ namespace Manager.Store
         }
         private void LevelUpdate(byte tag)
         {
+            _level.text = HeadquartersManager.Player.Level.ToString();
             StartCoroutine(BarAnimation(_xpBar, (int)HeadquartersManager.Player.Experience));
             _xpBar.MaxValue = (int)LevelMethods.Experience(HeadquartersManager.Player.Level);
         }
