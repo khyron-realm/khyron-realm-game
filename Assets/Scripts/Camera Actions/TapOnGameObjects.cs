@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
 namespace CameraActions
 {
     public class TapOnGameObjects : MonoBehaviour

@@ -261,7 +261,6 @@ namespace Networking.Auctions
             while (reader.Position < reader.Length)
             {
                 var player = reader.ReadSerializable<Player>();
-                Debug.LogError(player.Name);
                 playerList.Add(player);
             }
 
