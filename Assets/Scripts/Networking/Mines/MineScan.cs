@@ -7,16 +7,14 @@ namespace Networking.Mines
     /// </summary>
     public class MineScan : IDarkRiftSerializable
     {
-        public string Player { get; set; }
         public ushort X { get; set; }
         public ushort Y { get; set; }
         
         public MineScan()
         { }
 
-        public MineScan(string player, ushort x, ushort y)
+        public MineScan(ushort x, ushort y)
         {
-            Player = player;
             X = x;
             Y = y;
         }
@@ -29,7 +27,6 @@ namespace Networking.Mines
 
         public void Serialize(SerializeEvent e)
         {
-            e.Writer.Write(Player);
             e.Writer.Write(X);
             e.Writer.Write(Y);
         }

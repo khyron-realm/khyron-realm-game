@@ -129,6 +129,18 @@ namespace Networking.Auctions
                     GetOpenRoomsFailed(message);
                     break;
                 }
+                
+                case AuctionTags.GetRoom:
+                {
+                    GetOpenRooms(message);
+                    break;
+                }
+                
+                case AuctionTags.GetRoomFailed:
+                {
+                    GetOpenRoomsFailed(message);
+                    break;
+                }
 
                 case AuctionTags.StartAuctionSuccess:
                 {
@@ -377,9 +389,28 @@ namespace Networking.Auctions
         /// <param name="message">The message received</param>
         private static void GetOpenRoomsFailed(Message message)
         {
-            Debug.Log("Player not logged in");
-            byte errorId = 0;
-            OnFailedGetOpenRooms?.Invoke(errorId);
+            OnFailedGetOpenRooms?.Invoke(0);
+        }
+        
+        /// <summary>
+        ///     Get an auction room
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void GetRoom(Message message)
+        {
+            using var reader = message.GetReader();
+            var room = reader.ReadSerializable<AuctionRoom>();
+
+            OnReceivedOpenRooms?.Invoke();
+        }
+
+        /// <summary>
+        ///     Get room failed actions
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void GetRoomFailed(Message message)
+        {
+            OnFailedGetOpenRooms?.Invoke(0);
         }
         
         /// <summary>
@@ -567,6 +598,15 @@ namespace Networking.Auctions
         public static void GetOpenAuctionRooms()
         {
             using var msg = Message.CreateEmpty(AuctionTags.GetOpenRooms);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+        }
+        
+        /// <summary>
+        ///     Get an auction room
+        /// </summary>
+        public static void GetAuctionRoom()
+        {
+            using var msg = Message.CreateEmpty(AuctionTags.GetRoom);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
 
