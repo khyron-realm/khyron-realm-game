@@ -14,7 +14,6 @@ namespace Bidding
     {
         #region "Input data"
         [SerializeField] private int _vision;
-        [SerializeField] private bool _showScannedArea;
         #endregion
 
 
@@ -30,6 +29,7 @@ namespace Bidding
 
             AuctionsManager.OnFailedAddScan += FailedAddScan;
         }
+
 
         /// <summary>
         /// Changes the sprites of the blocks with the ones specific for resources if exists
@@ -55,7 +55,7 @@ namespace Bidding
 
                 if (AuctionsManager.CurrentAuctionRoom.Scans.Length < 3)
                 { 
-                    AuctionsManager.AddScan(new MineScan(HeadquartersManager.Player.Id, (ushort)temp.x, (ushort)temp.y));
+                    AuctionsManager.AddScan(new MineScan((ushort)temp.x, (ushort)temp.y));
                 }
             }
 

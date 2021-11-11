@@ -82,25 +82,25 @@ namespace Manager.Robots
         {          
             while (check)
             {
-                Vector3Int temp = UserTouch.TouchPositionInt(0);
-                Vector3Int nullVector = new Vector3Int(-99999, -99999, -99999);
+                //Vector3Int temp = UserTouch.TouchPositionInt(0);
+                //Vector3Int nullVector = new Vector3Int(-99999, -99999, -99999);
 
-                if(UserTouch.TouchPhaseMoved(0))
-                {
-                    _hasMoved = true;
-                }
+                //if(UserTouch.TouchPhaseMoved(0))
+                //{
+                //    _hasMoved = true;
+                //}
 
-                // if finger have moved, dont deploy the robot cause user is searching for an area to deploy
-                if (UserTouch.TouchPhaseEnded(0) && _hasMoved == true)
-                {
-                    _hasMoved = false;
-                    temp = nullVector;
-                }
+                //// if finger have moved, dont deploy the robot cause user is searching for an area to deploy
+                //if (UserTouch.TouchPhaseEnded(0) && _hasMoved == true)
+                //{
+                //    _hasMoved = false;
+                //    temp = nullVector;
+                //}
 
-                if (temp != nullVector && UserTouch.TouchPhaseEnded(0) && _hasMoved == false)
-                {
-                    DeployRobotInTheMap(temp);                  
-                }
+                //if (temp != nullVector && UserTouch.TouchPhaseEnded(0) && _hasMoved == false)
+                //{
+                //    DeployRobotInTheMap(temp);                  
+                //}
                 yield return null;
             }
         }

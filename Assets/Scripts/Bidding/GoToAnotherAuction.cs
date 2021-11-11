@@ -23,14 +23,11 @@ public class GoToAnotherAuction : MonoBehaviour
     {
         AuctionsManager.LeaveAuctionRoom();
 
-        Debug.LogError(AuctionsManager.RoomList.Count);
-        Debug.LogError(auctionIndex);
-
         if (auctionIndex < 5)
         {
             auctionIndex++;
 
-            if (AuxiliaryMethods.TimeTillFinishStart(AuctionsManager.RoomList[auctionIndex].Id) < 1)
+            if (AuxiliaryMethods.TimeTillFinishStart(AuctionsManager.RoomList[auctionIndex].EndTime) < 1)
             {
                 AuctionsManager.JoinAuctionRoom(AuctionsManager.RoomList[auctionIndex].Id);
             }
