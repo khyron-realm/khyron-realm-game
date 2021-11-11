@@ -69,8 +69,7 @@ namespace Bidding
                         Vector3Int intPosition = new Vector3Int((int)position.x, (int)position.y, 0);
 
                         if (_scanner.Discover(intPosition) == true)
-                        {
-                            
+                        {                           
                             _scannCounts--;
 
                             temp = _poolOfObjects.GetPooledObjects();
