@@ -443,6 +443,8 @@ namespace Networking.Auctions
 
             var roomId = reader.ReadUInt32();
             var winner = reader.ReadUInt32();
+            RoomList.RemoveAll(a => a.Id == roomId);
+            RoomList.Add(reader.ReadSerializable<AuctionRoom>());
 
             OnAuctionFinished?.Invoke(roomId, winner);
         }
