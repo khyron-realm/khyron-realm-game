@@ -36,8 +36,8 @@ namespace Networking.Auctions
         public static event SuccessfulLeaveRoomEventHandler OnSuccessfulLeaveRoom;
         public static event PlayerJoinedEventHandler OnPlayerJoined;
         public static event PlayerLeftEventHandler OnPlayerLeft;
-        public static event ReceivedOpenRoomsEventHandler OnReceivedOpenRooms;
-        public static event GetOpenRoomsFailedEventHandler OnFailedGetOpenRooms;
+        public static event ReceivedOpenRoomsEventHandler OnReceivedRoom;
+        public static event GetOpenRoomsFailedEventHandler OnFailedGetRoom;
         public static event AuctionFinishedEventHandler OnAuctionFinished;
         public static event AddBidEventHandler OnAddBid;
         public static event OverbidEventHandler OnOverbid;
@@ -360,7 +360,7 @@ namespace Networking.Auctions
             using var reader = message.GetReader();
             CurrentAuctionRoom = reader.ReadSerializable<AuctionRoom>();
 
-            OnReceivedOpenRooms?.Invoke();
+            OnReceivedRoom?.Invoke();
         }
 
         /// <summary>
@@ -369,7 +369,7 @@ namespace Networking.Auctions
         /// <param name="message">The message received</param>
         private static void GetRoomFailed(Message message)
         {
-            OnFailedGetOpenRooms?.Invoke(0);
+            OnFailedGetRoom?.Invoke(0);
         }
         
         /// <summary>

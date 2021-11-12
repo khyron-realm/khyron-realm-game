@@ -13,7 +13,7 @@ public class EnterAuction : MonoBehaviour
 
     private void Awake()
     {
-        AuctionsManager.OnReceivedOpenRooms += ReceivedOpenRooms;
+        AuctionsManager.OnReceivedRoom += ReceivedRoom;
         AuctionsManager.OnSuccessfulJoinRoom += SuccessfullyJoinedRoom;
     }
 
@@ -22,7 +22,7 @@ public class EnterAuction : MonoBehaviour
     {
         AuctionsManager.GetAuctionRoom();        
     }
-    private void ReceivedOpenRooms()
+    private void ReceivedRoom()
     {
         AuctionsManager.JoinAuctionRoom(AuctionsManager.CurrentAuctionRoom.Id);
     }
@@ -34,7 +34,7 @@ public class EnterAuction : MonoBehaviour
 
     private void OnDestroy()
     {
-        AuctionsManager.OnReceivedOpenRooms -= ReceivedOpenRooms;
+        AuctionsManager.OnReceivedRoom -= ReceivedRoom;
         AuctionsManager.OnSuccessfulJoinRoom -= SuccessfullyJoinedRoom;
     }
 }

@@ -181,32 +181,6 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             Player = reader.ReadSerializable<PlayerData>();
 
-            if (ShowDebug)
-            {
-                Debug.Log("Name = " + Player.Id);
-                Debug.Log("Level = " + Player.Level);
-                Debug.Log("Experience = " + Player.Experience);
-                Debug.Log("Energy = " + Player.Energy);
-                foreach(var r in Player.Resources)
-                {
-                    Debug.Log(" - resource = " + r.Name);
-                }
-                foreach(var r in Player.Robots)
-                {
-                    Debug.Log(" - robot = " + r.Name);
-                }
-
-                BuildTask[] taskQueue = Player.BuildQueue;
-                Debug.Log(taskQueue.Length == 0 ? "No tasks in progress" : "Tasks in progress");
-
-                foreach (BuildTask task in taskQueue)
-                {
-                    Debug.Log(" - task: " + task.Id);
-                    DateTime time = DateTime.FromBinary(task.StartTime);
-                    Debug.Log(" - time: " + time);
-                }
-            }
-            
             OnPlayerDataReceived?.Invoke();
         }
         
