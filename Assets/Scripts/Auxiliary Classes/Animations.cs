@@ -44,5 +44,26 @@ namespace AuxiliaryClasses
             temp.transform.DOLocalMoveY(3f, 0.2f);
             temp.GetComponent<Image>().DOFade(1f, 0.4f);
         }
+
+
+        // Animate scan in the auction
+        public static void AnimationForScan(GameObject temp, Button button)
+        {
+            Sequence mySequenceOne = DOTween.Sequence();
+            Sequence mySequenceTwo = DOTween.Sequence();
+
+            mySequenceOne.Append(temp.transform.DOLocalRotate(new Vector3(0, 0, 360 * 3), 2f, RotateMode.FastBeyond360));
+            mySequenceOne.OnComplete(() => { temp.SetActive(false); });
+
+            mySequenceTwo.Append(button.image.DOColor(Color.yellow, 0.2f));
+            mySequenceTwo.Append(button.image.DOColor(Color.white, 0.2f));
+        }
+    
+        
+        // Animate the recconect wheel
+        public static void Recconect(GameObject temp)
+        {
+            temp.transform.DOLocalRotate(new Vector3(0, 0, 360 * 4), 2f, RotateMode.FastBeyond360);
+        }   
     }
 }

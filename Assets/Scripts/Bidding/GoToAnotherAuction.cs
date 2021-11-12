@@ -10,10 +10,9 @@ public class GoToAnotherAuction : MonoBehaviour
 {
     [SerializeField] private ChangeScene _changeScene;
 
-    private static byte auctionIndex = 0;
-
     private void Awake()
     {
+        AuctionsManager.OnSuccessfulLeaveRoom += LeftConfirmation;
         AuctionsManager.OnReceivedOpenRooms += ReceivedOpenRooms;
         AuctionsManager.OnSuccessfulJoinRoom += SuccessfullyJoinedRoom;
     }
@@ -21,33 +20,15 @@ public class GoToAnotherAuction : MonoBehaviour
 
     public void EnterAnotherAuction()
     {
-        AuctionsManager.LeaveAuctionRoom();
-
-        Debug.LogError(AuctionsManager.RoomList.Count);
-        Debug.LogError(auctionIndex);
-
-        if (auctionIndex < 5)
-        {
-            auctionIndex++;
-
-            if (AuxiliaryMethods.TimeTillFinishStart(AuctionsManager.RoomList[auctionIndex].Id) < 1)
-            {
-                AuctionsManager.JoinAuctionRoom(AuctionsManager.RoomList[auctionIndex].Id);
-            }
-            else
-            {
-                AuctionsManager.GetOpenAuctionRooms();
-            }            
-        }
-        else
-        {           
-            AuctionsManager.GetOpenAuctionRooms();
-        }
+        AuctionsManager.LeaveAuctionRoom();       
+    }
+    private void LeftConfirmation()
+    {
+        AuctionsManager.GetAuctionRoom();
     }
     private void ReceivedOpenRooms()
     {
-        auctionIndex = 0;
-        AuctionsManager.JoinAuctionRoom(AuctionsManager.RoomList[0].Id);
+        AuctionsManager.JoinAuctionRoom(AuctionsManager.CurrentAuctionRoom.Id);
     }
     private void SuccessfullyJoinedRoom()
     {
