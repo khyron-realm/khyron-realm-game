@@ -12,32 +12,25 @@ public class GoToAnotherAuction : MonoBehaviour
 
     private void Awake()
     {
-        AuctionsManager.OnSuccessfulLeaveRoom += LeftConfirmation;
         AuctionsManager.OnReceivedRoom += ReceivedRoom;
+        AuctionsManager.OnSuccessfulLeaveRoom += LeftConfirmation;        
         AuctionsManager.OnSuccessfulJoinRoom += SuccessfullyJoinedRoom;
     }
 
     public void EnterAnotherAuction()
     {
-        Debug.LogWarning("Requesting room");
         AuctionsManager.GetAuctionRoom();        
     }
-    
-    private void LeftConfirmation()
-    {
-        Debug.LogWarning("Leaving old room");
-        AuctionsManager.LeaveAuctionRoom();
-    }
-    
     private void ReceivedRoom()
     {
-        Debug.LogWarning("Getting room: " + AuctionsManager.CurrentAuctionRoom.Id);
-        AuctionsManager.JoinAuctionRoom(AuctionsManager.CurrentAuctionRoom.Id);
+        AuctionsManager.LeaveAuctionRoom();
     }
-    
-    private void SuccessfullyJoinedRoom()
+    private void LeftConfirmation()
     {
-        Debug.LogWarning("Joining room: " + AuctionsManager.CurrentAuctionRoom.Id);
+        AuctionsManager.JoinAuctionRoom(AuctionsManager.CurrentAuctionRoom.Id);
+    }     
+    private void SuccessfullyJoinedRoom()
+    {      
         _changeScene.GoToScene();
     }
 
