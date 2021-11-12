@@ -37,7 +37,7 @@ namespace Networking.Auctions
         public static event PlayerJoinedEventHandler OnPlayerJoined;
         public static event PlayerLeftEventHandler OnPlayerLeft;
         public static event ReceivedOpenRoomsEventHandler OnReceivedRoom;
-        public static event GetOpenRoomsFailedEventHandler OnFailedGetRoom;
+        public static event GetOpenRoomsFailedEventHandler OnFailedGetOpenRooms;
         public static event AuctionFinishedEventHandler OnAuctionFinished;
         public static event AddBidEventHandler OnAddBid;
         public static event OverbidEventHandler OnOverbid;
@@ -369,7 +369,7 @@ namespace Networking.Auctions
         /// <param name="message">The message received</param>
         private static void GetRoomFailed(Message message)
         {
-            OnFailedGetRoom?.Invoke(0);
+            OnFailedGetOpenRooms?.Invoke(0);
         }
         
         /// <summary>
