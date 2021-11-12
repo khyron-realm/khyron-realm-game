@@ -17,16 +17,15 @@ public class EnterAuction : MonoBehaviour
         AuctionsManager.OnSuccessfulJoinRoom += SuccessfullyJoinedRoom;
     }
 
+
     public void FindAuction()
     {
-        AuctionsManager.GetOpenAuctionRooms();        
+        AuctionsManager.GetAuctionRoom();        
     }
     private void ReceivedOpenRooms()
     {
-        AuctionsManager.JoinAuctionRoom(AuctionsManager.RoomList[0].Id);
+        AuctionsManager.JoinAuctionRoom(AuctionsManager.CurrentAuctionRoom.Id);
     }
-
-
     private void SuccessfullyJoinedRoom()
     {
         _changeScene.GoToScene();
