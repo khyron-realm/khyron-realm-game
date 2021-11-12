@@ -318,8 +318,7 @@ namespace Networking.Auctions
         /// <param name="message">The message received</param>
         private static void LeaveSuccess(Message message)
         {
-            CurrentAuctionRoom = null;
-            
+            //CurrentAuctionRoom = null;           
             OnSuccessfulLeaveRoom?.Invoke();
         }
 
