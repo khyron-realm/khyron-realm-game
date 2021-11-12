@@ -20,11 +20,11 @@ public class GoToAnotherAuction : MonoBehaviour
 
     public void EnterAnotherAuction()
     {
-        AuctionsManager.LeaveAuctionRoom();       
+        AuctionsManager.GetAuctionRoom();        
     }
     private void LeftConfirmation()
     {
-        AuctionsManager.GetAuctionRoom();
+        AuctionsManager.LeaveAuctionRoom();
     }
     private void ReceivedOpenRooms()
     {
@@ -38,6 +38,7 @@ public class GoToAnotherAuction : MonoBehaviour
 
     private void OnDestroy()
     {
+        AuctionsManager.OnSuccessfulLeaveRoom -= LeftConfirmation;
         AuctionsManager.OnReceivedOpenRooms -= ReceivedOpenRooms;
         AuctionsManager.OnSuccessfulJoinRoom -= SuccessfullyJoinedRoom;
     }

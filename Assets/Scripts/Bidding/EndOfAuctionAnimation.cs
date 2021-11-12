@@ -22,10 +22,6 @@ namespace Bidding
             {
                 _scene.GoToScene();
             }
-            else
-            {
-                AuctionsManager.RoomList.RemoveAll(p => p.Id == roomId);
-            }
         }
 
 

@@ -79,9 +79,10 @@ namespace Bidding
 
             GameObject temp;
             Vector3Int position = new Vector3Int((int)intPosition.x, (int)intPosition.y, 0);
-
+            
             if (_scanner.Discover(position) == true)
             {
+                Debug.LogWarning("Scanning");
                 _scannCounts--;
 
                 temp = _poolOfObjects.GetPooledObjects();
