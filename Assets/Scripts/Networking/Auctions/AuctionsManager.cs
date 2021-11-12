@@ -15,7 +15,6 @@ namespace Networking.Auctions
     {
         public static bool IsHost { get; private set; }
         public static AuctionRoom CurrentAuctionRoom { get; set; }
-        public static List<AuctionRoom> RoomList { get; set; }
         public static List<Bid> Bids { get; set; } = new List<Bid>();
         public static List<Player> Players { get; set; } = new List<Player>();
         
@@ -117,28 +116,16 @@ namespace Networking.Auctions
                     PlayerLeft(message);
                     break;
                 }
-
-                case AuctionTags.GetOpenRooms:
-                {
-                    GetOpenRooms(message);
-                    break;
-                }
-                
-                case AuctionTags.GetOpenRoomsFailed:
-                {
-                    GetOpenRoomsFailed(message);
-                    break;
-                }
                 
                 case AuctionTags.GetRoom:
                 {
-                    GetOpenRooms(message);
+                    GetRoom(message);
                     break;
                 }
                 
                 case AuctionTags.GetRoomFailed:
                 {
-                    GetOpenRoomsFailed(message);
+                    GetRoomFailed(message);
                     break;
                 }
 
@@ -365,41 +352,13 @@ namespace Networking.Auctions
         }
 
         /// <summary>
-        ///     Get open auction rooms actions and receive rooms
-        /// </summary>
-        /// <param name="message">The message received</param>
-        private static void GetOpenRooms(Message message)
-        {
-            var roomList = new List<AuctionRoom>();
-            
-            using var reader = message.GetReader();
-            while (reader.Position < reader.Length)
-            {
-                roomList.Add(reader.ReadSerializable<AuctionRoom>());
-            }
-
-            RoomList = roomList;
-            
-            OnReceivedOpenRooms?.Invoke();
-        }
-
-        /// <summary>
-        ///     Get open rooms failed actions
-        /// </summary>
-        /// <param name="message">The message received</param>
-        private static void GetOpenRoomsFailed(Message message)
-        {
-            OnFailedGetOpenRooms?.Invoke(0);
-        }
-        
-        /// <summary>
         ///     Get an auction room
         /// </summary>
         /// <param name="message">The message received</param>
         private static void GetRoom(Message message)
         {
             using var reader = message.GetReader();
-            var room = reader.ReadSerializable<AuctionRoom>();
+            CurrentAuctionRoom = reader.ReadSerializable<AuctionRoom>();
 
             OnReceivedOpenRooms?.Invoke();
         }
@@ -473,8 +432,6 @@ namespace Networking.Auctions
 
             var roomId = reader.ReadUInt32();
             var winner = reader.ReadUInt32();
-            RoomList.RemoveAll(a => a.Id == roomId);
-            RoomList.Add(reader.ReadSerializable<AuctionRoom>());
 
             OnAuctionFinished?.Invoke(roomId, winner);
         }
@@ -591,16 +548,7 @@ namespace Networking.Auctions
             using var msg = Message.CreateEmpty(AuctionTags.Leave);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
-        
-        /// <summary>
-        ///     Get open auction rooms
-        /// </summary>
-        public static void GetOpenAuctionRooms()
-        {
-            using var msg = Message.CreateEmpty(AuctionTags.GetOpenRooms);
-            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-        }
-        
+
         /// <summary>
         ///     Get an auction room
         /// </summary>

@@ -10,37 +10,35 @@ namespace Networking.Tags
 
         public const ushort GetRoom = 3 + Shift;
         public const ushort GetRoomFailed = 4 + Shift;
-        public const ushort GetOpenRooms = 5 + Shift;
-        public const ushort GetOpenRoomsFailed = 6 + Shift;
 
-        public const ushort CreateSuccess = 7 + Shift;
-        public const ushort CreateFailed = 8 + Shift;
-        
-        public const ushort JoinSuccess = 9 + Shift;
-        public const ushort JoinFailed = 10 + Shift;
-        public const ushort LeaveSuccess = 11 + Shift;
-        
-        public const ushort PlayerJoined = 12 + Shift;
-        public const ushort PlayerLeft = 13 + Shift;
+        public const ushort CreateSuccess = 5 + Shift;
+        public const ushort CreateFailed = 6 + Shift;
 
-        public const ushort StartAuction = 14 + Shift;
-        public const ushort StartAuctionSuccess = 15 + Shift;
-        public const ushort StartAuctionFailed = 16 + Shift;
+        public const ushort JoinSuccess = 7 + Shift;
+        public const ushort JoinFailed = 8 + Shift;
+        public const ushort LeaveSuccess = 9 + Shift;
 
-        public const ushort AuctionFinished = 17 + Shift;
+        public const ushort PlayerJoined = 10 + Shift;
+        public const ushort PlayerLeft = 11 + Shift;
 
-        public const ushort AddBid = 18 + Shift;
-        public const ushort Overbid = 19 + Shift;
-        public const ushort AddBidSuccessful = 20 + Shift;
-        public const ushort AddBidFailed = 21 + Shift;
+        public const ushort StartAuction = 12 + Shift;
+        public const ushort StartAuctionSuccess = 13 + Shift;
+        public const ushort StartAuctionFailed = 14 + Shift;
 
-        public const ushort AddScan = 22 + Shift;
-        public const ushort AddScanFailed = 23 + Shift;
+        public const ushort AuctionFinished = 15 + Shift;
 
-        public const ushort AddFriendToAuction = 24 + Shift;
-        public const ushort AddFriendToAuctionSuccessful = 25 + Shift;
-        public const ushort AddFriendToAuctionFailed = 26 + Shift;
-        
-        public const ushort RequestFailed = 27 + Shift;
+        public const ushort AddBid = 16 + Shift;
+        public const ushort Overbid = 17 + Shift;
+        public const ushort AddBidSuccessful = 18 + Shift;
+        public const ushort AddBidFailed = 19 + Shift;
+
+        public const ushort AddScan = 20 + Shift;
+        public const ushort AddScanFailed = 21 + Shift;
+
+        public const ushort AddFriendToAuction = 22 + Shift;
+        public const ushort AddFriendToAuctionSuccessful = 23 + Shift;
+        public const ushort AddFriendToAuctionFailed = 24 + Shift;
+
+        public const ushort RequestFailed = 25 + Shift;
     }
 }
