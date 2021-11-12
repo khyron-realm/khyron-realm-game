@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DarkRift;
 using DarkRift.Client;
+using Networking.Headquarters;
 using Networking.Launcher;
 using Networking.Mines;
 using Networking.Tags;
@@ -13,7 +14,6 @@ namespace Networking.Auctions
     /// </summary>
     public class AuctionsManager : MonoBehaviour
     {
-        public static bool IsHost { get; private set; }
         public static AuctionRoom CurrentAuctionRoom { get; set; }
         public static List<Bid> Bids { get; set; } = new List<Bid>();
         public static List<Player> Players { get; set; } = new List<Player>();
@@ -203,7 +203,6 @@ namespace Networking.Auctions
             var room = reader.ReadSerializable<AuctionRoom>();
             var player = reader.ReadSerializable<Player>();
 
-            IsHost = player.IsHost;
             CurrentAuctionRoom = room;
             Players = new List<Player> {player};
             
@@ -457,6 +456,9 @@ namespace Networking.Auctions
         {
             using var reader = message.GetReader();
             var bid = reader.ReadSerializable<Bid>();
+            var restoredAmount = reader.ReadUInt32();
+
+            HeadquartersManager.Player.Energy += restoredAmount;
             
             Bids.Add(bid);
 
@@ -471,8 +473,10 @@ namespace Networking.Auctions
         {
             using var reader = message.GetReader();
             var bid = reader.ReadSerializable<Bid>();
+            var energy = reader.ReadUInt32();
             
             Bids.Add(bid);
+            HeadquartersManager.Player.Energy -= energy;
             
             OnSuccessfulAddBid?.Invoke();
         }
@@ -571,13 +575,15 @@ namespace Networking.Auctions
         /// <summary>
         ///     Adds a bid to the auction and waits for confirmation
         /// </summary>
-        /// <param name="bidValue"></param>
-        public static void AddBid(uint bidValue)
+        /// <param name="bidValue">The new bid value made by the player in energy</param>
+        /// <param name="newEnergy">The new energy value resulted from the bid</param>
+        public static void AddBid(uint bidValue, uint newEnergy)
         {
             Debug.LogWarning("Current Room" + CurrentAuctionRoom.Id);
             using var writer = DarkRiftWriter.Create();
             writer.Write(CurrentAuctionRoom.Id);
             writer.Write(bidValue);
+            writer.Write(newEnergy);
             using var msg = Message.Create(AuctionTags.AddBid, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
