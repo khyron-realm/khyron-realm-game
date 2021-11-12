@@ -32,8 +32,11 @@ namespace Bidding
         private void Awake()
         {
             _button.onClick.AddListener(Scann);
-            TapGeneralPurpose.OnTapDetected += ScanningInProcess;
+            TapGeneralPurpose.OnTapDetected += ScanningInProcess;           
+        }
 
+        private void Start()
+        {
             LoadSavedScans();
         }
 
@@ -45,7 +48,7 @@ namespace Bidding
         {
             foreach (MineScan item in AuctionsManager.CurrentAuctionRoom.Scans)
             {
-                ScanningInProcess(new Vector3(item.X, item.Y, 0));
+                ScanningInProcess(new Vector3(item.X, item.Y, 0), false);
             }
         }
 
@@ -73,25 +76,24 @@ namespace Bidding
         /// <summary>
         /// Coroutine that works while the scan button is pressed
         /// </summary>
-        private void ScanningInProcess(Vector3 intPosition)
+        private void ScanningInProcess(Vector3 intPosition, bool anim = false)
         {
             if (_scannCounts < 1) return;
 
             GameObject temp;
             Vector3Int position = new Vector3Int((int)intPosition.x, (int)intPosition.y, 0);
 
-            Debug.LogWarning("Scanning");
-
             if (_scanner.Discover(position) == true)
             {                
                 _scannCounts--;
 
-                temp = _poolOfObjects.GetPooledObjects();
-                temp.SetActive(true);
-
-                temp.transform.position = new Vector3(intPosition.x + 0.5f, intPosition.y + 0.5f, -5f);
-
-                Animations.AnimationForScan(temp, _button);
+                if(anim)
+                {
+                    temp = _poolOfObjects.GetPooledObjects();
+                    temp.SetActive(true);
+                    temp.transform.position = new Vector3(intPosition.x + 0.5f, intPosition.y + 0.5f, -5f);
+                    Animations.AnimationForScan(temp, _button);
+                }               
             }
             
             if (_scannCounts < 1)

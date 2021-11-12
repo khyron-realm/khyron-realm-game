@@ -14,7 +14,7 @@ namespace CameraActions
         private float timeTouchBegan;
         private bool touchDidMove;
 
-        public static event Action<Vector3> OnTapDetected;
+        public static event Action<Vector3, bool> OnTapDetected;
 
         public IEnumerator CheckFoScan()
         {
@@ -39,7 +39,7 @@ namespace CameraActions
 
                         if (tapTime <= tapTimeThreshold && touchDidMove == false)
                         {
-                            OnTapDetected?.Invoke(Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position));
+                            OnTapDetected?.Invoke(Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position), true);
                         }
                     } 
                 }

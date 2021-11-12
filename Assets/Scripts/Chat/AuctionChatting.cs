@@ -16,6 +16,11 @@ public class AuctionChatting : MonoBehaviour
     [SerializeField] private ObjectPooling _pooling;
 
     [SerializeField] private ScrollRect _scrollRectPosition;
+
+    [SerializeField] private Sprite _enterIcon;
+    [SerializeField] private Sprite _exitIcon;
+    [SerializeField] private Sprite _bidIcon;
+    [SerializeField] private Sprite _playerIcon;
     #endregion
 
     private void Awake()
@@ -33,19 +38,19 @@ public class AuctionChatting : MonoBehaviour
 
     private void AddedBid()
     {
-        Message(AuctionsManager.Bids[AuctionsManager.Bids.Count - 1].PlayerName + " has bidded " + AuctionsManager.Bids[AuctionsManager.Bids.Count - 1].Amount + " energy", "", Color.yellow, false);
+        Message(AuctionsManager.Bids[AuctionsManager.Bids.Count - 1].PlayerName + " has bidded " + AuctionsManager.Bids[AuctionsManager.Bids.Count - 1].Amount + " energy", "", Color.yellow, false, _bidIcon);
     }
     private void PlayerLeft(string player)
     {
-        Message(player + " has left the auction", "", Color.red, false);
+        Message(player + " has left the auction", "", Color.red, false, _exitIcon);
     }
     private void PlayerJoined(Player player)
     {
-        Message(player.Name + " has joined in the auction", "", Color.green, false);
+        Message(player.Name + " has joined in the auction", "", Color.green, false, _enterIcon);
     }
     private void MessageFromPlayer(ChatMessage message)
     {
-        Message(message.Sender, message.Content, Color.white, true);
+        Message(message.Sender, message.Content, Color.white, true, _playerIcon);
     }
     private void ThisUserMessage(string msg)
     {
@@ -53,13 +58,16 @@ public class AuctionChatting : MonoBehaviour
     }
 
 
-    private void Message(string user, string content, Color color, bool open)
+    private void Message(string user, string content, Color color, bool open, Sprite image)
     {
         GameObject temp = _pooling.GetPooledObjects();
         temp.SetActive(true);
-         
+
+        temp.transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite = image;
         temp.transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().color = color;
         temp.transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = user;
+
+
 
         if(open)
         {

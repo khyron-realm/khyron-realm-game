@@ -14,7 +14,7 @@ namespace Networking.Mines
     public class MineManager : MonoBehaviour
     {
         public static List<Mine> MineList { get; set; }
-        public static byte CurrentMine { get; set; }
+        public static byte CurrentMine { get; set; } // index in the list MineList
 
         #region Events
         

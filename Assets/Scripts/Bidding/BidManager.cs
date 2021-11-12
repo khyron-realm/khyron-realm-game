@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Networking.Auctions;
-
+using Networking.Headquarters;
+using TMPro;
 
 public class BidManager : MonoBehaviour
 {
     #region "Input  data"
-    [SerializeField] private Text _textDisplayed;
+    [SerializeField] private TextMeshProUGUI _textDisplayed;
     [SerializeField] private Button _yesButton;
 
     [SerializeField] private uint _biddingPrice;
@@ -38,12 +39,11 @@ public class BidManager : MonoBehaviour
     {
         if(AuctionsManager.Bids.Count > 0)
         {
-            print("Done");
-            AuctionsManager.AddBid(AuctionsManager.Bids[AuctionsManager.Bids.Count - 1].Amount + _biddingPrice);
+            AuctionsManager.AddBid(AuctionsManager.Bids[AuctionsManager.Bids.Count - 1].Amount + _biddingPrice, HeadquartersManager.Player.Energy);
         }        
         else
         {
-            AuctionsManager.AddBid(AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice);
+            AuctionsManager.AddBid(AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice, HeadquartersManager.Player.Energy);
         }
     }
 

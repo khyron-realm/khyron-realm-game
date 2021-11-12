@@ -389,8 +389,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: OpenPanel, Assembly-CSharp
+      - m_Target: {fileID: 1733460225966457599}
+        m_TargetAssemblyTypeName: Panels.OpenPanel, Assembly-CSharp
         m_MethodName: SetFalse
         m_Mode: 1
         m_Arguments:
@@ -418,7 +418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7946569972558776133
 RectTransform:
   m_ObjectHideFlags: 0
@@ -641,8 +641,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cbc30e046dae8646bf68aa005d6581b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unloadScene: 0
-  _loadScene: 0
+  _unloadScene: 2
+  _loadScene: 1
   _playerData: 0
 --- !u!1 &7946569974157199816
 GameObject:
@@ -656,6 +656,7 @@ GameObject:
   - component: {fileID: 7946569974157199823}
   - component: {fileID: 7946569974157199820}
   - component: {fileID: 7946569974157199822}
+  - component: {fileID: 1733460225966457599}
   m_Layer: 5
   m_Name: Settings-Canvas
   m_TagString: Untagged
@@ -745,3 +746,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1733460225966457599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7946569974157199816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12d7549e52a7aab4ca065f87b477846e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _panel: {fileID: 7946569972558776134}
+  _bgPanel: {fileID: 0}
+  _popUpScaleValue: 1.08
+  _bgTransparency: 0.4
