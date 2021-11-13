@@ -17,6 +17,6 @@ MonoBehaviour:
   BuildTime: 30
   NameOfTheRobot: Crusher
   Description: Nothing
-  Icon: {fileID: 21300000, guid: 883e3b90095659b479f6451576f052fb, type: 3}
+  Icon: {fileID: 21300000, guid: da823326b586c874d85dde9fa77205a9, type: 3}
   RobotLevel:
   - {fileID: 11400000, guid: 5687c7d64a1f3f142b1f24f4e573e53b, type: 2}

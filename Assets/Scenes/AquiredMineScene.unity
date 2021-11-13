@@ -4242,6 +4242,8 @@ GameObject:
   - component: {fileID: 956501891}
   - component: {fileID: 956501890}
   - component: {fileID: 956501889}
+  - component: {fileID: 956501894}
+  - component: {fileID: 956501895}
   m_Layer: 0
   m_Name: MineManager
   m_TagString: Untagged
@@ -4331,6 +4333,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _auctionOrMine: 0
+--- !u!114 &956501894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956501887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0721d8adf432af142889f9e0a8b75ec6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scene: {fileID: 956501895}
+--- !u!114 &956501895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956501887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbc30e046dae8646bf68aa005d6581b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _unloadScene: 4
+  _loadScene: 2
+  _playerData: 1
 --- !u!1 &959065041
 GameObject:
   m_ObjectHideFlags: 0
@@ -4759,7 +4789,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 976436413}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 956501894}
+        m_TargetAssemblyTypeName: ManageMineHandler, Assembly-CSharp
+        m_MethodName: FinishMine
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &976436413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6350,7 +6392,7 @@ GameObject:
   - component: {fileID: 1280858911}
   - component: {fileID: 1280858910}
   - component: {fileID: 1280858909}
-  - component: {fileID: 1280858908}
+  - component: {fileID: 1280858912}
   m_Layer: 5
   m_Name: GoBackToHqButton
   m_TagString: Untagged
@@ -6378,21 +6420,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1077.6, y: -459.4}
   m_SizeDelta: {x: 260, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1280858908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1280858906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cbc30e046dae8646bf68aa005d6581b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _unloadScene: 4
-  _loadScene: 2
-  _playerData: 1
 --- !u!114 &1280858909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6437,9 +6464,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1280858908}
-        m_TargetAssemblyTypeName: ChangeScene, Assembly-CSharp
-        m_MethodName: GoToScene
+      - m_Target: {fileID: 956501894}
+        m_TargetAssemblyTypeName: ManageMineHandler, Assembly-CSharp
+        m_MethodName: SavePlayerMine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6487,6 +6514,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1280858906}
   m_CullTransparentMesh: 1
+--- !u!114 &1280858912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280858906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3b643f3494dfd14eac9c3522c3e28e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1302365871
 GameObject:
   m_ObjectHideFlags: 0

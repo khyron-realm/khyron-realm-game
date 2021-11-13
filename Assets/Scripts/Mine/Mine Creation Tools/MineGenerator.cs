@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Tiles;
+using Networking.Mines;
 using Tiles.Tiledata;
 
 
@@ -115,6 +115,18 @@ namespace Mine
                     }
                 }
                 StoreAllTiles.Instance.Tiles.Add(temp);
+            }
+
+
+            for (int i = 0; i < 45; i++)
+            {
+                for (int j = 0; j < 30; j++)
+                {
+                    if (MineManager.MineList[MineManager.CurrentMine].Blocks[i * 30 + j] == false)
+                    {
+                        StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(i, j, 0), DataOfTile.NullTile);
+                    }
+                }
             }
         }
 

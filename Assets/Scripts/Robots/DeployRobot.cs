@@ -1,13 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 using Tiles.Tiledata;
 using CameraActions;
-using Manager.Robots.Mining;
 using DG.Tweening;
-using AuxiliaryClasses;
+using Networking.Headquarters;
 
 
 /// <summary>
@@ -29,12 +28,12 @@ namespace Manager.Robots
         [SerializeField] private Button _button;
         #endregion
 
+
         #region "Private members"
 
-        private bool _hasMoved = false;
-        private bool check = true;
-
         private IMineOperations _mining;
+        private Coroutine _corouteDeploy;
+        private bool _once = false;
 
         private static RobotSO _robotSelected;
         private static GameObject robotToDeploy;
@@ -48,12 +47,15 @@ namespace Manager.Robots
 
         #endregion
 
+
         private void Awake()
         {
             _robotsToInstantiate = GameObject.Find("RobotsPool");
 
             _button.onClick.AddListener(StartDeployOperation);
             RobotManagerUIForMine.OnButtonPressed += RobotMine;
+
+            TapGeneralPurpose.OnTapDetected += Deploy;
         }
 
 
@@ -62,7 +64,9 @@ namespace Manager.Robots
         /// </summary>
         public void DeselectRobot()
         {
-            StopCoroutine("Deploy");
+            if(_corouteDeploy != null)
+                StopCoroutine(_corouteDeploy);
+            _once = false;
         }
 
 
@@ -71,38 +75,23 @@ namespace Manager.Robots
         /// </summary>
         public void StartDeployOperation()
         {
-            StartCoroutine("Deploy");
+            if(_once == false)
+            {
+                _corouteDeploy = StartCoroutine(TapGeneralPurpose.Instance.CheckForTap());
+                _once = true;
+            }              
         }
         
         
         /// <summary>
         /// Deploy coroutine that works until buttons is deselected or robot is deployed
         /// </summary>
-        private IEnumerator Deploy()
-        {          
-            while (check)
+        private void Deploy(Vector3 input, bool temp)
+        {
+            if(_once)
             {
-                //Vector3Int temp = UserTouch.TouchPositionInt(0);
-                //Vector3Int nullVector = new Vector3Int(-99999, -99999, -99999);
-
-                //if(UserTouch.TouchPhaseMoved(0))
-                //{
-                //    _hasMoved = true;
-                //}
-
-                //// if finger have moved, dont deploy the robot cause user is searching for an area to deploy
-                //if (UserTouch.TouchPhaseEnded(0) && _hasMoved == true)
-                //{
-                //    _hasMoved = false;
-                //    temp = nullVector;
-                //}
-
-                //if (temp != nullVector && UserTouch.TouchPhaseEnded(0) && _hasMoved == false)
-                //{
-                //    DeployRobotInTheMap(temp);                  
-                //}
-                yield return null;
-            }
+                DeployRobotInTheMap(new Vector3Int((int)input.x, (int)input.y, 0));
+            }                                               
         }
 
 
@@ -112,38 +101,38 @@ namespace Manager.Robots
         /// <param name="temp"> The position for deploy </param>
         private void DeployRobotInTheMap(Vector3Int temp)
         {
-            if (StoreAllTiles.Instance.TilesPositions.Contains((Vector2Int)temp))
+            if (!StoreAllTiles.Instance.TilesPositions.Contains((Vector2Int)temp)) return;
+            
+            GameObject robot;
+
+            StoreAllTiles.Instance.Tilemap.SetTile(temp, DataOfTile.NullTile);
+            StoreAllTiles.Instance.Tiles[temp.x][temp.y].Health = -1;
+
+            robot = Instantiate(robotToDeploy);
+            robot.transform.SetParent(_robotsToInstantiate.transform);
+
+            ZPosition -= 0.1f;
+
+            robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f + robotToDeploy.transform.position.y, ZPosition);
+
+            _mining = robot.GetComponent<IMineOperations>();
+            _mining.StartMineOperation(_robotSelected, robot);
+
+            _list.RemoveAt(_list.Count - 1);
+
+            HeadquartersManager.Player.Robots[_robotSelected.RobotId].Count -= 1;
+
+            if (_list.Count < 1)
             {
-                GameObject robot;
+                _button.onClick.RemoveAllListeners();
 
-                StoreAllTiles.Instance.Tilemap.SetTile(temp, DataOfTile.NullTile);
-                StoreAllTiles.Instance.Tiles[temp.x][temp.y].Health = -1;
-
-                robot = Instantiate(robotToDeploy);
-                robot.transform.SetParent(_robotsToInstantiate.transform);
-
-                ZPosition -= 0.1f;
-
-                robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f + robotToDeploy.transform.position.y, ZPosition);
-
-                _mining = robot.GetComponent<IMineOperations>();
-                _mining.StartMineOperation(_robotSelected, robot);
-
-                _list.RemoveAt(_list.Count - 1);
-
-                if (_list.Count < 1)
-                {
-                    _button.onClick.RemoveAllListeners();
-
-                    check = false;
-                    _button.transform.DOLocalMoveX(-1, 0.4f).OnComplete(() => _button.transform.gameObject.SetActive(false));
-                    _button.image.DOColor(new Color(0, 0, 0, 0), 0.4f);
-                }
-                else
-                {
-                    _infoText.text = _list.Count.ToString();
-                }
-            }           
+                _button.transform.DOLocalMoveX(-1, 0.4f).OnComplete(() => _button.transform.gameObject.SetActive(false));
+                _button.image.DOColor(new Color(0, 0, 0, 0), 0.4f);
+            }
+            else
+            {
+                _infoText.text = _list.Count.ToString();
+            }                   
         }
 
 
@@ -165,7 +154,7 @@ namespace Manager.Robots
                     robotToDeploy = _robotMiner;
                     break;
                 case 1:
-                    robotToDeploy = _robotMiner;
+                    robotToDeploy = _robotVision;
                     break;
                 case 2:
                     robotToDeploy = _robotVision;
@@ -178,6 +167,8 @@ namespace Manager.Robots
         {
             _button.onClick.RemoveAllListeners();
             RobotManagerUIForMine.OnButtonPressed -= RobotMine;
+
+            TapGeneralPurpose.OnTapDetected -= Deploy;
         }
     }
 }
