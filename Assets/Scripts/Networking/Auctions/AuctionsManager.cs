@@ -425,7 +425,7 @@ namespace Networking.Auctions
             using var reader = message.GetReader();
             if (reader.Length != 6)
             {
-                Debug.LogWarning("Invalid StartAuction error data received");
+                Debug.LogWarning("Invalid FinishAuction error data received");
             }
 
             var roomId = reader.ReadUInt32();
@@ -477,7 +477,7 @@ namespace Networking.Auctions
             
             Bids.Add(bid);
             HeadquartersManager.Player.Energy -= energy;
-            
+
             OnSuccessfulAddBid?.Invoke();
         }
         
