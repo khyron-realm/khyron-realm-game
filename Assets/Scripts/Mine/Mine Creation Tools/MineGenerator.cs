@@ -11,6 +11,9 @@ namespace Mine
     public class MineGenerator : MonoBehaviour
     {
         #region "Input fields" 
+        [SerializeField] private bool _isAuction;
+        [Space(20f)]
+
         [SerializeField] private RuleTile _nullTile;
         [Space(20f)]
 
@@ -117,6 +120,8 @@ namespace Mine
                 StoreAllTiles.Instance.Tiles.Add(temp);
             }
 
+
+            if (_isAuction) return;
 
             for (int i = 0; i < 45; i++)
             {

@@ -111,6 +111,7 @@ namespace Manager.Robots
             robot = Instantiate(robotToDeploy);
             robot.transform.SetParent(_robotsToInstantiate.transform);
 
+            // Order in layer
             ZPosition -= 0.1f;
 
             robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f + robotToDeploy.transform.position.y, ZPosition);
@@ -157,7 +158,7 @@ namespace Manager.Robots
                     robotToDeploy = _robotVision;
                     break;
                 case 2:
-                    robotToDeploy = _robotVision;
+                    robotToDeploy = _robotMiner;
                     break;
             }
         }

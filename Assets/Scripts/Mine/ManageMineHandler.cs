@@ -49,7 +49,6 @@ public class ManageMineHandler : MonoBehaviour
     }
     private void MineSaved()
     {
-        Debug.LogWarning("Back");
         _scene.GoToScene();
     }
     private void MineSavedFailed(byte errorId)
@@ -60,12 +59,10 @@ public class ManageMineHandler : MonoBehaviour
 
     public void FinishMine()
     {
-        Debug.LogWarning("Pressed");
         MineManager.FinishPlayerMine(MineManager.MineList[MineManager.CurrentMine].Id, HeadquartersManager.Player.Robots, HeadquartersManager.Player.Resources);
     }
     private void FinishMineCompleted()
     {
-        Debug.LogWarning("Finished Mine");
         _scene.GoToScene();
     }
 
