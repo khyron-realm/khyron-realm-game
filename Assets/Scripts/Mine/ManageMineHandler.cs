@@ -19,13 +19,15 @@ public class ManageMineHandler : MonoBehaviour
         s_validBlocks = new bool[45 * 30];
 
         MineManager.OnSaveMine += MineSaved;
+        MineManager.OnSaveMineFailed += MineSavedFailed;
+
         MineManager.OnFinishMine += FinishMineCompleted;
         MineManager.OnFinishMineFailed += MineSavedFailed;
     }
 
 
     public void SavePlayerMine()
-    {
+    {       
         // x:45 by y:30
         for (int i = 0; i < 45; i++)
         {
@@ -42,24 +44,28 @@ public class ManageMineHandler : MonoBehaviour
             }
         }
 
+        Debug.LogWarning("Pressed");
         MineManager.SavePlayerMine(MineManager.MineList[MineManager.CurrentMine].Id, s_validBlocks, HeadquartersManager.Player.Robots, HeadquartersManager.Player.Resources);
     }
     private void MineSaved()
-    {       
+    {
+        Debug.LogWarning("Back");
         _scene.GoToScene();
     }
     private void MineSavedFailed(byte errorId)
     {
-        print(errorId);
+        Debug.LogWarning(errorId);
     }
 
 
     public void FinishMine()
     {
+        Debug.LogWarning("Pressed");
         MineManager.FinishPlayerMine(MineManager.MineList[MineManager.CurrentMine].Id, HeadquartersManager.Player.Robots, HeadquartersManager.Player.Resources);
     }
     private void FinishMineCompleted()
     {
+        Debug.LogWarning("Finished Mine");
         _scene.GoToScene();
     }
 
