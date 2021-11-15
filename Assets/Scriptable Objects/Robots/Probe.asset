@@ -17,6 +17,6 @@ MonoBehaviour:
   BuildTime: 10
   NameOfTheRobot: Probe
   Description: Nothing
-  Icon: {fileID: 21300000, guid: 9c57467a9ef921d438a6eefd5f657d78, type: 3}
+  Icon: {fileID: 21300000, guid: 1169557899294fc44bec0c23aee9192c, type: 3}
   RobotLevel:
-  - {fileID: 11400000, guid: 5687c7d64a1f3f142b1f24f4e573e53b, type: 2}
+  - {fileID: 11400000, guid: 218853702bd48444caddba244b167e5e, type: 2}

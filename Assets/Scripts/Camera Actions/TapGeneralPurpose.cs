@@ -14,9 +14,15 @@ namespace CameraActions
         private float timeTouchBegan;
         private bool touchDidMove;
 
+        public static TapGeneralPurpose Instance;
         public static event Action<Vector3, bool> OnTapDetected;
 
-        public IEnumerator CheckFoScan()
+        private void Awake()
+        {
+            Instance = this;
+        }
+
+        public IEnumerator CheckForTap()
         {
             while(true)
             {
@@ -46,6 +52,11 @@ namespace CameraActions
 
                 yield return null;
             }
+        }
+
+        private void OnDestroy()
+        {
+            Instance = null;
         }
     }
 }

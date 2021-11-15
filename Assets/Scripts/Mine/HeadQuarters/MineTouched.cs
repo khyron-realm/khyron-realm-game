@@ -9,6 +9,9 @@ namespace Mine
 {
     public class MineTouched : MonoBehaviour, IOpen
     {
+        [SerializeField] private AudioSource _clip;
+        [SerializeField] private GameObject _mountain;
+
         public event Action<GameObject, bool, bool> OnGameObjectTouched;
         public event Action<byte> OnMineSelected;
 
@@ -17,10 +20,26 @@ namespace Mine
 
         public bool IsAuction = false;
 
+        private void Start()
+        {
+            if(HasMine)
+            {
+                _mountain.SetActive(true);
+            }
+            else
+            {
+                _mountain.SetActive(false);
+            }        
+        }
+
         public void Open()
         {
             OnGameObjectTouched?.Invoke(gameObject, HasMine, IsAuction);
-            OnMineSelected?.Invoke(index);
+
+            if(HasMine)
+                OnMineSelected?.Invoke(index);
+
+            _clip.Play();
         }
     }
 }

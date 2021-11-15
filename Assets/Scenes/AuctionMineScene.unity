@@ -1523,6 +1523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4b18f1a143d2a459f5c3bc289c4f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isAuction: 1
   _nullTile: {fileID: 11400000, guid: b71e40c97295d1c4dba8d4c177b771d3, type: 2}
   _groundTileType11: {fileID: 11400000, guid: 32f72f67faf8f904c9f13dd807685605, type: 2}
   _groundTileType12: {fileID: 11400000, guid: 583e8bb7ace00204fa045e0b31a15d15, type: 2}

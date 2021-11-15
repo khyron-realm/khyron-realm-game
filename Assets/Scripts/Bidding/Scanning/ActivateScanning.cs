@@ -35,6 +35,7 @@ namespace Bidding
             TapGeneralPurpose.OnTapDetected += ScanningInProcess;           
         }
 
+
         private void Start()
         {
             LoadSavedScans();
@@ -61,7 +62,7 @@ namespace Bidding
             if (_once)
             {
                 _button.transform.DOScale(1.2f, 0.2f);
-                _coroute = StartCoroutine(_tap.CheckFoScan());
+                _coroute = StartCoroutine(_tap.CheckForTap());
             }
             else
             {

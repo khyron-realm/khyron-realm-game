@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Networking.Mines;
 using Networking.Auctions;
+using Tiles.Tiledata;
 
 
 public class MineDataExtraction : MonoBehaviour

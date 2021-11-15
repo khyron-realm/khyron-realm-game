@@ -99,6 +99,7 @@ namespace Manager.Robots
             Button newButton = Instantiate(_buttonToInstantiate);
             newButton.transform.SetParent(_canvas.transform, false);
             newButton.GetComponent<Image>().sprite = list[0].Icon;
+            newButton.GetComponent<Image>().color = new Color(0.8f, 0.8f, 0.8f, 0.8f);
             newButton.transform.GetChild(0).GetComponent<Text>().text = list.Count.ToString();
 
             AddListenerToButton(newButton, list, newButton.transform.GetChild(0).GetComponent<Text>());
@@ -140,11 +141,14 @@ namespace Manager.Robots
         private void TouchedListener(Button newButton)
         {
             newButton.transform.DOScale(1.12f, 0.18f);
+            newButton.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+
             foreach (Button item in Buttons)
             {
                 if (newButton != item)
                 {
                     item.transform.DOScale(1, 0.18f);
+                    item.GetComponent<Image>().color = new Color(0.8f, 0.8f, 0.8f, 0.8f);
                     item.GetComponent<DeployRobot>().DeselectRobot();
                 }
             }
