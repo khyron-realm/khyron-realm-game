@@ -28,7 +28,8 @@ namespace Mine
             }
             else
             {
-                _mountain.SetActive(false);
+                if(_mountain != null)
+                    _mountain.SetActive(false);
             }        
         }
 

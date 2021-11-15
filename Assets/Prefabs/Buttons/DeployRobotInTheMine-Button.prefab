@@ -137,8 +137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be269a1abbac2824bb09f54129dbb405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _robotMiner: {fileID: 8081672677367500380, guid: 1a208eed39256cb4a9f306740156c169, type: 3}
-  _robotVision: {fileID: 8797900881008869300, guid: 900234e3261d77e4d8a0c72645e6f816, type: 3}
+  _robotWorker: {fileID: 6621355256116021563, guid: 9502ded7f800e68438a5d707fc482747, type: 3}
+  _robotCrusher: {fileID: 8081672677367500380, guid: 1a208eed39256cb4a9f306740156c169, type: 3}
+  _robotProbe: {fileID: 8797900881008869300, guid: 900234e3261d77e4d8a0c72645e6f816, type: 3}
   _button: {fileID: 8172230705043739021}
 --- !u!82 &-5974939551141243475
 AudioSource:

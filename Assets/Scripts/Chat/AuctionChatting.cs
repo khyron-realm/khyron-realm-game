@@ -36,9 +36,9 @@ public class AuctionChatting : MonoBehaviour
     }
 
 
-    private void AddedBid()
+    private void AddedBid(Bid bid)
     {
-        Message(AuctionsManager.Bids[AuctionsManager.Bids.Count - 1].PlayerName + " has bidded " + AuctionsManager.Bids[AuctionsManager.Bids.Count - 1].Amount + " energy", "", Color.yellow, false, _bidIcon);
+        Message(bid.PlayerName + " has bidded " + bid.Amount + " energy", "", Color.yellow, false, _bidIcon);
     }
     private void PlayerLeft(string player)
     {

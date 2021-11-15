@@ -24,27 +24,13 @@ public class BidManager : MonoBehaviour
 
     public void ShowBidStatus()
     {
-        if(AuctionsManager.Bids.Count > 0)
-        {
-            _textDisplayed.text = "You are bidding " + (AuctionsManager.Bids[AuctionsManager.Bids.Count - 1].Amount + _biddingPrice) + " energy for the mine";
-        }
-        else
-        {
-            _textDisplayed.text = "You are bidding " + (AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice) + " energy for the mine";
-        }        
+          _textDisplayed.text = "You are bidding " + (AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice) + " energy for the mine";              
     }
 
 
     public void Bid()
     {
-        if(AuctionsManager.Bids.Count > 0)
-        {
-            AuctionsManager.AddBid(AuctionsManager.Bids[AuctionsManager.Bids.Count - 1].Amount + _biddingPrice, HeadquartersManager.Player.Energy);
-        }        
-        else
-        {
-            AuctionsManager.AddBid(AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice, HeadquartersManager.Player.Energy);
-        }
+          AuctionsManager.AddBid(AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice, HeadquartersManager.Player.Energy);        
     }
 
 

@@ -22,9 +22,10 @@ namespace Manager.Robots
     public class DeployRobot : MonoBehaviour
     {
         #region "Input data"
-        [SerializeField] private GameObject _robotMiner;
-        [SerializeField] private GameObject _robotVision;
-
+        [SerializeField] private GameObject _robotWorker;
+        [SerializeField] private GameObject _robotCrusher;
+        [SerializeField] private GameObject _robotProbe;
+        
         [SerializeField] private Button _button;
         #endregion
 
@@ -152,13 +153,13 @@ namespace Manager.Robots
             switch (_robotSelected.RobotId)
             {
                 case 0:
-                    robotToDeploy = _robotMiner;
+                    robotToDeploy = _robotWorker;
                     break;
                 case 1:
-                    robotToDeploy = _robotVision;
+                    robotToDeploy = _robotProbe;
                     break;
                 case 2:
-                    robotToDeploy = _robotMiner;
+                    robotToDeploy = _robotCrusher;
                     break;
             }
         }

@@ -441,7 +441,9 @@ namespace Networking.Auctions
         {
             using var reader = message.GetReader();
             var bid = reader.ReadSerializable<Bid>();
-            
+
+            CurrentAuctionRoom.LastBid = bid;
+
             OnAddBid?.Invoke(bid);
         }
                 

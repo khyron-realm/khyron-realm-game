@@ -21,15 +21,14 @@ public class ShowLastBid : MonoBehaviour
     {
         _textMeshPro.text = AuctionsManager.CurrentAuctionRoom.LastBid.Amount.ToString();
     }
-    private void LastBidInRoom()
+    private void LastBidInRoom(Bid bid)
     {
-        _textMeshPro.text = AuctionsManager.Bids[AuctionsManager.Bids.Count - 1].Amount.ToString();
+        _textMeshPro.text = bid.Amount.ToString();
     }
 
 
     private void OnDestroy()
     {
-        AuctionsManager.OnSuccessfulJoinRoom -= LastBidEnterRoom;
         AuctionsManager.OnAddBid -= LastBidInRoom;
         AuctionsManager.OnSuccessfulAddBid -= LastBidInRoom;
     }
