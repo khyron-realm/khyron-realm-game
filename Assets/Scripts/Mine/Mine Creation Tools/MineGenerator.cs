@@ -123,6 +123,8 @@ namespace Mine
 
             if (_isAuction) return;
 
+            Debug.LogWarning(MineManager.CurrentMine);
+
             for (int i = 0; i < 45; i++)
             {
                 for (int j = 0; j < 30; j++)

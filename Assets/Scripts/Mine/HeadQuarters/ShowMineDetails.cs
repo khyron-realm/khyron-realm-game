@@ -23,6 +23,7 @@ namespace Mine
         [SerializeField] private Button _buttonAuction; //
         [SerializeField] private GameObject _noMinePanel; // panel bg text
         [SerializeField] private GameObject _nameOfTheMine;
+        [SerializeField] private GameObject _slotsFull;
 
 
         [Header("All Mines on the minimap and Auction island")]
@@ -81,6 +82,7 @@ namespace Mine
             if (!isAuction)
             {
                 _buttonAuction.gameObject.SetActive(false);
+                _slotsFull.SetActive(false);
 
                 if (!isMine)
                 {
@@ -104,11 +106,23 @@ namespace Mine
             {
                 _noMinePanel.SetActive(false);
                 _nameOfTheMine.SetActive(false);
-
+                
                 _buttonMine.gameObject.SetActive(false);
 
-                _buttonAuction.gameObject.SetActive(true);
-                Animations.AnimateMineButton(_buttonAuction);
+                if(MineManager.MineList.Count < 6)
+                {
+                    _buttonAuction.gameObject.SetActive(true);
+                    _slotsFull.SetActive(false);
+
+                    Animations.AnimateMineButton(_buttonAuction);
+                }
+                else
+                {
+                    _buttonAuction.gameObject.SetActive(false);
+                    _slotsFull.SetActive(true);
+
+                    Animations.AnimateMineText(_slotsFull);
+                }                             
             }           
         }
 

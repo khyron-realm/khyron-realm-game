@@ -44,7 +44,6 @@ public class ManageMineHandler : MonoBehaviour
             }
         }
 
-        Debug.LogWarning("Pressed");
         MineManager.SavePlayerMine(MineManager.MineList[MineManager.CurrentMine].Id, s_validBlocks, HeadquartersManager.Player.Robots, HeadquartersManager.Player.Resources);
     }
     private void MineSaved()
@@ -70,7 +69,9 @@ public class ManageMineHandler : MonoBehaviour
     private void OnDestroy()
     {
         MineManager.OnSaveMine -= MineSaved;
+        MineManager.OnSaveMineFailed -= MineSavedFailed;
+
         MineManager.OnFinishMine -= FinishMineCompleted;
-        MineManager.OnFinishMineFailed += MineSavedFailed;
+        MineManager.OnFinishMineFailed -= MineSavedFailed;
     }
 }
