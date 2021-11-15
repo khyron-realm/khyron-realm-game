@@ -15,7 +15,6 @@ namespace Networking.Auctions
     public class AuctionsManager : MonoBehaviour
     {
         public static AuctionRoom CurrentAuctionRoom { get; set; }
-        public static List<Bid> Bids { get; set; } = new List<Bid>();
         public static List<Player> Players { get; set; } = new List<Player>();
         
         #region Events
@@ -27,9 +26,9 @@ namespace Networking.Auctions
         public delegate void ReceivedOpenRoomsEventHandler();
         public delegate void GetOpenRoomsFailedEventHandler(byte errorId);
         public delegate void AuctionFinishedEventHandler(uint roomId, uint winner);
-        public delegate void AddBidEventHandler();
-        public delegate void OverbidEventHandler();
-        public delegate void SuccessfulAddBidEventHandler();
+        public delegate void AddBidEventHandler(Bid bid);
+        public delegate void OverbidEventHandler(Bid bid);
+        public delegate void SuccessfulAddBidEventHandler(Bid bid);
         public delegate void FailedAddBidEventHandler();
         public delegate void FailedAddScanEventHandler();
         public static event SuccessfulJoinRoomEventHandler OnSuccessfulJoinRoom;
@@ -443,9 +442,7 @@ namespace Networking.Auctions
             using var reader = message.GetReader();
             var bid = reader.ReadSerializable<Bid>();
             
-            Bids.Add(bid);
-
-            OnAddBid?.Invoke();
+            OnAddBid?.Invoke(bid);
         }
                 
         /// <summary>
@@ -459,10 +456,8 @@ namespace Networking.Auctions
             var restoredAmount = reader.ReadUInt32();
 
             HeadquartersManager.Player.Energy += restoredAmount;
-            
-            Bids.Add(bid);
 
-            OnOverbid?.Invoke();
+            OnOverbid?.Invoke(bid);
         }
 
         /// <summary>
@@ -475,10 +470,9 @@ namespace Networking.Auctions
             var bid = reader.ReadSerializable<Bid>();
             var energy = reader.ReadUInt32();
             
-            Bids.Add(bid);
             HeadquartersManager.Player.Energy -= energy;
 
-            OnSuccessfulAddBid?.Invoke();
+            OnSuccessfulAddBid?.Invoke(bid);
         }
         
         /// <summary>
