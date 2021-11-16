@@ -14,6 +14,7 @@ namespace Manager.Robots.Mining
         [SerializeField] private GameObject _circle;
         [SerializeField] private GameObject _healthStatus;
         [SerializeField] private Ease _fadingStyle;
+        [SerializeField] private float circleMaxScale;
 
         [SerializeField] private ChangeColorBasedOnHealth _colorChange;
         #endregion
@@ -27,6 +28,7 @@ namespace Manager.Robots.Mining
         private void Awake()
         {
             _circleScan = Instantiate(_circle);
+            _circleScan.transform.SetParent(gameObject.transform);
         }
 
 
@@ -45,7 +47,7 @@ namespace Manager.Robots.Mining
         {
             _circleScan.transform.position = gameObject.transform.position;
             _circleScan.SetActive(true);
-            _circleScan.transform.DOScale(4, 2f).OnComplete(() => _circleScan.SetActive(false));
+            _circleScan.transform.DOScale(circleMaxScale, 2f).OnComplete(() => _circleScan.SetActive(false));
             _circleScan.GetComponent<SpriteRenderer>().DOFade(0, 2f).SetEase(_fadingStyle);
         }
 

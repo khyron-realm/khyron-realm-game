@@ -18,7 +18,7 @@ namespace Manager.Train
     public class BuildRobots : MonoBehaviour
     {
         #region "Input data"
-        [SerializeField] private TextMeshProUGUI _numberOfRobots;
+        [SerializeField] private List<TextMeshProUGUI> _numberOfRobots;
         [SerializeField] private Timer _time;
 
         [Space(20f)]
@@ -108,7 +108,10 @@ namespace Manager.Train
                 count += HeadquartersManager.Player.Robots[i].Count * RobotsManager.robots[i].HousingSpace;
             }
 
-            _numberOfRobots.text = string.Format("{0}/{1}", count, LevelMethods.HousingSpace(HeadquartersManager.Player.Level));                      
+            foreach (TextMeshProUGUI item in _numberOfRobots)
+            {
+                item.text = string.Format("{0}/{1}", count, LevelMethods.HousingSpace(HeadquartersManager.Player.Level));
+            }          
         }
         private void ShowRobotsNumber(byte receivedTag)
         {

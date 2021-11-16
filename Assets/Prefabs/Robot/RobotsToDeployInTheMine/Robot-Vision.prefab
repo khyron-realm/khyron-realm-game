@@ -124,7 +124,8 @@ MonoBehaviour:
   _radius: 5
   _circle: {fileID: 7794365836572348941, guid: adb4dfae3f0d7ef4f8b0b4fd06aa87dc, type: 3}
   _healthStatus: {fileID: 8935680195073752638}
-  _fadingStyle: 0
+  _fadingStyle: 1
+  circleMaxScale: 12
   _colorChange: {fileID: 3254617706051077204}
 --- !u!114 &3254617706051077204
 MonoBehaviour:
