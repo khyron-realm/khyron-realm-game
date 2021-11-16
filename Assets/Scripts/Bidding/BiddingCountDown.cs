@@ -43,7 +43,7 @@ namespace Bidding
         }
 
 
-        private void FinishedAuction(uint roomId, uint winner)
+        private void FinishedAuction(uint roomId, string winner)
         {
 
         }
