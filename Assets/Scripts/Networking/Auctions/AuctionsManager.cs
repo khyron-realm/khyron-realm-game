@@ -422,7 +422,7 @@ namespace Networking.Auctions
         private static void AuctionFinished(Message message)
         {
             using var reader = message.GetReader();
-            if (reader.Length != 6)
+            if (reader.Length != 8)
             {
                 Debug.LogWarning("Invalid FinishAuction error data received");
             }
@@ -544,6 +544,7 @@ namespace Networking.Auctions
         /// </summary>
         public static void LeaveAuctionRoom()
         {
+            Debug.LogWarning("Trying to leave the room");
             using var msg = Message.CreateEmpty(AuctionTags.Leave);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
