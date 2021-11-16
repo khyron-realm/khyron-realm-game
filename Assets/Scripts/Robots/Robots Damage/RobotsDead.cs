@@ -13,15 +13,18 @@ namespace Manager.Robots.Damage
         [SerializeField] private Animator _animator;
         #endregion
 
+
         private void Awake()
         {
             _damage.OnDead += WhenRobotDies;
         }
 
+
         private void WhenRobotDies(GameObject temp)
         {
-            StartCoroutine("CheckForEndOfDead", temp);
+            StartCoroutine(CheckForEndOfDead(temp));
         }
+
 
         private IEnumerator CheckForEndOfDead(GameObject temp)
         {
@@ -31,6 +34,13 @@ namespace Manager.Robots.Damage
             yield return new WaitForSeconds(1.4f);
 
             temp.GetComponent<SpriteRenderer>().DOFade(0, 1.4f).OnComplete(() => temp.SetActive(false));
+            temp.transform.GetChild(0).GetComponent<SpriteRenderer>().DOFade(0, 1.4f).OnComplete(() => temp.SetActive(false));
+        }
+
+
+        private void OnDestroy()
+        {
+            _damage.OnDead -= WhenRobotDies;
         }
     }
 }

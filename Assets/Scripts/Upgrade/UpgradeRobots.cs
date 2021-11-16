@@ -123,7 +123,8 @@ namespace Manager.Upgrade
         }
         private int GetInfoLevel()
         {
-            return RobotsManager.robotsData[_selectedRobot.NameOfTheRobot.ToString()].RobotLevel;
+            //return HeadquartersManager.Player.Robots[_selectedRobot.RobotId].Level;
+            return 0;
         }
         #endregion
 

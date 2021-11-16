@@ -27,7 +27,6 @@ namespace Mine
             _button.onClick.AddListener(Entering);
         }
 
-
         private void MineTouched(byte index)
         {
             MineManager.CurrentMine = index;

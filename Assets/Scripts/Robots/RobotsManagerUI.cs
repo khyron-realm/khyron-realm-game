@@ -69,10 +69,7 @@ namespace Manager.Robots
         }
         private static void MakeButtonsAvailable(RobotSO item, Button newButton)
         {
-            if (RobotsManager.robotsData[item.NameOfTheRobot].AvailableRobot == false)
-            {
-                newButton.interactable = true;
-            }
+            newButton.interactable = true;          
         }
 
 

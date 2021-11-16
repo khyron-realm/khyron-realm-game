@@ -2,15 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Panels;
+using Networking.Headquarters;
+using Levels;
+
 
 namespace Manager.Robots.Damage
 {
     public class RobotsGetDamage : MonoBehaviour
     {
         #region "Private memebers"   
+        [SerializeField] private ChangeColorBasedOnHealth _colorHealth;
+
         private int _health;
         private GameObject _robotGameObject;
+        
+        private RobotSO _robot;
+        private int _robotLevel;
+        private int _maxHealth;
         #endregion
 
         //event
@@ -20,9 +28,10 @@ namespace Manager.Robots.Damage
         /// Method for doing damage to robots
         /// </summary>
         /// <param name="amount"> The amount of damage given </param>
-        public bool DoDamage(int amount)
+        public bool DoDamage()
         {
-            _health -= amount;
+            _health -= (int)LevelMethods.RobotMiningDamage((byte)_robotLevel, _robot.RobotId);
+            _colorHealth.AdjustColorBasedOnHealth(_health, _maxHealth);
 
             if (_health < 0)
             {
@@ -52,8 +61,10 @@ namespace Manager.Robots.Damage
         /// <param name="currentRobot"></param>
         public void GetHealthFromRobot(RobotSO currentRobot)
         {
-            int level = RobotsManager.robotsData[currentRobot.NameOfTheRobot].RobotLevel;
-            _health =  1000; //Health robot
+            _robot = currentRobot;
+            _robotLevel = HeadquartersManager.Player.Robots[currentRobot.RobotId].Level;
+            _health =  LevelMethods.RobotHealth((byte)_robotLevel, currentRobot.RobotId);
+            _maxHealth = _health;
         }
 
 

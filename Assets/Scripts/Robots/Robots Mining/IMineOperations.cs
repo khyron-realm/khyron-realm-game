@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IMineOperations
 {
-    public void StartMineOperation(RobotSO robot, GameObject robotGameObject);
+    public void StartMineOperation(RobotSO robot);
 }
