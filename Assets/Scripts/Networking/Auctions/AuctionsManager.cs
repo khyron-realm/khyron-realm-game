@@ -25,7 +25,7 @@ namespace Networking.Auctions
         public delegate void PlayerLeftEventHandler(string playerName);
         public delegate void ReceivedOpenRoomsEventHandler();
         public delegate void GetOpenRoomsFailedEventHandler(byte errorId);
-        public delegate void AuctionFinishedEventHandler(uint roomId, uint winner);
+        public delegate void AuctionFinishedEventHandler(uint roomId, string winner);
         public delegate void AddBidEventHandler(Bid bid);
         public delegate void OverbidEventHandler(Bid bid);
         public delegate void SuccessfulAddBidEventHandler(Bid bid);
@@ -422,13 +422,15 @@ namespace Networking.Auctions
         private static void AuctionFinished(Message message)
         {
             using var reader = message.GetReader();
-            if (reader.Length != 8)
+            if (reader.Length != 4)
             {
                 Debug.LogWarning("Invalid FinishAuction error data received");
             }
 
             var roomId = reader.ReadUInt32();
-            var winner = reader.ReadUInt32();
+            var winner = reader.ReadString();
+
+            Debug.LogWarning("Finishing auction " + roomId + " with winner " + winner);
 
             OnAuctionFinished?.Invoke(roomId, winner);
         }

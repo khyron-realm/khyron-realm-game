@@ -16,7 +16,7 @@ namespace Bidding
         }
 
 
-        private void MineFinished(uint roomId, uint winner)
+        private void MineFinished(uint roomId, string winner)
         {
             if(roomId == AuctionsManager.CurrentAuctionRoom.Id)
             {
