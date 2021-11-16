@@ -21,7 +21,7 @@ public class GoToAnotherAuction : MonoBehaviour
     {
         AuctionsManager.GetAuctionRoom();        
     }
-    private void ReceivedRoom()
+    private void ReceivedRoom(byte playerBidsNo)
     {
         AuctionsManager.LeaveAuctionRoom();
     }

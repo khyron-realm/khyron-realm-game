@@ -22,7 +22,7 @@ public class EnterAuction : MonoBehaviour
     {
         AuctionsManager.GetAuctionRoom();        
     }
-    private void ReceivedRoom()
+    private void ReceivedRoom(byte playerBidsNo)
     {
         AuctionsManager.JoinAuctionRoom(AuctionsManager.CurrentAuctionRoom.Id);
     }
