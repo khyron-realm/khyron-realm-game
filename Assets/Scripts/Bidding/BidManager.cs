@@ -26,8 +26,6 @@ public class BidManager : MonoBehaviour
     {
           _textDisplayed.text = "You are bidding " + (AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice) + " energy for the mine";              
     }
-
-
     public void Bid()
     {
           AuctionsManager.AddBid(AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice, HeadquartersManager.Player.Energy);        

@@ -33,7 +33,7 @@ namespace Manager.Convert
             _titaniumAmount.text = LevelMethods.ResourceConversionCost(HeadquartersManager.Player.Level)[2].ToString();
 
             _energyRecevied.text = LevelMethods.ResourceConversionGeneration(HeadquartersManager.Player.Level).ToString();
-            _timeOfExecution.text = LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level).ToString();
+            _timeOfExecution.text = LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level).ToString() + "m";
         }
 
 

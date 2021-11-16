@@ -25,7 +25,7 @@ namespace Manager.Upgrade
         private void TextUpdate(byte temp)
         {
             _upgradePrice.text = LevelMethods.RobotUpgradeCost(HeadquartersManager.Player.Robots[temp].Level, temp).ToString();
-            _upgradeTime.text = LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Robots[temp].Level).ToString(); ;
+            _upgradeTime.text = LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Robots[temp].Level).ToString() + "m"; ;
         }
 
 
