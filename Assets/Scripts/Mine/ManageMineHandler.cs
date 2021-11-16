@@ -44,6 +44,7 @@ public class ManageMineHandler : MonoBehaviour
             }
         }
 
+        Debug.LogWarning(MineManager.CurrentMine);
         MineManager.SavePlayerMine(MineManager.MineList[MineManager.CurrentMine].Id, s_validBlocks, HeadquartersManager.Player.Robots, HeadquartersManager.Player.Resources);
     }
     private void MineSaved()

@@ -24,12 +24,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6220823002003626626}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6658, y: -0.259, z: 0}
-  m_LocalScale: {x: 2.4428523, y: 1.4482415, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.6208, y: -0.1159, z: 0}
+  m_LocalScale: {x: 0.70584, y: 0.7069056, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7328194906161162939}
+  m_Father: {fileID: 2790048748141100610}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5160355103867126939
@@ -72,8 +72,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_SortingOrder: 4
+  m_Sprite: {fileID: 21300000, guid: 03fea5cc9cd43a3468e887056acee9d5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &6621355256116021563
+--- !u!1 &6586686483721651583
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,44 +92,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7328194906161162939}
-  - component: {fileID: 1696195252972549251}
-  - component: {fileID: 1231367714678776642}
-  - component: {fileID: 7567916949904720652}
-  - component: {fileID: 4697174838553465632}
-  - component: {fileID: 2371589214295772486}
-  - component: {fileID: 4901904346574525432}
-  - component: {fileID: 6691127491332243796}
+  - component: {fileID: 2790048748141100610}
+  - component: {fileID: 5038853278236400867}
+  - component: {fileID: 1777312923625531808}
+  - component: {fileID: 7710520504937830977}
   m_Layer: 0
-  m_Name: Robot-Worker
+  m_Name: Robot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7328194906161162939
+--- !u!4 &2790048748141100610
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6621355256116021563}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.04, y: 0.04, z: 1}
+  m_GameObject: {fileID: 6586686483721651583}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5719551594745677936}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 7328194906161162939}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1696195252972549251
+--- !u!212 &5038853278236400867
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6621355256116021563}
+  m_GameObject: {fileID: 6586686483721651583}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -163,8 +159,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7215502f20461e444afc30e94f013152, type: 3}
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 21300000, guid: 842bcfaa1f82bbf4f9ea6254510e5b74, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -175,6 +171,78 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1777312923625531808
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6586686483721651583}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a746aa15bea3bd147ab4f1e2d9dfa417, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7710520504937830977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6586686483721651583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7278c8f6d50bbb4695ead43cd8a5f1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  local: 1
+  positionDiff: 0.8
+  time: 1
+--- !u!1 &6621355256116021563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7328194906161162939}
+  - component: {fileID: 1231367714678776642}
+  - component: {fileID: 7567916949904720652}
+  - component: {fileID: 4697174838553465632}
+  - component: {fileID: 2371589214295772486}
+  - component: {fileID: 6691127491332243796}
+  m_Layer: 0
+  m_Name: Robot-Worker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7328194906161162939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6621355256116021563}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2790048748141100610}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1231367714678776642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,10 +255,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0db68a36ea9b0674195c0367122079e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _robotGameObject: {fileID: 6586686483721651583}
   _damage: {fileID: 7567916949904720652}
   _robotsMovingType: 1
-  _animator: {fileID: 4901904346574525432}
+  _animator: {fileID: 1777312923625531808}
   _particles: {fileID: 8472594242037789130, guid: fbebd93fcf19de44c9df2cf65f1023f7, type: 3}
+  scale: 0.3
 --- !u!114 &7567916949904720652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39804bd5f4066d5449f1987b2e335a03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _colorHealth: {fileID: 6691127491332243796}
 --- !u!114 &4697174838553465632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,7 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: {fileID: 7567916949904720652}
-  _animator: {fileID: 4901904346574525432}
+  _animator: {fileID: 1777312923625531808}
 --- !u!114 &2371589214295772486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,26 +304,6 @@ MonoBehaviour:
   _lithiumOre: {fileID: 21300000, guid: 6632ad0ac10de804282860a30d28f266, type: 3}
   _siliconOre: {fileID: 21300000, guid: 30637e24f02fe914b8895805262c3b08, type: 3}
   _titanOre: {fileID: 21300000, guid: 810fdd568e349a7498cbf54e75a99c7e, type: 3}
---- !u!95 &4901904346574525432
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6621355256116021563}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2e3abdcd33db7e1449bf0d51a7f3efd4, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &6691127491332243796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,3 +317,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _color: {fileID: 6220823002003626626}
+  gradient:
+    serializedVersion: 2
+    key0: {r: 0.0014921427, g: 1, b: 0, a: 1}
+    key1: {r: 1, g: 0.9093014, b: 0, a: 1}
+    key2: {r: 0.9529412, g: 0.45157862, b: 0, a: 0}
+    key3: {r: 1, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 26021
+    ctime2: 56090
+    ctime3: 65535
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 4
+    m_NumAlphaKeys: 2

@@ -20,6 +20,11 @@ public class GetMinesFromServer : MonoBehaviour
 
     private void SetForEachMine()
     {
+        foreach (Networking.Mines.Mine item in MineManager.MineList)
+        {
+            Debug.LogWarning(item.Blocks.Length);
+        }
+
         for (byte i = 0; i < MineManager.MineList.Count; i++)
         {
             //Debug.LogWarning("Mine " + i);

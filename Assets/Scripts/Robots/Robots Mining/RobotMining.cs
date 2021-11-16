@@ -13,12 +13,14 @@ namespace Manager.Robots.Mining
     {
         #region "Input data"
 
+        [SerializeField] private GameObject _robotGameObject;
         [SerializeField] private RobotsGetDamage _damage;
         [SerializeField] private Ease _robotsMovingType;
 
         [SerializeField] private Animator _animator;
         [SerializeField] private ParticleSystem _particles;
 
+        [SerializeField] private float scale;
         #endregion
 
         #region "Private members"
@@ -92,12 +94,12 @@ namespace Manager.Robots.Mining
         /// </summary>
         /// <param name="robot"></param>
         /// <param name="robotGameObject"></param>
-        public void StartMineOperation(RobotSO robot, GameObject robotGameObject)
+        public void StartMineOperation(RobotSO robot)
         {
             _damage.GetHealthFromRobot(robot);
-            _damage.GetRobotGameObject(robotGameObject);
+            _damage.GetRobotGameObject(_robotGameObject);
 
-            StartCoroutine("MiningProcess");
+            StartCoroutine(MiningProcess());
         }
 
 
@@ -131,7 +133,7 @@ namespace Manager.Robots.Mining
                 _movementFinished = false;
                 yield return MoveTheObjectToThePosition(block);
 
-                if (_damage.DoDamage(40))
+                if (_damage.DoDamage())
                 {
                     break;
                 }
@@ -244,11 +246,11 @@ namespace Manager.Robots.Mining
         {
             if (gameObject.transform.position.x > block.x)
             {
-                gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                gameObject.transform.localScale = new Vector3(scale, scale, 1);
             }
             else
             {
-                gameObject.transform.localScale = new Vector3(-0.5f, 0.5f, 1);
+                gameObject.transform.localScale = new Vector3(-scale, scale, 1);
             }
         }
 

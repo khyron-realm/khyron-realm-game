@@ -14,6 +14,8 @@ namespace Manager.Robots.Mining
         [SerializeField] private GameObject _circle;
         [SerializeField] private GameObject _healthStatus;
         [SerializeField] private Ease _fadingStyle;
+
+        [SerializeField] private ChangeColorBasedOnHealth _colorChange;
         #endregion
 
         private GameObject _circleScan;
@@ -28,7 +30,7 @@ namespace Manager.Robots.Mining
         }
 
 
-        public void StartMineOperation(RobotSO robot, GameObject robotGameObject)
+        public void StartMineOperation(RobotSO robot)
         {
             _centerPosition = new Vector2Int((int)gameObject.transform.position.x, (int)gameObject.transform.position.y);
             _radiusToScan = 8;
@@ -170,7 +172,14 @@ namespace Manager.Robots.Mining
 
         private IEnumerator Timer()
         {
-            yield return new WaitForSeconds(20f);
+            int temp = 20;
+            while(temp > 0)
+            {
+                _colorChange.AdjustColorBasedOnHealth(temp, 20);
+                temp --;
+                yield return new WaitForSeconds(1f);
+            }
+           
             StartCoroutine(StopRevealingZone());
             gameObject.GetComponent<SpriteRenderer>().DOFade(0, 2f).OnComplete(() => gameObject.SetActive(false));
             _healthStatus.GetComponent<SpriteRenderer>().DOFade(0, 2f);

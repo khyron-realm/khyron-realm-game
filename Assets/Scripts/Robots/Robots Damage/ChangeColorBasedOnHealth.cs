@@ -2,25 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using AuxiliaryClasses;
+
 
 public class ChangeColorBasedOnHealth : MonoBehaviour
 {
     [SerializeField] private GameObject _color;
+    [SerializeField] private Gradient gradient;
 
     private SpriteRenderer _renderer;
-
-    private Sequence _seq;
-
-    void Start()
+    
+    private void Awake()
     {
-        _seq = DOTween.Sequence();
-
         _renderer = _color.GetComponent<SpriteRenderer>();
         _renderer.color = Color.green;
+    }
 
-        _seq.Append(_renderer.DOColor(new Color(0.5f, 1, 0, 1), 5f));
-        _seq.Append(_renderer.DOColor(new Color(1, 1, 0, 1), 5f));
-        _seq.Append(_renderer.DOColor(new Color(1, 0.5f, 0, 1), 5f));
-        _seq.Append(_renderer.DOColor(Color.red, 5f));
+
+    public void AdjustColorBasedOnHealth(int value, int max)
+    {
+        _renderer.color = gradient.Evaluate(AuxiliaryMethods.Scale(0, max, 0, 1, (max - value)));
     }
 }

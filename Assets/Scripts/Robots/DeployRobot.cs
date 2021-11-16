@@ -118,7 +118,7 @@ namespace Manager.Robots
             robot.transform.position = new Vector3(temp.x + 0.5f, temp.y + 0.5f + robotToDeploy.transform.position.y, ZPosition);
 
             _mining = robot.GetComponent<IMineOperations>();
-            _mining.StartMineOperation(_robotSelected, robot);
+            _mining.StartMineOperation(_robotSelected);
 
             _list.RemoveAt(_list.Count - 1);
 

@@ -122,13 +122,12 @@ namespace Mine
 
 
             if (_isAuction) return;
-
-            Debug.LogWarning(MineManager.CurrentMine);
+            if (MineManager.MineList[MineManager.CurrentMine].Blocks.Length < 1) return;
 
             for (int i = 0; i < 45; i++)
             {
                 for (int j = 0; j < 30; j++)
-                {
+                {                 
                     if (MineManager.MineList[MineManager.CurrentMine].Blocks[i * 30 + j] == false)
                     {
                         StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(i, j, 0), DataOfTile.NullTile);

@@ -40,7 +40,8 @@ namespace Mine
             if(HasMine)
                 OnMineSelected?.Invoke(index);
 
-            _clip.Play();
+            if(_clip != null)
+                _clip.Play();
         }
     }
 }
