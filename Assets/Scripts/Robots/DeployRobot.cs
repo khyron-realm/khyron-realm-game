@@ -103,7 +103,9 @@ namespace Manager.Robots
         private void DeployRobotInTheMap(Vector3Int temp)
         {
             if (!StoreAllTiles.Instance.TilesPositions.Contains((Vector2Int)temp)) return;
-            
+            if (StoreAllTiles.Instance.Tilemap.GetTile(temp) == DataOfTile.NullTile) return;
+            if (StoreAllTiles.Instance.Tilemap.GetTile(temp) == null) return;
+
             GameObject robot;
 
             StoreAllTiles.Instance.Tilemap.SetTile(temp, DataOfTile.NullTile);

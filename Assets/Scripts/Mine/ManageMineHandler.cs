@@ -33,7 +33,7 @@ public class ManageMineHandler : MonoBehaviour
         {
             for (int j = 0; j < 30; j++)
             {
-                if(StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(i,j,0)) == DataOfTile.NullTile)
+                if(StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(i,j,0)) == DataOfTile.NullTile || StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(i, j, 0)) == null)
                 {
                     s_validBlocks[i * 30 + j] = false;
                 }
@@ -44,7 +44,6 @@ public class ManageMineHandler : MonoBehaviour
             }
         }
 
-        Debug.LogWarning(MineManager.CurrentMine);
         MineManager.SavePlayerMine(MineManager.MineList[MineManager.CurrentMine].Id, s_validBlocks, HeadquartersManager.Player.Robots, HeadquartersManager.Player.Resources);
     }
     private void MineSaved()

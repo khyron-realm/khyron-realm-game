@@ -11,6 +11,7 @@ namespace Mine
     public class MineGenerator : MonoBehaviour
     {
         #region "Input fields" 
+        [Header("Is Auction Mine or Mining Mine?")]
         [SerializeField] private bool _isAuction;
         [Space(20f)]
 
@@ -130,10 +131,12 @@ namespace Mine
                 {                 
                     if (MineManager.MineList[MineManager.CurrentMine].Blocks[i * 30 + j] == false)
                     {
-                        StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(i, j, 0), DataOfTile.NullTile);
+                        StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int(i, j, 0), _nullTile);
                     }
                 }
             }
+
+            StoreAllTiles.Instance.Tilemap.RefreshAllTiles();
         }
 
 
