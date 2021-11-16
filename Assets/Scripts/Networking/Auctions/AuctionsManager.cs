@@ -23,7 +23,7 @@ namespace Networking.Auctions
         public delegate void SuccessfulLeaveRoomEventHandler();
         public delegate void PlayerJoinedEventHandler(Player player);
         public delegate void PlayerLeftEventHandler(string playerName);
-        public delegate void ReceivedOpenRoomsEventHandler();
+        public delegate void ReceivedOpenRoomsEventHandler(byte playerBidsNo);
         public delegate void GetOpenRoomsFailedEventHandler(byte errorId);
         public delegate void AuctionFinishedEventHandler(uint roomId, string winner);
         public delegate void AddBidEventHandler(Bid bid);
@@ -356,8 +356,9 @@ namespace Networking.Auctions
         {
             using var reader = message.GetReader();
             CurrentAuctionRoom = reader.ReadSerializable<AuctionRoom>();
+            var playerBidsNo = reader.ReadByte();
 
-            OnReceivedRoom?.Invoke();
+            OnReceivedRoom?.Invoke(playerBidsNo);
         }
 
         /// <summary>
