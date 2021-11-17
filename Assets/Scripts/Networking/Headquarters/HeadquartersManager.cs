@@ -12,47 +12,18 @@ namespace Networking.Headquarters
     /// </summary>
     public class HeadquartersManager : MonoBehaviour
     {
-        #if UNITY_EDITOR
-        private static bool _showDebug = false;
-        #endif
-        
+#if UNITY_EDITOR
+        private static readonly bool _showDebug = false;
+#endif
+
         public static PlayerData Player;
 
-        #region Events
-
-        public delegate void PlayerDataReceivedEventHandler();
-        public delegate void PlayerDataUnavailableEventHandler();
-        public delegate void GameDataReceivedEventHandler();
-        public delegate void GameDataUnavailableEventHandler();
-        public delegate void UpdateLevelErrorEventHandler();
-        public delegate void ConversionErrorEventHandler(byte errorId);
-        public delegate void FinishConversionErrorEventHandler(byte errorId);
-        public delegate void UpgradingErrorEventHandler(byte errorId);
-        public delegate void FinishUpgradeErrorEventHandler(byte errorId);
-        public delegate void BuildingErrorEventHandler(byte errorId);
-        public delegate void FinishBuildErrorEventHandler(byte errorId);
-        public delegate void CancelBuildErrorEventHandler(byte errorId);
-        public static event PlayerDataReceivedEventHandler OnPlayerDataReceived;
-        public static event PlayerDataUnavailableEventHandler OnPlayerDataUnavailable;
-        public static event GameDataReceivedEventHandler OnGameDataReceived;
-        public static event GameDataUnavailableEventHandler OnGameDataUnavailable;
-        public static event UpdateLevelErrorEventHandler OnUpdateLevelError;
-        public static event ConversionErrorEventHandler OnConversionError;
-        public static event FinishConversionErrorEventHandler OnFinishConversionError;
-        public static event UpgradingErrorEventHandler OnUpgradingError;
-        public static event FinishUpgradeErrorEventHandler OnFinishUpgradingError;
-        public static event BuildingErrorEventHandler OnBuildingError;
-        public static event FinishBuildErrorEventHandler OnFinishBuildingError;
-        public static event CancelBuildErrorEventHandler OnCancelBuildingError;
-
-        #endregion
-        
         private void Awake()
         {
             Player = null;
 
             NetworkManager.Client.MessageReceived += OnDataHandler;
-        }     
+        }
 
 
         /// <summary>
@@ -63,7 +34,7 @@ namespace Networking.Headquarters
         private static void OnDataHandler(object sender, MessageReceivedEventArgs e)
         {
             using var message = e.GetMessage();
-            
+
             // Check if message is for this plugin
             if (message.Tag < Tags.Tags.TagsPerPlugin * Tags.Tags.Headquarters ||
                 message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Headquarters + 1)) return;
@@ -80,7 +51,7 @@ namespace Networking.Headquarters
                     PlayerDisconnected();
                     break;
                 }
-                    
+
                 case HeadquartersTags.PlayerData:
                 {
                     GetPlayerData(message);
@@ -91,7 +62,7 @@ namespace Networking.Headquarters
                     PlayerDataUnavailable();
                     break;
                 }
-                
+
                 case HeadquartersTags.GameData:
                 {
                     GetGameData(message);
@@ -102,7 +73,7 @@ namespace Networking.Headquarters
                     GameDataUnavailable();
                     break;
                 }
-                
+
                 case HeadquartersTags.UpdateLevelError:
                 {
                     UpdateLevelError();
@@ -149,6 +120,47 @@ namespace Networking.Headquarters
             }
         }
 
+        #region Events
+
+        public delegate void PlayerDataReceivedEventHandler();
+
+        public delegate void PlayerDataUnavailableEventHandler();
+
+        public delegate void GameDataReceivedEventHandler();
+
+        public delegate void GameDataUnavailableEventHandler();
+
+        public delegate void UpdateLevelErrorEventHandler();
+
+        public delegate void ConversionErrorEventHandler(byte errorId);
+
+        public delegate void FinishConversionErrorEventHandler(byte errorId);
+
+        public delegate void UpgradingErrorEventHandler(byte errorId);
+
+        public delegate void FinishUpgradeErrorEventHandler(byte errorId);
+
+        public delegate void BuildingErrorEventHandler(byte errorId);
+
+        public delegate void FinishBuildErrorEventHandler(byte errorId);
+
+        public delegate void CancelBuildErrorEventHandler(byte errorId);
+
+        public static event PlayerDataReceivedEventHandler OnPlayerDataReceived;
+        public static event PlayerDataUnavailableEventHandler OnPlayerDataUnavailable;
+        public static event GameDataReceivedEventHandler OnGameDataReceived;
+        public static event GameDataUnavailableEventHandler OnGameDataUnavailable;
+        public static event UpdateLevelErrorEventHandler OnUpdateLevelError;
+        public static event ConversionErrorEventHandler OnConversionError;
+        public static event FinishConversionErrorEventHandler OnFinishConversionError;
+        public static event UpgradingErrorEventHandler OnUpgradingError;
+        public static event FinishUpgradeErrorEventHandler OnFinishUpgradingError;
+        public static event BuildingErrorEventHandler OnBuildingError;
+        public static event FinishBuildErrorEventHandler OnFinishBuildingError;
+        public static event CancelBuildErrorEventHandler OnCancelBuildingError;
+
+        #endregion
+
         #region ConnectionHandlers
 
         /// <summary>
@@ -156,9 +168,9 @@ namespace Networking.Headquarters
         /// </summary>
         private static void PlayerConnected()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             if (_showDebug) Debug.Log("Player connected");
-            #endif
+#endif
         }
 
         /// <summary>
@@ -166,25 +178,25 @@ namespace Networking.Headquarters
         /// </summary>
         private static void PlayerDisconnected()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             if (_showDebug) Debug.Log("Player disconnected");
-            #endif
+#endif
         }
 
         #endregion
-        
+
         #region ReceivedCalls
-        
+
         /// <summary>
         ///     Receive player data from the DarkRift server
         /// </summary>
         /// <param name="message">The message received</param>
         private static void GetPlayerData(Message message)
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             if (_showDebug) Debug.Log("Received player data");
-            #endif
-            
+#endif
+
             using var reader = message.GetReader();
             Player = reader.ReadSerializable<PlayerData>();
 
@@ -198,19 +210,19 @@ namespace Networking.Headquarters
         {
             OnPlayerDataUnavailable?.Invoke();
         }
-        
+
         /// <summary>
         ///     Receive game data from the DarkRift server
         /// </summary>
         /// <param name="message">The message received</param>
         private static void GetGameData(Message message)
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             if (_showDebug) Debug.Log("Received game data");
-            #endif
-            
+#endif
+
             using var reader = message.GetReader();
-            
+
             OnGameDataReceived?.Invoke();
         }
 
@@ -229,7 +241,7 @@ namespace Networking.Headquarters
         {
             OnUpdateLevelError?.Invoke();
         }
-        
+
         /// <summary>
         ///     Receive the conversion error message
         /// </summary>
@@ -239,14 +251,15 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 Debug.LogWarning("Conversion error incorrect data received");
-                #endif
+#endif
                 return;
             }
+
             OnConversionError?.Invoke(reader.ReadByte());
         }
-        
+
         /// <summary>
         ///     Receive the finish conversion error message
         /// </summary>
@@ -256,14 +269,15 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 Debug.LogWarning("Finish conversion error incorrect data received");
-                #endif
+#endif
                 return;
             }
+
             OnFinishConversionError?.Invoke(reader.ReadByte());
         }
-        
+
         /// <summary>
         ///     Receive the upgrade robot error message
         /// </summary>
@@ -273,14 +287,15 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 Debug.LogWarning("Upgrade robot error incorrect data received");
-                #endif
+#endif
                 return;
             }
+
             OnUpgradingError?.Invoke(reader.ReadByte());
         }
-        
+
         /// <summary>
         ///     Receive the finish upgrade robot error message
         /// </summary>
@@ -290,14 +305,15 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 Debug.LogWarning("Finish upgrade robot error incorrect data received");
-                #endif
+#endif
                 return;
             }
+
             OnFinishUpgradingError?.Invoke(reader.ReadByte());
         }
-        
+
         /// <summary>
         ///     Receive the build robot error message
         /// </summary>
@@ -307,14 +323,15 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 Debug.LogWarning("Build robot error incorrect data received");
-                #endif
+#endif
                 return;
             }
+
             OnBuildingError?.Invoke(reader.ReadByte());
         }
-        
+
         /// <summary>
         ///     Receive the finish upgrade robot error message
         /// </summary>
@@ -324,14 +341,15 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 Debug.LogWarning("Finish build robot error incorrect data received");
-                #endif
+#endif
                 return;
             }
+
             OnFinishBuildingError?.Invoke(reader.ReadByte());
         }
-        
+
         /// <summary>
         ///     Receive the cancel upgrade robot error message
         /// </summary>
@@ -341,18 +359,19 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 Debug.LogWarning("Cancel build robot error incorrect data received");
-                #endif
+#endif
                 return;
             }
+
             OnCancelBuildingError?.Invoke(reader.ReadByte());
         }
 
         #endregion
-        
+
         #region NetworkCalls
-        
+
         /// <summary>
         ///     Request for getting the player data
         /// </summary>
@@ -360,10 +379,10 @@ namespace Networking.Headquarters
         {
             using var msg = Message.CreateEmpty(HeadquartersTags.PlayerData);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-            
-            #if UNITY_EDITOR
-            if(_showDebug) Debug.Log("Requesting player data ...");
-            #endif
+
+#if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Requesting player data ...");
+#endif
         }
 
         /// <summary>
@@ -376,10 +395,10 @@ namespace Networking.Headquarters
             writer.Write(version);
             using var msg = Message.Create(HeadquartersTags.GameData, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-            
-            #if UNITY_EDITOR
-            if(_showDebug) Debug.Log("Requesting game data ...");
-            #endif
+
+#if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Requesting game data ...");
+#endif
         }
 
         /// <summary>
@@ -394,10 +413,10 @@ namespace Networking.Headquarters
             writer.Write(experience);
             using var msg = Message.Create(HeadquartersTags.UpdateLevel, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-            
-            #if UNITY_EDITOR
-            if(_showDebug) Debug.Log("Updating level");
-            #endif
+
+#if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Updating level");
+#endif
         }
 
         /// <summary>
@@ -413,9 +432,9 @@ namespace Networking.Headquarters
             using var msg = Message.Create(HeadquartersTags.ConvertResources, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
-            #if UNITY_EDITOR
-            if(_showDebug) Debug.Log("Sending resource conversion to the server");
-            #endif
+#if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Sending resource conversion to the server");
+#endif
         }
 
         /// <summary>
@@ -431,9 +450,9 @@ namespace Networking.Headquarters
             using var msg = Message.Create(HeadquartersTags.FinishConversion, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
-            #if UNITY_EDITOR
-            if(_showDebug) Debug.Log("Sending finish resource conversion to the server");
-            #endif
+#if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Sending finish resource conversion to the server");
+#endif
         }
 
         /// <summary>
@@ -450,10 +469,10 @@ namespace Networking.Headquarters
             writer.Write(newEnergy);
             using var msg = Message.Create(HeadquartersTags.UpgradeRobot, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-            
-            #if UNITY_EDITOR
-            if(_showDebug) Debug.Log("Sending robot upgrade to the server");
-            #endif
+
+#if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Sending robot upgrade to the server");
+#endif
         }
 
         /// <summary>
@@ -470,10 +489,10 @@ namespace Networking.Headquarters
             writer.Write(newExperience);
             using var msg = Message.Create(HeadquartersTags.FinishUpgrade, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-            
-            #if UNITY_EDITOR
-            if(_showDebug) Debug.Log("Sending finish robot upgrade to the server");
-            #endif
+
+#if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Sending finish robot upgrade to the server");
+#endif
         }
 
         /// <summary>
@@ -493,10 +512,10 @@ namespace Networking.Headquarters
             writer.Write(newEnergy);
             using var msg = Message.Create(HeadquartersTags.BuildRobot, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-            
-            #if UNITY_EDITOR
-            if(_showDebug) Debug.Log("Sending robot build to the server");
-            #endif
+
+#if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Sending robot build to the server");
+#endif
         }
 
         /// <summary>
@@ -515,12 +534,12 @@ namespace Networking.Headquarters
             writer.Write(newRobot);
             using var msg = Message.Create(HeadquartersTags.FinishBuild, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-            
-            #if UNITY_EDITOR
-            if(_showDebug) Debug.Log("Sending finish robot build to the server");
-            #endif
+
+#if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Sending finish robot build to the server");
+#endif
         }
-        
+
         /// <summary>
         ///     Request for finishing the building of all the robots
         /// </summary>
@@ -528,7 +547,8 @@ namespace Networking.Headquarters
         /// <param name="robotId">The type of the robot</param>
         /// <param name="startTime">The new starting time</param>
         /// <param name="newRobots">The new values for all robots</param>
-        public static void FinishBuildingRequest(ushort queueNumber, byte robotId, DateTime startTime, Robot[] newRobots)
+        public static void FinishBuildingRequest(ushort queueNumber, byte robotId, DateTime startTime,
+            Robot[] newRobots)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(queueNumber);
@@ -537,10 +557,10 @@ namespace Networking.Headquarters
             writer.Write(newRobots);
             using var msg = Message.Create(HeadquartersTags.FinishBuildMultiple, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-            
-            #if UNITY_EDITOR
-            if(_showDebug) Debug.Log("Sending finish robots build to the server");
-            #endif
+
+#if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Sending finish robots build to the server");
+#endif
         }
 
         /// <summary>
@@ -551,19 +571,22 @@ namespace Networking.Headquarters
         /// <param name="startTime">The new starting time</param>
         /// <param name="newEnergy">The new energy value</param>
         /// <param name="inProgress">True if the task is in progress or false otherwise</param>
-        public static void CancelBuildingRequest(ushort queueNumber, byte robotId, DateTime startTime, uint newEnergy, bool inProgress)
+        public static void CancelBuildingRequest(ushort queueNumber, byte robotId, DateTime startTime, uint newEnergy,
+            bool inProgress)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(queueNumber);
             writer.Write(robotId);
             writer.Write(startTime.ToBinary());
             writer.Write(newEnergy);
-            using var msg = Message.Create(inProgress ? HeadquartersTags.CancelInProgressBuild : HeadquartersTags.CancelOnHoldBuild, writer);
+            using var msg =
+                Message.Create(inProgress ? HeadquartersTags.CancelInProgressBuild : HeadquartersTags.CancelOnHoldBuild,
+                    writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-            
-            #if UNITY_EDITOR
-            if(_showDebug) Debug.Log("Sending cancel robot build to the server");
-            #endif
+
+#if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Sending cancel robot build to the server");
+#endif
         }
 
         #endregion
