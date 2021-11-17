@@ -459,12 +459,6 @@ namespace Networking.Auctions
         private static void AuctionFinished(Message message)
         {
             using var reader = message.GetReader();
-            if (reader.Length != 4)
-            {
-#if UNITY_EDITOR
-                Debug.LogWarning("Invalid FinishAuction error data received");
-#endif
-            }
 
             var roomId = reader.ReadUInt32();
             var winner = reader.ReadString();
