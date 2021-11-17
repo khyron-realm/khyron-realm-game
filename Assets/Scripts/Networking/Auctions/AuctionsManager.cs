@@ -15,13 +15,11 @@ namespace Networking.Auctions
     public class AuctionsManager : MonoBehaviour
     {
 #if UNITY_EDITOR
-        [SerializeField]
-        [Tooltip("Enable or disable the debug messages")]
-        private bool ShowDebug = true;
+        private static readonly bool _showDebug = false;
 #endif
         
         public static AuctionRoom CurrentAuctionRoom { get; set; }
-        public static List<Player> Players { get; set; } = new List<Player>();
+        public static List<Player> Players { get; set; } = new();
         
         #region Events
 
@@ -54,7 +52,7 @@ namespace Networking.Auctions
 
         private void Awake()
         {
-            NetworkManager.Client.MessageReceived += OnDataHandler;
+            NetworkManager.Client.OnMessageReceived += OnDataHandler;
         }
 
         private void OnDestroy()
@@ -62,7 +60,7 @@ namespace Networking.Auctions
             if (NetworkManager.Client == null)
                 return;
 
-            NetworkManager.Client.MessageReceived -= OnDataHandler;
+            NetworkManager.Client.OnMessageReceived -= OnDataHandler;
         }
 
         /// <summary>
@@ -223,7 +221,9 @@ namespace Networking.Auctions
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid CreateRoomFailed error data received");
+#endif
                 return;
             }
 
@@ -231,19 +231,25 @@ namespace Networking.Auctions
             {
                 case 0:
                 {
-                    Debug.Log("Invalid CreateRoom data send");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Invalid CreateRoom data send");
+#endif
                     break;
                 }
                 case 1:
                 {
-                    Debug.Log("Player not logged in");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Player not logged in");
+#endif
                     // TO-DO
                     // go to login
                     break;
                 }
                 default:
                 {
-                    Debug.Log("Invalid errorId");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Invalid errorId");
+#endif
                     break;
                 }
             }
@@ -281,7 +287,9 @@ namespace Networking.Auctions
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid JoinRoomFailed error data received");
+#endif
             }
             else
             {
@@ -289,27 +297,37 @@ namespace Networking.Auctions
                 {
                     case 0:
                     {
+#if UNITY_EDITOR
                         Debug.Log("Invalid JoinRoom data sent");
+#endif
                         break;
                     }
                     case 1:
                     {
+#if UNITY_EDITOR
                         Debug.Log("Player not logged in");
+#endif
                         break;
                     }
                     case 2:
                     {
+#if UNITY_EDITOR
                         Debug.Log("Player already is in a room");
+#endif
                         break;
                     }
                     case 3:
                     {
+#if UNITY_EDITOR
                         Debug.Log("Room doesn't exist anymore");
+#endif
                         break;
                     }
                     default:
                     {
+#if UNITY_EDITOR
                         Debug.Log("Invalid errorId");
+#endif
                         break;
                     }
                 }
@@ -382,7 +400,9 @@ namespace Networking.Auctions
         /// <param name="message">The message received</param>
         private static void StartAuctionSuccess(Message message)
         {
+#if UNITY_EDITOR
             Debug.Log("Start auction success");
+#endif
         }
         
         /// <summary>
@@ -394,29 +414,39 @@ namespace Networking.Auctions
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid StartAuction error data received");
+#endif
             }
 
             switch (reader.ReadByte())
             {
                 case 0:
                 {
-                    Debug.Log("Invalid CreateRoom data sent");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Invalid CreateRoom data sent");
+#endif
                     break;
                 }
                 case 1:
                 {
-                    Debug.Log("Player not logged in");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Player not logged in");
+#endif
                     break;
                 }
                 case 2:
                 {
-                    Debug.Log("You are not the host");
+#if UNITY_EDITOR
+                    Debug.LogWarning("You are not the host");
+#endif
                     break;
                 }
                 default:
                 {
-                    Debug.Log("Invalid errorId");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Invalid errorId");
+#endif
                     break;
                 }
             }
@@ -431,13 +461,13 @@ namespace Networking.Auctions
             using var reader = message.GetReader();
             if (reader.Length != 4)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid FinishAuction error data received");
+#endif
             }
 
             var roomId = reader.ReadUInt32();
             var winner = reader.ReadString();
-
-            Debug.LogWarning("Finishing auction " + roomId + " with winner " + winner);
 
             OnAuctionFinished?.Invoke(roomId, winner);
         }
@@ -553,7 +583,6 @@ namespace Networking.Auctions
         /// </summary>
         public static void LeaveAuctionRoom()
         {
-            Debug.LogWarning("Trying to leave the room");
             using var msg = Message.CreateEmpty(AuctionTags.Leave);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
@@ -585,7 +614,6 @@ namespace Networking.Auctions
         /// <param name="newEnergy">The new energy value resulted from the bid</param>
         public static void AddBid(uint bidValue, uint newEnergy)
         {
-            Debug.LogWarning("Current Room" + CurrentAuctionRoom.Id);
             using var writer = DarkRiftWriter.Create();
             writer.Write(CurrentAuctionRoom.Id);
             writer.Write(bidValue);

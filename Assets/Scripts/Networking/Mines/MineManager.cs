@@ -14,7 +14,7 @@ namespace Networking.Mines
     public class MineManager : MonoBehaviour
     {
         public static List<Mine> MineList { get; set; }
-        public static byte CurrentMine { get; set; } // index in the list MineList
+        public static byte CurrentMine { get; set; }                    // index in the list MineList
 
         #region Events
         
@@ -35,7 +35,7 @@ namespace Networking.Mines
 
         private void Awake()
         {
-            NetworkManager.Client.MessageReceived += OnDataHandler;
+            NetworkManager.Client.OnMessageReceived += OnDataHandler;
         }
 
         private void OnDestroy()
@@ -43,7 +43,7 @@ namespace Networking.Mines
             if (NetworkManager.Client == null)
                 return;
 
-            NetworkManager.Client.MessageReceived -= OnDataHandler;
+            NetworkManager.Client.OnMessageReceived -= OnDataHandler;
         }
 
         /// <summary>
@@ -126,7 +126,6 @@ namespace Networking.Mines
         /// <param name="message">The message received</param>
         private static void GetMinesFailed(Message message)
         {
-            Debug.Log("Player not logged in");
             byte errorId = 0;
             OnFailedGetMines?.Invoke(errorId);
         }
@@ -150,7 +149,9 @@ namespace Networking.Mines
 
             if (reader.Length != 1)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid Message Failed Error data received");
+#endif
                 return;
             }
 
@@ -176,7 +177,9 @@ namespace Networking.Mines
 
             if (reader.Length != 1)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid Message Failed Error data received");
+#endif
                 return;
             }
             

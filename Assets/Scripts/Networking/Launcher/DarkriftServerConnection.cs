@@ -32,7 +32,7 @@ namespace Networking.Launcher
 
         [SerializeField]
         [Tooltip("The host to connect to.")]
-        private string host = "localhost";
+        private string host = "127.0.0.1";
 
         /// <summary>
         ///     The port this client connects to.
@@ -162,12 +162,12 @@ namespace Networking.Launcher
         /// <summary>
         ///     Event fired when a message is received.
         /// </summary>
-        public event EventHandler<MessageReceivedEventArgs> MessageReceived;
+        public event EventHandler<MessageReceivedEventArgs> OnMessageReceived;
 
         /// <summary>
         ///     Event fired when we disconnect form the server.
         /// </summary>
-        public event EventHandler<DisconnectedEventArgs> Disconnected;
+        public event EventHandler<DisconnectedEventArgs> OnDisconnected;
 
 
         /// <summary>
@@ -327,7 +327,7 @@ namespace Networking.Launcher
                 Dispatcher.InvokeAsync(
                     () => 
                         {
-                            EventHandler<MessageReceivedEventArgs> handler = MessageReceived;
+                            EventHandler<MessageReceivedEventArgs> handler = OnMessageReceived;
                             if (handler != null)
                             {
                                 handler.Invoke(sender, args);
@@ -343,7 +343,7 @@ namespace Networking.Launcher
                 if (sniffData)
                     Debug.Log("Message Received: Tag = " + e.Tag + ", SendMode = " + e.SendMode);
 
-                EventHandler<MessageReceivedEventArgs> handler = MessageReceived;
+                EventHandler<MessageReceivedEventArgs> handler = OnMessageReceived;
                 if (handler != null)
                 {
                     handler.Invoke(sender, e);
@@ -364,7 +364,7 @@ namespace Networking.Launcher
                 Dispatcher.InvokeAsync(
                     () =>
                     {
-                        EventHandler<DisconnectedEventArgs> handler = Disconnected;
+                        EventHandler<DisconnectedEventArgs> handler = OnDisconnected;
                         if (handler != null)
                         {
                             handler.Invoke(sender, e);
@@ -379,7 +379,7 @@ namespace Networking.Launcher
                     Debug.Log("Disconnected from server, error: " + e.Error);
                 }
                 
-                EventHandler<DisconnectedEventArgs> handler = Disconnected;
+                EventHandler<DisconnectedEventArgs> handler = OnDisconnected;
                 if (handler != null)
                 {
                     handler.Invoke(sender, e);

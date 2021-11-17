@@ -33,12 +33,12 @@ namespace Networking.Friends
         
         private void Start()
         {
-            NetworkManager.Client.MessageReceived += OnDataHandler;
+            NetworkManager.Client.OnMessageReceived += OnDataHandler;
         }
 
         private void OnDestroy()
         {
-            NetworkManager.Client.MessageReceived -= OnDataHandler;
+            NetworkManager.Client.OnMessageReceived -= OnDataHandler;
         }
 
         /// <summary>
@@ -175,31 +175,45 @@ namespace Networking.Friends
 
             if (reader.Length != 1)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid RequestFailed Error data received");
+#endif
             }
             else
             {
                 switch (reader.ReadByte())
                 {
                     case 0:
-                        Debug.Log("Invalid Friend Request data sent!");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Invalid Friend Request data sent!");
+#endif
                         break;
                     case 1:
-                        Debug.Log("Not logged in!");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Not logged in!");
+#endif
                         break;
                     case 2:
-                        Debug.Log("Database Error");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Database Error");
+#endif
                         break;
                     case 3:
-                        Debug.Log("No user with that name found!");
+#if UNITY_EDITOR
+                        Debug.LogWarning("No user with that name found!");
+#endif
                         content = "Username doesn't exist.";
                         break;
                     case 4:
-                        Debug.Log("Friend request failed. You are already friends or have an open request");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Friend request failed. You are already friends or have an open request");
+#endif
                         content = "You are already friends or have an open request with this player.";
                         break;
                     default:
-                        Debug.Log("Invalid errorId!");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Invalid errorId!");
+#endif
                         break;
                 }
             }
@@ -235,23 +249,33 @@ namespace Networking.Friends
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid DeclineRequestFailed Error data received.");
+#endif
                 return;
             }
 
             switch (reader.ReadByte())
             {
                 case 0:
-                    Debug.Log("Invalid Decline Request data sent!");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Invalid Decline Request data sent!");
+#endif
                     break;
                 case 1:
-                    Debug.Log("Not logged in!");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Not logged in!");
+#endif
                     break;
                 case 2:
-                    Debug.Log("Database Error");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Database Error");
+#endif
                     break;
                 default:
-                    Debug.Log("Invalid errorId!");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Invalid errorId!");
+#endif
                     break;
             }
         }
@@ -280,23 +304,33 @@ namespace Networking.Friends
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid DeclineRequestFailed Error data received.");
+#endif
                 return;
             }
 
             switch (reader.ReadByte())
             {
                 case 0:
-                    Debug.Log("Invalid Accept Request data sent!");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Invalid Accept Request data sent!");
+#endif
                     break;
                 case 1:
-                    Debug.Log("Not logged in!");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Not logged in!");
+#endif
                     break;
                 case 2:
-                    Debug.Log("Database Error");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Database Error");
+#endif
                     break;
                 default:
-                    Debug.Log("Invalid errorId!");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Invalid errorId!");
+#endif
                     break;
             }
         }
@@ -328,23 +362,33 @@ namespace Networking.Friends
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid RemoveFriend Error data received.");
+#endif
                 return;
             }
 
             switch (reader.ReadByte())
             {
                 case 0:
-                    Debug.Log("Invalid Remove Friend data sent!");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Invalid Remove Friend data sent!");
+#endif
                     break;
                 case 1:
-                    Debug.Log("Not logged in!");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Not logged in!");
+#endif
                     break;
                 case 2:
-                    Debug.Log("Database Error");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Database Error");
+#endif
                     break;
                 default:
-                    Debug.Log("Invalid errorId!");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Invalid errorId!");
+#endif
                     break;
             }
         }
@@ -378,20 +422,28 @@ namespace Networking.Friends
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid RemoveFriend Error data received.");
+#endif
                 return;
             }
 
             switch (reader.ReadByte())
             {
                 case 1:
-                    Debug.Log("Not logged in!");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Not logged in!");
+#endif
                     break;
                 case 2:
-                    Debug.Log("Database Error");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Database Error");
+#endif
                     break;
                 default:
-                    Debug.Log("Invalid errorId!");
+#if UNITY_EDITOR
+                    Debug.LogWarning("Invalid errorId!");
+#endif
                     break;
             }
         }

@@ -22,7 +22,7 @@ namespace Networking.Headquarters
         {
             Player = null;
 
-            NetworkManager.Client.MessageReceived += OnDataHandler;
+            NetworkManager.Client.OnMessageReceived += OnDataHandler;
         }
 
 

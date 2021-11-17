@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Networking.Launcher;
@@ -6,7 +5,6 @@ using UnityEngine;
 using DarkRift;
 using DarkRift.Client;
 using Networking.Auctions;
-using Networking.Headquarters;
 using Networking.Login;
 using Networking.Tags;
 
@@ -17,10 +15,9 @@ namespace Networking.Chat
     /// </summary>
     public class ChatManager : MonoBehaviour
     {
-        public static List<ChatMessage> Messages { get; set; } = new List<ChatMessage>();
+        public static List<ChatMessage> Messages { get; set; } = new();
         public static List<string> SavedChatGroups { get; private set; }
-
-        public static Dictionary<byte, Color> ChatColors { get; } = new Dictionary<byte, Color>();
+        public static Dictionary<byte, Color> ChatColors { get; } = new();
 
         #region Events
 
@@ -61,7 +58,7 @@ namespace Networking.Chat
                 SavedChatGroups = ArrayPrefs.GetStringArray("ChatGroups").ToList();
             }
 
-            NetworkManager.Client.MessageReceived += OnDataHandler;
+            NetworkManager.Client.OnMessageReceived += OnDataHandler;
         }
 
         private void OnDestroy()
@@ -69,7 +66,7 @@ namespace Networking.Chat
             if(NetworkManager.Client == null)
                 return;
 
-            NetworkManager.Client.MessageReceived -= OnDataHandler;
+            NetworkManager.Client.OnMessageReceived -= OnDataHandler;
         }
 
         /// <summary>
@@ -234,30 +231,40 @@ namespace Networking.Chat
 
             if (reader.Length != 1)
             {
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid Message Failed Error data received");
-                #endif
+#endif
             }
             else
             {
                 switch (reader.ReadByte())
                 {
                     case 0:
-                        Debug.Log("Invalid message data sent");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Invalid message data sent");
+#endif
                         break;
                     case 1:
-                        Debug.Log("Not logged in");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Not logged in");
+#endif
                         break;
                     case 2:
-                        Debug.Log("Not part of this group");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Not part of this group");
+#endif
                         content = "Not connected to this chat channel. Try leaving and rejoining!";
                         break;
                     case 3:
-                        Debug.Log("Failed to send message. Player is offline");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Failed to send message. Player is offline");
+#endif
                         content = "Player is offline";
                         break;
                     default:
-                        Debug.Log("Invalid errorId");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Invalid errorId");
+#endif
                         break;
                 }
             }
@@ -295,24 +302,34 @@ namespace Networking.Chat
 
             if (reader.Length != 1)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid Join Group Failed Error data received");
+#endif
             }
             else
             {
                 switch (reader.ReadByte())
                 {
                     case 0:
-                        Debug.Log("Invalid message data sent");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Invalid message data sent");
+#endif
                         break;
                     case 1:
-                        Debug.Log("Not logged in");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Not logged in");
+#endif
                         break;
                     case 2:
-                        Debug.Log("Already this chat group");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Already this chat group");
+#endif
                         content = "You are already in this chat group";
                         break;
                     default:
-                        Debug.Log("Invalid errorId");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Invalid errorId");
+#endif
                         break;
                 }
             }
@@ -349,24 +366,34 @@ namespace Networking.Chat
 
             if (reader.Length != 1)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid Leave Group Failed Error data received");
+#endif
             }
             else
             {
                 switch (reader.ReadByte())
                 {
                     case 0:
-                        Debug.Log("Invalid Leave Group data sent");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Invalid Leave Group data sent");
+#endif
                         break;
                     case 1:
-                        Debug.Log("Not logged in");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Not logged in");
+#endif
                         break;
                     case 2:
-                        Debug.Log("No such chat group");
+#if UNITY_EDITOR
+                        Debug.LogWarning("No such chat group");
+#endif
                         content = "There is no chat group with this name";
                         break;
                     default:
-                        Debug.Log("Invalid errorId");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Invalid errorId");
+#endif
                         break;
                 }
             }
@@ -386,7 +413,6 @@ namespace Networking.Chat
             foreach (var group in groupList)
             {
                 ServerMessage(group, MessageType.All);
-                Debug.LogWarning("received group: " + group);
             }
         }
       
@@ -401,17 +427,23 @@ namespace Networking.Chat
 
             if (reader.Length != 1)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Invalid Get Active Groups Failed Error data received");
+#endif
             }
             else
             {
                 switch (reader.ReadByte())
                 {
                     case 1:
-                        Debug.Log("Not logged in");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Not logged in");
+#endif
                         break;
                     default:
-                        Debug.Log("Invalid errorId");
+#if UNITY_EDITOR
+                        Debug.LogWarning("Invalid errorId");
+#endif
                         break;
                 }
             }

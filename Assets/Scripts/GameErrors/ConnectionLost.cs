@@ -11,7 +11,7 @@ public class ConnectionLost : MonoBehaviour
 {
     private void Awake()
     {
-        NetworkManager.Client.Disconnected += ConnectionIsLost;
+        NetworkManager.Client.OnDisconnected += ConnectionIsLost;
         NetworkManager.OnServerNotAvailable += ConnectionIsLost; 
     }
 

@@ -1,7 +1,6 @@
 using System.Text;
 using DarkRift;
 using DarkRift.Client;
-using Networking.Headquarters;
 using Networking.Launcher;
 using Networking.Tags;
 using UnityEngine;
@@ -13,8 +12,10 @@ namespace Networking.Login
     /// </summary>
     public class LoginManager : MonoBehaviour
     {
-        public static bool ShowDebug = true;
-        public static bool IsLoggedIn { get; private set; }
+#if UNITY_EDITOR
+        private static readonly bool _showDebug = false;
+#endif
+        private static bool IsLoggedIn { get; set; }
 
         #region Events
 
@@ -34,14 +35,14 @@ namespace Networking.Login
 
         private void Awake()
         {
-            NetworkManager.Client.MessageReceived += OnDataHandler;
+            NetworkManager.Client.OnMessageReceived += OnDataHandler;
         }
 
         private void OnDestroy()
         {
             if (NetworkManager.Client == null) return;
 
-            NetworkManager.Client.MessageReceived -= OnDataHandler;
+            NetworkManager.Client.OnMessageReceived -= OnDataHandler;
         }
 
         /// <summary>
@@ -60,7 +61,9 @@ namespace Networking.Login
             {
                 case LoginTags.LoginSuccess:
                 {
-                    if (ShowDebug) Debug.Log("Successfully logged in");
+#if UNITY_EDITOR
+                    if (_showDebug) Debug.Log("Successfully logged in");
+#endif
                     IsLoggedIn = true;
                     using var reader = message.GetReader();
                     if (reader.Length != 1)
@@ -74,7 +77,9 @@ namespace Networking.Login
 
                 case LoginTags.LoginFailed:
                 {
-                    if (ShowDebug) Debug.Log("Cannot log in");
+#if UNITY_EDITOR
+                    if (_showDebug) Debug.Log("Cannot log in");
+#endif
                     using var reader = message.GetReader();
                     if (reader.Length != 1)
                     {
@@ -87,7 +92,9 @@ namespace Networking.Login
 
                 case LoginTags.LogoutSuccess:
                 {
-                    if (ShowDebug) Debug.Log("Successful logout");
+#if UNITY_EDITOR
+                    if (_showDebug) Debug.Log("Successful logout");
+#endif
                     IsLoggedIn = false;
                     using var reader = message.GetReader();
                     if (reader.Length != 1)
@@ -103,16 +110,23 @@ namespace Networking.Login
 
                 case LoginTags.AddUserSuccess:
                 {
-                    if (ShowDebug) Debug.Log("Successfully added user");
+#if UNITY_EDITOR
+                    if (_showDebug) Debug.Log("Successfully added user");
+#endif
                     OnSuccessfulAddUser?.Invoke();
                     break;
                 }
 
                 case LoginTags.AddUserFailed:
                 {
-                    if (ShowDebug) Debug.Log("Cannot add a new user");
+#if UNITY_EDITOR
+                    if (_showDebug) Debug.Log("Cannot add a new user");
+#endif
                     using var reader = message.GetReader();
-                    if (reader.Length != 1) Debug.LogWarning("Invalid LoginFailed error data received");
+                    if (reader.Length != 1)
+                    {
+                        Debug.LogWarning("Invalid LoginFailed error data received");
+                    }
                     OnFailedAddUser?.Invoke(reader.ReadByte());
                     break;
                 }
@@ -140,7 +154,6 @@ namespace Networking.Login
 
             using var msg = Message.Create(LoginTags.LoginUser, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-            Debug.Log("Logging in");
         }
 
         /// <summary>
@@ -150,7 +163,6 @@ namespace Networking.Login
         /// <param name="password">The user password string</param>
         public static void AddUser(string username, string password)
         {
-            Debug.Log("Adding user");
             using var writer = DarkRiftWriter.Create();
             writer.Write(username);
             writer.Write(Rsa.Encrypt(Encoding.UTF8.GetBytes(password)));
