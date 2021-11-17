@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using Sounds;
 
 namespace Mine
 {
     public class MineTouched : MonoBehaviour, IOpen
     {
-        [SerializeField] private AudioSource _clip;
+        [Header("Index of the sound in the manager")]
+        [SerializeField] private byte _soundIndex;
         [SerializeField] private GameObject _mountain;
 
         public event Action<GameObject, bool, bool> OnGameObjectTouched;
@@ -40,8 +41,7 @@ namespace Mine
             if(HasMine)
                 OnMineSelected?.Invoke(index);
 
-            if(_clip != null)
-                _clip.Play();
+            SoundManager.MakeSound(_soundIndex);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Panels;
 using Networking.Headquarters;
+using Networking.Auctions;
 using PlayerDataUpdate;
 using Levels;
 
@@ -20,6 +21,7 @@ namespace Manager.Store
         {
             HeadquartersManager.OnPlayerDataReceived += InitAll;
             PlayerDataOperations.OnEnergyModified += EnergyUpdate;
+            AuctionsManager.OnOverbid += EnergyUpdate;
         }
 
 
@@ -30,12 +32,19 @@ namespace Manager.Store
         }
 
 
+        private void EnergyUpdate(Bid bid)
+        {
+            if (energy != null)
+                StopCoroutine(energy);
+            energy = StartCoroutine(BarAnimation(_energyBar, (int)HeadquartersManager.Player.Energy));
+        }
         private void EnergyUpdate(byte tag)
         {
             if (energy != null)
                 StopCoroutine(energy);
             energy = StartCoroutine(BarAnimation(_energyBar, (int)HeadquartersManager.Player.Energy));
         }
+
 
         public static IEnumerator BarAnimation(ProgressBar bar, int endGoal)
         {
@@ -48,10 +57,12 @@ namespace Manager.Store
             }
         }
 
+
         private void OnDestroy()
         {
             HeadquartersManager.OnPlayerDataReceived -= InitAll;
             PlayerDataOperations.OnEnergyModified -= EnergyUpdate;
+            AuctionsManager.OnOverbid -= EnergyUpdate;
         }
     }
 }

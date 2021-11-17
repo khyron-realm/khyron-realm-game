@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8172230705043739018}
   - component: {fileID: 8172230705043739021}
   - component: {fileID: 932760525103167976}
-  - component: {fileID: -5974939551141243475}
   - component: {fileID: -3607262621179663878}
   m_Layer: 5
   m_Name: DeployRobotInTheMine-Button
@@ -124,7 +123,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8172230705043739018}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -3607262621179663878}
+        m_TargetAssemblyTypeName: Sounds.ButtonClickSound, Assembly-CSharp
+        m_MethodName: MakeSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &932760525103167976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,102 +152,6 @@ MonoBehaviour:
   _robotCrusher: {fileID: 8081672677367500380, guid: 1a208eed39256cb4a9f306740156c169, type: 3}
   _robotProbe: {fileID: 8797900881008869300, guid: 900234e3261d77e4d8a0c72645e6f816, type: 3}
   _button: {fileID: 8172230705043739021}
---- !u!82 &-5974939551141243475
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8172230705043739023}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 0.5
-  m_Pitch: 0.76
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &-3607262621179663878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,9 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02c71e3c89c2b746be0616de7448079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _button: {fileID: 8172230705043739021}
-  _source: {fileID: -5974939551141243475}
-  _audioClip: {fileID: 8300000, guid: 97050be1e4ce2034ab94023ba2b44873, type: 3}
+  _index: 0
 --- !u!1 &8172230705851202163
 GameObject:
   m_ObjectHideFlags: 0

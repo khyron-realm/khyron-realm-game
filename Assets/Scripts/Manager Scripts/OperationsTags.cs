@@ -4,4 +4,5 @@ public static class OperationsTags
     public const byte BUILDING_ROBOTS_CANCEL = 2;
     public const byte UPGRADING_ROBOTS = 3;
     public const byte CONVERTING_RESOURCES = 4;
+    public const byte BIDING_MINE = 5;
 }

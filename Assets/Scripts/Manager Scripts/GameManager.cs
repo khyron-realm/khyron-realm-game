@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _frameRate;
     #endregion
 
-
     void Start()
     {
         Application.targetFrameRate = _frameRate;

@@ -7,20 +7,21 @@ namespace Sounds
 {
     public class ButtonClickSound : MonoBehaviour
     {
-        #region "Input data"
-        [SerializeField] private Button _button;
-        [SerializeField] private AudioSource _source;
-        [SerializeField] private AudioClip _audioClip;
-        #endregion
+        [SerializeField] private byte _index;
 
-        private void Awake()
+        public void ChangeSoundsState()
         {
-            _button.onClick.AddListener(ButtonPressed);
+            SoundManager.SetSounds(!SoundManager.SoundsOn);
         }
 
-        public void ButtonPressed()
+        public void ChangeMusicState()
         {
-            _source.PlayOneShot(_audioClip);
+            SoundManager.SetMusic(!SoundManager.MusicOn);
+        }
+
+        public void MakeSound()
+        {
+            SoundManager.MakeSound(_index);
         }
     }
 }

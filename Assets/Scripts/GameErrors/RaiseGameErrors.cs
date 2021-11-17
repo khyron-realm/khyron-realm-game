@@ -20,10 +20,14 @@ namespace GameErrors
         [SerializeField] private string _notEnoughEnergy;
         [SerializeField] private string _tooManyResources;
         [SerializeField] private string _maxCapacity;
+        [SerializeField] private string _lastBid;
+        [SerializeField] private string _bidOverYou;
         #endregion
+
 
         private float _time;
         private bool _once = false;
+
 
         private void Awake()
         {
@@ -33,7 +37,10 @@ namespace GameErrors
             PlayerDataOperations.OnNotEnoughResources += NotEnoughResources;
             PlayerDataOperations.OnToManyResources += TooManyResources;
             PlayerDataOperations.OnNotEnoughSpaceForRobots += MaxCapacityAchieved;
+            BidManager.OnLastBidWasYours += LastBidWasYours;
+            BidManager.OnSomeOneBiddedOverYou += SomeOneBiddedOverYou;
         }
+
 
         #region "Handlers for errors"
         private void NotEnoughResources(byte tag)
@@ -54,6 +61,16 @@ namespace GameErrors
         private void MaxCapacityAchieved(byte tag)
         {
             _text.text = _maxCapacity;
+            StartShowingPopUp();
+        }
+        private void LastBidWasYours()
+        {
+            _text.text = _lastBid;
+            StartShowingPopUp();
+        }
+        private void SomeOneBiddedOverYou()
+        {
+            _text.text = _bidOverYou;
             StartShowingPopUp();
         }
         #endregion
@@ -116,6 +133,8 @@ namespace GameErrors
             PlayerDataOperations.OnNotEnoughResources -= NotEnoughResources;
             PlayerDataOperations.OnToManyResources -= TooManyResources;
             PlayerDataOperations.OnNotEnoughSpaceForRobots -= MaxCapacityAchieved;
+            BidManager.OnLastBidWasYours -= LastBidWasYours;
+            BidManager.OnSomeOneBiddedOverYou -= SomeOneBiddedOverYou;
         }
     }
 }

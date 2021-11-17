@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4427140719777430736}
   - component: {fileID: 874415652198992241}
   - component: {fileID: 1793255342167460433}
+  - component: {fileID: 927793969468774059}
   m_Layer: 5
   m_Name: SFX
   m_TagString: Untagged
@@ -121,7 +122,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4427140719777430736}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 927793969468774059}
+        m_TargetAssemblyTypeName: Sounds.ButtonClickSound, Assembly-CSharp
+        m_MethodName: ChangeSoundsState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: ChangeButtonImg, Assembly-CSharp
+        m_MethodName: ChangeImage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1793255342167460433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +159,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3b643f3494dfd14eac9c3522c3e28e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &927793969468774059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4178407738408803806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02c71e3c89c2b746be0616de7448079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _index: 0
 --- !u!1 &4483664189337501657
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,6 +185,7 @@ GameObject:
   - component: {fileID: 69920500749226221}
   - component: {fileID: 3529571261274484699}
   - component: {fileID: 1580724244126631188}
+  - component: {fileID: 5108449067057103736}
   m_Layer: 5
   m_Name: Music
   m_TagString: Untagged
@@ -255,7 +294,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 69920500749226221}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5108449067057103736}
+        m_TargetAssemblyTypeName: Sounds.ButtonClickSound, Assembly-CSharp
+        m_MethodName: ChangeMusicState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: ChangeButtonImg, Assembly-CSharp
+        m_MethodName: ChangeImage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1580724244126631188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +331,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3b643f3494dfd14eac9c3522c3e28e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5108449067057103736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4483664189337501657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02c71e3c89c2b746be0616de7448079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _index: 0
 --- !u!1 &7946569972407216923
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,7 +411,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2d5db07464dd4ed40be35ba55a60e1f4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1bb0bff4cabb3f74b9fc883a527940f0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -412,6 +488,7 @@ GameObject:
   - component: {fileID: 7946569972558776133}
   - component: {fileID: 7946569972558776132}
   - component: {fileID: 7946569972558776135}
+  - component: {fileID: 830444882442959086}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -481,6 +558,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &830444882442959086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7946569972558776134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62defcf768b9aae4e81a7532c1166713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _activeButton: {fileID: 21300000, guid: 9d78fa43429eafb4282c667a01f6daf7, type: 3}
+  _nonActiveButton: {fileID: 21300000, guid: df2cf94e3ed4db64b9e9f5f9f27c2858, type: 3}
+  _activeButton1: {fileID: 21300000, guid: 7d9f033ab7582074a8d7a5901b24ea9d, type: 3}
+  _nonActiveButton1: {fileID: 21300000, guid: c77be545d1e90d94ea93bfcdff5549f0, type: 3}
+  _button1: {fileID: 3529571261274484699}
+  _button2: {fileID: 874415652198992241}
 --- !u!1 &7946569973082130691
 GameObject:
   m_ObjectHideFlags: 0

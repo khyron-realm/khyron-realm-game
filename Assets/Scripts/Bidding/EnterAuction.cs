@@ -28,6 +28,7 @@ public class EnterAuction : MonoBehaviour
     }
     private void SuccessfullyJoinedRoom()
     {
+        ManageStatesOfScreen.ChangeState();
         _changeScene.GoToScene();
     }
 

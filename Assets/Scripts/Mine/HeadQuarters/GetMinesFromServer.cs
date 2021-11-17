@@ -20,14 +20,8 @@ public class GetMinesFromServer : MonoBehaviour
 
     private void SetForEachMine()
     {
-        foreach (Networking.Mines.Mine item in MineManager.MineList)
-        {
-            Debug.LogWarning(item.Blocks.Length);
-        }
-
         for (byte i = 0; i < MineManager.MineList.Count; i++)
         {
-            //Debug.LogWarning("Mine " + i);
             _mines[i].index = i;
             _mines[i].HasMine = true;
             _mines[i].IsAuction = false;
@@ -35,7 +29,6 @@ public class GetMinesFromServer : MonoBehaviour
 
         for (int i = MineManager.MineList.Count; i < _mines.Count; i++)
         {
-            //Debug.LogWarning("Not Mine " + i);
             _mines[i].index = 255;
             _mines[i].HasMine = false;
             _mines[i].IsAuction = false;

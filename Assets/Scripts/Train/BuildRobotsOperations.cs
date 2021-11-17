@@ -38,8 +38,6 @@ namespace Manager.Train
 
         public static int TotalHousingSpaceDuringBuilding = 0;
 
-        private bool _executeOnce = false;
-
         // ### CheckIfRobotIsFinished ###
 
         private static bool s_getTimeFromFirstTask = false;
