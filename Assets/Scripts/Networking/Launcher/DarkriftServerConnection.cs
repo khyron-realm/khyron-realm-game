@@ -4,7 +4,6 @@ using DarkRift;
 using DarkRift.Client;
 using DarkRift.Dispatching;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Networking.Launcher
 {
@@ -32,7 +31,6 @@ namespace Networking.Launcher
         }
 
         [SerializeField]
-        [FormerlySerializedAs("address")]
         [Tooltip("The host to connect to.")]
         private string host = "localhost";
 

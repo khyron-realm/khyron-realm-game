@@ -12,7 +12,10 @@ namespace Networking.Headquarters
     /// </summary>
     public class HeadquartersManager : MonoBehaviour
     {
-        public static bool ShowDebug = true;
+        #if UNITY_EDITOR
+        private static bool _showDebug = false;
+        #endif
+        
         public static PlayerData Player;
 
         #region Events
@@ -69,12 +72,12 @@ namespace Networking.Headquarters
             {
                 case HeadquartersTags.PlayerConnected:
                 {
-                    PlayerConnected(message);
+                    PlayerConnected();
                     break;
                 }
                 case HeadquartersTags.PlayerDisconnected:
                 {
-                    PlayerDisconnected(message);
+                    PlayerDisconnected();
                     break;
                 }
                     
@@ -85,7 +88,7 @@ namespace Networking.Headquarters
                 }
                 case HeadquartersTags.PlayerDataUnavailable:
                 {
-                    PlayerDataUnavailable(message);
+                    PlayerDataUnavailable();
                     break;
                 }
                 
@@ -96,13 +99,13 @@ namespace Networking.Headquarters
                 }
                 case HeadquartersTags.GameDataUnavailable:
                 {
-                    GameDataUnavailable(message);
+                    GameDataUnavailable();
                     break;
                 }
                 
                 case HeadquartersTags.UpdateLevelError:
                 {
-                    UpdateLevelError(message);
+                    UpdateLevelError();
                     break;
                 }
 
@@ -151,19 +154,21 @@ namespace Networking.Headquarters
         /// <summary>
         ///     Player connected actions
         /// </summary>
-        /// <param name="message">The message received</param>
-        private static void PlayerConnected(Message message)
+        private static void PlayerConnected()
         {
-            if (ShowDebug) Debug.Log("Player connected");
+            #if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Player connected");
+            #endif
         }
 
         /// <summary>
         ///     Player disconnected actions
         /// </summary>
-        /// <param name="message">The message received</param>
-        private static void PlayerDisconnected(Message message)
+        private static void PlayerDisconnected()
         {
-            if (ShowDebug) Debug.Log("Player disconnected");
+            #if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Player disconnected");
+            #endif
         }
 
         #endregion
@@ -176,19 +181,20 @@ namespace Networking.Headquarters
         /// <param name="message">The message received</param>
         private static void GetPlayerData(Message message)
         {
-            if (ShowDebug) Debug.Log("Received player data");
+            #if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Received player data");
+            #endif
             
             using var reader = message.GetReader();
             Player = reader.ReadSerializable<PlayerData>();
 
             OnPlayerDataReceived?.Invoke();
         }
-        
+
         /// <summary>
         ///     Receive player data unavailable message
         /// </summary>
-        /// <param name="message">The message received</param>
-        private static void PlayerDataUnavailable(Message message)
+        private static void PlayerDataUnavailable()
         {
             OnPlayerDataUnavailable?.Invoke();
         }
@@ -199,27 +205,27 @@ namespace Networking.Headquarters
         /// <param name="message">The message received</param>
         private static void GetGameData(Message message)
         {
-            if (ShowDebug) Debug.Log("Received game data");
+            #if UNITY_EDITOR
+            if (_showDebug) Debug.Log("Received game data");
+            #endif
             
             using var reader = message.GetReader();
             
             OnGameDataReceived?.Invoke();
         }
-        
+
         /// <summary>
         ///     Receive game data unavailable message
         /// </summary>
-        /// <param name="message">The message received</param>
-        private static void GameDataUnavailable(Message message)
+        private static void GameDataUnavailable()
         {
             OnGameDataUnavailable?.Invoke();
         }
-        
+
         /// <summary>
         ///     Receive game data unavailable message
         /// </summary>
-        /// <param name="message">The message received</param>
-        private static void UpdateLevelError(Message message)
+        private static void UpdateLevelError()
         {
             OnUpdateLevelError?.Invoke();
         }
@@ -233,7 +239,9 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+                #if UNITY_EDITOR
                 Debug.LogWarning("Conversion error incorrect data received");
+                #endif
                 return;
             }
             OnConversionError?.Invoke(reader.ReadByte());
@@ -248,7 +256,9 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+                #if UNITY_EDITOR
                 Debug.LogWarning("Finish conversion error incorrect data received");
+                #endif
                 return;
             }
             OnFinishConversionError?.Invoke(reader.ReadByte());
@@ -263,7 +273,9 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+                #if UNITY_EDITOR
                 Debug.LogWarning("Upgrade robot error incorrect data received");
+                #endif
                 return;
             }
             OnUpgradingError?.Invoke(reader.ReadByte());
@@ -278,7 +290,9 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+                #if UNITY_EDITOR
                 Debug.LogWarning("Finish upgrade robot error incorrect data received");
+                #endif
                 return;
             }
             OnFinishUpgradingError?.Invoke(reader.ReadByte());
@@ -293,7 +307,9 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+                #if UNITY_EDITOR
                 Debug.LogWarning("Build robot error incorrect data received");
+                #endif
                 return;
             }
             OnBuildingError?.Invoke(reader.ReadByte());
@@ -308,7 +324,9 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+                #if UNITY_EDITOR
                 Debug.LogWarning("Finish build robot error incorrect data received");
+                #endif
                 return;
             }
             OnFinishBuildingError?.Invoke(reader.ReadByte());
@@ -323,7 +341,9 @@ namespace Networking.Headquarters
             using var reader = message.GetReader();
             if (reader.Length != 1)
             {
+                #if UNITY_EDITOR
                 Debug.LogWarning("Cancel build robot error incorrect data received");
+                #endif
                 return;
             }
             OnCancelBuildingError?.Invoke(reader.ReadByte());
@@ -341,7 +361,9 @@ namespace Networking.Headquarters
             using var msg = Message.CreateEmpty(HeadquartersTags.PlayerData);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Requesting player data ...");
+            #if UNITY_EDITOR
+            if(_showDebug) Debug.Log("Requesting player data ...");
+            #endif
         }
 
         /// <summary>
@@ -355,7 +377,9 @@ namespace Networking.Headquarters
             using var msg = Message.Create(HeadquartersTags.GameData, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Requesting game data ...");
+            #if UNITY_EDITOR
+            if(_showDebug) Debug.Log("Requesting game data ...");
+            #endif
         }
 
         /// <summary>
@@ -371,7 +395,9 @@ namespace Networking.Headquarters
             using var msg = Message.Create(HeadquartersTags.UpdateLevel, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Updating level");
+            #if UNITY_EDITOR
+            if(_showDebug) Debug.Log("Updating level");
+            #endif
         }
 
         /// <summary>
@@ -386,8 +412,10 @@ namespace Networking.Headquarters
             writer.Write(newResources);
             using var msg = Message.Create(HeadquartersTags.ConvertResources, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
-            
-            if(ShowDebug) Debug.Log("Sending resource conversion to the server");
+
+            #if UNITY_EDITOR
+            if(_showDebug) Debug.Log("Sending resource conversion to the server");
+            #endif
         }
 
         /// <summary>
@@ -403,7 +431,9 @@ namespace Networking.Headquarters
             using var msg = Message.Create(HeadquartersTags.FinishConversion, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
-            if(ShowDebug) Debug.Log("Sending finish resource conversion to the server");
+            #if UNITY_EDITOR
+            if(_showDebug) Debug.Log("Sending finish resource conversion to the server");
+            #endif
         }
 
         /// <summary>
@@ -421,7 +451,9 @@ namespace Networking.Headquarters
             using var msg = Message.Create(HeadquartersTags.UpgradeRobot, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Sending robot upgrade to the server");
+            #if UNITY_EDITOR
+            if(_showDebug) Debug.Log("Sending robot upgrade to the server");
+            #endif
         }
 
         /// <summary>
@@ -439,7 +471,9 @@ namespace Networking.Headquarters
             using var msg = Message.Create(HeadquartersTags.FinishUpgrade, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Sending finish robot upgrade to the server");
+            #if UNITY_EDITOR
+            if(_showDebug) Debug.Log("Sending finish robot upgrade to the server");
+            #endif
         }
 
         /// <summary>
@@ -460,7 +494,9 @@ namespace Networking.Headquarters
             using var msg = Message.Create(HeadquartersTags.BuildRobot, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Sending robot build to the server");
+            #if UNITY_EDITOR
+            if(_showDebug) Debug.Log("Sending robot build to the server");
+            #endif
         }
 
         /// <summary>
@@ -480,7 +516,9 @@ namespace Networking.Headquarters
             using var msg = Message.Create(HeadquartersTags.FinishBuild, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Sending finish robot build to the server");
+            #if UNITY_EDITOR
+            if(_showDebug) Debug.Log("Sending finish robot build to the server");
+            #endif
         }
         
         /// <summary>
@@ -500,7 +538,9 @@ namespace Networking.Headquarters
             using var msg = Message.Create(HeadquartersTags.FinishBuildMultiple, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Sending finish robots build to the server");
+            #if UNITY_EDITOR
+            if(_showDebug) Debug.Log("Sending finish robots build to the server");
+            #endif
         }
 
         /// <summary>
@@ -521,7 +561,9 @@ namespace Networking.Headquarters
             using var msg = Message.Create(inProgress ? HeadquartersTags.CancelInProgressBuild : HeadquartersTags.CancelOnHoldBuild, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
             
-            if(ShowDebug) Debug.Log("Sending cancel robot build to the server");
+            #if UNITY_EDITOR
+            if(_showDebug) Debug.Log("Sending cancel robot build to the server");
+            #endif
         }
 
         #endregion

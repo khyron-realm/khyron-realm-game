@@ -1,7 +1,5 @@
-using System;
 using DarkRift;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 namespace Networking.Launcher
@@ -11,7 +9,12 @@ namespace Networking.Launcher
     /// </summary>
     public class NetworkManager : Singleton<NetworkManager>
     {
-        [FormerlySerializedAs("networkServerConnection")] [SerializeField] [Tooltip("The DarkRift client communication object")]
+#if UNITY_EDITOR
+        private bool _showDebug = false;
+#endif
+        
+        [SerializeField]
+        [Tooltip("The DarkRift client communication object")]
         public DarkriftServerConnection networkClient;
 
         #region Events
@@ -39,17 +42,23 @@ namespace Networking.Launcher
         {
             if (networkClient.ConnectionState == ConnectionState.Connecting)
             {
-                Debug.Log("Client trying to connect ...");
+#if UNITY_EDITOR
+                if(_showDebug) Debug.Log("Client trying to connect ...");
+#endif
             }
 
             if (networkClient.ConnectionState == ConnectionState.Connected)
             {
-                Debug.Log("Starting Login scene");
+#if UNITY_EDITOR
+                if(_showDebug) Debug.Log("Starting Login scene");
+#endif
                 OnConnectionEstablished?.Invoke();
             }
             else 
             {
-                Debug.Log("Server not available");
+#if UNITY_EDITOR
+                if(_showDebug) Debug.LogError("Server not available");
+#endif
                 OnServerNotAvailable?.Invoke();
             }
         }

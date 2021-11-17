@@ -14,6 +14,12 @@ namespace Networking.Auctions
     /// </summary>
     public class AuctionsManager : MonoBehaviour
     {
+#if UNITY_EDITOR
+        [SerializeField]
+        [Tooltip("Enable or disable the debug messages")]
+        private bool ShowDebug = true;
+#endif
+        
         public static AuctionRoom CurrentAuctionRoom { get; set; }
         public static List<Player> Players { get; set; } = new List<Player>();
         
