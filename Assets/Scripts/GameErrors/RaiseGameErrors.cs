@@ -22,6 +22,7 @@ namespace GameErrors
         [SerializeField] private string _maxCapacity;
         [SerializeField] private string _lastBid;
         [SerializeField] private string _bidOverYou;
+        [SerializeField] private string _maximumBidsAchieved;
         #endregion
 
 
@@ -42,6 +43,8 @@ namespace GameErrors
 
             BidManager.OnNotEnoughEnergy += NotEnoughEnergy;
             BidManager.OnToMuchEnergy += TooManyResources;
+
+            BidManager.OnMaximBidsAchieved += MaximumBidsAcheived;
         }
 
 
@@ -74,6 +77,11 @@ namespace GameErrors
         private void SomeOneBiddedOverYou()
         {
             _text.text = _bidOverYou;
+            StartShowingPopUp();
+        }
+        private void MaximumBidsAcheived()
+        {
+            _text.text = _maximumBidsAchieved;
             StartShowingPopUp();
         }
         #endregion
@@ -141,6 +149,8 @@ namespace GameErrors
 
             BidManager.OnNotEnoughEnergy -= NotEnoughEnergy;
             BidManager.OnToMuchEnergy -= TooManyResources;
+
+            BidManager.OnMaximBidsAchieved -= MaximumBidsAcheived;
         }
     }
 }

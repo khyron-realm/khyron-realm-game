@@ -20,6 +20,7 @@ namespace Networking.Auctions
         
         public static AuctionRoom CurrentAuctionRoom { get; set; }
         public static List<Player> Players { get; set; } = new();
+        public static byte BidsNumber { get; set; }
         
         #region Events
 
@@ -382,6 +383,7 @@ namespace Networking.Auctions
             CurrentAuctionRoom = reader.ReadSerializable<AuctionRoom>();
             var playerBidsNo = reader.ReadByte();
 
+            BidsNumber = playerBidsNo;
             OnReceivedRoom?.Invoke(playerBidsNo);
         }
 
@@ -505,7 +507,6 @@ namespace Networking.Auctions
             var bid = reader.ReadSerializable<Bid>();
             var energy = reader.ReadUInt32();
 
-            HeadquartersManager.Player.Energy -= energy;
             CurrentAuctionRoom.LastBid = bid;
 
             OnSuccessfulAddBid?.Invoke(bid);
