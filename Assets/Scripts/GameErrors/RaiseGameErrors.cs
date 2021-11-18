@@ -39,6 +39,9 @@ namespace GameErrors
             PlayerDataOperations.OnNotEnoughSpaceForRobots += MaxCapacityAchieved;
             BidManager.OnLastBidWasYours += LastBidWasYours;
             BidManager.OnSomeOneBiddedOverYou += SomeOneBiddedOverYou;
+
+            BidManager.OnNotEnoughEnergy += NotEnoughEnergy;
+            BidManager.OnToMuchEnergy += TooManyResources;
         }
 
 
@@ -135,6 +138,9 @@ namespace GameErrors
             PlayerDataOperations.OnNotEnoughSpaceForRobots -= MaxCapacityAchieved;
             BidManager.OnLastBidWasYours -= LastBidWasYours;
             BidManager.OnSomeOneBiddedOverYou -= SomeOneBiddedOverYou;
+
+            BidManager.OnNotEnoughEnergy -= NotEnoughEnergy;
+            BidManager.OnToMuchEnergy -= TooManyResources;
         }
     }
 }

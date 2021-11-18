@@ -10,11 +10,11 @@ namespace AuxiliaryClasses
     public class Animations
     {
         // Error messages with red text animation in the middle of the screen
-        public static void MesageErrorAnimation(Text errorsText, string text)
+        public static void MesageErrorAnimation(Text errorsText, string text, Color color)
         {
             errorsText.enabled = true;
             errorsText.transform.localScale = Vector3.one;
-            errorsText.color = Color.red;
+            errorsText.color = color;
 
             errorsText.text = text;
 

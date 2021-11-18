@@ -7683,6 +7683,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1568313490}
   - component: {fileID: 1568313491}
+  - component: {fileID: 1568313492}
   m_Layer: 0
   m_Name: PlayerDataBars
   m_TagString: Untagged
@@ -7723,6 +7724,19 @@ MonoBehaviour:
   _silliconBar: {fileID: 1345405124}
   _lithiumBar: {fileID: 634793163}
   _titaniumBar: {fileID: 89971579}
+--- !u!114 &1568313492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568313489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4907fea277229c49b07c945742b412a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: {fileID: 1035213949}
 --- !u!1 &1571458662
 GameObject:
   m_ObjectHideFlags: 0

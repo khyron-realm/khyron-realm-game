@@ -75,7 +75,13 @@ namespace Panels
 
         private void SetFillAmount()
         {
-            if (_maxValue > 0)
+            if (_maxValue < 0) return;
+            
+            if((float)_maxValue == 0)
+            {
+                _fillImage.fillAmount = 1;
+            }
+            else
             {
                 _fillImage.fillAmount = (float)_currentValue / (float)_maxValue;
             }

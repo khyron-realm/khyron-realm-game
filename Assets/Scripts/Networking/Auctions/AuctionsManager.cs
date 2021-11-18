@@ -505,7 +505,7 @@ namespace Networking.Auctions
             var bid = reader.ReadSerializable<Bid>();
             var energy = reader.ReadUInt32();
 
-            //HeadquartersManager.Player.Energy -= energy;
+            HeadquartersManager.Player.Energy -= energy;
             CurrentAuctionRoom.LastBid = bid;
 
             OnSuccessfulAddBid?.Invoke(bid);

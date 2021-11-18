@@ -12,13 +12,15 @@ public class BouncingObject : MonoBehaviour
 
     private void Start()
     {
-        if(local)
+        float value = Random.Range(0f, 2.0f);
+
+        if (local)
         {
-            transform.DOLocalMoveY(transform.localPosition.y - positionDiff, time).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            transform.DOLocalMoveY(transform.localPosition.y - positionDiff, time).SetDelay(value).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
         }
         else
         {
-            transform.DOMoveY(transform.position.y - positionDiff, time).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            transform.DOMoveY(transform.position.y - positionDiff, time).SetDelay(value).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
         }       
     }
 }
