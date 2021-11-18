@@ -144,13 +144,13 @@ namespace Levels
             switch (robotType)
             {
                 case RobotTypes.Worker: 
-                    tempValue = (ushort) (8 * Math.Log(level, 1.1) + 1000);
+                    tempValue = (ushort) (50 * Math.Pow(level, 2) - (50 * level) + 1000);
                     return (ushort) (tempValue - tempValue % 10);
                 case RobotTypes.Probe:
-                    tempValue = (ushort) (9 * Math.Log(level, 1.1) + 1000);
+                    tempValue = (ushort) (50 * Math.Pow(level, 2) - (50 * level) + 1000);
                     return (ushort) (tempValue - tempValue % 10);
                 case RobotTypes.Crusher:
-                    tempValue = (ushort) (11 * Math.Log(level, 1.1) + 2000);
+                    tempValue = (ushort) (100 * Math.Pow(level, 2) - (100 * level) + 2000);
                     return (ushort) (tempValue - tempValue % 10);
                 default:
                     return 0;
