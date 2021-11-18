@@ -72,8 +72,7 @@ namespace Authentification
         /// </summary>
         private void SuccessfulLogin(byte code)
         {
-            print("------------------------------------------------------------------------------");
-            if(code == 1)
+            if (code == 1)
             {
                 _scene.GoToScene();
             }          
@@ -84,23 +83,23 @@ namespace Authentification
             switch (errorId)
             {
                 case 0:
-                    Animations.MesageErrorAnimation(_errorsText, "Server error [Code 0]");
+                    Animations.MesageErrorAnimation(_errorsText, "Server error [Code 0]", Color.red);
                     break;
 
                 case 1:
-                    Animations.MesageErrorAnimation(_errorsText, "Login failed. Try again");
+                    Animations.MesageErrorAnimation(_errorsText, "Login failed. Try again", Color.red);
                     break;
 
                 case 2:
-                    Animations.MesageErrorAnimation(_errorsText, "Server error [Code 2]");
+                    Animations.MesageErrorAnimation(_errorsText, "Server error [Code 2]", Color.red);
                     break;
 
                 case 3:
-                    Animations.MesageErrorAnimation(_errorsText, "User already in use");
+                    Animations.MesageErrorAnimation(_errorsText, "User already in use", Color.red);
                     break;
                 
                 case 10:
-                    Animations.MesageErrorAnimation(_errorsText, "Time out connection");
+                    Animations.MesageErrorAnimation(_errorsText, "Time out connection", Color.red);
                     break;
             }
 

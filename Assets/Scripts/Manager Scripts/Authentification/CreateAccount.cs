@@ -59,21 +59,22 @@ namespace Authentification
         private void SuccessfulAddUser()
         {
             _screenToChange.ScreenChange();
+            Animations.MesageErrorAnimation(_errorsText, "Account successfully created", Color.green);
         }
         private void FailedAddUser(byte errorId)
         {
             switch(errorId)
             {
                 case 0:
-                    Animations.MesageErrorAnimation(_errorsText, "Server error [Code 0]");
+                    Animations.MesageErrorAnimation(_errorsText, "Server error [Code 0]", Color.red);
                     break;
 
                 case 1:
-                    Animations.MesageErrorAnimation(_errorsText, "Incorrect User Added. Username and password must have more than 6 characters");
+                    Animations.MesageErrorAnimation(_errorsText, "Incorrect User Added. Username and password must have more than 6 characters", Color.red);
                     break;
 
                 case 2:
-                    Animations.MesageErrorAnimation(_errorsText, "Server error [Code 2]");
+                    Animations.MesageErrorAnimation(_errorsText, "Server error [Code 2]", Color.red);
                     break;
             }          
         }
@@ -82,8 +83,8 @@ namespace Authentification
 
         private void OnDestroy()
         {
-            LoginManager.OnSuccessfulAddUser += SuccessfulAddUser;
-            LoginManager.OnFailedAddUser += FailedAddUser;
+            LoginManager.OnSuccessfulAddUser -= SuccessfulAddUser;
+            LoginManager.OnFailedAddUser -= FailedAddUser;
         }
     }
 }

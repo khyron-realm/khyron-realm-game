@@ -38,10 +38,7 @@ namespace Manager.Robots
                 newPanel.transform.GetChild(3).transform.GetChild(0).GetComponent<ProgressBar>().CurrentValue = LevelMethods.RobotMovementSpeed(HeadquartersManager.Player.Robots[item.RobotId].Level, item.RobotId);
 
                 newPanel.transform.GetChild(4).transform.GetChild(0).GetComponent<ProgressBar>().MaxValue = LevelMethods.RobotMiningDamage(LevelMethods.MaxRobotsLevel, item.RobotId);
-                newPanel.transform.GetChild(4).transform.GetChild(0).GetComponent<ProgressBar>().CurrentValue = LevelMethods.RobotMiningDamage(HeadquartersManager.Player.Robots[item.RobotId].Level, item.RobotId);
-
-                newPanel.transform.GetChild(5).transform.GetChild(0).GetComponent<ProgressBar>().MaxValue = item.BuildTime;
-                newPanel.transform.GetChild(5).transform.GetChild(0).GetComponent<ProgressBar>().CurrentValue = item.BuildTime;          
+                newPanel.transform.GetChild(4).transform.GetChild(0).GetComponent<ProgressBar>().CurrentValue = LevelMethods.RobotMiningDamage(HeadquartersManager.Player.Robots[item.RobotId].Level, item.RobotId);        
             }
         }
 

@@ -7,6 +7,7 @@ using Networking.Auctions;
 using Networking.Headquarters;
 using TMPro;
 using PlayerDataUpdate;
+using Levels;
 
 public class BidManager : MonoBehaviour
 {
@@ -19,7 +20,8 @@ public class BidManager : MonoBehaviour
 
     public static event Action OnLastBidWasYours;
     public static event Action OnSomeOneBiddedOverYou;
-
+    public static event Action<byte> OnNotEnoughEnergy;
+    public static event Action OnToMuchEnergy;
 
     private static int bidValue;
 
@@ -27,8 +29,6 @@ public class BidManager : MonoBehaviour
     private void Awake()
     {
         AuctionsManager.OnFailedAddBid += BidFailed;
-        PlayerDataOperations.OnEnergyModified += BidAccepted;
-
         _yesButton.onClick.AddListener(Bid);
     }
 
@@ -42,7 +42,24 @@ public class BidManager : MonoBehaviour
         if (AuctionsManager.CurrentAuctionRoom.LastBid.PlayerName != HeadquartersManager.Player.Id)
         {
             bidValue = (int)(AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice);
-            PlayerDataOperations.PayEnergy((int)-(AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice), OperationsTags.BIDING_MINE);
+
+            int temp = (int)HeadquartersManager.Player.Energy - (int)(AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice);
+
+            if(temp > 0)
+            {
+                if (temp <= LevelMethods.MaxEnergyCount(HeadquartersManager.Player.Level))
+                {
+                    AuctionsManager.AddBid(AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice, HeadquartersManager.Player.Energy);
+                }
+                else
+                {
+                    OnToMuchEnergy?.Invoke();
+                }
+            }
+            else
+            {
+                OnNotEnoughEnergy?.Invoke(255);
+            }
         }
         else
         {
@@ -51,16 +68,8 @@ public class BidManager : MonoBehaviour
     }
 
 
-    private void BidAccepted(byte index)
-    {
-        if (index != OperationsTags.BIDING_MINE) return;
-        AuctionsManager.AddBid(AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice, HeadquartersManager.Player.Energy);
-    }
-
-
     private void BidFailed()
     {
-        Debug.LogWarning("FAILED");
         PlayerDataOperations.PayEnergy(bidValue, 255);
         OnSomeOneBiddedOverYou?.Invoke();
     }
@@ -69,8 +78,6 @@ public class BidManager : MonoBehaviour
     private void OnDestroy()
     {
         AuctionsManager.OnFailedAddBid -= BidFailed;
-        PlayerDataOperations.OnEnergyModified -= BidAccepted;
-
         _yesButton.onClick.RemoveAllListeners();
     }
 }
