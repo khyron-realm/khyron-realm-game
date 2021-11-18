@@ -13,7 +13,7 @@ namespace Networking.Headquarters
     public class HeadquartersManager : MonoBehaviour
     {
 #if UNITY_EDITOR
-        private static readonly bool _showDebug = false;
+        private static readonly bool ShowDebug = false;
 #endif
 
         public static PlayerData Player;
@@ -169,7 +169,7 @@ namespace Networking.Headquarters
         private static void PlayerConnected()
         {
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Player connected");
+            if (ShowDebug) Debug.Log("Player connected");
 #endif
         }
 
@@ -179,7 +179,7 @@ namespace Networking.Headquarters
         private static void PlayerDisconnected()
         {
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Player disconnected");
+            if (ShowDebug) Debug.Log("Player disconnected");
 #endif
         }
 
@@ -194,7 +194,7 @@ namespace Networking.Headquarters
         private static void GetPlayerData(Message message)
         {
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Received player data");
+            if (ShowDebug) Debug.Log("Received player data");
 #endif
 
             using var reader = message.GetReader();
@@ -218,7 +218,7 @@ namespace Networking.Headquarters
         private static void GetGameData(Message message)
         {
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Received game data");
+            if (ShowDebug) Debug.Log("Received game data");
 #endif
 
             using var reader = message.GetReader();
@@ -381,7 +381,7 @@ namespace Networking.Headquarters
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Requesting player data ...");
+            if (ShowDebug) Debug.Log("Requesting player data ...");
 #endif
         }
 
@@ -397,7 +397,7 @@ namespace Networking.Headquarters
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Requesting game data ...");
+            if (ShowDebug) Debug.Log("Requesting game data ...");
 #endif
         }
 
@@ -415,7 +415,7 @@ namespace Networking.Headquarters
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Updating level");
+            if (ShowDebug) Debug.Log("Updating level");
 #endif
         }
 
@@ -433,7 +433,7 @@ namespace Networking.Headquarters
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Sending resource conversion to the server");
+            if (ShowDebug) Debug.Log("Sending resource conversion to the server");
 #endif
         }
 
@@ -451,7 +451,7 @@ namespace Networking.Headquarters
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Sending finish resource conversion to the server");
+            if (ShowDebug) Debug.Log("Sending finish resource conversion to the server");
 #endif
         }
 
@@ -471,7 +471,7 @@ namespace Networking.Headquarters
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Sending robot upgrade to the server");
+            if (ShowDebug) Debug.Log("Sending robot upgrade to the server");
 #endif
         }
 
@@ -491,7 +491,7 @@ namespace Networking.Headquarters
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Sending finish robot upgrade to the server");
+            if (ShowDebug) Debug.Log("Sending finish robot upgrade to the server");
 #endif
         }
 
@@ -514,7 +514,7 @@ namespace Networking.Headquarters
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Sending robot build to the server");
+            if (ShowDebug) Debug.Log("Sending robot build to the server");
 #endif
         }
 
@@ -536,7 +536,7 @@ namespace Networking.Headquarters
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Sending finish robot build to the server");
+            if (ShowDebug) Debug.Log("Sending finish robot build to the server");
 #endif
         }
 
@@ -559,7 +559,7 @@ namespace Networking.Headquarters
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Sending finish robots build to the server");
+            if (ShowDebug) Debug.Log("Sending finish robots build to the server");
 #endif
         }
 
@@ -585,7 +585,7 @@ namespace Networking.Headquarters
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
 
 #if UNITY_EDITOR
-            if (_showDebug) Debug.Log("Sending cancel robot build to the server");
+            if (ShowDebug) Debug.Log("Sending cancel robot build to the server");
 #endif
         }
 

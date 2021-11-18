@@ -13,7 +13,7 @@ namespace Networking.Login
     public class LoginManager : MonoBehaviour
     {
 #if UNITY_EDITOR
-        private static readonly bool _showDebug = false;
+        private static readonly bool ShowDebug = false;
 #endif
         private static bool IsLoggedIn { get; set; }
 
@@ -62,7 +62,7 @@ namespace Networking.Login
                 case LoginTags.LoginSuccess:
                 {
 #if UNITY_EDITOR
-                    if (_showDebug) Debug.Log("Successfully logged in");
+                    if (ShowDebug) Debug.Log("Successfully logged in");
 #endif
                     IsLoggedIn = true;
                     using var reader = message.GetReader();
@@ -78,7 +78,7 @@ namespace Networking.Login
                 case LoginTags.LoginFailed:
                 {
 #if UNITY_EDITOR
-                    if (_showDebug) Debug.Log("Cannot log in");
+                    if (ShowDebug) Debug.Log("Cannot log in");
 #endif
                     using var reader = message.GetReader();
                     if (reader.Length != 1)
@@ -93,7 +93,7 @@ namespace Networking.Login
                 case LoginTags.LogoutSuccess:
                 {
 #if UNITY_EDITOR
-                    if (_showDebug) Debug.Log("Successful logout");
+                    if (ShowDebug) Debug.Log("Successful logout");
 #endif
                     IsLoggedIn = false;
                     using var reader = message.GetReader();
@@ -111,7 +111,7 @@ namespace Networking.Login
                 case LoginTags.AddUserSuccess:
                 {
 #if UNITY_EDITOR
-                    if (_showDebug) Debug.Log("Successfully added user");
+                    if (ShowDebug) Debug.Log("Successfully added user");
 #endif
                     OnSuccessfulAddUser?.Invoke();
                     break;
@@ -120,7 +120,7 @@ namespace Networking.Login
                 case LoginTags.AddUserFailed:
                 {
 #if UNITY_EDITOR
-                    if (_showDebug) Debug.Log("Cannot add a new user");
+                    if (ShowDebug) Debug.Log("Cannot add a new user");
 #endif
                     using var reader = message.GetReader();
                     if (reader.Length != 1)

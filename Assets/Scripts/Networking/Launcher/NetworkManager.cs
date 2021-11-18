@@ -10,7 +10,7 @@ namespace Networking.Launcher
     public class NetworkManager : Singleton<NetworkManager>
     {
 #if UNITY_EDITOR
-        private bool _showDebug = false;
+        private static readonly bool ShowDebug = false;
 #endif
         
         [SerializeField]
@@ -43,21 +43,21 @@ namespace Networking.Launcher
             if (networkClient.ConnectionState == ConnectionState.Connecting)
             {
 #if UNITY_EDITOR
-                if(_showDebug) Debug.Log("Client trying to connect ...");
+                if(ShowDebug) Debug.Log("Client trying to connect ...");
 #endif
             }
 
             if (networkClient.ConnectionState == ConnectionState.Connected)
             {
 #if UNITY_EDITOR
-                if(_showDebug) Debug.Log("Starting Login scene");
+                if(ShowDebug) Debug.Log("Starting Login scene");
 #endif
                 OnConnectionEstablished?.Invoke();
             }
             else 
             {
 #if UNITY_EDITOR
-                if(_showDebug) Debug.LogError("Server not available");
+                if(ShowDebug) Debug.LogError("Server not available");
 #endif
                 OnServerNotAvailable?.Invoke();
             }

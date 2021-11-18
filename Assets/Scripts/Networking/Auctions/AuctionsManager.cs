@@ -15,7 +15,7 @@ namespace Networking.Auctions
     public class AuctionsManager : MonoBehaviour
     {
 #if UNITY_EDITOR
-        private static readonly bool _showDebug = false;
+        private static readonly bool ShowDebug = false;
 #endif
         
         public static AuctionRoom CurrentAuctionRoom { get; set; }
