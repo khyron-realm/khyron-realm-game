@@ -12,6 +12,7 @@ namespace Networking.Mines
         public MineGenerator Generator { get; set; }
         public bool[] Blocks { get; set; }
         public MineScan[] Scans { get; set; }
+        public byte MapPosition { get; set; }
 
         public Mine()
         { }
@@ -23,6 +24,7 @@ namespace Networking.Mines
             Generator = e.Reader.ReadSerializable<MineGenerator>();
             Blocks = e.Reader.ReadBooleans();
             Scans = e.Reader.ReadSerializables<MineScan>();
+            MapPosition = e.Reader.ReadByte();
         }
 
         public void Serialize(SerializeEvent e)

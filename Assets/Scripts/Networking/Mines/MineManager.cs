@@ -203,13 +203,15 @@ namespace Networking.Mines
         ///     Save the state of the mine and update robots and resources
         /// </summary>
         /// <param name="mineId">The id of the mine</param>
+        /// <param name="minePosition">The position of the mine in the player map</param>
         /// <param name="blockValues">The state of the mine blocks</param>
         /// <param name="robots">The new robot values</param>
         /// <param name="resources">The new resource values</param>
-        public static void SavePlayerMine(uint mineId, bool[] blockValues, Robot[] robots, Resource[] resources)
+        public static void SavePlayerMine(uint mineId, byte minePosition, bool[] blockValues, Robot[] robots, Resource[] resources)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(mineId);
+            writer.Write(minePosition);
             writer.Write(blockValues);
             writer.Write(robots);
             writer.Write(resources);
