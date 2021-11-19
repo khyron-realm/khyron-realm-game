@@ -30,7 +30,6 @@ public class GetMinesFromServer : MonoBehaviour
         foreach (MineTouched item in _mines)
         {
             item.IndexPosition = 255;
-            item.MineListIndex = (byte)_mines.IndexOf(item);
             item.HasMine = false;
             item.IsAuction = false;
         }
@@ -40,7 +39,7 @@ public class GetMinesFromServer : MonoBehaviour
             if(MineManager.MineList[i].MapPosition != 255)
             {
                 Debug.LogWarning("Map position : " + MineManager.MineList[i].MapPosition);
-                _mines[MineManager.MineList[i].MapPosition].IndexPosition = MineManager.MineList[i].MapPosition;
+                _mines[MineManager.MineList[i].MapPosition].IndexPosition = i;
                 _mines[MineManager.MineList[i].MapPosition].HasMine = true;
                 _mines[MineManager.MineList[i].MapPosition].IsAuction = false;                
             }
@@ -50,7 +49,7 @@ public class GetMinesFromServer : MonoBehaviour
                 {
                     if(item.HasMine == false)
                     {
-                        item.IndexPosition = (byte)_mines.IndexOf(item);
+                        item.IndexPosition = i;
                         item.HasMine = true;
                         item.IsAuction = false;
 
