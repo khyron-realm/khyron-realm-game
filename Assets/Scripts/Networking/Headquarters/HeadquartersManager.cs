@@ -117,6 +117,12 @@ namespace Networking.Headquarters
                     CancelBuildError(message);
                     break;
                 }
+                
+                case HeadquartersTags.RemoveBackgroundTaskFailed:
+                {
+                    RemoveBackgroundTaskFailed(message);
+                    break;
+                }
             }
         }
 
@@ -145,6 +151,7 @@ namespace Networking.Headquarters
         public delegate void FinishBuildErrorEventHandler(byte errorId);
 
         public delegate void CancelBuildErrorEventHandler(byte errorId);
+        public delegate void RemoveBackgroundTaskFailedEventHandler();
 
         public static event PlayerDataReceivedEventHandler OnPlayerDataReceived;
         public static event PlayerDataUnavailableEventHandler OnPlayerDataUnavailable;
@@ -158,6 +165,7 @@ namespace Networking.Headquarters
         public static event BuildingErrorEventHandler OnBuildingError;
         public static event FinishBuildErrorEventHandler OnFinishBuildingError;
         public static event CancelBuildErrorEventHandler OnCancelBuildingError;
+        public static event RemoveBackgroundTaskFailedEventHandler OnRemoveBackgroundTaskFailed;
 
         #endregion
 
@@ -366,6 +374,11 @@ namespace Networking.Headquarters
             }
 
             OnCancelBuildingError?.Invoke(reader.ReadByte());
+        }
+
+        private static void RemoveBackgroundTaskFailed(Message message)
+        {
+            OnRemoveBackgroundTaskFailed?.Invoke();
         }
 
         #endregion
@@ -586,6 +599,22 @@ namespace Networking.Headquarters
 
 #if UNITY_EDITOR
             if (ShowDebug) Debug.Log("Sending cancel robot build to the server");
+#endif
+        }
+        
+        /// <summary>
+        ///     Request for removing a background task
+        /// </summary>
+        /// <param name="task">The task to be removed</param>
+        public static void RemoveBackgroundTaskRequest(BackgroundTask task)
+        {
+            using var writer = DarkRiftWriter.Create();
+            writer.Write(task);
+            using var msg = Message.Create(HeadquartersTags.RemoveBackgroundTask, writer);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+
+#if UNITY_EDITOR
+            if (ShowDebug) Debug.Log("Sending remove background task to the server");
 #endif
         }
 

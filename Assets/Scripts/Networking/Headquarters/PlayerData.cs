@@ -16,23 +16,10 @@ namespace Networking.Headquarters
         public BuildTask[] ConversionQueue { get; set; }
         public BuildTask[] UpgradeQueue { get; set; }
         public BuildTask[] BuildQueue { get; set; }
+        public BackgroundTask[] BackgroundTasks { get; set; }
 
         public PlayerData() { }
 
-        public PlayerData(string id, byte level, uint experience, uint energy, Resource[] resources, Robot[] robots,
-            BuildTask[] conversionQueue, BuildTask[] upgradeQueue, BuildTask[] buildQueue)
-        {
-            Id = id;
-            Level = level;
-            Experience = experience;
-            Energy = energy;
-            Resources = resources;
-            Robots = robots;
-            ConversionQueue = conversionQueue;
-            UpgradeQueue = upgradeQueue;
-            BuildQueue = buildQueue;
-        }
-        
         /// <summary>
         ///     Deserialization method for player data
         /// </summary>
@@ -48,6 +35,7 @@ namespace Networking.Headquarters
             ConversionQueue = e.Reader.ReadSerializables<BuildTask>();
             UpgradeQueue = e.Reader.ReadSerializables<BuildTask>();
             BuildQueue = e.Reader.ReadSerializables<BuildTask>();
+            BackgroundTasks = e.Reader.ReadSerializables<BackgroundTask>();
         }
         
         /// <summary>
@@ -55,16 +43,6 @@ namespace Networking.Headquarters
         /// </summary>
         /// <param name="e">Serialize event</param>
         public void Serialize(SerializeEvent e)
-        {
-            e.Writer.Write(Id);
-            e.Writer.Write(Level);
-            e.Writer.Write(Experience);
-            e.Writer.Write(Energy);
-            e.Writer.Write(Resources);
-            e.Writer.Write(Robots);
-            e.Writer.Write(ConversionQueue);
-            e.Writer.Write(UpgradeQueue);
-            e.Writer.Write(BuildQueue);
-        }
+        { }
     }
 }

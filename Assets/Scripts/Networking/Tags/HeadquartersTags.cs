@@ -35,5 +35,8 @@ namespace Networking.Tags
 
         public const ushort UpdateLevel = 23 + Shift;
         public const ushort UpdateLevelError = 24 + Shift;
+        
+        public const ushort RemoveBackgroundTask = 25 + Shift;
+        public const ushort RemoveBackgroundTaskFailed = 26 + Shift;
     }
 }
