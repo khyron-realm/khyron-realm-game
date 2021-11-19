@@ -22,10 +22,10 @@ public class GetMinesFromServer : MonoBehaviour
     // Mine index
     private void SetForEachMine()
     {
-        foreach (Networking.Mines.Mine item in MineManager.MineList)
-        {
-            Debug.LogWarning(item.MapPosition);
-        }
+        //foreach (Networking.Mines.Mine item in MineManager.MineList)
+        //{
+        //    Debug.LogWarning(item.MapPosition);
+        //}
 
         foreach (MineTouched item in _mines)
         {
