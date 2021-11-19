@@ -3,6 +3,7 @@ using UnityEngine;
 using Networking.Auctions;
 using Networking.Chat;
 using Networking.Mines;
+using Networking.Headquarters;
 using Networking.Tags;
 using Mine;
 
@@ -14,24 +15,48 @@ public class GetMinesFromServer : MonoBehaviour
     private void Awake()
     {
         MineManager.GetUserMines();
-        MineManager.OnReceivedMines += SetForEachMine;
+        MineManager.OnReceivedMines += SetForEachMine;   
     }
 
 
+    // Mine index
     private void SetForEachMine()
     {
-        for (byte i = 0; i < MineManager.MineList.Count; i++)
+        foreach (Networking.Mines.Mine item in MineManager.MineList)
         {
-            _mines[i].index = i;
-            _mines[i].HasMine = true;
-            _mines[i].IsAuction = false;
+            Debug.LogWarning(item.MapPosition);
         }
 
-        for (int i = MineManager.MineList.Count; i < _mines.Count; i++)
+        foreach (MineTouched item in _mines)
         {
-            _mines[i].index = 255;
-            _mines[i].HasMine = false;
-            _mines[i].IsAuction = false;
+            item.IndexPosition = 255;
+            item.MineListIndex = (byte)_mines.IndexOf(item);
+            item.HasMine = false;
+            item.IsAuction = false;
+        }
+
+        for (byte i = 0; i < MineManager.MineList.Count; i++)
+        {   
+            if(MineManager.MineList[i].MapPosition != 255)
+            {
+                _mines[MineManager.MineList[i].MapPosition].IndexPosition = MineManager.MineList[i].MapPosition;
+                _mines[MineManager.MineList[i].MapPosition].HasMine = true;
+                _mines[MineManager.MineList[i].MapPosition].IsAuction = false;                
+            }
+            else
+            {
+                foreach (MineTouched item in _mines)
+                {
+                    if(item.HasMine == false)
+                    {
+                        item.IndexPosition = (byte)_mines.IndexOf(item);
+                        item.HasMine = true;
+                        item.IsAuction = false;
+                      
+                        break;
+                    }
+                }               
+            }
         }
     }
 

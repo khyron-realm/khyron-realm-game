@@ -1073,6 +1073,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _soundIndex: 1
   _mountain: {fileID: 1896154799}
+  MapPosition: 2
   HasMine: 0
   index: 0
   IsAuction: 0
@@ -3558,7 +3559,6 @@ GameObject:
   m_Component:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
-  - component: {fileID: 519420029}
   - component: {fileID: 519420036}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
@@ -3569,14 +3569,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &519420029
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
 --- !u!114 &519420030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5965,6 +5957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _soundIndex: 1
   _mountain: {fileID: 1644970958}
+  MapPosition: 4
   HasMine: 0
   index: 0
   IsAuction: 0
@@ -6299,6 +6292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _soundIndex: 1
   _mountain: {fileID: 1726900775}
+  MapPosition: 1
   HasMine: 0
   index: 0
   IsAuction: 0
@@ -7287,6 +7281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _soundIndex: 1
   _mountain: {fileID: 1520352649}
+  MapPosition: 6
   HasMine: 0
   index: 0
   IsAuction: 0
@@ -7666,6 +7661,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _soundIndex: 1
   _mountain: {fileID: 1582864920}
+  MapPosition: 3
   HasMine: 0
   index: 0
   IsAuction: 0
@@ -7754,6 +7750,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _soundIndex: 1
   _mountain: {fileID: 2133658007}
+  MapPosition: 5
   HasMine: 0
   index: 0
   IsAuction: 0
@@ -8117,6 +8114,7 @@ MonoBehaviour:
   _maxCapacity: Maximum number of robots achieved
   _lastBid: 
   _bidOverYou: 
+  _maximumBidsAchieved: 
 --- !u!1 &1445310018
 GameObject:
   m_ObjectHideFlags: 0
@@ -8192,6 +8190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _soundIndex: 0
   _mountain: {fileID: 0}
+  MapPosition: 0
   HasMine: 0
   index: 0
   IsAuction: 1

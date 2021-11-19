@@ -22,6 +22,7 @@ namespace Manager.Store
             HeadquartersManager.OnPlayerDataReceived += InitAll;
             PlayerDataOperations.OnEnergyModified += EnergyUpdate;
             AuctionsManager.OnOverbid += EnergyUpdate;
+            AuctionsManager.OnSuccessfulAddBid += EnergyUpdate;
         }
 
 
@@ -63,6 +64,7 @@ namespace Manager.Store
             HeadquartersManager.OnPlayerDataReceived -= InitAll;
             PlayerDataOperations.OnEnergyModified -= EnergyUpdate;
             AuctionsManager.OnOverbid -= EnergyUpdate;
+            AuctionsManager.OnSuccessfulAddBid -= EnergyUpdate;
         }
     }
 }

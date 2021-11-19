@@ -7258,6 +7258,7 @@ MonoBehaviour:
   _maxCapacity: Maximum number of robots achieved
   _lastBid: You already bidded!
   _bidOverYou: Some bidded over you. Bid again
+  _maximumBidsAchieved: Maximum bids achieved
 --- !u!114 &1530924304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9137,7 +9138,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1884845762}
   - component: {fileID: 1884845761}
-  - component: {fileID: 1884845760}
   - component: {fileID: 1884845763}
   - component: {fileID: 1884845764}
   m_Layer: 0
@@ -9147,14 +9147,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1884845760
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1884845759}
-  m_Enabled: 1
 --- !u!20 &1884845761
 Camera:
   m_ObjectHideFlags: 0

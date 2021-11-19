@@ -15,10 +15,13 @@ namespace Mine
 
         public event Action<GameObject, bool, bool> OnGameObjectTouched;
         public event Action<byte> OnMineSelected;
+     
+        // Indexes
+        public byte MineListIndex;
+        public byte IndexPosition;
 
+        // Bools
         public bool HasMine;
-        public byte index;
-
         public bool IsAuction = false;
 
         private void Start()
@@ -39,7 +42,7 @@ namespace Mine
             OnGameObjectTouched?.Invoke(gameObject, HasMine, IsAuction);
 
             if(HasMine)
-                OnMineSelected?.Invoke(index);
+                OnMineSelected?.Invoke(MineListIndex);
 
             SoundManager.MakeSound(_soundIndex);
         }

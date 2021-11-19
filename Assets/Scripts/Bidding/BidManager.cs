@@ -8,6 +8,7 @@ using Networking.Headquarters;
 using TMPro;
 using PlayerDataUpdate;
 using Levels;
+using Networking.Mines;
 
 public class BidManager : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class BidManager : MonoBehaviour
     public static event Action OnSomeOneBiddedOverYou;
     public static event Action<byte> OnNotEnoughEnergy;
     public static event Action OnToMuchEnergy;
+
+    public static event Action OnMaximBidsAchieved;
 
     private static int bidValue;
 
@@ -39,17 +42,23 @@ public class BidManager : MonoBehaviour
     }
     public void Bid()
     {
+        if ((MineManager.MineList.Count + AuctionsManager.BidsNumber) > 5)
+        {
+            OnMaximBidsAchieved?.Invoke();
+            return;
+        }
+
         if (AuctionsManager.CurrentAuctionRoom.LastBid.PlayerName != HeadquartersManager.Player.Id)
         {
             bidValue = (int)(AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice);
-
-            int temp = (int)HeadquartersManager.Player.Energy - (int)(AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice);
+            int temp = (int)HeadquartersManager.Player.Energy - bidValue;
 
             if(temp > 0)
             {
                 if (temp <= LevelMethods.MaxEnergyCount(HeadquartersManager.Player.Level))
                 {
-                    AuctionsManager.AddBid(AuctionsManager.CurrentAuctionRoom.LastBid.Amount + _biddingPrice, HeadquartersManager.Player.Energy);
+                    HeadquartersManager.Player.Energy -= (uint)bidValue;
+                    AuctionsManager.AddBid((uint)bidValue, HeadquartersManager.Player.Energy);
                 }
                 else
                 {
@@ -70,7 +79,6 @@ public class BidManager : MonoBehaviour
 
     private void BidFailed()
     {
-        PlayerDataOperations.PayEnergy(bidValue, 255);
         OnSomeOneBiddedOverYou?.Invoke();
     }
 
