@@ -32,6 +32,7 @@ public class AuctionChatting : MonoBehaviour
         AuctionsManager.OnPlayerJoined += PlayerJoined;
         AuctionsManager.OnPlayerLeft += PlayerLeft;
         AuctionsManager.OnAddBid += AddedBid;
+        AuctionsManager.OnOverbid += AddedBid;
         AuctionsManager.OnSuccessfulAddBid += AddedBid;
     }
 
@@ -83,6 +84,7 @@ public class AuctionChatting : MonoBehaviour
         _scrollRectPosition.verticalNormalizedPosition = 0;      
     }
 
+
     private void OnDestroy()
     {
         _textInput.onSubmit.RemoveAllListeners();
@@ -90,6 +92,7 @@ public class AuctionChatting : MonoBehaviour
         AuctionsManager.OnPlayerJoined -= PlayerJoined;
         AuctionsManager.OnPlayerLeft -= PlayerLeft;
         AuctionsManager.OnAddBid -= AddedBid;
+        AuctionsManager.OnOverbid -= AddedBid;
         AuctionsManager.OnSuccessfulAddBid -= AddedBid;
     }
 }

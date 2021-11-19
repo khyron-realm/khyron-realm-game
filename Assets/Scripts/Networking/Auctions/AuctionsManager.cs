@@ -493,6 +493,7 @@ namespace Networking.Auctions
             var restoredAmount = reader.ReadUInt32();
 
             HeadquartersManager.Player.Energy += restoredAmount;
+            CurrentAuctionRoom.LastBid = bid;
 
             OnOverbid?.Invoke(bid);
         }
