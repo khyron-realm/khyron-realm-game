@@ -2055,7 +2055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d467f344c840d3340a880eec44d24964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tapTimeThreshold: 0.4
+  tapTimeThreshold: 0.6
 --- !u!1 &611376648
 GameObject:
   m_ObjectHideFlags: 0
