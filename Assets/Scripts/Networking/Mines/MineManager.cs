@@ -260,6 +260,14 @@ namespace Networking.Mines
         /// <param name="mapPosition">The position of the mine in the map</param>
         public static void SaveMapPosition(uint mineId, byte mapPosition)
         {
+            foreach (Mine item in MineList)
+            {
+                if(item.Id == mineId)
+                {
+                    item.MapPosition = mapPosition;
+                }
+            }
+            
             using var writer = DarkRiftWriter.Create();
             writer.Write(mineId);
             writer.Write(mapPosition);

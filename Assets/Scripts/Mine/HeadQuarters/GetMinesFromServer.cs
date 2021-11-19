@@ -36,9 +36,10 @@ public class GetMinesFromServer : MonoBehaviour
         }
 
         for (byte i = 0; i < MineManager.MineList.Count; i++)
-        {   
+        {
             if(MineManager.MineList[i].MapPosition != 255)
             {
+                Debug.LogWarning("Map position : " + MineManager.MineList[i].MapPosition);
                 _mines[MineManager.MineList[i].MapPosition].IndexPosition = MineManager.MineList[i].MapPosition;
                 _mines[MineManager.MineList[i].MapPosition].HasMine = true;
                 _mines[MineManager.MineList[i].MapPosition].IsAuction = false;                
@@ -52,7 +53,9 @@ public class GetMinesFromServer : MonoBehaviour
                         item.IndexPosition = (byte)_mines.IndexOf(item);
                         item.HasMine = true;
                         item.IsAuction = false;
-                      
+
+                        MineManager.SaveMapPosition(MineManager.MineList[i].Id, (byte)_mines.IndexOf(item));
+
                         break;
                     }
                 }               
