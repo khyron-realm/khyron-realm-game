@@ -22,12 +22,14 @@ namespace Networking.Mines
         public delegate void GetMinesFailedEventHandler(byte errorId);
         public delegate void SaveMineEventHandler();
         public delegate void SaveMineFailedEventHandler(byte errorId);
+        public delegate void SaveMapPositionFailedEventHandler(byte errorId);
         public delegate void FinishMineEventHandler();
         public delegate void FinishMineFailedEventHandler(byte errorId);
         public static event ReceivedMinesEventHandler OnReceivedMines;
         public static event GetMinesFailedEventHandler OnFailedGetMines;
         public static event SaveMineEventHandler OnSaveMine;
         public static event SaveMineFailedEventHandler OnSaveMineFailed;
+        public static event SaveMapPositionFailedEventHandler OnSaveMapPositionFailed;
         public static event FinishMineEventHandler OnFinishMine;
         public static event FinishMineFailedEventHandler OnFinishMineFailed;
 
@@ -96,6 +98,12 @@ namespace Networking.Mines
                     FinishMineFailed(message);
                     break;
                 }
+                
+                case MineTags.SaveMapPositionFailed:
+                {
+                    SaveMapPositionFailed(message);
+                    break;
+                }
             }
         }
          
@@ -126,8 +134,17 @@ namespace Networking.Mines
         /// <param name="message">The message received</param>
         private static void GetMinesFailed(Message message)
         {
-            byte errorId = 0;
-            OnFailedGetMines?.Invoke(errorId);
+            using var reader = message.GetReader();
+            
+            if (reader.Length != 1)
+            {
+#if UNITY_EDITOR
+                Debug.LogWarning("Invalid Get Mines Message Failed Error data received");
+#endif
+                return;
+            }
+            
+            OnFailedGetMines?.Invoke(reader.ReadByte());
         }
 
         /// <summary>
@@ -150,7 +167,7 @@ namespace Networking.Mines
             if (reader.Length != 1)
             {
 #if UNITY_EDITOR
-                Debug.LogWarning("Invalid Message Failed Error data received");
+                Debug.LogWarning("Invalid Save Mine Message Failed Error data received");
 #endif
                 return;
             }
@@ -158,6 +175,25 @@ namespace Networking.Mines
             OnSaveMineFailed?.Invoke(reader.ReadByte());
         }
         
+        /// <summary>
+        ///     Failed to save mine position in the map message received
+        /// </summary>
+        /// <param name="message">The message received</param>
+        private static void SaveMapPositionFailed(Message message)
+        {
+            using var reader = message.GetReader();
+
+            if (reader.Length != 1)
+            {
+#if UNITY_EDITOR
+                Debug.LogWarning("Invalid Save Map Position Message Failed Error data received");
+#endif
+                return;
+            }
+
+            OnSaveMapPositionFailed?.Invoke(reader.ReadByte());
+        }
+
         /// <summary>
         ///     Finish mine message received
         /// </summary>
@@ -203,19 +239,31 @@ namespace Networking.Mines
         ///     Save the state of the mine and update robots and resources
         /// </summary>
         /// <param name="mineId">The id of the mine</param>
-        /// <param name="minePosition">The position of the mine in the player map</param>
         /// <param name="blockValues">The state of the mine blocks</param>
         /// <param name="robots">The new robot values</param>
         /// <param name="resources">The new resource values</param>
-        public static void SavePlayerMine(uint mineId, byte minePosition, bool[] blockValues, Robot[] robots, Resource[] resources)
+        public static void SavePlayerMine(uint mineId, bool[] blockValues, Robot[] robots, Resource[] resources)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(mineId);
-            writer.Write(minePosition);
             writer.Write(blockValues);
             writer.Write(robots);
             writer.Write(resources);
             using var msg = Message.Create(MineTags.SaveMine, writer);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+        }
+        
+        /// <summary>
+        ///     Save the position of the mine in the player map
+        /// </summary>
+        /// <param name="mineId">The id of the mine</param>
+        /// <param name="mapPosition">The position of the mine in the map</param>
+        public static void SaveMapPosition(uint mineId, byte mapPosition)
+        {
+            using var writer = DarkRiftWriter.Create();
+            writer.Write(mineId);
+            writer.Write(mapPosition);
+            using var msg = Message.Create(MineTags.SaveMapPosition, writer);
             NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
         

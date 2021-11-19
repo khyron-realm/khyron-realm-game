@@ -15,7 +15,10 @@
         public const ushort SaveMine = 3 + Shift;
         public const ushort SaveMineFailed = 4 + Shift;
 
-        public const ushort FinishMine = 5 + Shift;
-        public const ushort FinishMineFailed = 6 + Shift;
+        public const ushort SaveMapPosition = 5 + Shift;
+        public const ushort SaveMapPositionFailed = 6 + Shift;
+
+        public const ushort FinishMine = 7 + Shift;
+        public const ushort FinishMineFailed = 8 + Shift;
     }
 }
