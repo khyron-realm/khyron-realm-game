@@ -34,6 +34,8 @@ namespace Authentification
 
         private void Awake()
         {
+            s_once = false;
+
             s_playerData = _playerData;
             s_enableAutomaticLogin = _enableAutomaticLogin;
 

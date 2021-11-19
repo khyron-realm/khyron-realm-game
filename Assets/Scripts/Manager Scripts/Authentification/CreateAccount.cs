@@ -41,7 +41,7 @@ namespace Authentification
             int userLenght = _userNameField.text.ToCharArray().Length;
             int userPassword = _passwordField.text.ToCharArray().Length;
 
-            if(userLenght > 6 && userPassword > 6)
+            if (userLenght > 6 && userPassword > 6)
             {
                 _userName = _userNameField.text;
                 _password = _passwordField.text;
