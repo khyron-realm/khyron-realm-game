@@ -116,6 +116,11 @@
                 Sends the client their ID.
             </summary>
         </member>
+        <member name="M:DarkRift.Server.Client.StartListening">
+            <summary>
+            Starts this client's connecting listening for messages.
+            </summary>
+        </member>
         <member name="M:DarkRift.Server.Client.SendMessage(DarkRift.Message,DarkRift.SendMode)">
             <inheritdoc/>
         </member>
@@ -458,11 +463,12 @@
             <param name="client">The client to allocate the ID to.</param>
             <param name="totalClients">The total number of clients connected.</param>
         </member>
-        <member name="M:DarkRift.Server.ClientManager.DeallocateID(System.UInt16)">
+        <member name="M:DarkRift.Server.ClientManager.DeallocateID(System.UInt16,System.Int32@)">
             <summary>
                 Deallocates a specified ID.
             </summary>
             <param name="id">The ID to deallocate.</param>
+            <param name="totalClients">The total number of clients connected.</param>
             <returns>true, if the ID was allocated; else, false.</returns>
         </member>
         <member name="M:DarkRift.Server.ClientManager.ReserveID">
@@ -482,13 +488,14 @@
             <param name="error">The error that caused the disconnect.</param>
             <param name="exception">The exception that caused the disconnect.</param>
         </member>
-        <member name="M:DarkRift.Server.ClientManager.FinaliseClientDisconnect(System.Exception,System.Net.Sockets.SocketError,DarkRift.Server.Client)">
+        <member name="M:DarkRift.Server.ClientManager.FinaliseClientDisconnect(System.Exception,System.Net.Sockets.SocketError,DarkRift.Server.Client,System.Int32)">
             <summary>
                 Finalises the client disconnecting.
             </summary>
             <param name="exception">The exception causing the disconnect.</param>
             <param name="error">The SocketError causing the disconnect.</param>
             <param name="client">The client disconnecting.</param>
+            <param name="noClients">The number of clients to report as connected</param>
         </member>
         <member name="M:DarkRift.Server.ClientManager.DropClient(DarkRift.Server.Client)">
             <summary>
@@ -991,6 +998,15 @@
             <param name="defaultValue">The default value to return if the attribute isn't present.</param>
             <returns>The log levels read.</returns>
         </member>
+        <member name="M:DarkRift.Server.ConfigurationFileHelper.ReadDependencyResolutionStrategy(System.Xml.Linq.XElement,System.String,DarkRift.Server.DependencyResolutionStrategy)">
+            <summary>
+                Reads a DependencyResolutionStrategy value from the XML element supplied.
+            </summary>
+            <param name="element">The element to read from.</param>
+            <param name="attributeName">The name of the attribute to read.</param>
+            <param name="defaultValue">The default value to return if the attribute isn't present.</param>
+            <returns>The string read.</returns>
+        </member>
         <member name="M:DarkRift.Server.ConfigurationFileHelper.ReadAttributeCollectionTo(System.Xml.Linq.XElement,System.Collections.Specialized.NameValueCollection)">
             <summary>
                 Reads a collection of attributes from the XML element supplied.
@@ -1429,7 +1445,7 @@
         </member>
         <member name="F:DarkRift.Server.DataManager.LockedFile.mutex">
             <summary>
-                The legacy mutext for the file locking.
+                The legacy mutex for the file locking.
             </summary>
         </member>
         <member name="F:DarkRift.Server.DataManager.LockedFile.reader">
@@ -1521,6 +1537,35 @@
             <summary>
                 Creates a new table for storing plugin metadata.
             </summary>
+        </member>
+        <member name="T:DarkRift.Server.DependencyResolutionStrategy">
+            <summary>
+            The way that dependencies of a plugin will be found.
+            </summary>
+        </member>
+        <member name="F:DarkRift.Server.DependencyResolutionStrategy.Standard">
+            <summary>
+            Uses the standard .NET assembly resolution with no enhancements.
+            </summary>
+            <remarks>
+            This strategy will search for dependencies for using the standard .NET rules detailed <see cref="!:https://docs.microsoft.com/en-us/dotnet/framework/deployment/how-the-runtime-locates-assemblies">here</see>.
+            </remarks>
+        </member>
+        <member name="F:DarkRift.Server.DependencyResolutionStrategy.RecursiveFromFile">
+            <summary>
+            Recursively searches all subdirectories of each file's containing folder in addition to the standard .NET assembly resolution.
+            </summary>
+            <remarks>
+            This strategy will search for dependencies for using the standard .NET rules detailed <see cref="!:https://docs.microsoft.com/en-us/dotnet/framework/deployment/how-the-runtime-locates-assemblies">here</see> but with additional steps to search through each discovered file's containing folder and any subdirectory of it.
+            </remarks>
+        </member>
+        <member name="F:DarkRift.Server.DependencyResolutionStrategy.RecursiveFromDirectory">
+            <summary>
+            Recursively searches all subdirectories of the folder's containing folder in addition to the standard .NET assembly resolution.
+            </summary>
+            <remarks>
+            This strategy will search for dependencies for using the standard .NET rules detailed <see cref="!:https://docs.microsoft.com/en-us/dotnet/framework/deployment/how-the-runtime-locates-assemblies">here</see> but with additional steps to search through the specified directory and any subdirectory of it. This cannot be used when using a path to a file.
+            </remarks>
         </member>
         <member name="E:DarkRift.Server.DownstreamRemoteServer.MessageReceived">
             <inheritdoc />
@@ -3785,18 +3830,21 @@
             </summary>
             <param name="settings">The settings defining where to find plugins.</param>
         </member>
-        <member name="M:DarkRift.Server.PluginFactory.AddDirectory(System.String,System.Boolean)">
+        <member name="M:DarkRift.Server.PluginFactory.AddDirectory(System.String,System.Boolean,DarkRift.Server.DependencyResolutionStrategy)">
             <summary>
                 Adds a directory of plugin files to the index.
             </summary>
             <param name="directory">The directory to add.</param>
             <param name="create">Whether to create the directory if not present.</param>
+            <param name="dependencyResolutionStrategy">The way to resolve dependencies for the plugin.</param>
         </member>
-        <member name="M:DarkRift.Server.PluginFactory.AddFiles(System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:DarkRift.Server.PluginFactory.AddFiles(System.Collections.Generic.IEnumerable{System.String},DarkRift.Server.DependencyResolutionStrategy,System.String)">
             <summary>
                 Adds the given plugin files into the index.
             </summary>
             <param name="files">An array of filepaths to the plugins.</param>
+            <param name="dependencyResolutionStrategy">The way to resolve dependencies for the plugin.</param>
+            <param name="searchedDirectory">the directory that was searched to find this file.</param>
         </member>
         <member name="M:DarkRift.Server.PluginFactory.AddTypes(System.Collections.Generic.IEnumerable{System.Type})">
             <summary>
@@ -3804,11 +3852,13 @@
             </summary>
             <param name="pluginTypes">The types of plugins to add.</param>
         </member>
-        <member name="M:DarkRift.Server.PluginFactory.AddFile(System.String)">
+        <member name="M:DarkRift.Server.PluginFactory.AddFile(System.String,DarkRift.Server.DependencyResolutionStrategy,System.String)">
             <summary>
                 Adds all plugin types in the file to the index.
             </summary>
             <param name="file">The file containing the types.</param>
+            <param name="dependencyResolutionStrategy">The way to resolve dependencies for the plugin.</param>
+            <param name="searchedDirectory">the directory that was searched to find this file.</param>
         </member>
         <member name="M:DarkRift.Server.PluginFactory.AddType(System.Type)">
             <summary>
@@ -5714,11 +5764,6 @@
             The current counter value.
             </summary>
         </member>
-        <member name="P:DarkRift.Server.Plugins.Metrics.Prometheus.CounterMetric.Timestamp">
-            <summary>
-            The timestamp the counter was last updated.
-            </summary>
-        </member>
         <member name="P:DarkRift.Server.Plugins.Metrics.Prometheus.CounterMetric.Preformatted">
             <summary>
             The Prometheus preformatted metric string.
@@ -5727,11 +5772,6 @@
         <member name="F:DarkRift.Server.Plugins.Metrics.Prometheus.CounterMetric.value">
             <summary>
              The current counter value.
-            </summary>
-        </member>
-        <member name="F:DarkRift.Server.Plugins.Metrics.Prometheus.CounterMetric.timestamp">
-            <summary>
-            The timestamp the counter was last updated.
             </summary>
         </member>
         <member name="M:DarkRift.Server.Plugins.Metrics.Prometheus.CounterMetric.Increment">
@@ -5756,11 +5796,6 @@
             The current gauge value.
             </summary>
         </member>
-        <member name="P:DarkRift.Server.Plugins.Metrics.Prometheus.GaugeMetric.Timestamp">
-            <summary>
-            The timestamp the counter was last updated.
-            </summary>
-        </member>
         <member name="P:DarkRift.Server.Plugins.Metrics.Prometheus.GaugeMetric.Preformatted">
             <summary>
                 The preformatted metric text.
@@ -5769,11 +5804,6 @@
         <member name="F:DarkRift.Server.Plugins.Metrics.Prometheus.GaugeMetric.value">
             <summary>
                 The current counter value.
-            </summary>
-        </member>
-        <member name="F:DarkRift.Server.Plugins.Metrics.Prometheus.GaugeMetric.timestamp">
-            <summary>
-            The timestamp the counter was last updated.
             </summary>
         </member>
         <member name="M:DarkRift.Server.Plugins.Metrics.Prometheus.GaugeMetric.Report(System.Double)">
@@ -5815,19 +5845,9 @@
             The preformatted metric text for count.
             </summary>
         </member>
-        <member name="P:DarkRift.Server.Plugins.Metrics.Prometheus.HistogramMetric.Timestamp">
-            <summary>
-            The timestamp the counter was last updated.
-            </summary>
-        </member>
         <member name="F:DarkRift.Server.Plugins.Metrics.Prometheus.HistogramMetric.sum">
             <summary>
             The current sum.
-            </summary>
-        </member>
-        <member name="F:DarkRift.Server.Plugins.Metrics.Prometheus.HistogramMetric.timestamp">
-            <summary>
-            The timestamp the counter was last updated.
             </summary>
         </member>
         <member name="F:DarkRift.Server.Plugins.Metrics.Prometheus.HistogramMetric.bucketUpperBounds">
@@ -5996,14 +6016,13 @@
             <param name="help">The help test to write.</param>
             <param name="type">The type of the metric.</param>
         </member>
-        <member name="M:DarkRift.Server.Plugins.Metrics.Prometheus.PrometheusEndpoint.WriteMetric(System.IO.StreamWriter,System.String,System.Object,System.Int64)">
+        <member name="M:DarkRift.Server.Plugins.Metrics.Prometheus.PrometheusEndpoint.WriteMetric(System.IO.StreamWriter,System.String,System.Double)">
             <summary>
             Writes a metric to the promethues endpoint stream.
             </summary>
             <param name="writer">The writer to write to.</param>
             <param name="metricName">The name of the metric.</param>
             <param name="value">The value of the metric.</param>
-            <param name="timestamp">The timestamp of the metric recording.</param>
         </member>
         <member name="M:DarkRift.Server.Plugins.Metrics.Prometheus.PrometheusEndpoint.GetTimestamp">
             <summary>
@@ -7064,6 +7083,11 @@
                 Whether the directory should be created if missing.
             </summary>
             <remarks>This has no effect when the path is a file.</remarks>
+        </member>
+        <member name="P:DarkRift.Server.ServerSpawnData.PluginSearchSettings.PluginSearchPath.DependencyResolutionStrategy">
+            <summary>
+            The way to resolve dependencies for the plugin.
+            </summary>
         </member>
         <member name="M:DarkRift.Server.ServerSpawnData.PluginSearchSettings.PluginSearchPath.LoadFromXmlElement(System.Xml.Linq.XElement,DarkRift.Server.ConfigurationFileHelper)">
             <summary>

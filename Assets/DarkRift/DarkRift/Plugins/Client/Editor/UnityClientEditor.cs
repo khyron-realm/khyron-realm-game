@@ -10,23 +10,20 @@ namespace DarkRift.Client.Unity
     [CanEditMultipleObjects]
     public class UnityClientEditor : Editor
     {
-        private UnityClient client;
         private SerializedProperty host;
         private SerializedProperty port;
-        private SerializedProperty autoConnect;
-        private SerializedProperty invokeFromDispatcher;
+        private SerializedProperty connectOnStart;
+        private SerializedProperty eventsFromDispatcher;
         private SerializedProperty sniffData;
 
         private SerializedProperty objectCacheSettings;
 
         private void OnEnable()
         {
-            client = (UnityClient)serializedObject.targetObject;
-
             host                    = serializedObject.FindProperty("host");
             port                    = serializedObject.FindProperty("port");
-            autoConnect             = serializedObject.FindProperty("autoConnect");
-            invokeFromDispatcher    = serializedObject.FindProperty("invokeFromDispatcher");
+            connectOnStart          = serializedObject.FindProperty("connectOnStart");
+            eventsFromDispatcher    = serializedObject.FindProperty("eventsFromDispatcher");
             sniffData               = serializedObject.FindProperty("sniffData");
 
             objectCacheSettings     = serializedObject.FindProperty("objectCacheSettings");
@@ -39,17 +36,17 @@ namespace DarkRift.Client.Unity
             //Display IP address
             EditorGUILayout.PropertyField(host);
             EditorGUILayout.PropertyField(port);
-            EditorGUILayout.PropertyField(autoConnect);
+            EditorGUILayout.PropertyField(connectOnStart);
 
             //Alert to changes when this is unticked!
-            bool old = invokeFromDispatcher.boolValue;
-            EditorGUILayout.PropertyField(invokeFromDispatcher);
+            bool old = eventsFromDispatcher.boolValue;
+            EditorGUILayout.PropertyField(eventsFromDispatcher);
 
-            if (invokeFromDispatcher.boolValue != old && !invokeFromDispatcher.boolValue)
+            if (eventsFromDispatcher.boolValue != old && !eventsFromDispatcher.boolValue)
             {
-                invokeFromDispatcher.boolValue = !EditorUtility.DisplayDialog(
+                eventsFromDispatcher.boolValue = !EditorUtility.DisplayDialog(
                     "Danger!",
-                    "Unchecking " + invokeFromDispatcher.displayName + " will cause DarkRift to fire events from the .NET thread pool, unless you are confident using multithreading with Unity you should not disable this. Are you 100% sure you want to proceed?",
+                    "Unchecking " + eventsFromDispatcher.displayName + " will cause DarkRift to fire events from the .NET thread pool, unless you are confident using multithreading with Unity you should not disable this. Are you 100% sure you want to proceed?",
                     "Yes",
                     "No (Save me!)"
                 );

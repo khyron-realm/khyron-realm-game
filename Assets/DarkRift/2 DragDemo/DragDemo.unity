@@ -753,8 +753,8 @@ MonoBehaviour:
   host: 127.0.0.1
   port: 4296
   noDelay: 0
-  autoConnect: 1
-  invokeFromDispatcher: 1
+  connectOnStart: 1
+  eventsFromDispatcher: 1
   sniffData: 0
   objectCacheSettings:
     maxWriters: 2

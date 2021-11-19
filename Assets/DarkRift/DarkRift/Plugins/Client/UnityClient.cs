@@ -55,12 +55,14 @@ namespace DarkRift.Client.Unity
         private bool noDelay = false;
 
         [SerializeField]
+        [FormerlySerializedAs("autoConnect")]
         [Tooltip("Indicates whether the client will connect to the server in the Start method.")]
-        private bool autoConnect = true;
+        private bool connectOnStart = true;
 
         [SerializeField]
+        [FormerlySerializedAs("invokeFromDispatcher")]
         [Tooltip("Specifies that DarkRift should take care of multithreading and invoke all events from Unity's main thread.")]
-        private volatile bool invokeFromDispatcher = true;
+        private volatile bool eventsFromDispatcher = true;
 
         [SerializeField]
         [Tooltip("Specifies whether DarkRift should log all data to the console.")]
@@ -235,8 +237,8 @@ namespace DarkRift.Client.Unity
 
         private void Start()
 		{
-            //If auto connect is true then connect to the server
-            if (autoConnect)
+            //If connect on start is true then connect to the server
+            if (connectOnStart)
 			    Connect(host, port, noDelay);
 		}
 
@@ -337,6 +339,7 @@ namespace DarkRift.Client.Unity
         /// <param name="port">The port of the server.</param>
         /// <param name="callback">The callback to make when the connection attempt completes.</param>
         [Obsolete("Use other ConnectInBackground overloads that automatically detect the IP version.")]
+#pragma warning disable 0618 // Implementing obsolete functionality
         public void ConnectInBackground(IPAddress ip, int port, IPVersion ipVersion, DarkRiftClient.ConnectCompleteHandler callback = null)
         {
             Client.ConnectInBackground(
@@ -347,7 +350,7 @@ namespace DarkRift.Client.Unity
                 {
                     if (callback != null)
                     {
-                        if (invokeFromDispatcher)
+                        if (eventsFromDispatcher)
                             Dispatcher.InvokeAsync(() => callback(e));
                         else
                             callback.Invoke(e);
@@ -359,6 +362,7 @@ namespace DarkRift.Client.Unity
                         Debug.Log("Connection failed to " + ip + " on port " + port + " using " + ipVersion + ".");
                 }
             );
+#pragma warning restore 0618 // Implementing obsolete functionality
         }
 
         /// <summary>
@@ -378,7 +382,7 @@ namespace DarkRift.Client.Unity
                 {
                     if (callback != null)
                     {
-                        if (invokeFromDispatcher)
+                        if (eventsFromDispatcher)
                             Dispatcher.InvokeAsync(() => callback(e));
                         else
                             callback.Invoke(e);
@@ -428,7 +432,7 @@ namespace DarkRift.Client.Unity
                 {
                     if (callback != null)
                     {
-                        if (invokeFromDispatcher)
+                        if (eventsFromDispatcher)
                             Dispatcher.InvokeAsync(() => callback(e));
                         else
                             callback.Invoke(e);
@@ -479,7 +483,7 @@ namespace DarkRift.Client.Unity
         private void Client_MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             //If we're handling multithreading then pass the event to the dispatcher
-            if (invokeFromDispatcher)
+            if (eventsFromDispatcher)
             {
                 if (sniffData)
                     Debug.Log("Message Received: Tag = " + e.Tag + ", SendMode = " + e.SendMode);
@@ -518,7 +522,7 @@ namespace DarkRift.Client.Unity
         private void Client_Disconnected(object sender, DisconnectedEventArgs e)
         {
             //If we're handling multithreading then pass the event to the dispatcher
-            if (invokeFromDispatcher)
+            if (eventsFromDispatcher)
             {
                 if (!e.LocalDisconnect)
                     Debug.Log("Disconnected from server, error: " + e.Error);

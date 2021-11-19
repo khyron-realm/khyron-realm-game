@@ -176,8 +176,11 @@ namespace DarkRift.Server.Unity
             }
 
             //Draw databases manually
+#pragma warning disable 0618 // Implementing obsolete functionality
             if (showDatabases = EditorGUILayout.Foldout(showDatabases, "Databases"))
             {
+                EditorGUILayout.HelpBox("Management of database connection strings with DarkRift is deprecated. Consider declaring connection strings as a setting on the plugins that require it.", MessageType.Warning);
+
                 EditorGUI.indentLevel++;
                 for (int i = 0; i < server.Databases.Count; i++)
                 {
@@ -200,6 +203,7 @@ namespace DarkRift.Server.Unity
                 Rect addRect = EditorGUI.IndentedRect(EditorGUILayout.GetControlRect(true));
                 if (GUI.Button(addRect, "Add Database"))
                     server.Databases.Add(new ServerSpawnData.DatabaseSettings.DatabaseConnectionData("NewDatabase", "Server=myServerAddress;Database=myDataBase;Uid=myUsername;Pwd=myPassword;"));
+#pragma warning restore 0618 // Implementing obsolete functionality
 
                 EditorGUI.indentLevel--;
             }

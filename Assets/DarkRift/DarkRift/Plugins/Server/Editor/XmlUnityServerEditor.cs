@@ -29,6 +29,10 @@ namespace DarkRift.Server.Unity
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(configuration);
+
+            if (configuration.objectReferenceValue == null)
+                EditorGUILayout.HelpBox("There is currently no configuration file assigned for the XmlUnityServer. The server will not be able to start!\n\nConsider adding the ExampleConfiguration.xml file here to get started.", MessageType.Warning);
+
             EditorGUILayout.PropertyField(createOnEnable);
 
             //Alert to changes when this is unticked!
