@@ -22,11 +22,6 @@ public class GetMinesFromServer : MonoBehaviour
     // Mine index
     private void SetForEachMine()
     {
-        //foreach (Networking.Mines.Mine item in MineManager.MineList)
-        //{
-        //    Debug.LogWarning(item.MapPosition);
-        //}
-
         foreach (MineTouched item in _mines)
         {
             item.IndexPosition = 255;
@@ -38,7 +33,6 @@ public class GetMinesFromServer : MonoBehaviour
         {
             if(MineManager.MineList[i].MapPosition != 255)
             {
-                Debug.LogWarning("Map position : " + MineManager.MineList[i].MapPosition);
                 _mines[MineManager.MineList[i].MapPosition].IndexPosition = i;
                 _mines[MineManager.MineList[i].MapPosition].HasMine = true;
                 _mines[MineManager.MineList[i].MapPosition].IsAuction = false;                

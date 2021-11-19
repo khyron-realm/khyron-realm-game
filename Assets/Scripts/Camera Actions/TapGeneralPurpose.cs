@@ -49,7 +49,6 @@ namespace CameraActions
                         }
                     } 
                 }
-
                 yield return null;
             }
         }

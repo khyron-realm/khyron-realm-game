@@ -72,6 +72,7 @@ namespace Authentification
         /// </summary>
         private void SuccessfulLogin(byte code)
         {
+            Debug.LogWarning("test " + code);
             if (code == 1)
             {
                 _scene.GoToScene();

@@ -28,16 +28,13 @@ namespace Manager.Train
 
 
         #region "Private members"
+
         private static RobotSO s_robot;
         private static GameObject s_robotIcon;
 
         private static ushort s_indexRobot = 0;    //uniq index of the robot
         private static int s_timeOfExecution = 0;
-
-        public static SortedDictionary<ushort, RobotSO> RobotsInTraining; // robots in building process
-
-        public static int TotalHousingSpaceDuringBuilding = 0;
-
+     
         // ### CheckIfRobotIsFinished ###
 
         private static bool s_getTimeFromFirstTask = false;
@@ -49,12 +46,17 @@ namespace Manager.Train
         private static DateTime s_initTimeOfBuilding;
 
         // ### end ###
+
+        public static SortedDictionary<ushort, RobotSO> RobotsInTraining; // robots in building process
+        public static int TotalHousingSpaceDuringBuilding = 0;
+     
         #endregion
 
 
+        #region "Init"
         private void Awake()
         {
-            RobotsInTraining = new SortedDictionary<ushort, RobotSO>();
+            InitAllStatic();
 
             _managerUI.OnButtonPressed += BuildRobot;
 
@@ -67,6 +69,24 @@ namespace Manager.Train
             PlayerDataOperations.OnEnergyModified += HaveEnergyForRobot;
             PlayerDataOperations.OnEnergyModified += CancelRobotConfirmation;
         }
+        private void InitAllStatic()
+        {
+            s_robot = null;
+            s_robotIcon = null;
+
+            s_indexRobot = 0;
+            s_timeOfExecution = 0;
+
+            TotalHousingSpaceDuringBuilding = 0;
+            RobotsInTraining = new SortedDictionary<ushort, RobotSO>();
+
+            s_getTimeFromFirstTask = false;
+            s_firstRobotAdded = true;
+
+            s_taskLastDone = null;
+            s_robotLastBuilt = null;
+        }
+        #endregion
 
 
         #region "Building Task Management"
@@ -172,10 +192,9 @@ namespace Manager.Train
         }
         private void HaveSpaceForRobot(byte tag)
         {
-            if(OperationsTags.BUILDING_ROBOTS == tag)
-            {
-                PlayerDataOperations.PayEnergy(-(int)LevelMethods.RobotBuildCost(HeadquartersManager.Player.Robots[s_robot.RobotId].Level, s_robot.RobotId), OperationsTags.BUILDING_ROBOTS);
-            }           
+            if (OperationsTags.BUILDING_ROBOTS != tag) return;    
+            
+            PlayerDataOperations.PayEnergy(-(int)LevelMethods.RobotBuildCost(HeadquartersManager.Player.Robots[s_robot.RobotId].Level, s_robot.RobotId), OperationsTags.BUILDING_ROBOTS);                    
         }
         private void HaveEnergyForRobot(byte tag)
         {
