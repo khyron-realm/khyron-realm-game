@@ -14,6 +14,7 @@ public class ShowLastBid : MonoBehaviour
         LastBidEnterRoom();
         AuctionsManager.OnAddBid += LastBidInRoom;
         AuctionsManager.OnSuccessfulAddBid += LastBidInRoom;
+        AuctionsManager.OnOverbid += LastBidInRoom;
     }
 
 
@@ -31,5 +32,6 @@ public class ShowLastBid : MonoBehaviour
     {
         AuctionsManager.OnAddBid -= LastBidInRoom;
         AuctionsManager.OnSuccessfulAddBid -= LastBidInRoom;
+        AuctionsManager.OnOverbid -= LastBidInRoom;
     }
 }
