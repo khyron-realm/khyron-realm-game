@@ -9238,6 +9238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tapTimeThreshold: 0.6
+  _sensitivity: 2
 --- !u!1 &1900885085
 GameObject:
   m_ObjectHideFlags: 0
