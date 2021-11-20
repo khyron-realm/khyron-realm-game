@@ -10,6 +10,7 @@ namespace CameraActions
     public class TapGeneralPurpose : MonoBehaviour
     {
         [SerializeField] private float tapTimeThreshold;
+        [SerializeField] private float _sensitivity;
 
         private float timeTouchBegan;
         private bool touchDidMove;
@@ -36,7 +37,10 @@ namespace CameraActions
 
                     if (Input.GetTouch(0).phase == TouchPhase.Moved)
                     {
-                        touchDidMove = true;
+                        if (Mathf.Abs(Input.GetTouch(0).deltaPosition.x) > _sensitivity || Mathf.Abs(Input.GetTouch(0).deltaPosition.y) > _sensitivity)
+                        {
+                            touchDidMove = true;
+                        }
                     }
 
                     if (Input.GetTouch(0).phase == TouchPhase.Ended)

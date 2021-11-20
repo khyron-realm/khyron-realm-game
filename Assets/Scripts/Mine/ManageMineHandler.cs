@@ -58,7 +58,6 @@ public class ManageMineHandler : MonoBehaviour
 
     public void FinishMine()
     {
-        Debug.LogWarning("Current Id: " + MineManager.CurrentMine);
         MineManager.FinishPlayerMine(MineManager.MineList[MineManager.CurrentMine].Id, HeadquartersManager.Player.Robots, HeadquartersManager.Player.Resources);
     }
     private void FinishMineCompleted()
