@@ -20,7 +20,7 @@ namespace Networking.Login
         #region Events
 
         public delegate void SuccessfulLoginEventHandler(byte loginType);
-        public delegate void FailedLoginEventHandler(byte errorId);
+        public delegate void FailedLoginEventHandler(byte errorId, byte loginType);
         public delegate void SuccessfulLogoutEventHandler(byte logoutType);
         public delegate void SuccessfulAddUserEventHandler();
         public delegate void FailedAddUserEventHandler(byte errorId);
@@ -86,7 +86,10 @@ namespace Networking.Login
                         Debug.LogWarning("Invalid LoginFailed error data received");
                         return;
                     }
-                    OnFailedLogin?.Invoke(reader.ReadByte());
+                    byte errorId = reader.ReadByte();
+                    byte loginType = reader.ReadByte();
+                    
+                    OnFailedLogin?.Invoke(errorId, loginType);
                     break;
                 }
 
