@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using DG.Tweening;
-using CameraActions;
+using Sounds;
 
 
 namespace Panels
@@ -34,6 +33,10 @@ namespace Panels
         [Space(30f)]
         private float _bgTransparency;
 
+        [Header("BackGround trasparency [alpha value]")]
+        [Space(30f)]
+        [SerializeField] private ButtonClickSound _cliskSounds;
+
         #endregion
 
         #region "Private members used in script"
@@ -56,6 +59,9 @@ namespace Panels
 
         public void Open()
         {
+            if(_cliskSounds != null)
+                _cliskSounds.MakeSound();
+
             SetActive();
         }
 

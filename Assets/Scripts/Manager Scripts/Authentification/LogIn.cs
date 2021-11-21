@@ -61,7 +61,7 @@ namespace Authentification
             }          
             else
             {
-                FailedLogin(1);
+                FailedLogin(1, 1);
             }
         }
 
@@ -72,15 +72,15 @@ namespace Authentification
         /// </summary>
         private void SuccessfulLogin(byte code)
         {
-            Debug.LogWarning("test " + code);
-            if (code == 1)
-            {
-                _scene.GoToScene();
-            }          
-        }
-        
-        private void FailedLogin(byte errorId)
+            if (code != 1) return;
+
+            StopCoroutine(ConnectionTimeOut());
+            _scene.GoToScene();                    
+        }        
+        private void FailedLogin(byte errorId, byte id)
         {
+            if (id != 1) return;
+
             switch (errorId)
             {
                 case 0:
@@ -115,7 +115,7 @@ namespace Authentification
             
             if(s_connectionTimeOut == false)
             {
-                FailedLogin(10);
+                FailedLogin(10, 1);
             }
         }
         

@@ -39,6 +39,11 @@ namespace AuxiliaryClasses
                 }
                 if(i == (amountToPool - 1) && pooledObjects[i].activeSelf)
                 {
+                    GameObject temp = pooledObjects[0];
+                    pooledObjects.RemoveAt(0);
+                    pooledObjects.Insert(amountToPool - 1, temp);
+
+                    pooledObjects[i].transform.SetAsLastSibling();
                     return pooledObjects[i];
                 }
             }

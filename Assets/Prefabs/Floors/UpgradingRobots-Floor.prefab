@@ -1072,7 +1072,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5719321953211322653
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2205,6 +2205,7 @@ GameObject:
   - component: {fileID: 5719321954588603783}
   - component: {fileID: 5719321954588603781}
   - component: {fileID: 5719321954588603780}
+  - component: {fileID: 1280846822}
   m_Layer: 0
   m_Name: UpgradingRobots-Floor
   m_TagString: Untagged
@@ -2219,7 +2220,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5719321954588603777}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.4394, y: 1.7775, z: 0}
   m_LocalScale: {x: 0.1591514, y: 0.1232186, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2241,7 +2242,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -113.55331, y: 46.756668}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2252,7 +2253,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 80.06, y: 38.38814}
+  m_Size: {x: 100.801895, y: 55.905197}
   m_EdgeRadius: 0
 --- !u!114 &5719321954588603780
 MonoBehaviour:
@@ -2270,6 +2271,20 @@ MonoBehaviour:
   _bgPanel: {fileID: 0}
   _popUpScaleValue: 1.08
   _bgTransparency: 0.4
+  _cliskSounds: {fileID: 1280846822}
+--- !u!114 &1280846822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5719321954588603777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02c71e3c89c2b746be0616de7448079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _index: 0
 --- !u!1 &5719321954727314483
 GameObject:
   m_ObjectHideFlags: 0
@@ -2729,8 +2744,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 136.5, y: 151.5}
-  m_SizeDelta: {x: 142.9846, y: 19.7493}
+  m_AnchoredPosition: {x: 135.7, y: 152.6}
+  m_SizeDelta: {x: 131.3869, y: 19.7493}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &641345775774242216
 CanvasRenderer:

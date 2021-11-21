@@ -81,7 +81,7 @@ namespace Networking.Login
                     if (ShowDebug) Debug.Log("Cannot log in");
 #endif
                     using var reader = message.GetReader();
-                    if (reader.Length != 1)
+                    if (reader.Length != 2)
                     {
                         Debug.LogWarning("Invalid LoginFailed error data received");
                         return;

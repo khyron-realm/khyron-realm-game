@@ -56,7 +56,7 @@ namespace Authentification
             }
             else
             {
-                FailedLogin(0);
+                FailedLogin(0, 0);
             }            
         }
 
@@ -71,21 +71,23 @@ namespace Authentification
             }
             else
             {
-                FailedLogin(0);
+                FailedLogin(0, 0);
             }
         }
 
         #region "Handlers"
         private void SuccessfulLogin(byte code)
         {
-            if (code == 0)
-            {
-                _loadingOperation = SceneManager.LoadSceneAsync((int)ScenesName.HEADQUARTERS_SCENE, LoadSceneMode.Additive);
-                OnAutomaticLoginAccepted?.Invoke(_loadingOperation, true);
-            }
+            if (code != 0) return;
+
+            _loadingOperation = SceneManager.LoadSceneAsync((int)ScenesName.HEADQUARTERS_SCENE, LoadSceneMode.Additive);
+            OnAutomaticLoginAccepted?.Invoke(_loadingOperation, true);
+            
         }
-        private static void FailedLogin(byte errorId)
+        private static void FailedLogin(byte errorId, byte id)
         {
+            if (id != 0) return;
+
             if(s_once == false)
             {
                 SceneManager.LoadSceneAsync((int)ScenesName.AUTHENTICATION_SCENE, LoadSceneMode.Additive);
