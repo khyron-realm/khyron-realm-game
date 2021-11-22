@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Networking.Headquarters;
+using Levels;
 
 
 public class TopUpEnergy : MonoBehaviour
@@ -20,12 +21,16 @@ public class TopUpEnergy : MonoBehaviour
         {
             if(item.Type == BackgroundTaskType.EnergyTopUp)
             {
-                HeadquartersManager.Player.Energy += item.ValueId;
-                HeadquartersManager.UpdateEnergy(HeadquartersManager.Player.Energy);
+                uint temp = HeadquartersManager.Player.Energy + item.ValueId;
 
-                if(item != null)
-                    HeadquartersManager.RemoveBackgroundTaskRequest(item);
-            }           
+                if (temp < LevelMethods.MaxEnergyCount(HeadquartersManager.Player.Level))
+                {
+                    HeadquartersManager.Player.Energy += item.ValueId;
+                    HeadquartersManager.UpdateEnergy(HeadquartersManager.Player.Energy);
+                }  
+            }
+
+            HeadquartersManager.RemoveBackgroundTaskRequest(item);
         }        
     }
 
