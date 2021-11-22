@@ -35,13 +35,13 @@ namespace Manager.Robots.Mining
             switch (temp.name)
             {
                 case "SiliconOre":
-                    PlayerDataOperations.PayResources(10, 0, 0, 255);
+                    PlayerDataOperations.PayResources(40, 0, 0, 255);
                     break;
                 case "LithiumOre":
-                    PlayerDataOperations.PayResources(0, 10, 0, 255);
+                    PlayerDataOperations.PayResources(0, 22, 0, 255);
                     break;                
                 case "TitaniumOre":
-                    PlayerDataOperations.PayResources(0, 0, 10, 255);
+                    PlayerDataOperations.PayResources(0, 0, 12, 255);
                     break;
             }
         }
