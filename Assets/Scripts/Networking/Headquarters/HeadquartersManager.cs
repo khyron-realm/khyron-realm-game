@@ -79,6 +79,11 @@ namespace Networking.Headquarters
                     UpdateLevelError();
                     break;
                 }
+                case HeadquartersTags.UpdateEnergyError:
+                {
+                    UpdateEnergyError();
+                    break;
+                }
 
                 case HeadquartersTags.ConvertResourcesError:
                 {
@@ -137,6 +142,7 @@ namespace Networking.Headquarters
         public delegate void GameDataUnavailableEventHandler();
 
         public delegate void UpdateLevelErrorEventHandler();
+        public delegate void UpdateEnergyErrorEventHandler();
 
         public delegate void ConversionErrorEventHandler(byte errorId);
 
@@ -158,6 +164,7 @@ namespace Networking.Headquarters
         public static event GameDataReceivedEventHandler OnGameDataReceived;
         public static event GameDataUnavailableEventHandler OnGameDataUnavailable;
         public static event UpdateLevelErrorEventHandler OnUpdateLevelError;
+        public static event UpdateEnergyErrorEventHandler OnUpdateEnergyError;
         public static event ConversionErrorEventHandler OnConversionError;
         public static event FinishConversionErrorEventHandler OnFinishConversionError;
         public static event UpgradingErrorEventHandler OnUpgradingError;
@@ -243,11 +250,19 @@ namespace Networking.Headquarters
         }
 
         /// <summary>
-        ///     Receive game data unavailable message
+        ///     Receive update level error message
         /// </summary>
         private static void UpdateLevelError()
         {
             OnUpdateLevelError?.Invoke();
+        }
+        
+        /// <summary>
+        ///     Receive update energy error message
+        /// </summary>
+        private static void UpdateEnergyError()
+        {
+            OnUpdateEnergyError?.Invoke();
         }
 
         /// <summary>
@@ -432,6 +447,22 @@ namespace Networking.Headquarters
 #endif
         }
 
+        /// <summary>
+        ///     Request for updating the energy
+        /// </summary>
+        /// <param name="energy">The new energy value</param>
+        public static void UpdateEnergy(uint energy)
+        {
+            using var writer = DarkRiftWriter.Create();
+            writer.Write(energy);
+            using var msg = Message.Create(HeadquartersTags.UpdateEnergy, writer);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
+
+#if UNITY_EDITOR
+            if (ShowDebug) Debug.Log("Updating energy");
+#endif
+        }
+        
         /// <summary>
         ///     Request for converting the resources to energy
         /// </summary>
