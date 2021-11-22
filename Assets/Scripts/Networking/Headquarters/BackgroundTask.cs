@@ -27,12 +27,17 @@ namespace Networking.Headquarters
             ValueId = e.Reader.ReadUInt32();
             ValueDescription = e.Reader.ReadString();
         }
-        
+
         /// <summary>
         ///     Serialization method for build task
         /// </summary>
         /// <param name="e">Serialize event</param>
         public void Serialize(SerializeEvent e)
-        { }
+        {
+            e.Writer.Write(Time);
+            e.Writer.Write(Type);
+            e.Writer.Write(ValueId);
+            e.Writer.Write(ValueDescription);
+        }
     }
 }
