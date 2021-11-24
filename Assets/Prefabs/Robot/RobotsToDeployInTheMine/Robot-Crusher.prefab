@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0db68a36ea9b0674195c0367122079e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  robotIndex: 2
   _robotGameObject: {fileID: 8081672677367500380}
   _damage: {fileID: -7404102398447709204}
   _robotsMovingType: 1

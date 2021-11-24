@@ -5,6 +5,8 @@ using UnityEngine;
 using Tiles.Tiledata;
 using DG.Tweening;
 using Manager.Robots.Damage;
+using Levels;
+using Networking.Headquarters;
 
 
 namespace Manager.Robots.Mining
@@ -13,6 +15,7 @@ namespace Manager.Robots.Mining
     {
         #region "Input data"
 
+        [SerializeField] private byte robotIndex;
         [SerializeField] private GameObject _robotGameObject;
         [SerializeField] private RobotsGetDamage _damage;
         [SerializeField] private Ease _robotsMovingType;
@@ -21,6 +24,7 @@ namespace Manager.Robots.Mining
         [SerializeField] private ParticleSystem _particles;
 
         [SerializeField] private float scale;
+
         #endregion
 
         #region "Private members"
@@ -264,7 +268,8 @@ namespace Manager.Robots.Mining
             _check = false;
             while (!_check)
             {
-                StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health -= (int)(20f);
+                // Damage to blocks
+                StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health -= LevelMethods.RobotMiningDamage(HeadquartersManager.Player.Robots[robotIndex].Level, robotIndex);
 
                 if (StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health < 0)
                 {
@@ -311,7 +316,7 @@ namespace Manager.Robots.Mining
         private float TimeForMoving(ref Vector2Int block)
         {
             float dist = Vector3.Distance(gameObject.transform.position, new Vector3(block.x, block.y, 0));
-            float time = dist / _movementSpeed;
+            float time = dist / LevelMethods.RobotMovementSpeed(HeadquartersManager.Player.Robots[robotIndex].Level, robotIndex);
             return time;
         }
     }
