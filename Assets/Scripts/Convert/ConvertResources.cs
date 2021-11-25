@@ -47,6 +47,7 @@ namespace Manager.Convert
 
             if (((LevelMethods.ResourceConversionTime(HeadquartersManager.Player.Level) * 60) - timePassed) < 1)
             {
+                PlayerDataOperations.PayEnergy((int)LevelMethods.ResourceConversionGeneration(HeadquartersManager.Player.Level), OperationsTags.CONVERTING_RESOURCES);
                 ConversionEnded(OperationsTags.CONVERTING_RESOURCES);
             }
             else

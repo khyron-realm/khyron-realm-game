@@ -70,7 +70,7 @@ namespace Levels
         /// <returns>The calculated value for the level</returns>
         public static ushort ResourceConversionTime(byte level)
         {
-            if (level < 5)
+            if (level < 6)
                 return 5;
             else
                 return (ushort) (level/5 * 10);
@@ -168,7 +168,7 @@ namespace Levels
             switch (robotType)
             {
                 case RobotTypes.Worker: 
-                    return (ushort) (3);
+                    return (ushort) (2);
                 case RobotTypes.Probe:
                     return (ushort) (0);
                 case RobotTypes.Crusher:

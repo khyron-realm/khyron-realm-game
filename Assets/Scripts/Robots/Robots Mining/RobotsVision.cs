@@ -174,10 +174,10 @@ namespace Manager.Robots.Mining
 
         private IEnumerator Timer()
         {
-            int temp = 20;
+            int temp = 30;
             while(temp > 0)
             {
-                _colorChange.AdjustColorBasedOnHealth(temp, 20);
+                _colorChange.AdjustColorBasedOnHealth(temp, 30);
                 temp --;
                 yield return new WaitForSeconds(1f);
             }
