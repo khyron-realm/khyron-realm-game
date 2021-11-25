@@ -60,7 +60,8 @@ namespace Levels
         /// <returns>The calculated value for the level</returns>
         public static uint ResourceConversionGeneration(byte level)
         {
-            return (uint) (9950 * level + Math.Pow(level, 2) * 50);
+            var tempValue = (uint)(9950 * level + Math.Pow(level, 2) * 50);
+            return tempValue - tempValue % 1000;
         }
         
         /// <summary>
