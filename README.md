@@ -1,26 +1,23 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/target-software/Unlimited-Game-MiningGame">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/khyron-realm/khyron-realm-game">
+    <img src="Images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">UNLIMITED </h3>
+  <h3 align="center">Khyron Realm - Game</h3>
 
   <p align="center">
-    README for the Unlimited game [Mining game]
-    <br />
-    <a href="https://github.com/target-software/Unlimited-Game-MiningGame"><strong>Explore the docs »</strong></a>
+    <a href="https://khyron-realm.com/docs/description"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/target-software/Unlimited-Game-MiningGame">View Demo</a>
+    <a href="https://github.com/khyron-realm/khyron-realm-game">View Demo</a>
     ·
-    <a href="https://github.com/target-software/Unlimited-Game-MiningGame/issues">Report Bug</a>
+    <a href="https://github.com/khyron-realm/khyron-realm-game/issues">Report Bug</a>
     ·
-    <a href="https://github.com/target-software/Unlimited-Game-MiningGame/issues">Request Feature</a>
+    <a href="https://github.com/khyron-realm/khyron-realm-game/issues">Request Feature</a>
   </p>
 </p>
-
 
 
 <!-- TABLE OF CONTENTS -->
@@ -41,22 +38,24 @@
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#license">License</a></li>
     <li><a href="#references">References</a></li>
   </ol>
 </details>
 
 
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="images/img3.jpg" alt="Logo" width="1000" height="400">
+<img src="Images/game.png" alt="Game">
 
-Unlimited Game ... The next 2D social casual game with an interconnected economy system that teach users basic finance and selling skils.
+The repository contains the Khyron Realm Game made with Unity using Darkrift 2 Networking.
 
 ### Built With
 
 * [Unity](https://unity.com/)
+
+
 <!-- GETTING STARTED -->
 ## Getting Started
 
@@ -64,23 +63,20 @@ Unlimited Game ... The next 2D social casual game with an interconnected economy
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/khyron-realm/khyron-realm-game.git
    ```
-2. Open project in Unity
-
+2. Open project in **Unity**
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-More detailes can be found on [Google Drive](https://docs.google.com/document/d/1CHdDfEm5BDM8vAbeubNgLF-Et8YwMgCbreD4CC6dSfo/edit)
-
+More detailes can be found on [Wiki](https://khyron-realm.com/docs/description)
 
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGame/issues) for a list of proposed features (and known issues).
-
+See the [open issues](https://github.com/khyron-realm/khyron-realm-game/issues) for a list of proposed features (and known issues).
 
 
 <!-- CONTRIBUTING -->
@@ -115,7 +111,8 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
     |    | -- UI
     |
     |-- Scenes
-    |-- Scriptable Objetcs
+    |
+    |-- Scriptable Objects
     |    | -- Mine Resources
     |    | -- Player
     |    | -- Prices
@@ -157,26 +154,55 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
     |    |    |-- MineEnergyEstimates.cs                # An estimated price of the mine in energy
     |    |    |-- MineGenerator.cs                      # Generates the mine [Instantiate tilemap]
     |    |    |-- MineTouched.cs                        # Detect if mine is touched and Invokes an event
-    |    |    |-- RefreshMineValues.cs                  # Refresh the seeds and coeficients for mine generation
+    |    |    |-- RefreshMineValues.cs                  # Refresh the seeds and coefficients for mine generation
     |    |    |-- ShowMineDetails.cs                    # Shows more buttons and details about the mine [Enter button, refresh button] 
     |    |
     |    |-- Networking
-    |    |    |-- Game
-    |    |    |    |-- BuildTask.cs                     # General class for asynchronous server tasks (converting, building and upgrading)
-    |    |    |    |-- GameControl.cs                   # Singleton class for darkrift client object
-    |    |    |    |-- Singleton.cs                     # Singleton class template
-    |    |    |    |-- UnlimitedPlayerManager.cs        # Manager for connecting player to server and executing actions   
-    |    |    |-- GameElements
-    |    |    |    |-- PlayerData.cs                    # Player details class
-    |    |    |    |-- Resources.cs                     # Resources data class
-    |    |    |    |-- Robot.cs                         # Robot data class
+    |    |    |-- Auction
+    |    |    |    | -- AuctionRoom.cs                  # Auction room structure
+    |    |    |    | -- AuctionManager.cs               # Auction Manager for handling the auction
+    |    |    |    | -- Bid.cs                          # Bid structure
+    |    |    |    | -- Player.cs                       # Player structure
+    |    |    |-- Chat
+    |    |    |    | -- ArrayPrefs.cs                   # Array methods  
+    |    |    |    | -- ChatGroup.cs                    # Chat group structure
+    |    |    |    | -- ChatManager.cs                  # Chat Manager for handling the chat
+    |    |    |    | -- ChatMessage.cs                  # Chat message structure
+    |    |    |    | -- Filter.cs                       # Chat filter
+    |    |    |    | -- MessageType.cs                  # Message type  
+    |    |    |-- Friends
+    |    |    |    | -- FriendsManager.cs               # Friends Manager for handling friends
+    |    |    |-- Headquarters
+    |    |    |    | -- BuildTask.cs                    # Build task structure
+    |    |    |    | -- HeadquartersManager.cs          # Headquarters Manager for handling hq
+    |    |    |    | -- PlayerData.cs                   # Player data structure
+    |    |    |    | -- Resource.cs                     # Resource structure
+    |    |    |    | -- Robot.cs                        # Robot structure
+    |    |    |-- Launcher
+    |    |    |    | -- DarkriftServerConnection.cs     # Methods for connecting to the server
+    |    |    |    | -- NetworkManager.cs               # Manager for the client connection
+    |    |    |    | -- Singleton.cs                    # Singleton class for the network manager
     |    |    |-- Login
-    |    |    |    |-- LoginManager.cs                  # Manager for authenticating the user
-    |    |    |    |-- Rsa.cs                           # RSA encryption method
-    |    |    |-- Tags       
-    |    |    |    |-- GameTags.cs                      # Tags for game message communication
-    |    |    |    |-- LoginTags.cs                     # Tags for login message communication
-    |    |    |    |-- Tags.cs                          # Tags for selecting the plugin
+    |    |    |    | -- LoginManager.cs                 # Manager for authenticating the user
+    |    |    |    | -- Rsa.cs                          # Login types class
+    |    |    |    | -- Rsa.cs                          # RSA encryption method
+    |    |    |-- Mines
+    |    |    |    | -- Mine.cs                         # Mine structure
+    |    |    |    | -- MineGenerator.cs                # Mine generator
+    |    |    |    | -- MinePlugin.cs                   # Mine Plugin for handling the mines
+    |    |    |    | -- MineScan.cs                     # Mine scan structure
+    |    |    |    | -- ResourcesData.cs                # Resources data structure
+    |    |    |-- MongoDBConnector
+    |    |    |    | -- DataLayer.cs                    # Data layer for MongoDB database
+    |    |    |    | -- MongoDBPlugin.cs                # MongoDB Plugin for handling MongoDB
+    |    |    |-- Tags
+    |    |    |    | -- AuctionTags.cs                  # Tags for auction rooms
+    |    |    |    | -- ChatTags.cs                     # Tags for game messages
+    |    |    |    | -- FriendsTags.cs                  # Tags for login messages
+    |    |    |    | -- HeadquartersTags.cs             # Tags for headquarters messages
+    |    |    |    | -- LoginTags.cs                    # Tags for login messages
+    |    |    |    | -- MineTags.cs                     # Tags for mines
+    |    |    |    | -- Tags.cs                         # Tags structure    
     |    |
     |    |-- Panels     
     |    |    |-- BidsDisplayUI.cs                      # Displays the bids in the AuctionScene
@@ -257,12 +283,31 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
     |
     |-- Sounds
     |-- Tiles
-    |-- ************************************************************************
+    |-- *********************************************************************************************************************************************
 ```
+
+
 ## Used Plugins and Software
 
 1. [Rainbow Folders 2](https://assetstore.unity.com/packages/tools/utilities/rainbow-folders-2-143526)
 2. [DotWeen](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
+3. [DarkRift Networking 2 - PRO - v2.10.1](https://assetstore.unity.com/packages/tools/network/darkrift-networking-2-pro-95399)
+
+
+<!-- LICENSE -->
+## License
+
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+
+This work is licensed under a
+[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
+
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
+
+[cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
+[cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
+[cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
+
 
 
 <!-- REFERENCES -->
