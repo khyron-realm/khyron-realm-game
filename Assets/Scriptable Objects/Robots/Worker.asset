@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b0e4fce530eaa4dab92fab5796a516, type: 3}
   m_Name: Worker
   m_EditorClassIdentifier: 
-  nameOfTheRobot: Worker
-  description: Works like hell for nothing
-  buildTime: 1
-  icon: {fileID: 21300000, guid: 604eae4213d1d324f8e3aab29c3fedc2, type: 3}
-  robotLevel:
+  RobotId: 0
+  HousingSpace: 1
+  BuildTime: 5
+  NameOfTheRobot: Worker
+  Description: Nothing
+  Icon: {fileID: 21300000, guid: 2322e1eb77f9d93429b1100d2191aead, type: 3}
+  RobotLevel:
   - {fileID: 11400000, guid: 9d8f00ba8ff463040a5b5691012fd52e, type: 2}

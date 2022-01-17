@@ -427,7 +427,6 @@
             </summary>
             <typeparam name="T">The type of object to read.</typeparam>
             <param name="t">The object to deserialize the data into.</param>
-            <returns>The serializable object read.</returns>
         </member>
         <member name="M:DarkRift.DarkRiftReader.ReadBytes">
             <summary>
@@ -1777,10 +1776,17 @@
         </member>
         <member name="M:DarkRift.Message.Deserialize``1">
             <summary>
-                Deserializes the data to the given object.
+                Deserializes the data to the given object type.
             </summary>
             <typeparam name="T">The type of object to deserialize to.</typeparam>
             <returns>The deserialized object.</returns>
+        </member>
+        <member name="M:DarkRift.Message.DeserializeInto``1(``0@)">
+            <summary>
+                Deserializes the data to the given object.
+            </summary>
+            <typeparam name="T">The type of object to deserialize to.</typeparam>
+            <param name="t">The object to deserialize the data into.</param>
         </member>
         <member name="M:DarkRift.Message.Serialize(DarkRift.IDarkRiftSerializable)">
             <summary>

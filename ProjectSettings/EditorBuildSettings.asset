@@ -6,10 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/AuthentificationScene.unity
+    path: Assets/Scenes/PersistentInitialScreen.unity
+    guid: 1528a6fa7aa52154e85e9e88a97020b0
+  - enabled: 1
+    path: Assets/Scenes/AuthenticationScene.unity
     guid: 64f301dda8b95b84eac3162a60827788
   - enabled: 1
-    path: Assets/Scenes/MainScene.unity
+    path: Assets/Scenes/HQScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/AuctionMineScene.unity
@@ -17,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AquiredMineScene.unity
     guid: 7aaf11b241ae0914d8733000d00bf242
+  - enabled: 1
+    path: Assets/Scenes/ReconnectScene.unity
+    guid: 3427a03e7a6439e459a6ae2704f1475e
   m_configObjects: {}

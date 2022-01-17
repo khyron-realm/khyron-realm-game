@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using AuxiliaryClasses;
 using DG.Tweening;
+using PlayerDataUpdate;
 
 namespace Manager.Robots.Mining
 {
@@ -26,8 +27,24 @@ namespace Manager.Robots.Mining
         {
             _objectPooled = GameObject.Find("PooledResources").GetComponent<ObjectPooling>();
             _miningScript.OnResourceMined += AnimateResource;
+            _miningScript.OnResourceMined += AddResource;
         }
 
+        private void AddResource(MineResources temp, Vector3 position)
+        {
+            switch (temp.name)
+            {
+                case "SiliconOre":
+                    PlayerDataOperations.PayResources(40, 0, 0, 255);
+                    break;
+                case "LithiumOre":
+                    PlayerDataOperations.PayResources(0, 22, 0, 255);
+                    break;                
+                case "TitaniumOre":
+                    PlayerDataOperations.PayResources(0, 0, 12, 255);
+                    break;
+            }
+        }
         private void AnimateResource(MineResources temp, Vector3 position)
         {
             switch(temp.name)
@@ -52,6 +69,12 @@ namespace Manager.Robots.Mining
             resource.SetActive(true);
             resource.transform.DOMoveY(position.y + 3f, 1.4f).OnComplete(()=> resource.SetActive(false));
             resource.GetComponent<SpriteRenderer>().DOFade(0, 1.4f);
+        }
+
+        private void OnDestroy()
+        {
+            _miningScript.OnResourceMined -= AnimateResource;
+            _miningScript.OnResourceMined -= AddResource;
         }
     }
 }

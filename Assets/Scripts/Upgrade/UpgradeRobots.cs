@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Manager.Robots;
-using Manager.Store;
 using CountDown;
+using Levels;
+using Networking.Headquarters;
+using PlayerDataUpdate;
+using AuxiliaryClasses;
 
 
 namespace Manager.Upgrade
@@ -20,66 +22,153 @@ namespace Manager.Upgrade
         [SerializeField] private RobotsManagerUI _robotManager;
         [SerializeField] private Timer _timer;
         #endregion
-        
-        private Robot _selectedRobot;
-        private RobotLevel _curentLevelOfTheRobot;
 
+
+        #region "Private members"
+
+        private RobotSO _selectedRobot;
+        public static event Action<byte> OnRobotSelected;
+
+        #endregion
+
+
+        #region "Awake & Start"
         private void Awake()
         {
             _robotManager.OnButtonPressed += DisplayRobotToUpgrade;
-            _upgradeButton.onClick.AddListener(StartUpgradingProcedure);
+            _upgradeButton.onClick.AddListener(UpgradeRobot);
 
             _timer.TimeTextState(false);
+
+            HeadquartersManager.OnPlayerDataReceived += ShowFirstRobot;
+            HeadquartersManager.OnUpgradingError += UpgradingError;
+
+            PlayerDataOperations.OnEnergyModified += UpgradeCompatible;
+            PlayerDataOperations.OnRobotUpgraded += RobotUpgradeSendFinished;
+
+            ManageTasks.OnUpgradingWorking += UpgradeInProgress;
         }
 
-        private void Start()
+
+        private void ShowFirstRobot()
         {
             DisplayRobotToUpgrade(RobotsManager.robots[0]);
         }
+        #endregion
 
-        private void DisplayRobotToUpgrade(Robot robot)
+
+        #region "Upgrading"
+        private void UpgradeInProgress(BuildTask task, RobotSO robot)
+        {
+            _selectedRobot = robot;
+            UpgradingMethod((LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Robots[robot.RobotId].Level) * 60) - AuxiliaryMethods.TimeTillFinishEnd(task.StartTime), LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Robots[robot.RobotId].Level) * 60);
+        }       
+        public void UpgradeRobot()
+        {
+            PlayerDataOperations.PayEnergy(-(int)LevelMethods.RobotUpgradeCost(HeadquartersManager.Player.Level, _selectedRobot.RobotId), OperationsTags.UPGRADING_ROBOTS);         
+        }
+        private void UpgradeCompatible(byte tag)
+        {
+            if (OperationsTags.UPGRADING_ROBOTS != tag) return;
+            
+            HeadquartersManager.UpgradingRequest(_selectedRobot.RobotId, DateTime.UtcNow, HeadquartersManager.Player.Energy);
+            UpgradingMethod(LevelMethods.RobotUpgradeTime(HeadquartersManager.Player.Robots[_selectedRobot.RobotId].Level) * 60);           
+        }
+        private void UpgradingMethod(long time, int maxValue = 0)
+        {
+            _upgradeButton.enabled = false;
+
+            _robotManager.MakeAllButtonsInactive();
+
+            _timer.AddTime((int)time);
+
+            if (maxValue == 0)
+            {
+                _timer.SetMaxValueForTime((int)time);
+            }
+            else
+            {
+                _timer.SetMaxValueForTime(maxValue);
+            }
+
+            _timer.TimeTextState(true);
+            StartCoroutine(Upgrading((int)time));
+        }
+        #endregion
+
+
+        #region "Upgrading handlers"
+        private void UpgradingError(byte errorId)
+        {
+            print("Upgrade rejected");
+        }
+        #endregion
+
+
+        #region "Show Robot To Upgrade"
+        /// <summary>
+        /// Show the robot to upgrade in the right [image + text]
+        /// </summary>
+        /// <param name="robot"></param>
+        private void DisplayRobotToUpgrade(RobotSO robot)
         {
             _selectedRobot = robot;
 
             int temp = GetInfoLevel();
 
-            _displayStatsImage.sprite = robot.robotLevel[temp].upgradeImage;
-            _nameOfTheRobot.text = robot.nameOfTheRobot;
+            _displayStatsImage.sprite = robot.RobotLevel[temp].upgradeImage;
+            _nameOfTheRobot.text = robot.NameOfTheRobot;
+
+            OnRobotSelected?.Invoke(robot.RobotId);
         }
-
-        private void StartUpgradingProcedure()
-        {
-            int temp = GetInfoLevel();
-            _curentLevelOfTheRobot = _selectedRobot.robotLevel[temp];
-
-            if (ResourcesOperations.Remove(StoreResourcesAmount.energy, _curentLevelOfTheRobot.priceToUpgrade.energy))
-            {
-                _upgradeButton.enabled = false;
-
-                _robotManager.MakeAllButtonsInactive();
-
-                _timer.AddTime(_curentLevelOfTheRobot.timeToUpgrade);
-                _timer.TimeTextState(true);
-                StartCoroutine(Upgrading());
-            }
-        }
-
         private int GetInfoLevel()
         {
-            return RobotsManager.robotsData[_selectedRobot.nameOfTheRobot.ToString()].RobotLevel;
+            //return HeadquartersManager.Player.Robots[_selectedRobot.RobotId].Level;
+            return 0;
         }
+        #endregion
 
-        private IEnumerator Upgrading()
+         
+        #region "Upgrading procedure"
+        private IEnumerator Upgrading(int time)
         {
             int temp = 0;
-            while(temp < _curentLevelOfTheRobot.timeToUpgrade)
+            while(temp < time)
             {
                 temp += 1;
                 yield return _timer.ActivateTimer();
             }
 
+            PlayerDataOperations.UpgradeRobot(_selectedRobot.RobotId, OperationsTags.UPGRADING_ROBOTS);     
+        }
+        private void RobotUpgradeSendFinished(byte tag)
+        {
+            if (OperationsTags.UPGRADING_ROBOTS != tag) return;
+            
+            PlayerDataOperations.ExperienceUpdate(10, 0);
+            HeadquartersManager.FinishUpgradingRequest(_selectedRobot.RobotId, HeadquartersManager.Player.Robots[_selectedRobot.RobotId], HeadquartersManager.Player.Experience);
+
+            _timer.TimeTextState(false);
+            _timer.SetMaxValueForTime(1);
+
             _upgradeButton.enabled = true;
-            _robotManager.MakeAllButtonsActive();
+            _robotManager.MakeAllButtonsActive();                     
+        }
+        #endregion
+
+
+        private void OnDestroy()
+        {
+            _robotManager.OnButtonPressed -= DisplayRobotToUpgrade;
+            _upgradeButton.onClick.RemoveAllListeners();
+
+            HeadquartersManager.OnPlayerDataReceived -= ShowFirstRobot;
+            HeadquartersManager.OnUpgradingError -= UpgradingError;
+
+            PlayerDataOperations.OnEnergyModified -= UpgradeCompatible;
+            PlayerDataOperations.OnRobotUpgraded -= RobotUpgradeSendFinished;
+
+            ManageTasks.OnUpgradingWorking -= UpgradeInProgress;
         }
     }
 }

@@ -9,15 +9,13 @@ namespace Manager.Robots
     {
         // Scriptable object with data about the robots
         [Header("All robots that exist in the game")]
-        [SerializeField]  private List<Robot> _robots;
+        [SerializeField]  private List<RobotSO> _robots;
 
-        public static List<Robot> robots;
-        public static Dictionary<string, RobotsPlayerProgress> robotsData;
+        public static List<RobotSO> robots;
 
         private void Awake()
         {
-            robots = new List<Robot>(_robots);
-            robotsData = new Dictionary<string, RobotsPlayerProgress>(AuxiliaryClasses.AuxiliaryMethods.CreateDictionary(_robots));
+            robots = new List<RobotSO>(_robots);
         }
     }
 }

@@ -1,7 +1,7 @@
 using System.Text;
 using DarkRift;
 using DarkRift.Client;
-using Networking.Game;
+using Networking.Launcher;
 using Networking.Tags;
 using UnityEngine;
 
@@ -12,29 +12,37 @@ namespace Networking.Login
     /// </summary>
     public class LoginManager : MonoBehaviour
     {
-        public static bool ShowDebug = true;
-        public static bool IsLoggedIn { get; private set; }
+#if UNITY_EDITOR
+        private static readonly bool ShowDebug = false;
+#endif
+        private static bool IsLoggedIn { get; set; }
 
-        public delegate void SuccessfulLoginEventHandler();
-        public delegate void FailedLoginEventHandler(byte errorId);
+        #region Events
+
+        public delegate void SuccessfulLoginEventHandler(byte loginType);
+        public delegate void FailedLoginEventHandler(byte errorId, byte loginType);
+        public delegate void SuccessfulLogoutEventHandler(byte logoutType);
         public delegate void SuccessfulAddUserEventHandler();
         public delegate void FailedAddUserEventHandler(byte errorId);
         
         public static event SuccessfulLoginEventHandler OnSuccessfulLogin;
         public static event FailedLoginEventHandler OnFailedLogin;
+        public static event SuccessfulLogoutEventHandler OnSuccessfulLogout;
         public static event SuccessfulAddUserEventHandler OnSuccessfulAddUser;
         public static event FailedAddUserEventHandler OnFailedAddUser;
 
+        #endregion
+
         private void Awake()
         {
-            GameControl.Client.MessageReceived += OnDataHandler;
+            NetworkManager.Client.OnMessageReceived += OnDataHandler;
         }
 
         private void OnDestroy()
         {
-            if (GameControl.Client == null) return;
+            if (NetworkManager.Client == null) return;
 
-            GameControl.Client.MessageReceived -= OnDataHandler;
+            NetworkManager.Client.OnMessageReceived -= OnDataHandler;
         }
 
         /// <summary>
@@ -45,7 +53,7 @@ namespace Networking.Login
         private static void OnDataHandler(object sender, MessageReceivedEventArgs e)
         {
             using var message = e.GetMessage();
-
+            
             // Check if message is for this plugin
             if (message.Tag >= Tags.Tags.TagsPerPlugin * (Tags.Tags.Login + 1)) return;
 
@@ -53,37 +61,75 @@ namespace Networking.Login
             {
                 case LoginTags.LoginSuccess:
                 {
+#if UNITY_EDITOR
                     if (ShowDebug) Debug.Log("Successfully logged in");
+#endif
                     IsLoggedIn = true;
-                    OnSuccessfulLogin?.Invoke();
+                    using var reader = message.GetReader();
+                    if (reader.Length != 1)
+                    {
+                        Debug.LogWarning("Invalid LoginSuccess error data received");
+                        return;
+                    }
+                    OnSuccessfulLogin?.Invoke(reader.ReadByte());
                     break;
                 }
 
                 case LoginTags.LoginFailed:
                 {
+#if UNITY_EDITOR
                     if (ShowDebug) Debug.Log("Cannot log in");
+#endif
+                    using var reader = message.GetReader();
+                    if (reader.Length != 2)
+                    {
+                        Debug.LogWarning("Invalid LoginFailed error data received");
+                        return;
+                    }
+                    byte errorId = reader.ReadByte();
+                    byte loginType = reader.ReadByte();
+                    
+                    OnFailedLogin?.Invoke(errorId, loginType);
+                    break;
+                }
+
+                case LoginTags.LogoutSuccess:
+                {
+#if UNITY_EDITOR
+                    if (ShowDebug) Debug.Log("Successful logout");
+#endif
+                    IsLoggedIn = false;
                     using var reader = message.GetReader();
                     if (reader.Length != 1)
                     {
                         Debug.LogWarning("Invalid LoginFailed error data received");
                         return;
                     }
-                    OnFailedLogin?.Invoke(reader.ReadByte());
+                    // 0 - normal logout
+                    // 1 - forced logout (logged in on another device)
+                    OnSuccessfulLogout?.Invoke(reader.ReadByte());
                     break;
                 }
 
                 case LoginTags.AddUserSuccess:
                 {
+#if UNITY_EDITOR
                     if (ShowDebug) Debug.Log("Successfully added user");
+#endif
                     OnSuccessfulAddUser?.Invoke();
                     break;
                 }
 
                 case LoginTags.AddUserFailed:
                 {
+#if UNITY_EDITOR
                     if (ShowDebug) Debug.Log("Cannot add a new user");
+#endif
                     using var reader = message.GetReader();
-                    if (reader.Length != 1) Debug.LogWarning("Invalid LoginFailed error data received");
+                    if (reader.Length != 1)
+                    {
+                        Debug.LogWarning("Invalid LoginFailed error data received");
+                    }
                     OnFailedAddUser?.Invoke(reader.ReadByte());
                     break;
                 }
@@ -101,15 +147,16 @@ namespace Networking.Login
         /// </summary>
         /// <param name="username">The username string</param>
         /// <param name="password">The user password string</param>
-        public static void Login(string username, string password)
+        /// <param name="loginType">The type of the login</param>
+        public static void Login(string username, string password, byte loginType)
         {
             using var writer = DarkRiftWriter.Create();
             writer.Write(username);
             writer.Write(Rsa.Encrypt(Encoding.UTF8.GetBytes(password)));
+            writer.Write(loginType);
 
             using var msg = Message.Create(LoginTags.LoginUser, writer);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
-            Debug.Log("Logging in");
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
 
         /// <summary>
@@ -119,13 +166,12 @@ namespace Networking.Login
         /// <param name="password">The user password string</param>
         public static void AddUser(string username, string password)
         {
-            Debug.Log("Adding user");
             using var writer = DarkRiftWriter.Create();
             writer.Write(username);
             writer.Write(Rsa.Encrypt(Encoding.UTF8.GetBytes(password)));
 
             using var msg = Message.Create(LoginTags.AddUser, writer);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
 
         /// <summary>
@@ -136,7 +182,7 @@ namespace Networking.Login
             IsLoggedIn = false;
 
             using var msg = Message.CreateEmpty(LoginTags.LogoutUser);
-            GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            NetworkManager.Client.SendMessage(msg, SendMode.Reliable);
         }
 
         #endregion

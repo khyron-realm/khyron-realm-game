@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Manager.Store;
-using Manager.Train;
+using PlayerDataUpdate;
+using TMPro;
 
 
 namespace GameErrors
@@ -11,7 +10,9 @@ namespace GameErrors
     public class RaiseGameErrors : MonoBehaviour
     {
         #region "Input data"
-        [SerializeField] private Text _text;
+        [SerializeField] private TextMeshProUGUI _text;
+        [SerializeField] private int _fontMin;
+        [SerializeField] private int _fontMax;
 
         [Space(20f)]
 
@@ -19,28 +20,41 @@ namespace GameErrors
         [SerializeField] private string _notEnoughEnergy;
         [SerializeField] private string _tooManyResources;
         [SerializeField] private string _maxCapacity;
+        [SerializeField] private string _lastBid;
+        [SerializeField] private string _bidOverYou;
+        [SerializeField] private string _maximumBidsAchieved;
         #endregion
+
 
         private float _time;
         private bool _once = false;
+
 
         private void Awake()
         {
             _text.enabled = false;
 
-            ResourcesOperations.OnNotEnoughResources += NotEnoughResources;
-            ResourcesOperations.OnNotEnoughEnergy += NotEnoughEnergy;
-            ResourcesOperations.OnToMuchResources += TooManyResources;
-            BuildRobotsOperations.OnMaximumCapacityAchieved += MaxCapacityAchieved;
+            PlayerDataOperations.OnNotEnoughEnergy += NotEnoughEnergy;
+            PlayerDataOperations.OnNotEnoughResources += NotEnoughResources;
+            PlayerDataOperations.OnToManyResources += TooManyResources;
+            PlayerDataOperations.OnNotEnoughSpaceForRobots += MaxCapacityAchieved;
+            BidManager.OnLastBidWasYours += LastBidWasYours;
+            BidManager.OnSomeOneBiddedOverYou += SomeOneBiddedOverYou;
+
+            BidManager.OnNotEnoughEnergy += NotEnoughEnergy;
+            BidManager.OnToMuchEnergy += TooManyResources;
+
+            BidManager.OnMaximBidsAchieved += MaximumBidsAcheived;
         }
 
 
-        private void NotEnoughResources()
+        #region "Handlers for errors"
+        private void NotEnoughResources(byte tag)
         {
             _text.text = _notEnoughResources;
             StartShowingPopUp();
         }
-        private void NotEnoughEnergy()
+        private void NotEnoughEnergy(byte tag)
         {
             _text.text = _notEnoughEnergy;
             StartShowingPopUp();
@@ -50,11 +64,27 @@ namespace GameErrors
             _text.text = _tooManyResources;
             StartShowingPopUp();
         }
-        private void MaxCapacityAchieved()
+        private void MaxCapacityAchieved(byte tag)
         {
             _text.text = _maxCapacity;
             StartShowingPopUp();
         }
+        private void LastBidWasYours()
+        {
+            _text.text = _lastBid;
+            StartShowingPopUp();
+        }
+        private void SomeOneBiddedOverYou()
+        {
+            _text.text = _bidOverYou;
+            StartShowingPopUp();
+        }
+        private void MaximumBidsAcheived()
+        {
+            _text.text = _maximumBidsAchieved;
+            StartShowingPopUp();
+        }
+        #endregion
 
 
         private void StartShowingPopUp()
@@ -92,7 +122,7 @@ namespace GameErrors
             while (temp < 1)
             {
                 temp += Time.deltaTime * 12;
-                _text.fontSize = (int)Mathf.Lerp(64, 72, temp);
+                _text.fontSize = (int)Mathf.Lerp(_fontMin, _fontMax, temp);
 
                 yield return null;
             }
@@ -101,7 +131,7 @@ namespace GameErrors
             while (temp < 1)
             {
                 temp += Time.deltaTime * 12;
-                _text.fontSize = (int)Mathf.Lerp(72, 64, temp);
+                _text.fontSize = (int)Mathf.Lerp(_fontMax, _fontMin, temp);
 
                 yield return null;
             }
@@ -110,11 +140,17 @@ namespace GameErrors
 
         private void OnDestroy()
         {
-            ResourcesOperations.OnNotEnoughResources -= NotEnoughResources;
-            ResourcesOperations.OnNotEnoughEnergy -= NotEnoughEnergy;
-            ResourcesOperations.OnToMuchResources -= TooManyResources;
-            BuildRobotsOperations.OnMaximumCapacityAchieved -= MaxCapacityAchieved;
+            PlayerDataOperations.OnNotEnoughEnergy -= NotEnoughEnergy;
+            PlayerDataOperations.OnNotEnoughResources -= NotEnoughResources;
+            PlayerDataOperations.OnToManyResources -= TooManyResources;
+            PlayerDataOperations.OnNotEnoughSpaceForRobots -= MaxCapacityAchieved;
+            BidManager.OnLastBidWasYours -= LastBidWasYours;
+            BidManager.OnSomeOneBiddedOverYou -= SomeOneBiddedOverYou;
+
+            BidManager.OnNotEnoughEnergy -= NotEnoughEnergy;
+            BidManager.OnToMuchEnergy -= TooManyResources;
+
+            BidManager.OnMaximBidsAchieved -= MaximumBidsAcheived;
         }
     }
-
 }

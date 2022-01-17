@@ -82,10 +82,10 @@ namespace DarkRift.Server.Unity
 
                 // Create server
                 Server = new DarkRiftServer(spawnData);
-                Server.Start();
+                Server.StartServer();
             }
             else
-                Debug.LogError("No configuration file specified!");
+                Debug.LogError("No configuration file specified! Please ensure there is a configuration file set on the XmlUnityServer component before starting the server.");
         }
 
         private void OnDisable()

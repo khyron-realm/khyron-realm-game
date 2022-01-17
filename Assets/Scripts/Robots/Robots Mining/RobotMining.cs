@@ -5,6 +5,8 @@ using UnityEngine;
 using Tiles.Tiledata;
 using DG.Tweening;
 using Manager.Robots.Damage;
+using Levels;
+using Networking.Headquarters;
 
 
 namespace Manager.Robots.Mining
@@ -13,11 +15,15 @@ namespace Manager.Robots.Mining
     {
         #region "Input data"
 
+        [SerializeField] private byte robotIndex;
+        [SerializeField] private GameObject _robotGameObject;
         [SerializeField] private RobotsGetDamage _damage;
         [SerializeField] private Ease _robotsMovingType;
 
         [SerializeField] private Animator _animator;
         [SerializeField] private ParticleSystem _particles;
+
+        [SerializeField] private float scale;
 
         #endregion
 
@@ -45,6 +51,8 @@ namespace Manager.Robots.Mining
 
         private void Awake()
         {
+            GameObject _robotsToInstantiate = GameObject.Find("RobotsPool");
+
             _blocksToMine = new List<Tuple<float, Vector2Int>>();
 
             GenerateValues();
@@ -57,8 +65,8 @@ namespace Manager.Robots.Mining
             _allPositions.Add(Vector3Int.left);
 
             _particlesForMining = Instantiate(_particles);
+            _particlesForMining.transform.SetParent(_robotsToInstantiate.transform);
         }
-
         private void Start()
         {
             _keepInitZposition = gameObject.transform.position.z;
@@ -90,12 +98,12 @@ namespace Manager.Robots.Mining
         /// </summary>
         /// <param name="robot"></param>
         /// <param name="robotGameObject"></param>
-        public void StartMineOperation(Robot robot, GameObject robotGameObject)
+        public void StartMineOperation(RobotSO robot)
         {
             _damage.GetHealthFromRobot(robot);
-            _damage.GetRobotGameObject(robotGameObject);
+            _damage.GetRobotGameObject(_robotGameObject);
 
-            StartCoroutine("MiningProcess");
+            StartCoroutine(MiningProcess());
         }
 
 
@@ -110,7 +118,7 @@ namespace Manager.Robots.Mining
 
                 Vector2Int block = GenerateAreaOfRobot();
              
-                if(_movementFinished == true && StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(block.x, block.y, 0)) != null)
+                if(_movementFinished == true && StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(block.x, block.y, 0)) != DataOfTile.NullTile)
                 {
                     RevealResourceIfItIs(ref _mined, ref block);
                     StartMiningAnimation(block);
@@ -129,7 +137,7 @@ namespace Manager.Robots.Mining
                 _movementFinished = false;
                 yield return MoveTheObjectToThePosition(block);
 
-                if (_damage.DoDamage(40))
+                if (_damage.DoDamage())
                 {
                     break;
                 }
@@ -159,7 +167,7 @@ namespace Manager.Robots.Mining
 
                 if (position >= 0 && position < 1350 && StoreAllTiles.Instance.TilesPositions.Contains(robotPosition))
                 {
-                    if (_blocksToMine[position].Item1 > keepValue && StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(robotPosition.x, robotPosition.y, 0)) != null)
+                    if (_blocksToMine[position].Item1 > keepValue && StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int(robotPosition.x, robotPosition.y, 0)) != DataOfTile.NullTile)
                     {
                         keepValue = _blocksToMine[position].Item1;
                         nearBlock = _blocksToMine[position].Item2;
@@ -213,7 +221,7 @@ namespace Manager.Robots.Mining
         {
             if (StoreAllTiles.Instance.Tiles[block.x][block.y].Resource != null && StoreAllTiles.Instance.Tiles[block.x][block.y].Discovered > 0)
             {
-                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), StoreAllTiles.Instance.Tiles[block.x][block.y].Resource.ResourceTile);
+                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), StoreAllTiles.Instance.Tiles[block.x][block.y].ResourceTile);
 
                 _resourceMined = StoreAllTiles.Instance.Tiles[block.x][block.y].Resource;
                 _positionOfResource = new Vector3(block.x, block.y, 0);
@@ -242,11 +250,11 @@ namespace Manager.Robots.Mining
         {
             if (gameObject.transform.position.x > block.x)
             {
-                gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                gameObject.transform.localScale = new Vector3(scale, scale, 1);
             }
             else
             {
-                gameObject.transform.localScale = new Vector3(-0.5f, 0.5f, 1);
+                gameObject.transform.localScale = new Vector3(-scale, scale, 1);
             }
         }
 
@@ -260,11 +268,12 @@ namespace Manager.Robots.Mining
             _check = false;
             while (!_check)
             {
-                StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health -= (int)(20f);
+                // Damage to blocks
+                StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health -= LevelMethods.RobotMiningDamage(HeadquartersManager.Player.Robots[robotIndex].Level, robotIndex);
 
                 if (StoreAllTiles.Instance.Tiles[(int)(block.x)][(int)(block.y)].Health < 0)
                 {
-                    StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), null);
+                    StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(block.x), (int)(block.y), 0), DataOfTile.NullTile);
                     StoreAllTiles.Instance.TilesPositions.Remove(nearBlock);
                     _check = true;
                 }
@@ -307,7 +316,7 @@ namespace Manager.Robots.Mining
         private float TimeForMoving(ref Vector2Int block)
         {
             float dist = Vector3.Distance(gameObject.transform.position, new Vector3(block.x, block.y, 0));
-            float time = dist / _movementSpeed;
+            float time = dist / LevelMethods.RobotMovementSpeed(HeadquartersManager.Player.Robots[robotIndex].Level, robotIndex);
             return time;
         }
     }

@@ -1,22 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Levels;
 using UnityEngine;
 using UnityEngine.UI;
 using Manager.Robots;
-using Manager.Upgrade;
+using Networking.Headquarters;
+using TMPro;
 
 
-
-/// <summary>
-/// ## Checked ##   
-/// 
-/// Instantiate buttons for each robot
-/// Add listers such as OnButtonPressed that send the robot pressed
-/// 
-/// </summary>
 namespace Manager.Robots
-{
+{   
+    /// <summary>  
+    /// 
+    /// Instantiate buttons for each robot
+    /// Add listeners such as OnButtonPressed that send the robot pressed
+    /// 
+    /// </summary>
     public class RobotsManagerUI : MonoBehaviour
     {
         #region "Input data"
@@ -30,23 +30,29 @@ namespace Manager.Robots
         #endregion
 
         private List<Button> _buttons;
-        public event Action<Robot> OnButtonPressed;
+        public event Action<RobotSO> OnButtonPressed;
 
 
         private void Awake()
         {
-            _buttons = new List<Button>();
+            HeadquartersManager.OnPlayerDataReceived += PlayerDataReceived;
+
+            _buttons = new List<Button>();            
+        }
+
+        private void PlayerDataReceived()
+        {
             CreateButtons();
         }
 
 
         private void CreateButtons()
         {
-            foreach (Robot item in RobotsManager.robots)
+            foreach (RobotSO item in RobotsManager.robots)
             {
                 Button newButton = Instantiate(_buttonToInstantiate);
                 newButton.transform.SetParent(_canvas.transform, false);
-                newButton.GetComponent<Image>().sprite = item.icon;
+                newButton.GetComponent<Image>().sprite = item.Icon;
 
                 if (_hasPriceDisplayed)
                     ShowPrice(item, newButton);
@@ -57,31 +63,23 @@ namespace Manager.Robots
                 _buttons.Add(newButton);
             }
         }
-        private static void ShowPrice(Robot item, Button newButton)
+        private static void ShowPrice(RobotSO item, Button newButton)
         {
-            int temp = RobotsManager.robotsData[item.nameOfTheRobot.ToString()].RobotLevel;
-            newButton.transform.GetChild(0).GetComponent<Text>().text = item.robotLevel[temp].priceToBuild.energy.ToString();
+            newButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = LevelMethods.RobotBuildCost(HeadquartersManager.Player.Robots[item.RobotId].Level, item.RobotId).ToString();
         }
-        private static void MakeButtonsAvailable(Robot item, Button newButton)
+        private static void MakeButtonsAvailable(RobotSO item, Button newButton)
         {
-            if (RobotsManager.robotsData[item.nameOfTheRobot].AvailableRobot == false)
-            {
-                newButton.interactable = true;
-            }
+            newButton.interactable = true;          
         }
 
 
-        private void AddListenerToButton(Robot item, Button newButton)
+        private void AddListenerToButton(RobotSO robot, Button newButton)
         {
             newButton.onClick.AddListener(
             delegate
             {
-                AddListenerRobotToEachButton(item);
+                OnButtonPressed?.Invoke(robot);
             });
-        }
-        private void AddListenerRobotToEachButton(Robot robot)
-        {
-            OnButtonPressed?.Invoke(robot);
         }
 
 
@@ -109,6 +107,8 @@ namespace Manager.Robots
             {
                 item.onClick.RemoveAllListeners();
             }
+
+            HeadquartersManager.OnPlayerDataReceived -= PlayerDataReceived;
         }
     }
 }

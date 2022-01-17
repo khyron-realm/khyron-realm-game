@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Save;
+using Networking.Auctions;
+using Networking.Mines;
+
 
 namespace Mine
 {
@@ -30,9 +33,9 @@ namespace Mine
         ///     Visible values for all blocks in the mine [stone, dirt, resources]
         /// 
         /// </returns>
-        public static int[,] GenerateVisibleValues(int rows, int columns, List<MineResources> allMineResources, int[,] temp_hidden)
+        public static int[,] GenerateVisibleValues(int rows, int columns, int[,] temp_hidden)
         {
-            List<ResourcesData> seeds = new List<ResourcesData>(GetMineGenerationData.ResourcesData);
+            List<ResourcesData> seeds = new List<ResourcesData>(MineDataExtraction.ResourcesSeeds);
 
             s_visibleValues = new int[rows, columns];
 
@@ -72,7 +75,7 @@ namespace Mine
 
         /// <summary>
         /// 
-        /// Add resources to the mine as user requested by the parameters
+        /// Add resources to the mine as user requested by parameters
         /// 
         /// </summary>
         /// <param name="columns"> Number of columns in the mine </param>
@@ -90,7 +93,7 @@ namespace Mine
                 {
                     for (int j = 0; j < columns; j++)
                     {
-                        GenerateChunks(resource.Frequency, i, j, code, randomNoise, resource.RarityCoeficient);
+                        GenerateChunks(resource.Frequency * 0.00001f, i, j, code, randomNoise, resource.RarityCoefficient * 0.00001f);
                     }
                 }
             }

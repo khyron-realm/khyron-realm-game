@@ -12,9 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a986db0b832ea6d45ad5f4e56c6fd489, type: 3}
   m_Name: Crusher-1
   m_EditorClassIdentifier: 
-  status: {fileID: 11400000, guid: 097a6d2b445a8bb4aaceb79a6c21822e, type: 2}
-  statusImage: {fileID: -554037535123590150, guid: 775d6ceb2450d8748b3a380e64e6a67c, type: 3}
-  priceToBuild: {fileID: 11400000, guid: e384d93769b19d24e93513b4f5fc1b5f, type: 2}
-  timeToUpgrade: 120
-  priceToUpgrade: {fileID: 11400000, guid: c6803c4bb7e54074a82487b384aa4a08, type: 2}
-  upgradeImage: {fileID: 21300000, guid: 170b2bfc0c299bc458fce8b4ec8ab0ab, type: 3}
+  statusImage: {fileID: 21300000, guid: c42ed7b385a97024386b1798f3428436, type: 3}
+  upgradeImage: {fileID: 21300000, guid: bfcb86e34386d204e9a4b64dba5c132b, type: 3}

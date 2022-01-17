@@ -11,16 +11,17 @@ namespace Manager.Train
     {
         [SerializeField] private ObjectPooling _object;
 
-        private static ObjectPooling ObjectPooling;
+        private static ObjectPooling s_objectPooling;
 
         private void Awake()
         {
-            ObjectPooling = _object;
+            s_objectPooling = _object;
         }
 
-        public static void CreateIconInTheRightForRobotInBuilding(Robot robot)
+        #region "Icons Operations"
+        public static GameObject CreateIconInTheRightForRobotInBuilding(RobotSO robot)
         {
-            GameObject newRobotToCreate = ObjectPooling.GetPooledObjects();
+            GameObject newRobotToCreate = s_objectPooling.GetPooledObjects();
 
             if (newRobotToCreate != null)
             {
@@ -28,14 +29,16 @@ namespace Manager.Train
 
                 newRobotToCreate.SetActive(true);
                 newRobotToCreate.transform.SetSiblingIndex(RobotsInBuilding.robotsInBuildingIcons.Count - 1);
-                newRobotToCreate.GetComponent<Image>().sprite = robot.icon;
+                newRobotToCreate.GetComponent<Image>().sprite = robot.Icon;
 
                 newRobotToCreate.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(
                     delegate
                     {
-                        BuildRobotsOperations.RemoveRobotsToBuild(robot, newRobotToCreate);
+                        BuildRobotsOperations.CancelBuildRobot(robot, newRobotToCreate);
                     });
             }
+
+            return newRobotToCreate;
         }
         public static void DezactivateIcon(GameObject robotIcon)
         {
@@ -43,5 +46,6 @@ namespace Manager.Train
             robotIcon.transform.SetSiblingIndex(RobotsInBuilding.robotsInBuildingIcons.Count);
             robotIcon.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
         }
+        #endregion
     }
 }

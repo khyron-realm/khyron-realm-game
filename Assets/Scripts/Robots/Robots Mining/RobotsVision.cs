@@ -12,7 +12,11 @@ namespace Manager.Robots.Mining
         #region "Input data"
         [SerializeField] private int _radius;
         [SerializeField] private GameObject _circle;
+        [SerializeField] private GameObject _healthStatus;
         [SerializeField] private Ease _fadingStyle;
+        [SerializeField] private float circleMaxScale;
+
+        [SerializeField] private ChangeColorBasedOnHealth _colorChange;
         #endregion
 
         private GameObject _circleScan;
@@ -24,10 +28,11 @@ namespace Manager.Robots.Mining
         private void Awake()
         {
             _circleScan = Instantiate(_circle);
+            _circleScan.transform.SetParent(gameObject.transform);
         }
 
 
-        public void StartMineOperation(Robot robot, GameObject robotGameObject)
+        public void StartMineOperation(RobotSO robot)
         {
             _centerPosition = new Vector2Int((int)gameObject.transform.position.x, (int)gameObject.transform.position.y);
             _radiusToScan = 8;
@@ -42,7 +47,7 @@ namespace Manager.Robots.Mining
         {
             _circleScan.transform.position = gameObject.transform.position;
             _circleScan.SetActive(true);
-            _circleScan.transform.DOScale(4, 2f).OnComplete(() => _circleScan.SetActive(false));
+            _circleScan.transform.DOScale(circleMaxScale, 2f).OnComplete(() => _circleScan.SetActive(false));
             _circleScan.GetComponent<SpriteRenderer>().DOFade(0, 2f).SetEase(_fadingStyle);
         }
 
@@ -124,9 +129,9 @@ namespace Manager.Robots.Mining
         /// <param name="j"> y position </param>
         private static void RevealBlock(int i, int j)
         {
-            if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != null && StoreAllTiles.Instance.Tiles[i][j].Resource != null)
+            if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != DataOfTile.NullTile && StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != null && StoreAllTiles.Instance.Tiles[i][j].Resource != null)
             {
-                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(i), (int)(j), 0), StoreAllTiles.Instance.Tiles[i][j].Resource.ResourceTile);
+                StoreAllTiles.Instance.Tilemap.SetTile(new Vector3Int((int)(i), (int)(j), 0), StoreAllTiles.Instance.Tiles[i][j].ResourceTile);
                 StoreAllTiles.Instance.Tiles[i][j].Discovered += 1;
             }
         }
@@ -155,7 +160,7 @@ namespace Manager.Robots.Mining
         /// <param name="j"></param>
         private static void HideBlock(int i, int j)
         {
-            if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != null)
+            if (StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != DataOfTile.NullTile && StoreAllTiles.Instance.Tilemap.GetTile(new Vector3Int((int)(i), (int)(j), 0)) != null)
             {
                 StoreAllTiles.Instance.Tiles[i][j].Discovered -= 1;
 
@@ -169,10 +174,17 @@ namespace Manager.Robots.Mining
 
         private IEnumerator Timer()
         {
-            yield return new WaitForSeconds(10f);
+            int temp = 30;
+            while(temp > 0)
+            {
+                _colorChange.AdjustColorBasedOnHealth(temp, 30);
+                temp --;
+                yield return new WaitForSeconds(1f);
+            }
+           
             StartCoroutine(StopRevealingZone());
             gameObject.GetComponent<SpriteRenderer>().DOFade(0, 2f).OnComplete(() => gameObject.SetActive(false));
-
+            _healthStatus.GetComponent<SpriteRenderer>().DOFade(0, 2f);
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,11 +8,30 @@ namespace Scenes
 {
     public class ChangeScene : MonoBehaviour
     {
-        [SerializeField] string _sceneToLoad;
+        #region "Input data"
+        [SerializeField] private ScenesName _unloadScene;
+        [SerializeField] private ScenesName _loadScene;
+
+        [Header("Wait for Player Data to load to the next scene")]
+        [SerializeField] private bool _playerData;
+        #endregion
+
+        private List<AsyncOperation> _loadingOperation;
+
+        public static event Action<List<AsyncOperation>, bool> OnSceneChanged;
+
+        private void Awake()
+        {
+            _loadingOperation = new List<AsyncOperation>();
+        }
 
         public void GoToScene()
         {
-            SceneManager.LoadSceneAsync(_sceneToLoad);
+            _loadingOperation.Clear();
+            _loadingOperation.Add(SceneManager.UnloadSceneAsync((int)_unloadScene));
+            _loadingOperation.Add(SceneManager.LoadSceneAsync((int)_loadScene, LoadSceneMode.Additive));
+
+            OnSceneChanged?.Invoke(_loadingOperation, _playerData);
         }
     }
 }

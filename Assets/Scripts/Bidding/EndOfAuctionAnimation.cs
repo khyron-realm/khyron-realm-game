@@ -1,37 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using DG.Tweening;
+using Networking.Auctions;
+using Scenes;
+using TMPro;
 
 namespace Bidding
 {
     public class EndOfAuctionAnimation : MonoBehaviour
     {
-        #region "Input Data"
-        [SerializeField] private GameObject _canvas;
+       [SerializeField] private GameObject _endOfAuction;
+       [SerializeField] private TextMeshProUGUI _text;
 
-        [SerializeField] private GameObject _sold;
-        [SerializeField] private GameObject _aquired;
-
-        [SerializeField] private Image _panelBackground;
-        #endregion
+       [SerializeField] private ChangeScene _scene;
 
         private void Awake()
         {
-            BiddingTime.OnAuctionFinished += Animation;
+            AuctionsManager.OnAuctionFinished += MineFinished;
         }
 
 
-        private void Animation()
+        private void MineFinished(uint roomId, string winner)
         {
-            _canvas.SetActive(true);
+            if(roomId == AuctionsManager.CurrentAuctionRoom.Id)
+            {
+                _endOfAuction.SetActive(true);
 
-            _aquired.transform.localScale = new Vector3(2f, 2f ,1);
-            _panelBackground.color = new Color(0,0,0,0);
+                if(winner.Length > 0)
+                {
+                    _text.text = "The winner is " + winner;
+                }
+                else
+                {
+                    _text.text = "No winner";
+                }
+                
+            }
+        }
 
-            _panelBackground.DOFade(0.5f, 0.4f);
-            _aquired.transform.DOScale(1f, 0.8f);
+
+        private void OnDestroy()
+        {
+            AuctionsManager.OnAuctionFinished -= MineFinished;
         }
     }
 }

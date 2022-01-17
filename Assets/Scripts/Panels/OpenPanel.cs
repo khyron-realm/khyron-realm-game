@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using DG.Tweening;
+using Sounds;
 
 
 namespace Panels
 {
-    public class OpenPanel : MonoBehaviour, IPointerClickHandler
+    public class OpenPanel : MonoBehaviour, IOpen
     {
         #region "Input Fields"
 
@@ -33,13 +33,16 @@ namespace Panels
         [Space(30f)]
         private float _bgTransparency;
 
+        [Header("BackGround trasparency [alpha value]")]
+        [Space(30f)]
+        [SerializeField] private ButtonClickSound _cliskSounds;
+
         #endregion
 
         #region "Private members used in script"
 
         private Image _bgImage;
         private Sequence _mySequence;
-
         #endregion
 
         private void Awake()
@@ -53,13 +56,17 @@ namespace Panels
             SetFalse();
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+
+        public void Open()
         {
+            if(_cliskSounds != null)
+                _cliskSounds.MakeSound();
+
             SetActive();
         }
 
 
-        public void SetActive()
+        private void SetActive()
         {
             _panel.SetActive(true);
             _bgPanel.SetActive(true);
@@ -85,6 +92,7 @@ namespace Panels
             _mySequence.SetAutoKill(false);
         }
 
+
         private void OnDestroy()
         {
             try
@@ -95,6 +103,6 @@ namespace Panels
             {
 
             }
-        }
+        } 
     }
 }
