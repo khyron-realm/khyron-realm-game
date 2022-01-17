@@ -47,7 +47,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="images/game.png" alt="Game">
+<img src="Images/game.png" alt="Game">
 
 The repository contains the Khyron Realm Game made with Unity using Darkrift 2 Networking.
 
