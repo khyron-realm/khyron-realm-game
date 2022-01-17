@@ -1,23 +1,21 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/target-software/Unlimited-Game-MiningGame">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/khyron-realm/khyron-realm-game">
+    <img src="Images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">UNLIMITED </h3>
+  <h3 align="center">Khyron Realm - Game</h3>
 
   <p align="center">
-    README for the Unlimited game [Mining game]
-    <br />
-    <a href="https://github.com/target-software/Unlimited-Game-MiningGame"><strong>Explore the docs »</strong></a>
+    <a href="https://khyron-realm.com/docs/description"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/target-software/Unlimited-Game-MiningGame">View Demo</a>
+    <a href="https://github.com/khyron-realm/khyron-realm-game">View Demo</a>
     ·
-    <a href="https://github.com/target-software/Unlimited-Game-MiningGame/issues">Report Bug</a>
+    <a href="https://github.com/khyron-realm/khyron-realm-game/issues">Report Bug</a>
     ·
-    <a href="https://github.com/target-software/Unlimited-Game-MiningGame/issues">Request Feature</a>
+    <a href="https://github.com/khyron-realm/khyron-realm-game/issues">Request Feature</a>
   </p>
 </p>
 
@@ -40,6 +38,7 @@
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#license">License</a></li>
     <li><a href="#references">References</a></li>
   </ol>
 </details>
@@ -48,13 +47,15 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="images/img3.jpg" alt="Logo" width="1000" height="400">
+<img src="images/game.png" alt="Game">
 
-Unlimited Game ... The next 2D social casual game with an interconnected economy system that teach users basic finance and selling skils.
+The repository contains the Khyron Realm Game made with Unity using Darkrift 2 Networking.
 
 ### Built With
 
 * [Unity](https://unity.com/)
+
+
 <!-- GETTING STARTED -->
 ## Getting Started
 
@@ -62,21 +63,20 @@ Unlimited Game ... The next 2D social casual game with an interconnected economy
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/target-software/Unlimited-Game-MiningGame.git
+   git clone https://github.com/khyron-realm/khyron-realm-game.git
    ```
-2. Open project in Unity
+2. Open project in **Unity**
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-More details can be found on [Google Drive](https://docs.google.com/document/d/1CHdDfEm5BDM8vAbeubNgLF-Et8YwMgCbreD4CC6dSfo/edit)
-
+More detailes can be found on [Wiki](https://khyron-realm.com/docs/description)
 
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGame/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/khyron-realm/khyron-realm-game/issues) for a list of proposed features (and known issues).
 
 
 <!-- CONTRIBUTING -->
@@ -285,11 +285,29 @@ See the [open issues](https://github.com/target-software/Unlimited-Game-MiningGa
     |-- Tiles
     |-- *********************************************************************************************************************************************
 ```
+
+
 ## Used Plugins and Software
 
 1. [Rainbow Folders 2](https://assetstore.unity.com/packages/tools/utilities/rainbow-folders-2-143526)
 2. [DotWeen](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
-3. [DarkRift Networking 2 PRO](https://assetstore.unity.com/packages/tools/network/darkrift-networking-2-pro-95399)
+3. [DarkRift Networking 2 - PRO - v2.10.1](https://assetstore.unity.com/packages/tools/network/darkrift-networking-2-pro-95399)
+
+
+<!-- LICENSE -->
+## License
+
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+
+This work is licensed under a
+[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
+
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
+
+[cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
+[cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
+[cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
+
 
 
 <!-- REFERENCES -->
